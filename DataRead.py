@@ -1,50 +1,48 @@
 import re
-
-class Node():
-    def __init__(self, name):
-        name = self.name
-        parent = self.parent
-        children = self.children
-
-    def init_nodes(self):
-        return 0
-
-    def get_parent(self):
-        return 0
-
-    def get_children(self):
-        return 0
+from treelib import Node, Tree
 
 
-def data_read():
-    file = open("data.txt", "r")
-    raw_data = [line.split(',') for line in file]
+with open('data.txt', 'r') as file:
+    data = file.read().replace('\n', '')
 
-    name_array = []
-    parent_array = []
+def parse(newick):
+    tokens = re.findall(r"([^:;,()\s]*)(?:\s*:\s*([\d.]+)\s*)?([,);])|(\S)", newick+";")
 
-    for element in raw_data[0]:
-        nodes = re.split('\:', element)
+    def recurse(nextid = 0, parentid = -1): # one node
+        thisid = nextid;
+        children = []
+
+        name, length, delim, ch = tokens.pop(0)
+        if ch == "(":
+            while ch in "(,":
+                node, ch, nextid = recurse(nextid+1, thisid)
+                children.append(node)
+            name, length, delim, ch = tokens.pop(0)
+        return {"id": thisid, "name": name, "length": float(length) if length else None,
+                "parentid": parentid, "children": children}, delim, nextid
+
+    return recurse()[0]
 
 
 
 
-
-        name_array.append(nodes)
-
+raw_nodes = parse(data)
 
 
-    #for element in raw_data[0]:
-    #    nodes = element.split(')')
-    #    for node in nodes:
-    #        name_array.append(node)
+tree = Tree()
+tree.create_node(-1, -1)
 
-    #for name in name_array:
-    #    name = name.replace('(', '')
-
-
+def add_children(node):
+    tree.create_node(node["id"], node["id"], parent=node["parentid"])
+    for child_node in node["children"]:
+        add_children(child_node)
 
 
-    return name_array
+add_children(raw_nodes)
 
-print(data_read())
+
+print('READY')
+
+print(tree.depth())
+
+#tree.show()
