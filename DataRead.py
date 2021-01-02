@@ -23,17 +23,14 @@ def parse(newick):
 
     return recurse()[0]
 
-
-
-
 raw_nodes = parse(data)
 
 
 tree = Tree()
-tree.create_node(raw_nodes["id"], raw_nodes["id"])
+tree.create_node(raw_nodes["name"], raw_nodes["id"])
 
 def add_children(node):
-    tree.create_node(node["id"], node["id"], parent=node["parentid"])
+    tree.create_node(node["name"], node["id"], parent=node["parentid"])
     for child_node in node["children"]:
         add_children(child_node)
 
@@ -43,5 +40,8 @@ for children_node in raw_nodes["children"]:
 print('READY')
 
 print(tree.depth())
+
+tree.show()
+
 
 #tree.show()
