@@ -30,16 +30,15 @@ raw_nodes = parse(data)
 
 
 tree = Tree()
-tree.create_node(-1, -1)
+tree.create_node(raw_nodes["id"], raw_nodes["id"])
 
 def add_children(node):
     tree.create_node(node["id"], node["id"], parent=node["parentid"])
     for child_node in node["children"]:
         add_children(child_node)
 
-
-add_children(raw_nodes)
-
+for children_node in raw_nodes["children"]:
+    add_children(children_node)
 
 print('READY')
 
