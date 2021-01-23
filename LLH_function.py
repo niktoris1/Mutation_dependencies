@@ -7,9 +7,7 @@ def LLH_function(iteration, coal_rate, coal_iteration, number_of_lineages, event
            * math.comb(DistinctLineages(TimeFromIteration(coal_iteration - 1)), 2) * EventProbability(event_type, coal_rate, DistinctLineages(TimeFromIteration(iteration)))
 
 
-
-
-def TimeFromIteration(iteration)
+def TimeFromIteration(iteration):
     time = iteration ## to do
     return time
 
