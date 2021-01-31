@@ -1,5 +1,5 @@
 import math
-from build_tree import tree
+from build_tree import covid_tree
 from build_tree import name_id_dict
 
 import treelib
@@ -28,23 +28,37 @@ def EventProbability(event_type, coal_rate, distinct_lineages):
         return probability
 
 
+AB_haplotype_node_list = [] # attention. This is global variable. Use it only for exactly one LLH from a couple of haplotypes
 
 def GetABsubtrees(A_nucleotyde, A_cite, B_nucleotyde, B_cite, covid_tree):
     for node in covid_tree.all_nodes():
         if node.data is not None:
             node.data = [node.data] + [0] + [0] # here first element corresponds to node having an A_nucleotyde and second - to node having a B_nucleotyde in B_cite
 
-    root_node = tree.get_node(covid_tree.root)
+    root_node = covid_tree.get_node(covid_tree.root)
     ProcessNode(root_node, A_nucleotyde, A_cite, B_nucleotyde, B_cite)
 
-    AB_haplotype_node_list = []
-    list_of_AB_roots = CheckIfABHaplotype(root_node, AB_haplotype_node_list)
+    list_of_AB_roots = CheckIfABHaplotype(root_node)
 
     for node in covid_tree.all_nodes():
         if node.data is not None:
             node.data = node.data[0] # clean the data
 
     return list_of_AB_roots
+
+def CheckIfABHaplotype(node):
+
+    if node.data is not None:
+        if node.data[1] == 1 and node.data[2] == 1:
+            AB_haplotype_node_list.append(node)
+        else:
+            for child in covid_tree.children(node.identifier):
+                CheckIfABHaplotype(child)
+    else:
+        for child in covid_tree.children(node.identifier):
+            CheckIfABHaplotype(child)
+
+    return AB_haplotype_node_list
 
 def ProcessNode(node, A_nucleotyde, A_cite, B_nucleotyde, B_cite):
     if node.data is not None:
@@ -57,23 +71,8 @@ def ProcessNode(node, A_nucleotyde, A_cite, B_nucleotyde, B_cite):
         if node.data[0].mutation_cite == B_cite and node.data[0].new_nucleotyde != B_nucleotyde:
             node.data[2] = 0
 
-    for child_node in tree.children(node.identifier):
+    for child_node in covid_tree.children(node.identifier):
         ProcessNode(child_node, A_nucleotyde, A_cite, B_nucleotyde, B_cite)
-
-
-def CheckIfABHaplotype(node, AB_haplotype_node_list):
-    if node.data is not None:
-        if node.data[1] == 1 and node.data[2] == 1:
-            AB_haplotype_node_list = AB_haplotype_node_list + [node]
-        else:
-            for child in tree.children(node.identifier):
-                CheckIfABHaplotype(child, AB_haplotype_node_list)
-    else:
-        for child in tree.children(node.identifier):
-            CheckIfABHaplotype(child, AB_haplotype_node_list)
-
-    return AB_haplotype_node_list
-
 
 
 
@@ -88,12 +87,10 @@ class TestHaplotypeAB:
     def getLikelyhoodAB(self):
         return 0
 
-a = GetABsubtrees('G', 270, 'G', 270, tree)
+a = GetABsubtrees('G', 270, 'G', 270, covid_tree)
 print(a)
+print(a[0].data.mutation_cite)
 
-for node in tree.all_nodes():
-    if node.data is not None:
-        a = node.data.mutation_cite
 
 
 

@@ -17,22 +17,22 @@ class MutationOnNode: # defines mutztion on specific node
 
 name_id_dict = {} # dictionary in type id: name
 
-def add_children(tree, node):
+def add_children(some_tree, node):
     if node["parentid"] is not None:
-        tree.create_node(node["name"], node["id"], parent=node["parentid"])
+        some_tree.create_node(node["name"], node["id"], parent=node["parentid"])
     else:
-        tree.create_node(node["name"], node["id"])
+        some_tree.create_node(node["name"], node["id"])
     name_id_dict[node["name"]] = node["id"]
     for child_node in node["children"]:
-        add_children(tree, child_node)
+        add_children(some_tree, child_node)
 
 
-tree = Tree()
+covid_tree = Tree()
 print('STARTED TREE BUILDING')
 
-tree.create_node(raw_nodes["name"], raw_nodes["id"])
+covid_tree.create_node(raw_nodes["name"], raw_nodes["id"])
 for children_node in raw_nodes["children"]:
-    add_children(tree, children_node)
+    add_children(covid_tree, children_node)
 
 print('ENDED TREE BUILDING')
 
@@ -48,7 +48,7 @@ for mutation in mutations: # here for every node we write a mutation in it
         for node_name in mutation_node.nodes_names:
             if node_name[-3:] == '[F]' or node_name[-3:] == '[B]':
                 node_name = node_name[:-3]
-            chosen_node = tree.get_node(name_id_dict[node_name])
+            chosen_node = covid_tree.get_node(name_id_dict[node_name])
             chosen_node.data = MutationOnNode(mutation.mutation_name, mutation_node.old_nucleotyde, mutation_node.new_nucleotyde)
             # Костыль. Мы оставляем на ноде в дереве только самые важные данные - название мутации, место мутции, мутации, а также стратовый и новый нуклеотид
 
