@@ -27,70 +27,78 @@ def EventProbability(event_type, coal_rate, distinct_lineages):
             probability = probability * coal_rate * math.comb(distinct_lineages - i + 1, 2)
         return probability
 
-def GetABsubtrees(A_haplotype, A_cite, B_haplotype, B_cite, covid_tree):
+
+
+def GetABsubtrees(A_nucleotyde, A_cite, B_nucleotyde, B_cite, covid_tree):
     for node in covid_tree.all_nodes():
         if node.data is not None:
-            node.data = [node.data] + [0] + [0] # here first element corresponds to node having an A_haplotype and second - to node having a B_haplotype in B_cite
+            node.data = [node.data] + [0] + [0] # here first element corresponds to node having an A_nucleotyde and second - to node having a B_nucleotyde in B_cite
 
     root_node = tree.get_node(covid_tree.root)
-    ProcessNode(root_node, A_haplotype, A_cite, B_haplotype, B_cite)
+    ProcessNode(root_node, A_nucleotyde, A_cite, B_nucleotyde, B_cite)
 
-    A_B_haplotype_list = CheckIfABHaplotype(root_node)
+    AB_haplotype_node_list = []
+    list_of_AB_roots = CheckIfABHaplotype(root_node, AB_haplotype_node_list)
 
     for node in covid_tree.all_nodes():
         if node.data is not None:
             node.data = node.data[0] # clean the data
 
-    return A_B_haplotype_list
+    return list_of_AB_roots
 
-def ProcessNode(node, A_haplotype, A_cite, B_haplotype, B_cite):
+def ProcessNode(node, A_nucleotyde, A_cite, B_nucleotyde, B_cite):
     if node.data is not None:
-        if node.data[0].mutation_cite == A_cite and node.data[0].new_haplotype == A_haplotype:
+        if node.data[0].mutation_cite == A_cite and node.data[0].new_nucleotyde == A_nucleotyde:
             node.data[1] = 1
-        if node.data[0].mutation_cite == B_cite and node.data[0].new_haplotype == B_haplotype:
+        if node.data[0].mutation_cite == B_cite and node.data[0].new_nucleotyde == B_nucleotyde:
             node.data[2] = 1
-        if node.data[0].mutation_cite == A_cite and node.data[0].new_haplotype != A_haplotype:
+        if node.data[0].mutation_cite == A_cite and node.data[0].new_nucleotyde != A_nucleotyde:
             node.data[1] = 0
-        if node.data[0].mutation_cite == B_cite and node.data[0].new_haplotype != B_haplotype:
+        if node.data[0].mutation_cite == B_cite and node.data[0].new_nucleotyde != B_nucleotyde:
             node.data[2] = 0
 
     for child_node in tree.children(node.identifier):
-        ProcessNode(child_node, A_haplotype, A_cite, B_haplotype, B_cite)
+        ProcessNode(child_node, A_nucleotyde, A_cite, B_nucleotyde, B_cite)
 
-    return 0
 
-def CheckIfABHaplotype(node):
-    if 'ABHaplotypeNodeList' not in locals():
-        ABHaplotypeNodeList = []
-
+def CheckIfABHaplotype(node, AB_haplotype_node_list):
     if node.data is not None:
         if node.data[1] == 1 and node.data[2] == 1:
-            ABHaplotypeNodeList = ABHaplotypeNodeList + node
+            AB_haplotype_node_list = AB_haplotype_node_list + [node]
         else:
             for child in tree.children(node.identifier):
-                CheckIfABHaplotype(child)
-
-    if 'ABHaplotypeNodeList' not in locals():
-        return []
+                CheckIfABHaplotype(child, AB_haplotype_node_list)
     else:
-        return ABHaplotypeNodeList
+        for child in tree.children(node.identifier):
+            CheckIfABHaplotype(child, AB_haplotype_node_list)
+
+    return AB_haplotype_node_list
+
 
 
 
 class TestHaplotypeAB:
-    def __init__(self, A_haplotype, A_cite, B_haplotype, B_cite, phylogenetic_tree):
-        self.A_haplotype = A_haplotype
+    def __init__(self, A_nucleotyde, A_cite, B_nucleotyde, B_cite, phylogenetic_tree):
+        self.A_nucleotyde = A_nucleotyde
         self.A_cite = A_cite
-        self.B_haplotype = B_haplotype
+        self.B_nucleotyde = B_nucleotyde
         self.B_cite = B_cite
         self.phylogenetic_tree = phylogenetic_tree
 
     def getLikelyhoodAB(self):
         return 0
 
-a = GetABsubtrees('G', 100, 'G', 200, tree)
-
+a = GetABsubtrees('G', 270, 'G', 270, tree)
 print(a)
+
+for node in tree.all_nodes():
+    if node.data is not None:
+        a = node.data.mutation_cite
+
+
+
+
+
 
 
 

@@ -5,7 +5,7 @@ import re
 
 
 def getcite(mutation_name): # gets a cite name from the name of mutation
-    return re.findall('\d+', mutation_name)[0]
+    return int(re.findall('\d+', mutation_name)[0])
 
 class MutationOnNode: # defines mutztion on specific node
     def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde):
@@ -33,6 +33,8 @@ print('STARTED TREE BUILDING')
 tree.create_node(raw_nodes["name"], raw_nodes["id"])
 for children_node in raw_nodes["children"]:
     add_children(tree, children_node)
+
+print('ENDED TREE BUILDING')
 
 
 #tree.save2file('tree.txt')
