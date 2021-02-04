@@ -102,8 +102,17 @@ class SubtreeCreation:
 
         return list_of_AB_roots
 
-    def SubtreesFromRoots(self):
-        return 0
+    def SubtreesFromRoots(self, AB_haplotype_subtree_roots, not_AB_haplotype_subtree_roots, base_tree):
+
+        subtrees = []
+        for good_root in AB_haplotype_subtree_roots:
+            subtrees.append(base_tree.subtree(good_root.id))
+
+        for bad_root in not_AB_haplotype_subtree_roots:
+            for subtree in subtrees:
+                subtree.remove_node(bad_root.id)
+
+        return subtrees
 
 
 
