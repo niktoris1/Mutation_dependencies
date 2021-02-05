@@ -24,9 +24,11 @@ def tree_from_array(parents_array, times_array):
 
 
     for i in range(len(parents_array) - 1):
-        tree.create_node(i+1, i+1, parent=parents_array[i+1], data=times_array[i+1])
+        tree.create_node(i+1, i+1, parent=parents_array[i+1], data=times_array[i+1] - times_array[parents_array[i+1].tag]) #data is a distance to the parent
 
     return tree
+
+def event_sequence_from_tree()
 
 
 [parents, times] = parse_parents_plus_times()
