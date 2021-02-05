@@ -42,7 +42,11 @@ class SubtreeCreation:
                 return 0
 
     def GetParentNode(self, node, base_tree):
-        return base_tree.get_node(node.predecessor)
+        if node.is_root():
+            return node
+
+        # noinspection INSPECTION_NAME
+        return base_tree.get_node(node.bpointer)
 
     def CheckIfABHaplotype(self, node, base_tree):
 
@@ -121,4 +125,4 @@ SomeCreation = SubtreeCreation()
 
 a = SomeCreation.GetABsubtrees('A', 27502, 'A', 27502, covid_tree)
 print(a)
-print(a[0].data.mutation_cite)
+print(a[0][0].data.mutation_cite)
