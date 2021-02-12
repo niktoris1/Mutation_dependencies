@@ -1,6 +1,7 @@
 import treelib
 from treelib import Tree
 
+
 def parse_parents_plus_times():
     with open('parents_times_events.txt', 'r') as file:
         data = file.read().split('\n')
@@ -21,18 +22,32 @@ def parse_parents_plus_times():
 def tree_from_array(parents_array, times_array, events_array):
 
     tree = Tree()
-    tree.create_node(0, 0, data=times_array[0]) # id and tag are the same here
+    if events_array[0] == 0:
+        tree.create_node(0, 0, data=times_array[0]) # id and tag are the same here
+    else:
+        raise ('Error, starting a model with non-birth')
 
-
-    for i in range(len(parents_array) - 1):
-        tree.create_node(i+1, i+1, parent=parents_array[i+1], data=times_array[i+1] - times_array[parents_array[i+1]]) #data is a distance to the parent
+    for node_number in range(0, len(parents_array)):
+        for potential_child_number in range(node_number + 1, len(parents_array)): # generating children
+            if parents_array[potential_child_number] == node_number:
+                tree.create_node(potential_child_number, potential_child_number, parent=node_number, \
+                    data=times_array[potential_child_number] - times_array[node_number]) #data is a distance to the parent - from a new birth or from death
 
     return tree
 
-def event_sequence_from_tree():
+def number_of_lineages(time, times_array):
+    for i in range(0, len(times_array)):
+        if times_array[i] > time:
+            current_node_number = i
+            break
+
+    number_of_deaths = sum()
+
+    lineages = i - sum()
+
     return 0
 
 
 [parents, times, events] = parse_parents_plus_times()
-test_tree = tree_from_array(parents, times)
-#test_tree.show()
+test_tree = tree_from_array(parents, times, events)
+test_tree.show()

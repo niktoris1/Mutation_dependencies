@@ -1,5 +1,9 @@
 import math
 
+
+
+
+
 class Event:
     def __init__(self, event_type, number_of_lineages, lineages):
         self.event_type = event_type
@@ -53,6 +57,8 @@ class LikelyhoodEstimation:
         return number_of_lineages
 
     def EventFromIteration(self, iteration):
+        return 0
+
 
 
     def EventProbability(event_type, coal_rate, distinct_lineages):
