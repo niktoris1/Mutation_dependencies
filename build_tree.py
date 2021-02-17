@@ -8,13 +8,12 @@ def getcite(mutation_name): # gets a cite name from the name of mutation
     return int(re.findall('\d+', mutation_name)[0])
 
 class MutationOnNode: # defines a mutation on specific node
-    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_to_parent):
+    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth):
         self.mutation_name = mutation_name
         self.mutation_cite = getcite(mutation_name)
         self.old_nucleotyde = old_nucleotyde
         self.new_nucleotyde = new_nucleotyde
-        self.time_to_parent = time_to_parent
-
+        self.time_of_birth = time_of_birth
 
 name_id_dict = {} # dictionary in type id: name
 
@@ -26,7 +25,6 @@ def add_children(some_tree, node): #adds all children to the tree by checking al
     name_id_dict[node["name"]] = node["id"]
     for child_node in node["children"]:
         add_children(some_tree, child_node)
-
 
 covid_tree = Tree()
 print('STARTED TREE BUILDING')
@@ -46,6 +44,9 @@ for mutation in mutations: # here for every node we write a mutation in it
             if node_name[-3:] == '[F]' or node_name[-3:] == '[B]': # remove forward-backward notation
                 node_name = node_name[:-3]
             chosen_node = covid_tree.get_node(name_id_dict[node_name])
-            chosen_node.data = MutationOnNode(mutation.mutation_name, mutation_node.old_nucleotyde, mutation_node.new_nucleotyde)
-            # Костыль. Мы оставляем на ноде в дереве только самые важные данные - название мутации, место мутaции, а также стратовый и новый нуклеотид
+            chosen_node.data = MutationOnNode(mutation_name=mutation.mutation_name, old_nucleotyde=mutation_node.old_nucleotyde, new_nucleotyde=mutation_node.new_nucleotyde, time_of_birth='Unknown')
+            # Костыль. Мы оставляем на ноде в дереве только самые важные данные - название мутации, место мутaции, стратовый и новый нуклеотид и время до родителя
+
+
+
 

@@ -1,35 +1,18 @@
 import math
 
-
-
+from get_subtree import test_tree
 
 
 class Event:
-    def __init__(self, event_type, number_of_lineages, lineages):
+    def __init__(self, vertex_tag, event_type, event_time):
         self.event_type = event_type
-        self.number_of_lineages = number_of_lineages
-        self.lineages = lineages
-
-        if event_type is not 'adding_lineage' or 'coalescence':
-            raise('Error - wrong event type')
-        if event_type is 'adding_lineage' and len(lineages) is not 1:
-            raise('Error - trying to add more or less than 1 lineage')
-
-    def LineagesChange(self):
-        if self.event_type == 'adding_lineage':
-            return 1
-        else:
-            return - (self.number_of_lineages - 1)
-
+        self.vertex_tag = vertex_tag
+        self.event_time = event_time
 
 
 class EventSequence: #list of events, where the index is the order of iterations
     def __init__(self, event_sequence):
         self.event_sequence = event_sequence
-
-    def DistinctLineages(self, iteration):
-        number_of_lineages = EventSequence.DistinctLineages(self, iteration - 1) + self.event_sequence[iteration].LineagesChange()
-        return number_of_lineages
 
 
 class LikelyhoodEstimation:
@@ -39,6 +22,9 @@ class LikelyhoodEstimation:
         self.A_nucleotyde = A_nucleotyde
         self.B_nucleotyde = B_nucleotyde
 
+    def EventsFromTree(self, estimated_tree):
+        events = estimated_tree.all_nodes()
+        return events
 
 
     def LLH_function(self, iteration, coal_rate, coal_iteration, number_of_lineages, event_probability, event_type):
@@ -61,10 +47,45 @@ class LikelyhoodEstimation:
 
 
 
-    def EventProbability(event_type, coal_rate, distinct_lineages):
+    def EventProbability(self, event_type, coal_rate, distinct_lineages):
         if event_type == 1:
             return 1
         else:
             probability = 1
             for i in range(0, distinct_lineages):
                 probability = probability * coal_rate * math.comb(distinct_lineages - i + 1, 2)
+
+def GetTime(node):
+    return node.data.time_of_birth
+
+def GetEventsFromTree(tree):
+
+    le = LikelyhoodEstimation
+
+    events_array = LikelyhoodEstimation.EventsFromTree(le, tree)
+
+    for event_number in range(0, len(events_array)):
+        if events_array[event_number].data is None:
+            events_array[event_number] = [events_array[event_number].tag, 0]
+        else:
+            events_array[event_number] = [events_array[event_number].tag, events_array[event_number].data.time_of_birth]
+
+    def takeSecond(elem):
+        return elem[1]
+
+    events_array.sort(key=takeSecond)
+
+    return events_array
+
+events_array = GetEventsFromTree(test_tree)
+
+for event_number in range(0, len(events_array)):
+    events_array[event_number] = Event(vertex_tag = events_array[event_number][0], event_time = events_array[event_number][1], event_type='Unknown')
+    if len(test_tree.children(events_array[event_number].vertex_tag)) == 0:
+        events_array[event_number].event_type = "adding_lineage"
+    else:
+        events_array[event_number].event_type = "coalescence"
+
+
+print(events_array)
+
