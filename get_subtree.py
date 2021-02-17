@@ -133,7 +133,7 @@ test_tree.create_node(6, 6, parent = 4, data=MutationOnNode(mutation_name="2B", 
 test_tree.create_node(7, 7, parent = 3, data=MutationOnNode(mutation_name="2C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=11))
 
 
-trees = SomeCreation.GetABsubtrees('T', 2, 'T', 2, test_tree)
+test_trees = SomeCreation.GetABsubtrees('T', 2, 'T', 2, test_tree)
 
-for tree in trees:
+for tree in test_trees:
     tree.show()

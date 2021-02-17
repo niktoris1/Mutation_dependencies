@@ -1,30 +1,14 @@
 import math
-
-from get_subtree import test_tree
-
-
-class Event:
-    def __init__(self, vertex_tag, event_type, event_time):
-        self.event_type = event_type
-        self.vertex_tag = vertex_tag
-        self.event_time = event_time
-
-
-class EventSequence: #list of events, where the index is the order of iterations
-    def __init__(self, event_sequence):
-        self.event_sequence = event_sequence
-
+from get_subtree import test_trees
+from events_from_tree import GetEventsFromTree, events_sequence
 
 class LikelyhoodEstimation:
 
-    def __init__(self, estimated_tree, A_nucleotyde, B_nucleotyde):
+    def __init__(self, estimated_tree):
         self.estimated_tree = estimated_tree
-        self.A_nucleotyde = A_nucleotyde
-        self.B_nucleotyde = B_nucleotyde
+        self.lineages_array = [i+1 for i in range(0, len(estimated_tree.all_nodes()))] # array [1, 2, 3, 4, 5...]
 
-    def EventsFromTree(self, estimated_tree):
-        events = estimated_tree.all_nodes()
-        return events
+
 
 
     def LLH_function(self, iteration, coal_rate, coal_iteration, number_of_lineages, event_probability, event_type):
@@ -35,16 +19,14 @@ class LikelyhoodEstimation:
 
 
     def TimeFromIteration(self, iteration):
-        time = iteration ## to do
+        time = events_sequence[iteration].event_time
         return time
 
     def DistinctLineages(self, iteration):
-        number_of_lineages = iteration
-        return number_of_lineages
+        return self.lineages_array[iteration]
 
     def EventFromIteration(self, iteration):
-        return 0
-
+        return events_sequence[iteration]
 
 
     def EventProbability(self, event_type, coal_rate, distinct_lineages):
@@ -55,37 +37,19 @@ class LikelyhoodEstimation:
             for i in range(0, distinct_lineages):
                 probability = probability * coal_rate * math.comb(distinct_lineages - i + 1, 2)
 
-def GetTime(node):
-    return node.data.time_of_birth
 
-def GetEventsFromTree(tree):
+print(events_sequence)
 
-    le = LikelyhoodEstimation
+le = LikelyhoodEstimation(test_trees)
 
-    events_array = LikelyhoodEstimation.EventsFromTree(le, tree)
+iteration=len(events_sequence)
+coal_rate=1
+coal_iteration=len(events_sequence)
+number_of_lineages = len(events_sequence)
+event_type = events_sequence[len(events_sequence)].event_type
+event_probability = le.EventProbability(le, event_type, coal_rate, number_of_lineages)
 
-    for event_number in range(0, len(events_array)):
-        if events_array[event_number].data is None:
-            events_array[event_number] = [events_array[event_number].tag, 0]
-        else:
-            events_array[event_number] = [events_array[event_number].tag, events_array[event_number].data.time_of_birth]
+LLH = le.LLH_function(le, iteration=iteration, coal_rate=coal_rate, coal_iteration=coal_iteration, number_of_lineages = number_of_lineages, \
+                      event_probability = le.EventProbability(le, events_sequence[len(events_sequence)]))
 
-    def takeSecond(elem):
-        return elem[1]
-
-    events_array.sort(key=takeSecond)
-
-    return events_array
-
-events_array = GetEventsFromTree(test_tree)
-
-for event_number in range(0, len(events_array)):
-    events_array[event_number] = Event(vertex_tag = events_array[event_number][0], event_time = events_array[event_number][1], event_type='Unknown')
-    if len(test_tree.children(events_array[event_number].vertex_tag)) == 0:
-        events_array[event_number].event_type = "adding_lineage"
-    else:
-        events_array[event_number].event_type = "coalescence"
-
-
-print(events_array)
 
