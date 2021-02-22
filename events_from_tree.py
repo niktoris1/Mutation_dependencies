@@ -15,8 +15,6 @@ class EventSequence: #list of events, where the index is the order of iterations
     def __init__(self, event_sequence):
         self.event_sequence = event_sequence
 
-
-
 def GetTime(node):
     return node.data.time_of_birth
 
