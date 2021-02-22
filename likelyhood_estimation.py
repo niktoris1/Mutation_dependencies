@@ -1,13 +1,13 @@
 import math
-from get_subtree import test_trees
-from events_from_tree import GetEventsFromTree, test_events_sequence
+#from get_subtree import test_trees
+from events_from_tree import GetEventsFromTree, test_events_sequence, test_tree
 
 import treelib
 
 class LikelyhoodEstimation:
 
     def __init__(self, estimated_tree, events_sequence):
-        self.estimated_tree = estimated_tree
+        self.estimated_tree = [estimated_tree] # need to be fixed if only one tree
         self.events_sequence = events_sequence
 
 
@@ -48,17 +48,17 @@ class LikelyhoodEstimation:
 
         iteration = LikelyhoodEstimation.IterationFromTime(self, time, events_sequence)
 
-#        dl = 1
-#        for iteration_number in range(0, iteration):
-#            if events_sequence[iteration_number].event_type == "adding_lineage":
-#                dl = dl+1
-#           if events_sequence[iteration_number].event_type == "coalescence":
-#                for individual_tree in self.estimated_tree:
-#                    if individual_tree.contains(events_sequence[iteration_number].vertex_tag):
-#                        number_of_children = len(individual_tree.get_node(events_sequence[iteration_number].vertex_tag).fpointer)
-#                        dl = dl + number_of_children - 1
-#        return dl
-        return iteration + 1
+        dl = 1
+        for iteration_number in range(0, iteration+1):
+            if events_sequence[iteration_number].event_type == "adding_lineage":
+                dl = dl-1
+            if events_sequence[iteration_number].event_type == "coalescence":
+                for individual_tree in self.estimated_tree:
+                    if individual_tree.contains(events_sequence[iteration_number].vertex_tag):
+                        number_of_children = len(individual_tree.get_node(events_sequence[iteration_number].vertex_tag).fpointer)
+                        dl = dl + number_of_children - 1
+        return dl
+#        return iteration + 1
 
     def EventFromIteration(self, iteration, events_sequence):
         return events_sequence[iteration]
@@ -79,11 +79,15 @@ class LikelyhoodEstimation:
 
 number_of_events = len(test_events_sequence)
 
-le = LikelyhoodEstimation(test_trees, test_events_sequence)
+le = LikelyhoodEstimation(test_tree, test_events_sequence)
 iteration=number_of_events - 1
-coal_rate=0.01 # will have to estimate
+coal_rate=0.5 # will have to estimate
 
 LLH = le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
+
+wrapper = lambda coal_rate, iteration, test_events_sequence: le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
+
+#LLH_optimised = optimise.minimize
 
 print(LLH)
 
