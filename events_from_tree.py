@@ -11,7 +11,7 @@ class Event:
 
 
 
-class EventSequence: #list of events, where the index is the order of iterations
+class EventSequence: #list of events, where the index is the order of iterations - might be deprecated
     def __init__(self, event_sequence):
         self.event_sequence = event_sequence
 
@@ -50,5 +50,5 @@ for event_number in range(0, len(events_array)):
         events_array[event_number].event_type = "coalescence"
 
 
-events_sequence = EventSequence(events_array)
+test_events_sequence = events_array
 
