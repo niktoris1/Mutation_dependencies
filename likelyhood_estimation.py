@@ -1,13 +1,23 @@
 import math
+from scipy import optimize
 #from get_subtree import test_trees
 from events_from_tree import GetEventsFromTree, test_events_sequence, test_tree
+from treelib import Tree
+
+import matplotlib.pyplot as plt
 
 import treelib
 
 class LikelyhoodEstimation:
 
     def __init__(self, estimated_tree, events_sequence):
-        self.estimated_tree = [estimated_tree] # need to be fixed if only one tree
+        if isinstance(estimated_tree, list):
+            self.estimated_tree = estimated_tree
+        elif isinstance(estimated_tree, Tree):
+            self.estimated_tree = [estimated_tree]
+        else:
+            raise("Error - we have on the input nor tree or the list of trees. Check the input, please.")
+
         self.events_sequence = events_sequence
 
 
@@ -27,11 +37,11 @@ class LikelyhoodEstimation:
                math.exp(- coal_rate * (current_time - previous_time) * \
                math.comb(distinct_lineages, 2)) * event_probability
 
-            print("distinct_lineages = ", distinct_lineages)
-            print("event_probability = ", event_probability)
-            print("value_on_this_step = ", value_on_this_step)
-            print("event_type = ", event_type)
-            print("-----------------")
+            #print("distinct_lineages = ", distinct_lineages)
+            #print("event_probability = ", event_probability)
+            #print("value_on_this_step = ", value_on_this_step)
+            #print("event_type = ", event_type)
+            #print("-----------------")
 
             return value_on_this_step
         if iteration == 0:
@@ -94,10 +104,21 @@ coal_rate=0.5 # will have to estimate
 
 LLH = le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
 
-wrapper = lambda coal_rate, iteration, test_events_sequence: le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
+wrapper = lambda coal_rate, iteration, test_events_sequence: - le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
 
-#LLH_optimised = optimise.minimize
+LLH_optimised = optimize.minimize(fun=wrapper, x0=coal_rate, args=(iteration, test_events_sequence), method='Nelder-Mead')
 
-print(LLH)
+print(LLH_optimised.fun, LLH_optimised.x)
+
+x = [x / 100.0 for x in range(1, 200, 1)]
+y = [le.LLH_function(iteration=iteration, coal_rate=i, events_sequence=test_events_sequence) for i in x]
+
+plt.plot(x, y)
+
+plt.show()
+
+print(LLH_optimised.fun, LLH_optimised.x)
+
+
 
 
