@@ -131,6 +131,8 @@ test_tree.create_node(4, 4, parent = 2, data=MutationOnNode(mutation_name="4", o
 test_tree.create_node(5, 5, parent = 2, data=MutationOnNode(mutation_name="5", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=4))
 test_tree.create_node(6, 6, parent = 4, data=MutationOnNode(mutation_name="2B", old_nucleotyde="T", new_nucleotyde="G", time_of_birth=5))
 test_tree.create_node(7, 7, parent = 3, data=MutationOnNode(mutation_name="2C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=11))
+test_tree.create_node(8, 8, parent = 4, data=MutationOnNode(mutation_name="6", old_nucleotyde="T", new_nucleotyde="G", time_of_birth=10))
+test_tree.create_node(9, 9, parent = 3, data=MutationOnNode(mutation_name="7", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
 
 
 #test_trees = SomeCreation.GetABsubtrees('T', 2, 'T', 2, test_tree)

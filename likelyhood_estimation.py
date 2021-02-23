@@ -20,11 +20,18 @@ class LikelyhoodEstimation:
             current_time = LikelyhoodEstimation.TimeFromIteration(self, iteration, events_sequence)
             previous_time = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1, events_sequence)
             distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time, events_sequence)
-            event_probability = LikelyhoodEstimation.EventProbability(self, event_type, coal_rate, events_sequence)
+            event_probability = LikelyhoodEstimation.EventProbability(self, iteration, event_type, coal_rate, events_sequence)
+
 
             value_on_this_step = LikelyhoodEstimation.LLH_function(self, iteration - 1, coal_rate, events_sequence) * \
-               math.exp(coal_rate * (current_time - previous_time)) \
-               * math.comb(distinct_lineages, 2) * event_probability
+               math.exp(- coal_rate * (current_time - previous_time) * \
+               math.comb(distinct_lineages, 2)) * event_probability
+
+            print("distinct_lineages = ", distinct_lineages)
+            print("event_probability = ", event_probability)
+            print("value_on_this_step = ", value_on_this_step)
+            print("event_type = ", event_type)
+            print("-----------------")
 
             return value_on_this_step
         if iteration == 0:
@@ -51,19 +58,18 @@ class LikelyhoodEstimation:
         dl = 1
         for iteration_number in range(0, iteration+1):
             if events_sequence[iteration_number].event_type == "adding_lineage":
-                dl = dl-1
+                dl = dl - 1
             if events_sequence[iteration_number].event_type == "coalescence":
                 for individual_tree in self.estimated_tree:
                     if individual_tree.contains(events_sequence[iteration_number].vertex_tag):
                         number_of_children = len(individual_tree.get_node(events_sequence[iteration_number].vertex_tag).fpointer)
                         dl = dl + number_of_children - 1
         return dl
-#        return iteration + 1
 
     def EventFromIteration(self, iteration, events_sequence):
         return events_sequence[iteration]
 
-    def EventProbability(self, event_type, coal_rate, events_sequence):
+    def EventProbability(self, iteration, event_type, coal_rate, events_sequence):
 
         time = LikelyhoodEstimation.TimeFromIteration(self, iteration, events_sequence)
         distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time, events_sequence)
@@ -80,6 +86,9 @@ class LikelyhoodEstimation:
 number_of_events = len(test_events_sequence)
 
 le = LikelyhoodEstimation(test_tree, test_events_sequence)
+
+test_tree.show()
+
 iteration=number_of_events - 1
 coal_rate=0.5 # will have to estimate
 
