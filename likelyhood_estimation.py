@@ -26,6 +26,8 @@ class LikelyhoodEstimation:
                math.exp(coal_rate * (current_time - previous_time)) \
                * math.comb(distinct_lineages, 2) * event_probability
 
+            print(value_on_this_step)
+
             return value_on_this_step
         if iteration == 0:
             return 1
