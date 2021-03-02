@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
-import sys
 import time
 from BirthDeath import BirthDeathModel, PopulationModel, Population
 from IO import ReadRates, ReadPopulations, ReadMigrationRates
+from testing import ArrayTreeToTreeClass
+
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
@@ -37,16 +38,16 @@ else:
     migrationRates = ReadMigrationRates(clargs.populationModel[1])
     populationModel = PopulationModel(populations, migrationRates)
 
-simulation = BirthDeathModel(bRate, dRate, sRate, mRate, debug = clargs.debug, populationModel= populationModel)
+simulation = BirthDeathModel(bRate, dRate, sRate, mRate, debug = clargs.debug, populationModel = populationModel)
 t1 = time.time()
 simulation.SimulatePopulation(clargs.iterations)
 t2 = time.time()
 simulation.GetGenealogy()
 t3 = time.time()
 simulation.Report()
-print(t2 - t1)
-print(t3 - t2)
-# print(tree1.Tree)
+print("Time to process the simulation - ", t2 - t1)
+print("Time to process retrieve the genealogy - ", t3 - t2)
+ArrayTreeToTreeClass(simulation.Tree).show()
 # print(tree1.newTree)
 # print(tree1.nodeSampling)
 # print(tree1.times)
