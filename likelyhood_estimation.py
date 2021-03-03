@@ -110,7 +110,6 @@ wrapper = lambda coal_rate, iteration, test_events_sequence: - le.LLH_function(i
 
 LLH_optimised = optimize.minimize(fun=wrapper, x0=coal_rate, args=(iteration, test_events_sequence), method='Nelder-Mead')
 
-print(LLH_optimised.fun, LLH_optimised.x)
 
 x = [x / 100.0 for x in range(1, 200, 1)]
 y = [le.LLH_function(iteration=iteration, coal_rate=i, events_sequence=test_events_sequence) for i in x]
