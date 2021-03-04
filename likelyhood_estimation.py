@@ -113,6 +113,7 @@ class LikelyhoodEstimation:
         iteration=number_of_events - 1
         start_coal_rate=0.5 # will have to estimate
 
+
         wrapper = lambda coal_rate, iteration: - self.LLH_function(iteration=iteration, coal_rate=coal_rate)
 
         LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration), method='Nelder-Mead')
