@@ -124,7 +124,7 @@ SomeCreation = SubtreeCreation()
 
 test_tree = Tree()
 
-test_tree.create_node(1, 1, data=None)
+test_tree.create_node(1, 1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=0))
 test_tree.create_node(2, 2, parent = 1, data=MutationOnNode(mutation_name="2A", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=1))
 test_tree.create_node(3, 3, parent = 1, data=MutationOnNode(mutation_name="3", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=1))
 test_tree.create_node(4, 4, parent = 2, data=MutationOnNode(mutation_name="4", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))

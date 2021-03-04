@@ -5,7 +5,8 @@ import time
 from BirthDeath import BirthDeathModel, PopulationModel, Population
 from IO import ReadRates, ReadPopulations, ReadMigrationRates
 
-from testing import ArrayTreeToTreeClass
+from tree_functions import ArrayTreeToTreeClass
+from likelyhood_estimation import LikelyhoodEstimation
 
 
 
@@ -53,6 +54,8 @@ print("Time to process retrieve the genealogy - ", t3 - t2)
 
 newtree = ArrayTreeToTreeClass(simulation.Tree)
 newtree.show()
+
+ls = LikelyhoodEstimation(newtree, )
 # print(tree1.newTree)
 # print(tree1.nodeSampling)
 # print(tree1.times)

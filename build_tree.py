@@ -1,19 +1,11 @@
 from treelib import Node, Tree
-from initialize_tree import  raw_nodes
+from initialize_tree import raw_nodes
 from parse_mutations import mutations
 import re
 
+from tree_functions import MutationOnNode
 
-def getcite(mutation_name): # gets a cite name from the name of mutation
-    return int(re.findall('\d+', mutation_name)[0])
 
-class MutationOnNode: # defines a mutation on specific node
-    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth):
-        self.mutation_name = mutation_name
-        self.mutation_cite = getcite(mutation_name)
-        self.old_nucleotyde = old_nucleotyde
-        self.new_nucleotyde = new_nucleotyde
-        self.time_of_birth = time_of_birth
 
 name_id_dict = {} # dictionary in type id: name
 
