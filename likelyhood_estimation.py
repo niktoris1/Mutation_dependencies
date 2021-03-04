@@ -108,7 +108,7 @@ class LikelyhoodEstimation:
 
         #LLH = le.LLH_function(iteration=iteration, coal_rate=start_coal_rate, events_sequence=self.events_sequence)
 
-        wrapper = lambda coal_rate, iteration: - le.LLH_function(iteration=iteration, coal_rate=coal_rate)
+        wrapper = lambda coal_rate, iteration: - self.LLH_function(iteration=iteration, coal_rate=coal_rate)
 
         LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration), method='Nelder-Mead')
 
@@ -129,7 +129,6 @@ class LikelyhoodEstimation:
         return [LLH_result, LLH_point]
 
 
-number_of_events = len(test_events_sequence)
 le = LikelyhoodEstimation(test_tree)
 test_tree.show()
 

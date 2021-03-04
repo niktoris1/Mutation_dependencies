@@ -55,7 +55,7 @@ print("Time to process retrieve the genealogy - ", t3 - t2)
 newtree = ArrayTreeToTreeClass(simulation.Tree)
 newtree.show()
 
-ls = LikelyhoodEstimation(newtree, )
+ls = LikelyhoodEstimation(newtree)
 # print(tree1.newTree)
 # print(tree1.nodeSampling)
 # print(tree1.times)
