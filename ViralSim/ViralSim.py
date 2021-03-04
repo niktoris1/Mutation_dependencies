@@ -4,7 +4,9 @@ import argparse
 import time
 from BirthDeath import BirthDeathModel, PopulationModel, Population
 from IO import ReadRates, ReadPopulations, ReadMigrationRates
+
 from testing import ArrayTreeToTreeClass
+
 
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -47,7 +49,10 @@ t3 = time.time()
 simulation.Report()
 print("Time to process the simulation - ", t2 - t1)
 print("Time to process retrieve the genealogy - ", t3 - t2)
-ArrayTreeToTreeClass(simulation.Tree).show()
+
+
+newtree = ArrayTreeToTreeClass(simulation.Tree)
+newtree.show()
 # print(tree1.newTree)
 # print(tree1.nodeSampling)
 # print(tree1.times)

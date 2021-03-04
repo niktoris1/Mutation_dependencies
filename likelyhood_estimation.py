@@ -43,7 +43,7 @@ class LikelyhoodEstimation:
             #print("event_type = ", event_type)
             #print("-----------------")
 
-            print(value_on_this_step)
+            #print(value_on_this_step)
 
             return value_on_this_step
         if iteration == 0:
@@ -95,31 +95,46 @@ class LikelyhoodEstimation:
             return probability
 
 
+    def GetEstimation(self):
+
+        number_of_events = len(self.events_sequence)
+
+        #le = LikelyhoodEstimation(self.estimated_tree, self.events_sequence)
+
+        #test_tree.show()
+
+        iteration=number_of_events - 1
+        start_coal_rate=0.5 # will have to estimate
+
+        #LLH = le.LLH_function(iteration=iteration, coal_rate=start_coal_rate, events_sequence=self.events_sequence)
+
+        wrapper = lambda coal_rate, iteration, events_sequence: - le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=events_sequence)
+
+        LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration, self.events_sequence), method='Nelder-Mead')
+
+        #print(LLH_optimised.fun, LLH_optimised.x)
+
+        x = [x / 100.0 for x in range(1, 200, 1)]
+        y = [le.LLH_function(iteration=iteration, coal_rate=i, events_sequence=self.events_sequence) for i in x]
+
+        plt.plot(x, y)
+
+        plt.show()
+
+        LLH_result = LLH_optimised.fun
+        LLH_point = LLH_optimised.x
+
+        print(LLH_result, LLH_point)
+
+        return [LLH_result, LLH_point]
+
+
 number_of_events = len(test_events_sequence)
-
 le = LikelyhoodEstimation(test_tree, test_events_sequence)
-
 test_tree.show()
 
-iteration=number_of_events - 1
-coal_rate=0.5 # will have to estimate
-
-LLH = le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
-
-wrapper = lambda coal_rate, iteration, test_events_sequence: - le.LLH_function(iteration=iteration, coal_rate=coal_rate, events_sequence=test_events_sequence)
-
-LLH_optimised = optimize.minimize(fun=wrapper, x0=coal_rate, args=(iteration, test_events_sequence), method='Nelder-Mead')
-
-print(LLH_optimised.fun, LLH_optimised.x)
-
-x = [x / 100.0 for x in range(1, 200, 1)]
-y = [le.LLH_function(iteration=iteration, coal_rate=i, events_sequence=test_events_sequence) for i in x]
-
-plt.plot(x, y)
-
-plt.show()
-
-print(LLH_optimised.fun, LLH_optimised.x)
+le.GetEstimation()
+test_tree.show()
 
 
 
