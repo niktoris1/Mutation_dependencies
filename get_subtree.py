@@ -1,5 +1,5 @@
-from treelib import Node, Tree
-from build_tree import MutationOnNode
+from treelib import Tree
+from tree_functions import GetEventsFromTree, MutationOnNode
 
 
 class SubtreeCreation:
@@ -131,6 +131,8 @@ test_tree.create_node(4, 4, parent = 2, data=MutationOnNode(mutation_name="4", o
 test_tree.create_node(5, 5, parent = 2, data=MutationOnNode(mutation_name="5", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
 test_tree.create_node(6, 6, parent = 3, data=MutationOnNode(mutation_name="2B", old_nucleotyde="T", new_nucleotyde="G", time_of_birth=2))
 test_tree.create_node(7, 7, parent = 3, data=MutationOnNode(mutation_name="2C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
+
+test_events_sequence = GetEventsFromTree(test_tree)
 
 
 

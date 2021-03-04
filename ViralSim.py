@@ -7,6 +7,9 @@ from IO import ReadRates, ReadPopulations, ReadMigrationRates
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
+from tree_functions import MutationOnNode
+
+
 
 
 
@@ -52,10 +55,25 @@ print("Time to process the simulation - ", t2 - t1)
 print("Time to process retrieve the genealogy - ", t3 - t2)
 
 
-newtree = ArrayTreeToTreeClass(simulation.Tree)
+newtree = ArrayTreeToTreeClass(simulation.Tree, simulation.times)
 newtree.show()
+print(simulation.times)
+
+#newtree[0].data = MutationOnNode(mutation_name="1C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=0)
+
 
 ls = LikelyhoodEstimation(newtree)
+
+#print(ls.events_sequence)
+
+
+estimation = ls.GetEstimation()
+print(estimation)
+
+
+
+
+
 # print(tree1.newTree)
 # print(tree1.nodeSampling)
 # print(tree1.times)

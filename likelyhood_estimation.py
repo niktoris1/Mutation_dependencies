@@ -1,12 +1,16 @@
 import math
 from scipy import optimize
 #from get_subtree import test_trees
-from events_from_tree import GetEventsFromTree, test_events_sequence, test_tree
+from tree_functions import GetEventsFromTree
+from get_subtree import test_tree
 from treelib import Tree
 
 import matplotlib.pyplot as plt
 
 import treelib
+
+import logging # a woraround to kill warnings
+logging.captureWarnings(True)
 
 class LikelyhoodEstimation:
 
@@ -33,9 +37,9 @@ class LikelyhoodEstimation:
             event_probability = LikelyhoodEstimation.EventProbability(self, iteration, event_type, coal_rate)
 
 
-            value_on_this_step = LikelyhoodEstimation.LLH_function(self, iteration - 1, coal_rate) * \
-               math.exp(- coal_rate * (current_time - previous_time) * \
-               math.comb(distinct_lineages, 2)) * event_probability
+            value_on_this_step = LikelyhoodEstimation.LLH_function(self, iteration - 1, coal_rate) + \
+               (- coal_rate * (current_time - previous_time) * \
+               math.comb(distinct_lineages, 2)) + math.log(event_probability)
 
             #print("distinct_lineages = ", distinct_lineages)
             #print("event_probability = ", event_probability)
@@ -47,7 +51,7 @@ class LikelyhoodEstimation:
 
             return value_on_this_step
         if iteration == 0:
-            return 1
+            return 0
 
 
 
@@ -75,6 +79,7 @@ class LikelyhoodEstimation:
                 for individual_tree in self.estimated_tree:
                     if individual_tree.contains(self.events_sequence[iteration_number].vertex_tag):
                         number_of_children = len(individual_tree.get_node(self.events_sequence[iteration_number].vertex_tag).fpointer)
+
                         dl = dl + number_of_children - 1
         return dl
 
@@ -97,6 +102,8 @@ class LikelyhoodEstimation:
 
     def GetEstimation(self):
 
+        print("GETTING ESTIMATION")
+
         number_of_events = len(self.events_sequence)
 
         #le = LikelyhoodEstimation(self.estimated_tree, self.events_sequence)
@@ -106,19 +113,14 @@ class LikelyhoodEstimation:
         iteration=number_of_events - 1
         start_coal_rate=0.5 # will have to estimate
 
-        #LLH = le.LLH_function(iteration=iteration, coal_rate=start_coal_rate, events_sequence=self.events_sequence)
-
         wrapper = lambda coal_rate, iteration: - self.LLH_function(iteration=iteration, coal_rate=coal_rate)
 
         LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration), method='Nelder-Mead')
 
-        #print(LLH_optimised.fun, LLH_optimised.x)
-
-        x = [x / 100.0 for x in range(1, 200, 1)]
-        y = [le.LLH_function(iteration=iteration, coal_rate=i) for i in x]
+        x = [x / 100.0 for x in range(1, 100, 1)]
+        y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
 
         plt.plot(x, y)
-
         plt.show()
 
         LLH_result = LLH_optimised.fun
@@ -133,7 +135,7 @@ le = LikelyhoodEstimation(test_tree)
 test_tree.show()
 
 le.GetEstimation()
-test_tree.show()
+
 
 
 
