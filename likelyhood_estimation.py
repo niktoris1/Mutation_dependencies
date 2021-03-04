@@ -117,11 +117,11 @@ class LikelyhoodEstimation:
 
         LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration), method='Nelder-Mead')
 
-        x = [x / 100.0 for x in range(1, 100, 1)]
-        y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
+        #x = [x / 100.0 for x in range(1, 100, 1)]
+        #y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
 
-        plt.plot(x, y)
-        plt.show()
+        #plt.plot(x, y)
+        #plt.show()
 
         LLH_result = LLH_optimised.fun
         LLH_point = LLH_optimised.x
@@ -131,10 +131,10 @@ class LikelyhoodEstimation:
         return [LLH_result, LLH_point]
 
 
-le = LikelyhoodEstimation(test_tree)
-test_tree.show()
+#le = LikelyhoodEstimation(test_tree)
+#test_tree.show()
 
-le.GetEstimation()
+#le.GetEstimation()
 
 
 
