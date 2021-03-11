@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 import treelib
 
-import logging # a woraround to kill warnings
+import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimation:
@@ -20,14 +20,18 @@ class LikelyhoodEstimation:
         elif isinstance(estimated_tree, Tree):
             self.estimated_tree = [estimated_tree]
         else:
-            raise("Error - we have on the input nor tree or the list of trees. Check the input, please.")
+            raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
 
         self.events_sequence = GetEventsFromTree(estimated_tree)
+        self.number_of_events = len(self.events_sequence)
 
 
 
-    def LLH_function(self, iteration, coal_rate):
-        if iteration > 0:
+    def LLH_function(self, coal_rate):
+
+        LHH_values = [0] * self.number_of_events
+
+        for iteration in range(1, self.number_of_events):
             event = LikelyhoodEstimation.EventFromIteration(self, iteration)
             event_type = event.event_type
             time = LikelyhoodEstimation.TimeFromIteration(self, iteration)
@@ -37,7 +41,7 @@ class LikelyhoodEstimation:
             event_probability = LikelyhoodEstimation.EventProbability(self, iteration, event_type, coal_rate)
 
 
-            value_on_this_step = LikelyhoodEstimation.LLH_function(self, iteration - 1, coal_rate) + \
+            LHH_values[iteration] = LHH_values[iteration - 1] + \
                (- coal_rate * (current_time - previous_time) * \
                math.comb(distinct_lineages, 2)) + math.log(event_probability)
 
@@ -49,10 +53,7 @@ class LikelyhoodEstimation:
 
             #print(value_on_this_step)
 
-            return value_on_this_step
-        if iteration == 0:
-            return 0
-
+        return LHH_values[-1]
 
 
     def TimeFromIteration(self, iteration):
@@ -110,13 +111,13 @@ class LikelyhoodEstimation:
 
         #test_tree.show()
 
-        iteration=number_of_events - 1
+
         start_coal_rate=0.5 # will have to estimate
 
 
-        wrapper = lambda coal_rate, iteration: - self.LLH_function(iteration=iteration, coal_rate=coal_rate)
+        wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, args=(iteration), method='Nelder-Mead')
+        LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, method='Nelder-Mead', tol=1e-2)
 
         #x = [x / 100.0 for x in range(1, 100, 1)]
         #y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
@@ -130,6 +131,18 @@ class LikelyhoodEstimation:
         print(LLH_result, LLH_point)
 
         return [LLH_result, LLH_point]
+
+
+def GetEstimationFromSutreeSet(subtrees):
+    subtrees_ls = LikelyhoodEstimation(subtrees)
+    return subtrees_ls.GetEstimation()
+
+def GetEstimationFromSets(set1, set2):
+    estimation1 = GetEstimationFromSutreeSet(set1)
+    estimation2 = GetEstimationFromSutreeSet(set2)
+
+    return [estimation1, estimation2]
+
 
 
 #le = LikelyhoodEstimation(test_tree)
