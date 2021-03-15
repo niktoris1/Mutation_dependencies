@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import argparse
 import time
-from BirthDeath import BirthDeathModel, PopulationModel, Population
-from IO import ReadRates, ReadPopulations, ReadMigrationRates
+from BirthDeath.BirthDeath import BirthDeathModel, PopulationModel, Population
+from BirthDeath.IO import ReadRates, ReadPopulations, ReadMigrationRates
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -14,7 +13,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 100
+iterations = 100000
 
 if populationModel_args == None:
     populationModel = PopulationModel([Population()], [[]])
@@ -34,8 +33,8 @@ print("Time to process the simulation - ", t2 - t1)
 print("Time to process retrieve the genealogy - ", t3 - t2)
 
 
-newtree = ArrayTreeToTreeClass(simulation.Tree, simulation.times)
-newtree.show()
+newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
+#newtree.show()
 #print(simulation.times)
 
 #newtree[0].data = MutationOnNode(mutation_name="1C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=0)

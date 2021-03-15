@@ -12,7 +12,7 @@ class MutationOnNode: # defines a mutation on specific node
         self.new_nucleotyde = new_nucleotyde
         self.time_of_birth = time_of_birth
 
-def ArrayTreeToTreeClass(array_tree, array_times): # sets everythong with a placeholder mutations
+def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets everythong with a placeholder mutations
 
     tree = Tree()
 
@@ -20,6 +20,17 @@ def ArrayTreeToTreeClass(array_tree, array_times): # sets everythong with a plac
 
     for i in range(1, len(array_tree)):
         tree.create_node(i, i, parent=array_tree[i], data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
+
+
+    for mutation in array_mutations:
+
+        if mutation.time == array_times[mutation.nodeId]:
+            print ("OK")
+        else:
+            print(mutation.time - array_times[mutation.nodeId])
+
+        tree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(mutation.AS)+ \
+            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, time_of_birth=mutation.time)) #TODO - change AS and DS to their letter analogues
 
     return tree
 

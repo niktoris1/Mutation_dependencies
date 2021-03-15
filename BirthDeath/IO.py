@@ -1,5 +1,5 @@
 import sys
-from BirthDeath import Population
+from BirthDeath.BirthDeath import Population
 
 def ReadRates(fn):
     with open(fn) as f:

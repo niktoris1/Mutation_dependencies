@@ -54,7 +54,7 @@ print("Time to process the simulation - ", t2 - t1)
 print("Time to process retrieve the genealogy - ", t3 - t2)
 
 
-newtree = ArrayTreeToTreeClass(simulation.Tree, simulation.times)
+newtree = ArrayTreeToTreeClass(simulation.Tree, simulation.times, simulation.mutations_g)
 newtree.show()
 #print(simulation.times)
 
