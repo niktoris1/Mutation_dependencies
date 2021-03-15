@@ -5,9 +5,9 @@ def getcite(mutation_name): # gets a cite name from the name of mutation
     return int(re.findall('\d+', mutation_name)[0])
 
 class MutationOnNode: # defines a mutation on specific node
-    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth):
+    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth, mutation_cite = 9999999):
         self.mutation_name = mutation_name
-        self.mutation_cite = getcite(mutation_name)
+        self.mutation_cite = mutation_cite if mutation_cite != 9999999 else getcite(mutation_name)
         self.old_nucleotyde = old_nucleotyde
         self.new_nucleotyde = new_nucleotyde
         self.time_of_birth = time_of_birth
@@ -16,10 +16,10 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
 
     tree = Tree()
 
-    tree.create_node(-1, -1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=-1))
+    tree.create_node(-1, -1, data=MutationOnNode(mutation_name="999999999", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=-1))
 
     for i in range(0, len(array_tree)):
-        tree.create_node(i, i, parent=-1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
+        tree.create_node(i, i, parent=-1, data=MutationOnNode(mutation_name="999999999", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
 
     for i in range(0, len(array_tree)):
         tree.move_node(i, array_tree[i])
@@ -28,9 +28,9 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
     newtree = tree.subtree(root_id)
 
     for mutation in array_mutations:
-
         newtree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(mutation.AS)+ \
-            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, time_of_birth=array_times[mutation.nodeId])) #TODO - change AS and DS to their letter analogues
+            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, \
+                                                                   time_of_birth=array_times[mutation.nodeId], mutation_cite = mutation.position)) #TODO - change AS and DS to their letter analogues
 
     return newtree
 
