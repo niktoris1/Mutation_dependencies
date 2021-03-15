@@ -34,7 +34,7 @@ print("Time to process retrieve the genealogy - ", t3 - t2)
 
 
 newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
-#newtree.show()
+newtree.show()
 #print(simulation.times)
 
 #newtree[0].data = MutationOnNode(mutation_name="1C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=0)

@@ -16,21 +16,25 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
 
     tree = Tree()
 
-    tree.create_node(0, 0, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[0]))
+    tree.create_node(-1, -1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=-1))
 
-    for i in range(1, len(array_tree)):
-        tree.create_node(i, i, parent=0, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
+    for i in range(0, len(array_tree)):
+        tree.create_node(i, i, parent=-1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
 
     for i in range(1, len(array_tree)):
         tree.update_node(i, parent=array_tree[i])
 
+    root = tree.children(tree.get_node(-1))[0]
+
+    newtree = tree.subtree(root.identifier)
+
 
     for mutation in array_mutations:
 
-        tree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(mutation.AS)+ \
-            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, time_of_birth=mutation.time)) #TODO - change AS and DS to their letter analogues
+        newtree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(mutation.AS)+ \
+            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, time_of_birth=array_times[mutation.nodeId])) #TODO - change AS and DS to their letter analogues
 
-    return tree
+    return newtree
 
 
 class Event:
