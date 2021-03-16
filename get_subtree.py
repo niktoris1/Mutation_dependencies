@@ -48,7 +48,7 @@ class SubtreeCreation:
 
     def CheckIfABHaplotype(self, node, base_tree):
 
-        if node.is_root():
+        if node.is_root() or node.bpointer == -1: # костыль из-за неоднозначного определения родителя у меня и у Щура
             if SubtreeCreation.ABHaplotypeIsPresent(self, node) == 1:
                 SubtreeCreation.AB_haplotype_subtree_roots.append(node)
             else:
@@ -83,12 +83,12 @@ class SubtreeCreation:
             starting_A_state = 0
             starting_B_state = 0
         else:
-            if root_node.data.mutation_cite is not A_cite:
+            if root_node.data[0].mutation_cite is not A_cite:
                 starting_A_state = 0
             else:
                 starting_A_state = 1
 
-            if root_node.data.mutation_cite is not B_cite:
+            if root_node.data[0].mutation_cite is not B_cite:
                 starting_B_state = 0
             else:
                 starting_B_state = 1
@@ -119,24 +119,3 @@ class SubtreeCreation:
 
         return subtrees
 
-
-SomeCreation = SubtreeCreation()
-
-test_tree = Tree()
-
-test_tree.create_node(1, 1, data=MutationOnNode(mutation_name="0", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=0))
-test_tree.create_node(2, 2, parent = 1, data=MutationOnNode(mutation_name="2A", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=1))
-test_tree.create_node(3, 3, parent = 1, data=MutationOnNode(mutation_name="3", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=1))
-test_tree.create_node(4, 4, parent = 2, data=MutationOnNode(mutation_name="4", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
-test_tree.create_node(5, 5, parent = 2, data=MutationOnNode(mutation_name="5", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
-test_tree.create_node(6, 6, parent = 3, data=MutationOnNode(mutation_name="2B", old_nucleotyde="T", new_nucleotyde="G", time_of_birth=2))
-test_tree.create_node(7, 7, parent = 3, data=MutationOnNode(mutation_name="2C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=2))
-
-test_events_sequence = GetEventsFromTree(test_tree)
-
-
-
-#test_trees = SomeCreation.GetABsubtrees('T', 2, 'T', 2, test_tree)
-
-#for tree in test_trees:
-#    tree.show()

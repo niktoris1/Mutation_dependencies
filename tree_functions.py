@@ -4,6 +4,18 @@ import re
 def getcite(mutation_name): # gets a cite name from the name of mutation
     return int(re.findall('\d+', mutation_name)[0])
 
+def number_to_letter(number):
+    if number == 0:
+        return 'A'
+    if number == 1:
+        return 'T'
+    if number == 2:
+        return 'C'
+    if number == 3:
+        return 'G'
+
+
+
 class MutationOnNode: # defines a mutation on specific node
     def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth, mutation_cite = 9999999):
         self.mutation_name = mutation_name
@@ -28,8 +40,8 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
     newtree = tree.subtree(root_id)
 
     for mutation in array_mutations:
-        newtree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(mutation.AS)+ \
-            "to"+str(mutation.DS)+"on"+str(mutation.time), old_nucleotyde=mutation.AS, new_nucleotyde=mutation.DS, \
+        newtree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(number_to_letter(mutation.AS))+ \
+            "to"+str(number_to_letter(mutation.DS))+"on"+str(mutation.time), old_nucleotyde=number_to_letter(mutation.AS), new_nucleotyde=number_to_letter(mutation.DS), \
                                                                    time_of_birth=array_times[mutation.nodeId], mutation_cite = mutation.position)) #TODO - change AS and DS to their letter analogues
 
     return newtree
@@ -50,8 +62,13 @@ def GetTime(node):
     return node.data.time_of_birth
 
 
-def GetEventsFromTree(tree):
-    nodes_array = tree.all_nodes()
+def GetEventsFromTree(tree_list):
+    nodes_array = []
+
+    for tree in tree_list:
+        for node in tree.all_nodes():
+            nodes_array.append(node)
+
     events_array = [0] * len(nodes_array)
 
     for event_number in range(0, len(events_array)):
@@ -60,7 +77,7 @@ def GetEventsFromTree(tree):
                                            event_type="Unknown")
 
     for event_number in range(0, len(events_array)):
-        if len(tree.children(nodes_array[event_number].tag)) == 0:
+        if len(nodes_array[event_number].fpointer) == 0:
             events_array[event_number].event_type = "adding_lineage"
         else:
             events_array[event_number].event_type = "coalescence"

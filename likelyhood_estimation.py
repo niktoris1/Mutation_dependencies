@@ -2,7 +2,6 @@ import math
 from scipy import optimize
 #from get_subtree import test_trees
 from tree_functions import GetEventsFromTree
-from get_subtree import test_tree
 from treelib import Tree
 
 import matplotlib.pyplot as plt
@@ -16,13 +15,16 @@ class LikelyhoodEstimation:
 
     def __init__(self, estimated_tree):
         if isinstance(estimated_tree, list):
+            if len(estimated_tree) == 0:
+                raise ('Trying to estimate empty subree - undefined. Seems that this mutation simply does not exist.')
             self.estimated_tree = estimated_tree
         elif isinstance(estimated_tree, Tree):
             self.estimated_tree = [estimated_tree]
         else:
             raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
 
-        self.events_sequence = GetEventsFromTree(estimated_tree)
+        self.events_sequence = GetEventsFromTree(self.estimated_tree)
+
         self.number_of_events = len(self.events_sequence)
 
 
@@ -72,16 +74,25 @@ class LikelyhoodEstimation:
 
         iteration = LikelyhoodEstimation.IterationFromTime(self, time)
 
-        dl = 1
-        for iteration_number in range(0, iteration+1):
-            if self.events_sequence[iteration_number].event_type == "adding_lineage":
-                dl = dl - 1
-            if self.events_sequence[iteration_number].event_type == "coalescence":
-                for individual_tree in self.estimated_tree:
-                    if individual_tree.contains(self.events_sequence[iteration_number].vertex_tag):
-                        number_of_children = len(individual_tree.get_node(self.events_sequence[iteration_number].vertex_tag).fpointer)
+        dl = 0 # Число деревьев?
+        for iteration_number in range(0, iteration):
+            event = self.events_sequence[iteration_number]
 
-                        dl = dl + number_of_children - 1
+            for individual_tree in self.estimated_tree:
+                if individual_tree.contains(event.vertex_tag):
+                    if event.event_type == "adding_lineage":
+                        if individual_tree.contains(individual_tree.get_node(event.vertex_tag).bpointer): # not root
+                            dl = dl - 1
+                        else:
+                            pass
+
+                    if event.event_type == "coalescence":
+                        number_of_children = len(individual_tree.get_node(event.vertex_tag).fpointer)
+                        if individual_tree.contains(individual_tree.get_node(event.vertex_tag).bpointer): # not root
+                            dl = dl + number_of_children - 1
+                        else:
+                            dl = dl + number_of_children # if the tree is root - we add all of the children as a new lineage. If not - we add children and remove ancestor lineage
+
         return dl
 
     def EventFromIteration(self, iteration):
@@ -104,20 +115,10 @@ class LikelyhoodEstimation:
     def GetEstimation(self):
 
         print("GETTING ESTIMATION")
-
-        number_of_events = len(self.events_sequence)
-
-        #le = LikelyhoodEstimation(self.estimated_tree, self.events_sequence)
-
-        #test_tree.show()
-
-
-        start_coal_rate=0.5 # will have to estimate
-
-
+        start_coal_rate=20 # will have to estimate
         wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize(fun=wrapper, x0=start_coal_rate, method='Nelder-Mead', tol=1e-2)
+        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bracket = (5, 50), method='Brent', tol=1e-3)
 
         #x = [x / 100.0 for x in range(1, 100, 1)]
         #y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
@@ -132,16 +133,6 @@ class LikelyhoodEstimation:
 
         return [LLH_result, LLH_point]
 
-
-def GetEstimationFromSutreeSet(subtrees):
-    subtrees_ls = LikelyhoodEstimation(subtrees)
-    return subtrees_ls.GetEstimation()
-
-def GetEstimationFromSets(set1, set2):
-    estimation1 = GetEstimationFromSutreeSet(set1)
-    estimation2 = GetEstimationFromSutreeSet(set2)
-
-    return [estimation1, estimation2]
 
 
 

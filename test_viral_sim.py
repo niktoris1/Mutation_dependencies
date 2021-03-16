@@ -3,6 +3,7 @@
 import time
 from BirthDeath.BirthDeath import BirthDeathModel, PopulationModel, Population
 from BirthDeath.IO import ReadRates, ReadPopulations, ReadMigrationRates
+from get_subtree import SubtreeCreation
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -34,25 +35,108 @@ print("Time to process retrieve the genealogy - ", t3 - t2)
 
 
 newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
-newtree.show()
+#newtree.show()
 #print(simulation.times)
 
-#newtree[0].data = MutationOnNode(mutation_name="1C", old_nucleotyde="G", new_nucleotyde="T", time_of_birth=0)
+sc = SubtreeCreation()
+
+subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+subtree_AT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+subtree_AC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+subtree_AG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+subtree_TA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+subtree_TT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+subtree_TC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+subtree_TG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+subtree_CA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+subtree_CT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+subtree_CC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+subtree_CG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+subtree_GA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+subtree_GT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+subtree_GC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+subtree_GG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
 
 
-ls = LikelyhoodEstimation(newtree)
+if len(subtree_AA) > 0:
+    ls_AA = LikelyhoodEstimation(subtree_AA)
+    es_ls_AA = ls_AA.GetEstimation()
+    print('es_ls_AA =', es_ls_AA)
 
-#print(ls.events_sequence)
+if len(subtree_AT) > 0:
+    ls_AT = LikelyhoodEstimation(subtree_AT)
+    es_ls_AT = ls_AT.GetEstimation()
+    print('es_ls_AT =', es_ls_AT)
 
+if len(subtree_AC) > 0:
+    ls_AC = LikelyhoodEstimation(subtree_AC)
+    es_ls_AC = ls_AC.GetEstimation()
+    print('es_ls_AC =', es_ls_AC)
 
-estimation = ls.GetEstimation()
-print(estimation)
+if len(subtree_AG) > 0:
+    ls_AG = LikelyhoodEstimation(subtree_AG)
+    es_ls_AG = ls_AG.GetEstimation()
+    print('es_ls_AG =', es_ls_AG)
 
+if len(subtree_TA) > 0:
+    ls_TA = LikelyhoodEstimation(subtree_TA)
+    es_ls_TA = ls_TA.GetEstimation()
+    print('es_ls_TA =', es_ls_TA)
 
+if len(subtree_TT) > 0:
+    ls_TT = LikelyhoodEstimation(subtree_TT)
+    es_ls_TT = ls_TT.GetEstimation()
+    print('es_ls_TT =', es_ls_TT)
 
+if len(subtree_TC) > 0:
+    ls_TC = LikelyhoodEstimation(subtree_TC)
+    es_ls_TC = ls_TC.GetEstimation()
+    print('es_ls_TC =', es_ls_TC)
 
+if len(subtree_TG) > 0:
+    ls_TG = LikelyhoodEstimation(subtree_TG)
+    es_ls_TG = ls_TG.GetEstimation()
+    print('es_ls_TG =', es_ls_TG)
 
-# print(tree1.newTree)
-# print(tree1.nodeSampling)
-# print(tree1.times)
-# print(tree1.newTimes)
+if len(subtree_CA) > 0:
+    ls_CA = LikelyhoodEstimation(subtree_CA)
+    es_ls_CA = ls_CA.GetEstimation()
+    print('es_ls_CA =', es_ls_CA)
+
+if len(subtree_CT) > 0:
+    ls_CT = LikelyhoodEstimation(subtree_CT)
+    es_ls_CT = ls_CT.GetEstimation()
+    print('es_ls_CT =', es_ls_CT)
+
+if len(subtree_CC) > 0:
+    ls_CC = LikelyhoodEstimation(subtree_CC)
+    es_ls_CC = ls_CC.GetEstimation()
+    print('es_ls_CC =', es_ls_CC)
+
+if len(subtree_CG) > 0:
+    ls_CG = LikelyhoodEstimation(subtree_CG)
+    es_ls_CG = ls_CG.GetEstimation()
+    print('es_ls_CG =', es_ls_CG)
+
+if len(subtree_GA) > 0:
+    ls_GA = LikelyhoodEstimation(subtree_GA)
+    es_ls_GA = ls_GA.GetEstimation()
+    print('es_ls_GA =', es_ls_GA)
+
+if len(subtree_GT) > 0:
+    ls_GT = LikelyhoodEstimation(subtree_GT)
+    es_ls_GT = ls_GT.GetEstimation()
+    print('es_ls_GT =', es_ls_GT)
+
+if len(subtree_GC) > 0:
+    ls_GC = LikelyhoodEstimation(subtree_GC)
+    es_ls_GC = ls_GC.GetEstimation()
+    print('es_ls_GC =', es_ls_GC)
+
+if len(subtree_GG) > 0:
+    ls_GG = LikelyhoodEstimation(subtree_GG)
+    es_ls_GG = ls_GG.GetEstimation()
+    print('es_ls_GG =', es_ls_GG)
+
+#estimation = ls.GetEstimation()
+#print(estimation)
