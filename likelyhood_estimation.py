@@ -32,20 +32,27 @@ class LikelyhoodEstimation:
     def LLH_function(self, coal_rate):
 
         LHH_values = [0] * self.number_of_events
+        events = [0] * self.number_of_events
+        event_type_array = [0] * self.number_of_events
+        time_array = [0] * self.number_of_events
+        current_time_array = [0] * self.number_of_events
+        previous_time_array = [0] * self.number_of_events
+        distinct_lineages_array = [0] * self.number_of_events
+        event_probability_array = [0] * self.number_of_events
+
+        for iteration in range(0, self.number_of_events):
+            events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
+            event_type_array[iteration] = events[iteration].event_type
+            time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
+            current_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
+            previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
+            distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
+            event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], event_type_array[iteration], coal_rate)
 
         for iteration in range(1, self.number_of_events):
-            event = LikelyhoodEstimation.EventFromIteration(self, iteration)
-            event_type = event.event_type
-            time = LikelyhoodEstimation.TimeFromIteration(self, iteration)
-            current_time = LikelyhoodEstimation.TimeFromIteration(self, iteration)
-            previous_time = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
-            distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time)
-            event_probability = LikelyhoodEstimation.EventProbability(self, iteration, event_type, coal_rate)
-
-
             LHH_values[iteration] = LHH_values[iteration - 1] + \
-               (- coal_rate * (current_time - previous_time) * \
-               math.comb(distinct_lineages, 2)) + math.log(event_probability)
+               (- coal_rate * (current_time_array[iteration] - previous_time_array[iteration]) * \
+               math.comb(distinct_lineages_array[iteration], 2)) + math.log( event_probability_array[iteration])
 
             #print("distinct_lineages = ", distinct_lineages)
             #print("event_probability = ", event_probability)
@@ -61,8 +68,7 @@ class LikelyhoodEstimation:
     def TimeFromIteration(self, iteration):
         if iteration < 0:
             return 0
-        time = self.events_sequence[iteration].event_time
-        return time
+        return self.events_sequence[iteration].event_time
 
     def IterationFromTime(self, time):
         for iteration_number in range(0, len(self.events_sequence) - 1):
@@ -85,6 +91,7 @@ class LikelyhoodEstimation:
                             dl = dl - 1
                         else:
                             pass
+                        break
 
                     if event.event_type == "coalescence":
                         number_of_children = len(individual_tree.get_node(event.vertex_tag).fpointer)
@@ -92,15 +99,14 @@ class LikelyhoodEstimation:
                             dl = dl + number_of_children - 1
                         else:
                             dl = dl + number_of_children # if the tree is root - we add all of the children as a new lineage. If not - we add children and remove ancestor lineage
-
+                        break
         return dl
 
     def EventFromIteration(self, iteration):
         return self.events_sequence[iteration]
 
-    def EventProbability(self, iteration, event_type, coal_rate):
+    def EventProbability(self, time, event_type, coal_rate):
 
-        time = LikelyhoodEstimation.TimeFromIteration(self, iteration)
         distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time)
 
         if event_type == "adding_lineage":
@@ -118,7 +124,8 @@ class LikelyhoodEstimation:
         start_coal_rate=20 # will have to estimate
         wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bracket = (5, 50), method='Brent', tol=1e-3)
+        #LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 30), method='Bounded', tol=1e-2)
+        LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
 
         #x = [x / 100.0 for x in range(1, 100, 1)]
         #y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]

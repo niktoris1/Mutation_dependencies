@@ -60,83 +60,130 @@ subtree_GG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B
 
 if len(subtree_AA) > 0:
     ls_AA = LikelyhoodEstimation(subtree_AA)
+    t1 = time.time()
     es_ls_AA = ls_AA.GetEstimation()
+    t2 = time.time()
     print('es_ls_AA =', es_ls_AA)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_AT) > 0:
     ls_AT = LikelyhoodEstimation(subtree_AT)
+    t1 = time.time()
     es_ls_AT = ls_AT.GetEstimation()
+    t2 = time.time()
     print('es_ls_AT =', es_ls_AT)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_AC) > 0:
     ls_AC = LikelyhoodEstimation(subtree_AC)
+    t1 = time.time()
     es_ls_AC = ls_AC.GetEstimation()
+    t2 = time.time()
     print('es_ls_AC =', es_ls_AC)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_AG) > 0:
     ls_AG = LikelyhoodEstimation(subtree_AG)
+    t1 = time.time()
     es_ls_AG = ls_AG.GetEstimation()
+    t2 = time.time()
     print('es_ls_AG =', es_ls_AG)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_TA) > 0:
     ls_TA = LikelyhoodEstimation(subtree_TA)
+    t1 = time.time()
     es_ls_TA = ls_TA.GetEstimation()
+    t2 = time.time()
     print('es_ls_TA =', es_ls_TA)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_TT) > 0:
     ls_TT = LikelyhoodEstimation(subtree_TT)
+    t1 = time.time()
     es_ls_TT = ls_TT.GetEstimation()
+    t2 = time.time()
     print('es_ls_TT =', es_ls_TT)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_TC) > 0:
     ls_TC = LikelyhoodEstimation(subtree_TC)
+    t1 = time.time()
     es_ls_TC = ls_TC.GetEstimation()
+    t2 = time.time()
     print('es_ls_TC =', es_ls_TC)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_TG) > 0:
     ls_TG = LikelyhoodEstimation(subtree_TG)
+    t1 = time.time()
     es_ls_TG = ls_TG.GetEstimation()
+    t2 = time.time()
     print('es_ls_TG =', es_ls_TG)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_CA) > 0:
     ls_CA = LikelyhoodEstimation(subtree_CA)
+    t1 = time.time()
     es_ls_CA = ls_CA.GetEstimation()
+    t2 = time.time()
     print('es_ls_CA =', es_ls_CA)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_CT) > 0:
     ls_CT = LikelyhoodEstimation(subtree_CT)
+    t1 = time.time()
     es_ls_CT = ls_CT.GetEstimation()
+    t2 = time.time()
     print('es_ls_CT =', es_ls_CT)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_CC) > 0:
     ls_CC = LikelyhoodEstimation(subtree_CC)
+    t1 = time.time()
     es_ls_CC = ls_CC.GetEstimation()
+    t2 = time.time()
     print('es_ls_CC =', es_ls_CC)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_CG) > 0:
     ls_CG = LikelyhoodEstimation(subtree_CG)
+    t1 = time.time()
     es_ls_CG = ls_CG.GetEstimation()
+    t2 = time.time()
     print('es_ls_CG =', es_ls_CG)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_GA) > 0:
     ls_GA = LikelyhoodEstimation(subtree_GA)
+    t1 = time.time()
     es_ls_GA = ls_GA.GetEstimation()
+    t2 = time.time()
     print('es_ls_GA =', es_ls_GA)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_GT) > 0:
     ls_GT = LikelyhoodEstimation(subtree_GT)
+    t1 = time.time()
     es_ls_GT = ls_GT.GetEstimation()
+    t2 = time.time()
     print('es_ls_GT =', es_ls_GT)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_GC) > 0:
     ls_GC = LikelyhoodEstimation(subtree_GC)
+    t1 = time.time()
     es_ls_GC = ls_GC.GetEstimation()
+    t2 = time.time()
     print('es_ls_GC =', es_ls_GC)
+    print('Time spent on estimation: ', t2 - t1)
 
 if len(subtree_GG) > 0:
     ls_GG = LikelyhoodEstimation(subtree_GG)
+    t1 = time.time()
     es_ls_GG = ls_GG.GetEstimation()
+    t2 = time.time()
     print('es_ls_GG =', es_ls_GG)
-
+    print('Time spent on estimation: ', t2 - t1)
 #estimation = ls.GetEstimation()
 #print(estimation)
