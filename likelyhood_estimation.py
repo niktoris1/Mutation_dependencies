@@ -124,7 +124,7 @@ class LikelyhoodEstimation:
         start_coal_rate=20 # will have to estimate
         wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 30), method='Bounded', tol=1e-3)
+        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 100), method='Bounded', tol=1e-1)
         #LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
 
         #x = [x / 100.0 for x in range(1, 100, 1)]

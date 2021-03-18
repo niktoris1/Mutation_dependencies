@@ -93,12 +93,12 @@ class SubtreeCreation:
             if root_node.data[0].mutation_cite == A_cite and root_node.data[0].new_nucleotyde == A_nucleotyde:
                 starting_A_state = 1
             else:
-                starting_A_state = 1
+                starting_A_state = 0
 
             if root_node.data[0].mutation_cite == B_cite and root_node.data[0].new_nucleotyde == B_nucleotyde:
                 starting_B_state = 1
             else:
-                starting_B_state = 1
+                starting_B_state = 0
 
         SubtreeCreation.ProcessNode(self, root_node, A_nucleotyde, A_cite, B_nucleotyde, B_cite, starting_A_state, starting_B_state, base_tree) # at the root there are no mutations
 
