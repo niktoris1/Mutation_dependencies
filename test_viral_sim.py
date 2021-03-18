@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 100000
+iterations = 1000
 
 if populationModel_args == None:
     populationModel = PopulationModel([Population()], [[]])
@@ -41,22 +41,37 @@ newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, 
 sc = SubtreeCreation()
 
 subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+print("GetAAsubtrees")
 subtree_AT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+print("GetATsubtrees")
 subtree_AC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+print("GetACsubtrees")
 subtree_AG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+print("GetAGsubtrees")
 subtree_TA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+print("GetTAsubtrees")
 subtree_TT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+print("GetTTsubtrees")
 subtree_TC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+print("GetTCsubtrees")
 subtree_TG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'T', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+print("GetTGsubtrees")
 subtree_CA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+print("GetCAsubtrees")
 subtree_CT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+print("GetCTsubtrees")
 subtree_CC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+print("GetCCsubtrees")
 subtree_CG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'C', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
+print("GetCGsubtrees")
 subtree_GA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+print("GetGAsubtrees")
 subtree_GT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
+print("GetGTsubtrees")
 subtree_GC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
+print("GetGCsubtrees")
 subtree_GG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
-
+print("GetGGsubtrees")
 
 if len(subtree_AA) > 0:
     ls_AA = LikelyhoodEstimation(subtree_AA)
