@@ -34,6 +34,8 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
         tree.create_node(i, i, parent=-1, data=MutationOnNode(mutation_name="999999999", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
 
     for i in range(0, len(array_tree)):
+        if i == array_tree[i]:
+            print('WTF? In incoming array some node is the parent of itself')
         tree.move_node(i, array_tree[i])
 
     root_id = tree.get_node(-1).fpointer[0]
@@ -42,7 +44,7 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
     for mutation in array_mutations:
         newtree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(number_to_letter(mutation.AS))+ \
             "to"+str(number_to_letter(mutation.DS))+"on"+str(mutation.time), old_nucleotyde=number_to_letter(mutation.AS), new_nucleotyde=number_to_letter(mutation.DS), \
-                                                                   time_of_birth=array_times[mutation.nodeId], mutation_cite = mutation.position)) #TODO - change AS and DS to their letter analogues
+                                                                   time_of_birth=array_times[mutation.nodeId], mutation_cite = mutation.position))
 
     return newtree
 

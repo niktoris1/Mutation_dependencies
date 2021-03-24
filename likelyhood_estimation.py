@@ -71,10 +71,24 @@ class LikelyhoodEstimation:
         return self.events_sequence[iteration].event_time
 
     def IterationFromTime(self, time):
-        for iteration_number in range(0, len(self.events_sequence) - 1):
-            if time >= self.events_sequence[iteration_number].event_time and time < self.events_sequence[iteration_number+1].event_time:
-                return iteration_number
-        return len(self.events_sequence) - 1 #if the last iteration
+
+        def IterationFromTimeStartFinish(time, start, finish):
+            middle = (start + finish) // 2
+
+            if time <= self.events_sequence[start].event_time:
+                return start
+            if time >= self.events_sequence[finish].event_time:
+                return finish
+
+            if time == self.events_sequence[middle].event_time:
+                return middle
+            if time > self.events_sequence[middle].event_time:
+                return IterationFromTimeStartFinish(time, middle + 1, finish)
+            else:
+                return IterationFromTimeStartFinish(time, start, middle - 1)
+
+        return IterationFromTimeStartFinish(time, 0, len(self.events_sequence) - 1)
+
 
     def DistinctLineages(self, time):
 
@@ -121,7 +135,7 @@ class LikelyhoodEstimation:
     def GetEstimation(self):
 
         print("GETTING ESTIMATION")
-        start_coal_rate=20 # will have to estimate
+        #start_coal_rate=20 # will have to estimate
         wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
         LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 100), method='Bounded', tol=1e-1)

@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 1000000
+iterations = 20000
 
 if populationModel_args == None:
     populationModel = PopulationModel([Population()], [[]])
@@ -36,11 +36,15 @@ print("Time to process retrieve the genealogy - ", t3 - t2)
 
 newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
 #newtree.show()
+#print("Time is", simulation.currentTime)
+currentTime = simulation.currentTime
 
 sc = SubtreeCreation()
 
 subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
 print("GetAAsubtrees")
+
+
 #subtree_AT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
 #print("GetATsubtrees")
 #subtree_AC = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'C', B_cite = 1, base_tree = newtree)
@@ -71,13 +75,28 @@ print("GetAAsubtrees")
 #subtree_GG = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'G', A_cite = 0, B_nucleotyde = 'G', B_cite = 1, base_tree = newtree)
 #print("GetGGsubtrees")
 
+
 if len(subtree_AA) > 0:
     ls_AA = LikelyhoodEstimation(subtree_AA)
+
     t1 = time.time()
     es_ls_AA = ls_AA.GetEstimation()
     t2 = time.time()
     print('es_ls_AA =', es_ls_AA)
     print('Time spent on estimation: ', t2 - t1)
+
+    time_start = 0
+
+    for timestamp in [x / 100 for x in range(1, 1000)]:
+        if ls_AA.DistinctLineages(timestamp) == 5:
+            print(timestamp, ls_AA.DistinctLineages(timestamp))
+            time_start = timestamp
+            break
+
+    print('Current time ', currentTime)
+    print('Time start: ', time_start)
+    print('Time passed: ', currentTime - time_start)
+
 
 # if len(subtree_AT) > 0:
 #     ls_AT = LikelyhoodEstimation(subtree_AT)
