@@ -7,12 +7,14 @@ def getcite(mutation_name): # gets a cite name from the name of mutation
 def number_to_letter(number):
     if number == 0:
         return 'A'
-    if number == 1:
+    elif number == 1:
         return 'T'
-    if number == 2:
+    elif number == 2:
         return 'C'
-    if number == 3:
+    elif number == 3:
         return 'G'
+    else:
+        raise('Error, nucleotyde should be from 0 to 3')
 
 
 
@@ -50,6 +52,7 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
     return tree
 
 
+
 class Event:
     def __init__(self, vertex_tag, event_type, event_time):
         self.event_type = event_type
@@ -57,15 +60,11 @@ class Event:
         self.event_time = event_time
 
 
-# class EventSequence: #list of events, where the index is the order of iterations - might be deprecated
-#    def __init__(self, event_sequence):
-#        self.event_sequence = event_sequence
-
 def GetTime(node):
     return node.data.time_of_birth
 
 
-def GetEventsFromTree(tree_list):
+def GetEventsFromTree(tree_list): # returns a list of events in chronological order
     nodes_array = []
 
     for tree in tree_list:
@@ -74,16 +73,16 @@ def GetEventsFromTree(tree_list):
 
     events_array = [0] * len(nodes_array)
 
+    def event_type_from_children(children):
+        if children == 0:
+            return "adding_lineage"
+        else:
+            return "coalescence"
+
     for event_number in range(0, len(events_array)):
         events_array[event_number] = Event(vertex_tag=nodes_array[event_number].tag, \
                                            event_time=nodes_array[event_number].data.time_of_birth,
-                                           event_type="Unknown")
-
-    for event_number in range(0, len(events_array)):
-        if len(nodes_array[event_number].fpointer) == 0:
-            events_array[event_number].event_type = "adding_lineage"
-        else:
-            events_array[event_number].event_type = "coalescence"
+                                           event_type=event_type_from_children(nodes_array[event_number].fpointer))
 
     def takeBirth(elem):
         return elem.event_time

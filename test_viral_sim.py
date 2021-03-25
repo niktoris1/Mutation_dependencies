@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 1000000
+iterations = 200000
 
 if populationModel_args == None:
     populationModel = PopulationModel([Population()], [[]])
