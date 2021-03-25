@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 20000
+iterations = 1000000
 
 if populationModel_args == None:
     populationModel = PopulationModel([Population()], [[]])
@@ -42,7 +42,6 @@ currentTime = simulation.currentTime
 sc = SubtreeCreation()
 
 subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
-print("GetAAsubtrees")
 
 
 #subtree_AT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
@@ -85,7 +84,7 @@ if len(subtree_AA) > 0:
     print('es_ls_AA =', es_ls_AA)
     print('Time spent on estimation: ', t2 - t1)
 
-    time_start = 0
+    time_start = 999
 
     for timestamp in [x / 100 for x in range(1, 1000)]:
         if ls_AA.DistinctLineages(timestamp) == 5:
@@ -95,7 +94,10 @@ if len(subtree_AA) > 0:
 
     print('Current time ', currentTime)
     print('Time start: ', time_start)
-    print('Time passed: ', currentTime - time_start)
+    if currentTime - time_start < 0:
+        print('Never was 5 similatanious linages')
+    else:
+        print('Time passed: ', currentTime - time_start)
 
 
 # if len(subtree_AT) > 0:
