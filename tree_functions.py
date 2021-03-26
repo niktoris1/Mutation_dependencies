@@ -13,6 +13,8 @@ def number_to_letter(number):
         return 'C'
     if number == 3:
         return 'G'
+    else:
+        raise('Error, nucleotyde should be from 0 to 3')
 
 
 
@@ -68,7 +70,7 @@ def GetTime(node):
     return node.data.time_of_birth
 
 
-def GetEventsFromTree(tree_list):
+def GetEventsFromTree(tree_list): # returns a list of events in chronological order
     nodes_array = []
 
     for tree in tree_list:
@@ -77,16 +79,16 @@ def GetEventsFromTree(tree_list):
 
     events_array = [0] * len(nodes_array)
 
+    def event_type_from_children(children):
+        if len(children) == 0:
+            return "adding_lineage"
+        else:
+            return "coalescence"
+
     for event_number in range(0, len(events_array)):
         events_array[event_number] = Event(vertex_tag=nodes_array[event_number].tag, \
                                            event_time=nodes_array[event_number].data.time_of_birth,
-                                           event_type="Unknown")
-
-    for event_number in range(0, len(events_array)):
-        if len(nodes_array[event_number].fpointer) == 0:
-            events_array[event_number].event_type = "adding_lineage"
-        else:
-            events_array[event_number].event_type = "coalescence"
+                                           event_type=event_type_from_children(nodes_array[event_number].fpointer))
 
     def takeBirth(elem):
         return elem.event_time
