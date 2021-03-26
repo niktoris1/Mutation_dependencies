@@ -28,6 +28,9 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
 
     tree = Tree()
 
+    if -1 not in array_tree:
+        raise('Eroor, incoming an array without defined root')
+
     for i in range(0, len(array_tree)):
         if array_tree[i] == -1:
             root_id = i

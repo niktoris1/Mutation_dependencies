@@ -36,7 +36,7 @@ class LikelyhoodEstimation:
         event_type_array = [0] * self.number_of_events
         time_array = [0] * self.number_of_events
         current_time_array = [0] * self.number_of_events
-        previous_time_array = [0] * self.number_of_events
+        #previous_time_array = [0] * self.number_of_events
         distinct_lineages_array = [0] * self.number_of_events
         event_probability_array = [0] * self.number_of_events
 
@@ -45,13 +45,13 @@ class LikelyhoodEstimation:
             event_type_array[iteration] = events[iteration].event_type
             time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
             current_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
-            previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
+            #previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
             distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], event_type_array[iteration], coal_rate)
 
         for iteration in range(1, self.number_of_events):
             LHH_values[iteration] = LHH_values[iteration - 1] + \
-               (- coal_rate * (current_time_array[iteration] - previous_time_array[iteration]) * \
+               (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) * \
                math.comb(distinct_lineages_array[iteration], 2)) + math.log( event_probability_array[iteration])
 
             #print("distinct_lineages = ", distinct_lineages)
