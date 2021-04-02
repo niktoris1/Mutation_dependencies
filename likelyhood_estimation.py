@@ -16,7 +16,7 @@ class LikelyhoodEstimation:
     def __init__(self, estimated_tree):
         if isinstance(estimated_tree, list):
             if len(estimated_tree) == 0:
-                raise ('Trying to estimate empty subree - undefined. Seems that this mutation simply does not exist.')
+                raise ('Trying to estimate empty subtree - undefined. Seems that this mutation simply does not exist.')
             self.estimated_tree = estimated_tree
         elif isinstance(estimated_tree, Tree):
             self.estimated_tree = [estimated_tree]
@@ -90,30 +90,31 @@ class LikelyhoodEstimation:
         return IterationFromTimeStartFinish(time, 0, len(self.events_sequence) - 1)
 
 
-    def DistinctLineages(self, time):
+    def DistinctLineages(self, time): #is this function takes too long?
 
         iteration = LikelyhoodEstimation.IterationFromTime(self, time)
 
         dl = 0 # Число деревьев?
         for iteration_number in range(0, iteration):
             event = self.events_sequence[iteration_number]
+            dl = dl - 1
 
             for individual_tree in self.estimated_tree:
                 if individual_tree.contains(event.vertex_tag):
-                    if event.event_type == "adding_lineage":
-                        if individual_tree.contains(individual_tree.get_node(event.vertex_tag).bpointer): # not root
-                            dl = dl - 1
-                        else:
-                            pass
-                        break
-
                     if event.event_type == "coalescence":
                         number_of_children = len(individual_tree.get_node(event.vertex_tag).fpointer)
-                        if individual_tree.contains(individual_tree.get_node(event.vertex_tag).bpointer): # not root
-                            dl = dl + number_of_children - 1
-                        else:
-                            dl = dl + number_of_children # if the tree is root - we add all of the children as a new lineage. If not - we add children and remove ancestor lineage
-                        break
+                        dl = dl + number_of_children
+                        #print('Added ', number_of_children, 'children')
+                    if individual_tree.root == event.vertex_tag:
+                        dl = dl + 1
+                        #print('Added ', 1, 'for root')
+                    break
+
+            if dl < 0:
+                raise Exception('Error, less than zero lineages!')
+
+            #print('Currently', dl, 'distinct lineages')
+
         return dl
 
     def EventFromIteration(self, iteration):

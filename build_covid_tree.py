@@ -41,5 +41,8 @@ def MakeCovidTree():
 
     return covid_tree
 
+#tree = MakeCovidTree()
+#print(tree)
+
 
 

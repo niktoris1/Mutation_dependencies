@@ -56,11 +56,6 @@ class Event:
         self.vertex_tag = vertex_tag
         self.event_time = event_time
 
-
-# class EventSequence: #list of events, where the index is the order of iterations - might be deprecated
-#    def __init__(self, event_sequence):
-#        self.event_sequence = event_sequence
-
 def GetTime(node):
     return node.data.time_of_birth
 
@@ -72,18 +67,26 @@ def GetEventsFromTree(tree_list):
         for node in tree.all_nodes():
             nodes_array.append(node)
 
+    def EventTypeFromChildren(children):
+        if len(children) == 0:
+            return "adding_lineage"
+        else:
+            return "coalescence"
+
+
+
     events_array = [0] * len(nodes_array)
 
     for event_number in range(0, len(events_array)):
         events_array[event_number] = Event(vertex_tag=nodes_array[event_number].tag, \
                                            event_time=nodes_array[event_number].data.time_of_birth,
-                                           event_type="Unknown")
+                                           event_type=EventTypeFromChildren(nodes_array[event_number].fpointer))
 
-    for event_number in range(0, len(events_array)):
-        if len(nodes_array[event_number].fpointer) == 0:
-            events_array[event_number].event_type = "adding_lineage"
-        else:
-            events_array[event_number].event_type = "coalescence"
+    # for event_number in range(0, len(events_array)):
+    #     if len(nodes_array[event_number].fpointer) == 0:
+    #         events_array[event_number].event_type = "adding_lineage"
+    #     else:
+    #         events_array[event_number].event_type = "coalescence"
 
     def takeBirth(elem):
         return elem.event_time
