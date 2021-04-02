@@ -24,8 +24,8 @@ class LikelyhoodEstimation:
             raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
 
         self.events_sequence = GetEventsFromTree(self.estimated_tree)
-
         self.number_of_events = len(self.events_sequence)
+        self.distinct_lineages = self.BuildDistinctLineages(self.events_sequence)
 
 
 
@@ -90,32 +90,35 @@ class LikelyhoodEstimation:
         return IterationFromTimeStartFinish(time, 0, len(self.events_sequence) - 1)
 
 
-    def DistinctLineages(self, time): #is this function takes too long?
+    def BuildDistinctLineages(self, event_sequence): #returns number of distinct lineages which corresponds to the event sequence
 
-        iteration = LikelyhoodEstimation.IterationFromTime(self, time)
+        distinct_lineages = [0] * len(event_sequence)
 
-        dl = 0 # Число деревьев?
-        for iteration_number in range(0, iteration):
-            event = self.events_sequence[iteration_number]
-            dl = dl - 1
+        for iteration in range(1, len(event_sequence)):
+
+            distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
 
             for individual_tree in self.estimated_tree:
-                if individual_tree.contains(event.vertex_tag):
-                    if event.event_type == "coalescence":
-                        number_of_children = len(individual_tree.get_node(event.vertex_tag).fpointer)
-                        dl = dl + number_of_children
-                        #print('Added ', number_of_children, 'children')
-                    if individual_tree.root == event.vertex_tag:
-                        dl = dl + 1
-                        #print('Added ', 1, 'for root')
-                    break
+                if individual_tree.contains(event_sequence[iteration].vertex_tag):
+                    if event_sequence[iteration].event_type == "coalescence":
+                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].vertex_tag).fpointer)
+                        distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
+                            #print('Added ', number_of_children, 'children')
+                        if individual_tree.root == event_sequence[iteration].vertex_tag:
+                            distinct_lineages[iteration] = distinct_lineages[iteration] + 1
+                            #print('Added ', 1, 'for root')
+                        break
 
-            if dl < 0:
-                raise Exception('Error, less than zero lineages!')
+                if distinct_lineages[iteration] < 0:
+                    raise Exception('Error, less than zero lineages!')
 
-            #print('Currently', dl, 'distinct lineages')
+                #print('Currently', dl, 'distinct lineages')
 
-        return dl
+        return distinct_lineages
+
+    def DistinctLineages(self, time):
+        iteration = self.IterationFromTime(time)
+        return self.distinct_lineages[iteration]
 
     def EventFromIteration(self, iteration):
         return self.events_sequence[iteration]
