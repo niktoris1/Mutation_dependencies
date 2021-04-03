@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 100000
+iterations = 10000
 
 def GenerateSimulation():
     if populationModel_args == None:
@@ -48,9 +48,11 @@ def GenerateSimulationWithNonEmptyAASubtree():
     subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
 
     if len(subtree_AA) == 0:
+        print('AA subtree is empty, generating a new one')
         GenerateSimulationWithNonEmptyAASubtree()
-
-    return [simulation, subtree_AA, currentTime]
+    else:
+        print('Simulation generated, AA subtree is not empty, reasy to work')
+        return [simulation, subtree_AA, currentTime]
 
 
 #subtree_AT = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'T', B_cite = 1, base_tree = newtree)
