@@ -94,9 +94,11 @@ class LikelyhoodEstimation:
 
         distinct_lineages = [0] * len(event_sequence)
 
-        for iteration in range(1, len(event_sequence)):
-
-            distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
+        for iteration in range(0, len(event_sequence)):
+            if iteration > 0:
+                distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
+            else:
+                distinct_lineages[iteration] = -1
 
             for individual_tree in self.estimated_tree:
                 if individual_tree.contains(event_sequence[iteration].vertex_tag):
@@ -104,13 +106,13 @@ class LikelyhoodEstimation:
                         number_of_children = len(individual_tree.get_node(event_sequence[iteration].vertex_tag).fpointer)
                         distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
                             #print('Added ', number_of_children, 'children')
-                        if individual_tree.root == event_sequence[iteration].vertex_tag:
-                            distinct_lineages[iteration] = distinct_lineages[iteration] + 1
+                    if individual_tree.root == event_sequence[iteration].vertex_tag:
+                        distinct_lineages[iteration] = distinct_lineages[iteration] + 1
                             #print('Added ', 1, 'for root')
-                        break
+                    break
 
-                if distinct_lineages[iteration] < 0:
-                    raise Exception('Error, less than zero lineages!')
+            if distinct_lineages[iteration] < 0:
+                raise Exception('Error, less than zero lineages!')
 
                 #print('Currently', dl, 'distinct lineages')
 
@@ -145,11 +147,11 @@ class LikelyhoodEstimation:
         LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 100), method='Bounded', tol=1e-1)
         #LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
 
-        #x = [x / 100.0 for x in range(1, 100, 1)]
-        #y = [LikelyhoodEstimation.LLH_function(self, iteration=iteration, coal_rate=i) for i in x]
+        x = [x / 10.0 for x in range(1, 1000, 1)]
+        y = [LikelyhoodEstimation.LLH_function(self, coal_rate=i) for i in x]
 
-        #plt.plot(x, y)
-        #plt.show()
+        plt.plot(x, y)
+        plt.show()
 
         LLH_result = LLH_optimised.fun
         LLH_point = LLH_optimised.x

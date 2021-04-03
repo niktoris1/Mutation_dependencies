@@ -14,7 +14,7 @@ frates_file = 'test/test.rt'
 bRate, dRate, sRate, mRate = ReadRates(frates_file)
 populationModel_args = None
 debug_mode = False
-iterations = 10000
+iterations = 100000
 
 def GenerateSimulation():
     if populationModel_args == None:
