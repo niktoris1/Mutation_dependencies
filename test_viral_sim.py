@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import time
-from ViralSim.BirthDeath import BirthDeathModel, PopulationModel, Population
-from ViralSim.BirthDeath import ReadRates, ReadPopulations, ReadMigrationRates
+from BirthDeath import BirthDeathModel, PopulationModel, Population
+from IO import ReadRates, ReadPopulations, ReadMigrationRates
 from get_subtree import SubtreeCreation
 
 from tree_functions import ArrayTreeToTreeClass
