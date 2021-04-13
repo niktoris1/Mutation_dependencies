@@ -1,30 +1,54 @@
 #!/usr/bin/env python3
 
 import time
+import sys
 from BirthDeath import BirthDeathModel, PopulationModel, Population
-from IO import ReadRates, ReadPopulations, ReadMigrationRates
+from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from get_subtree import SubtreeCreation
+from random import randrange
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
 
-
-frates_file = 'test/test.rt'
-
-bRate, dRate, sRate, mRate = ReadRates(frates_file)
-populationModel_args = None
-debug_mode = False
-iterations = 10000
-
 def GenerateSimulation():
-    if populationModel_args == None:
-        populationModel = PopulationModel([Population()], [[]])
-    else:
-        populations = ReadPopulations(populationModel_args[0])
-        migrationRates = ReadMigrationRates(populationModel_args[1])
-        populationModel = PopulationModel(populations, migrationRates)
+    frates_file = 'test/test.rt'
 
-    simulation = BirthDeathModel(bRate, dRate, sRate, mRate, debug = debug_mode, populationModel = populationModel)
+    bRate, dRate, sRate, mRate = ReadRates(frates_file)
+    populationModel = None
+    susceptible = None
+    debug_mode = False
+    iterations = 10000
+    susceptibility = None
+    seed = 2020
+
+
+    if populationModel == None:
+        popModel = None
+        lockdownModel = None
+    else:
+        populations, lockdownModel = ReadPopulations(populationModel[0])
+        migrationRates = ReadMigrationRates(populationModel[1])
+        popModel = [populations, migrationRates]
+
+    if susceptibility == None:
+        susceptible = None
+    else:
+        susceptible = ReadSusceptibility(susceptibility)
+
+    # if clargs.lockdownModel == None:
+    #     lockdownModel = None
+    # else:
+    #     lockdownModel = ReadLockdown(clargs.lockdownModel)
+
+    if seed == None:
+        rndseed = randrange(sys.maxsize)
+    else:
+        rndseed = seed
+    print("Seed: ", rndseed)
+
+
+    simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
+
     t1 = time.time()
     simulation.SimulatePopulation(iterations)
     t2 = time.time()
