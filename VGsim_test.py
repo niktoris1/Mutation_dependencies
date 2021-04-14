@@ -7,6 +7,10 @@ from BirthDeathCython import BirthDeathModel, PopulationModel, Population, Lockd
 from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from random import randrange
 import numpy as np
+from get_subtree import SubtreeCreation
+
+from tree_functions import ArrayTreeToTreeClass
+from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
@@ -16,8 +20,8 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 iterations = 10000
 susceptibility = None
 seed = 2020
-populationModel = ['example/example.pp', 'example/example.mg']
-frate = 'example/example.rt'
+populationModel = ['test/test.pp', 'test/test.mg']
+frate = 'test/test.rt'
 
 
 #parser.add_argument('--iterations', '-it', nargs=1, type=int, default=1000,
@@ -90,7 +94,45 @@ print(t2 - t1)
 print(t3 - t2)
 print("_________________________________")
 
+
+newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
+    #newtree.show()
+    #print("Time is", simulation.currentTime)
+currentTime = simulation.currentTime
+sc = SubtreeCreation()
+
+subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+
+if len(subtree_AA) > 0:
+    ls_AA = LikelyhoodEstimation(subtree_AA)
+
+    for tree in subtree_AA:
+        tree.show()
+
+    t1 = time.time()
+    es_ls_AA = ls_AA.GetEstimation()
+    t2 = time.time()
+    print('es_ls_AA =', es_ls_AA)
+    print('Time spent on estimation: ', t2 - t1)
+
+    time_start = 999
+
+    for timestamp in [x / 10000 for x in range(1, 100000)]:
+        if ls_AA.DistinctLineages(timestamp) == 5:
+            print('On time', timestamp, 'there was', ls_AA.DistinctLineages(timestamp), 'distinct lineages')
+            time_start = timestamp
+            break
+
+
+    print('Current time ', currentTime)
+    print('Time start: ', time_start)
+    if currentTime - time_start < 0:
+        print('Never was 5 simulatanious linages')
+    else:
+        print('Time passed: ', currentTime - time_start)
+
 pruferSeq, times, mut = simulation.Output_tree_mutations()
+
 
 def writeMutations(mut):
     #digits replacement
