@@ -15,7 +15,6 @@ def GenerateSimulation():
 
     bRate, dRate, sRate, mRate = ReadRates(frates_file)
     populationModel = None
-    susceptible = None
     debug_mode = False
     iterations = 10000
     susceptibility = None
@@ -47,7 +46,7 @@ def GenerateSimulation():
     print("Seed: ", rndseed)
 
 
-    simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
+    simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
 
     t1 = time.time()
     simulation.SimulatePopulation(iterations)
