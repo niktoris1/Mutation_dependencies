@@ -42,10 +42,10 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
         if i != root_id:
             tree.move_node(i, array_tree[i])
 
-    for mutation in array_mutations:
-        tree.update_node(mutation.nodeId, data = MutationOnNode(mutation_name=str(number_to_letter(mutation.AS))+ \
-            "to"+str(number_to_letter(mutation.DS))+"on"+str(mutation.time), old_nucleotyde=number_to_letter(mutation.AS), new_nucleotyde=number_to_letter(mutation.DS), \
-                                                                   time_of_birth=array_times[mutation.nodeId], mutation_cite = mutation.position))
+    for i in range(0, len(array_mutations[0])):
+        tree.update_node(array_mutations[0][i], data = MutationOnNode(mutation_name=str(number_to_letter(array_mutations[1][i]))+ \
+            "to"+str(number_to_letter(array_mutations[3][i]))+"on"+str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]), new_nucleotyde=number_to_letter(array_mutations[3][i]), \
+                                                                   time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i]))
 
     return tree
 

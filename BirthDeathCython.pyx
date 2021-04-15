@@ -786,3 +786,21 @@ cdef class BirthDeathModel:
             mut[3].append(self.mut.DS[i])
 
         return tree, times, mut
+
+    def GetTree(self):
+        return self.tree
+
+    def GetTimes(self):
+        return self.times
+
+    def GetMut(self):
+        mut = [[], [], [], []]
+        for i in range(self.mut.nodeId.size()):
+            mut[0].append(self.mut.nodeId[i])
+            mut[1].append(self.mut.AS[i])
+            mut[2].append(self.mut.site[i])
+            mut[3].append(self.mut.DS[i])
+        return mut
+
+    def GetCurrentTime(self):
+        return self.currentTime

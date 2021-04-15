@@ -7,7 +7,7 @@ from BirthDeathCython import BirthDeathModel, PopulationModel, Population, Lockd
 from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from random import randrange
 import numpy as np
-from get_subtree import SubtreeCreation
+from get_subtree import SubtreeCreation, SubtreeCreation2
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -17,9 +17,9 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 10000
+iterations = 20000
 susceptibility = None
-seed = 2020
+seed = randrange(1, 100000, 1)
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -95,19 +95,32 @@ print(t3 - t2)
 print("_________________________________")
 
 
-newtree = ArrayTreeToTreeClass(simulation.genealogy, simulation.genealogyTimes, simulation.mutations_g)
-    #newtree.show()
-    #print("Time is", simulation.currentTime)
-currentTime = simulation.currentTime
-sc = SubtreeCreation()
+tree = simulation.GetTree()
+times = simulation.GetTimes()
+mut = simulation.GetMut()
+currentTime = simulation.GetCurrentTime()
 
-subtree_AA = SubtreeCreation.GetABsubtrees(sc, A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, base_tree = newtree)
+newtree = ArrayTreeToTreeClass(tree, times, mut) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
+
+#newtree.show()
+#print("Time is", currentTime)
+
+sc = SubtreeCreation2(A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, tree = newtree)
+
+subtree_AA = SubtreeCreation2.GetABsubtrees(sc)
+
+#for tree in subtree_AA:
+#    tree.show()
 
 if len(subtree_AA) > 0:
+    print('Subtree AA is not empty')
     ls_AA = LikelyhoodEstimation(subtree_AA)
 
+    tree_size = 0
     for tree in subtree_AA:
-        tree.show()
+        tree_size = tree_size + tree.size()
+
+    print("Tree size is ", tree_size)
 
     t1 = time.time()
     es_ls_AA = ls_AA.GetEstimation()
@@ -123,7 +136,6 @@ if len(subtree_AA) > 0:
             time_start = timestamp
             break
 
-
     print('Current time ', currentTime)
     print('Time start: ', time_start)
     if currentTime - time_start < 0:
@@ -131,7 +143,10 @@ if len(subtree_AA) > 0:
     else:
         print('Time passed: ', currentTime - time_start)
 
-pruferSeq, times, mut = simulation.Output_tree_mutations()
+else:
+    print('Subtree AA is empty')
+
+
 
 
 def writeMutations(mut):
@@ -156,7 +171,7 @@ def writeMutations(mut):
         mutations_dict[nodeId] = mutations_dict[nodeId][:-1]
 
     f_mut = open('mutation_output.tsv', 'w')
-    for i in range(len(pruferSeq)):
+    for i in range(len(tree)):
         if i in mutations_dict:
             f_mut.write(str(i)+'\t'+str(mutations_dict[i])+'\n')
         else:
@@ -279,6 +294,6 @@ def writeGenomeNewick(pruferSeq, times):
     #print(len(times))
 
 if clargs.createNewick:
-    writeGenomeNewick(pruferSeq, times)
+    writeGenomeNewick(tree, times)
 if clargs.writeMutations:
     writeMutations(mut)

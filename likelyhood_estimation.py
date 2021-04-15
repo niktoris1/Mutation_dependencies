@@ -7,6 +7,7 @@ from treelib import Tree
 import matplotlib.pyplot as plt
 
 import treelib
+import matplotlib.pyplot as plt
 
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
@@ -31,7 +32,7 @@ class LikelyhoodEstimation:
 
     def LLH_function(self, coal_rate):
 
-        LHH_values = [0] * self.number_of_events
+        LLH_values = [0] * self.number_of_events
         events = [0] * self.number_of_events
         event_type_array = [0] * self.number_of_events
         time_array = [0] * self.number_of_events
@@ -50,7 +51,7 @@ class LikelyhoodEstimation:
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], event_type_array[iteration], coal_rate)
 
         for iteration in range(1, self.number_of_events):
-            LHH_values[iteration] = LHH_values[iteration - 1] + \
+            LLH_values[iteration] = LLH_values[iteration - 1] + \
                (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) * \
                math.comb(distinct_lineages_array[iteration], 2)) + math.log( event_probability_array[iteration])
 
@@ -62,7 +63,12 @@ class LikelyhoodEstimation:
 
             #print(value_on_this_step)
 
-        return LHH_values[-1]
+        a = list(range(1, len(LLH_values) + 1))
+        plt.plot(a, LLH_values)
+        plt.show()
+
+
+        return LLH_values[-1]
 
 
     def TimeFromIteration(self, iteration):
