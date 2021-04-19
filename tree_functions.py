@@ -51,10 +51,11 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
 
 
 class Event:
-    def __init__(self, vertex_tag, event_type, event_time):
+    def __init__(self, vertex_tag, event_type, event_time, number_of_children):
         self.event_type = event_type
         self.vertex_tag = vertex_tag
         self.event_time = event_time
+        self.number_of_children = number_of_children
 
 def GetTime(node):
     return node.data.time_of_birth
@@ -73,14 +74,13 @@ def GetEventsFromTree(tree_list):
         else:
             return "coalescence"
 
-
-
     events_array = [0] * len(nodes_array)
 
     for event_number in range(0, len(events_array)):
         events_array[event_number] = Event(vertex_tag=nodes_array[event_number].tag, \
                                            event_time=nodes_array[event_number].data.time_of_birth,
-                                           event_type=EventTypeFromChildren(nodes_array[event_number].fpointer))
+                                           event_type=EventTypeFromChildren(nodes_array[event_number].fpointer),
+                                           number_of_children=len(nodes_array[event_number].fpointer))
 
     # for event_number in range(0, len(events_array)):
     #     if len(nodes_array[event_number].fpointer) == 0:

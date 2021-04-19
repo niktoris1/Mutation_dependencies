@@ -40,6 +40,8 @@ class LikelyhoodEstimation:
         #previous_time_array = [0] * self.number_of_events
         distinct_lineages_array = [0] * self.number_of_events
         event_probability_array = [0] * self.number_of_events
+        addition = [0] * self.number_of_events
+
 
         for iteration in range(0, self.number_of_events):
             events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
@@ -48,12 +50,13 @@ class LikelyhoodEstimation:
             current_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
             #previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
             distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
-            event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], event_type_array[iteration], coal_rate)
+            event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
 
         for iteration in range(1, self.number_of_events):
-            LLH_values[iteration] = LLH_values[iteration - 1] + \
-               (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) * \
-               math.comb(distinct_lineages_array[iteration], 2)) + math.log( event_probability_array[iteration])
+            addition[iteration] = (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) * \
+               math.comb(distinct_lineages_array[iteration], 2)) + math.log(event_probability_array[iteration])
+
+            LLH_values[iteration] = LLH_values[iteration - 1] + addition[iteration]
 
             #print("distinct_lineages = ", distinct_lineages)
             #print("event_probability = ", event_probability)
@@ -63,8 +66,6 @@ class LikelyhoodEstimation:
 
             #print(value_on_this_step)
 
-        a = list(range(1, len(LLH_values) + 1))
-        plt.plot(a, LLH_values)
         plt.show()
 
 
@@ -131,15 +132,15 @@ class LikelyhoodEstimation:
     def EventFromIteration(self, iteration):
         return self.events_sequence[iteration]
 
-    def EventProbability(self, time, event_type, coal_rate):
+    def EventProbability(self, time, event, coal_rate):
 
         distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time)
 
-        if event_type == "adding_lineage":
+        if event.event_type == "adding_lineage":
             return 1
         else:
             probability = 1
-            for i in range(0, distinct_lineages):
+            for i in range(0, event.number_of_children - 1): # ???
                 probability = probability * coal_rate * math.comb(distinct_lineages - i + 1, 2)
             return probability
 
@@ -150,10 +151,10 @@ class LikelyhoodEstimation:
         #start_coal_rate=20 # will have to estimate
         wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.01, 1000), bracket = (10, 100), method='Bounded', tol=1e-1)
+        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.0001, 1000), bracket = (0.0001, 10), method='Bounded', tol=1e-5)
         #LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
 
-        x = [x / 10.0 for x in range(1, 1000, 1)]
+        x = [x /1000.0 for x in range(1, 1000, 1)]
         y = [LikelyhoodEstimation.LLH_function(self, coal_rate=i) for i in x]
 
         plt.plot(x, y)
