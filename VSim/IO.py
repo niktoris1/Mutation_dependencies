@@ -1,5 +1,5 @@
 import sys
-from BirthDeathCython import Population, Lockdown
+from VSim.BirthDeathCython import Population, Lockdown
 
 def ReadRates(fn):
     with open(fn) as f:

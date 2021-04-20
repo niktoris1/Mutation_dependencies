@@ -179,9 +179,6 @@ class SubtreeCreation2:
             elif CheckNode(node) == 'not B':
                 not_AB_roots.append(node)
 
-        print(A_roots, B_roots)
-        print(not_AB_roots)
-
         for A_root in A_roots:
             parent_AB_root = CheckAncestors('B', A_root)
             if parent_AB_root != False:

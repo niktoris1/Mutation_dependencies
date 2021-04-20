@@ -3,10 +3,9 @@
 import argparse
 import sys
 import time
-from BirthDeathCython import BirthDeathModel, PopulationModel, Population, Lockdown
-from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
+from VSim.BirthDeathCython import BirthDeathModel
+from VSim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from random import randrange
-import numpy as np
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 

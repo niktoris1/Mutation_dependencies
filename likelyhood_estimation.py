@@ -6,9 +6,6 @@ from treelib import Tree
 
 import matplotlib.pyplot as plt
 
-import treelib
-import matplotlib.pyplot as plt
-
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
@@ -66,7 +63,7 @@ class LikelyhoodEstimation:
 
             #print(value_on_this_step)
 
-        plt.show()
+        #plt.show()
 
 
         return LLH_values[-1]

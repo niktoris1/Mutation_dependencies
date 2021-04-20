@@ -2,8 +2,8 @@
 
 import time
 import sys
-from BirthDeath import BirthDeathModel, PopulationModel, Population
-from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
+from VSim.BirthDeath import BirthDeathModel
+from VSim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from get_subtree import SubtreeCreation
 from random import randrange
 

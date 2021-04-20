@@ -3,11 +3,10 @@
 import argparse
 import sys
 import time
-from BirthDeathCython import BirthDeathModel, PopulationModel, Population, Lockdown
-from IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
+from VSim.BirthDeathCython import BirthDeathModel
+from VSim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from random import randrange
-import numpy as np
-from get_subtree import SubtreeCreation, SubtreeCreation2
+from get_subtree import SubtreeCreation2
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -17,9 +16,9 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 50000
+iterations = 100000
 susceptibility = None
-seed = None
+seed = 227922792421876636
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -138,13 +137,16 @@ if len(subtree_AA) > 0:
 
     print('Current time ', currentTime)
     print('Time start: ', time_start)
-    if currentTime - time_start < 0:
+    time_passed = currentTime - time_start
+    if time_passed < 0:
         print('Never was 5 simulatanious linages')
     else:
-        print('Time passed: ', currentTime - time_start)
+        print('Time passed: ', time_passed)
 
 else:
     print('Subtree AA is empty')
+
+tree_size, coal_rate, program_time, time_passed = tree_size, es_ls_AA[1], t2 - t1, time_passed
 
 
 
