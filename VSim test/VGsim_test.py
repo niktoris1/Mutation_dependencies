@@ -104,34 +104,37 @@ newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=Tru
 
 #newtree.show()
 #print("Time is", currentTime)
+A_nucleotyde = 'T'
+B_nucleotyde = 'T'
 
-sc = SubtreeCreation(A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, tree = newtree)
+sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = newtree)
 
-subtree_AA = SubtreeCreation.GetABsubtrees(sc)
+subtree = SubtreeCreation.GetABsubtrees(sc)
 
 #for tree in subtree_AA:
 #    tree.show()
 
-if len(subtree_AA) > 0:
-    print('Subtree AA is not empty')
-    ls_AA = LikelyhoodEstimation(subtree_AA)
+
+if len(subtree) > 0:
+    print('Subtree ', A_nucleotyde, B_nucleotyde, ' is not empty')
+    ls = LikelyhoodEstimation(subtree)
 
     tree_size = 0
-    for tree in subtree_AA:
+    for tree in subtree:
         tree_size = tree_size + tree.size()
 
     print("Tree size is ", tree_size)
 
     t1 = time.time()
-    es_ls_AA = ls_AA.GetEstimation()
+    es_ls_AA = ls.GetEstimation()
     t2 = time.time()
     print('es_ls_AA =', es_ls_AA)
     print('Time spent on estimation: ', t2 - t1)
 
     time_start = 999
 
-    for event in ls_AA.events_sequence:
-        if ls_AA.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
+    for event in ls.events_sequence:
+        if ls.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
             time_start = event.event_time
 
     print('Current time ', currentTime)
@@ -142,10 +145,12 @@ if len(subtree_AA) > 0:
     else:
         print('Time passed: ', time_passed)
 
+    tree_size, coal_rate, program_time, time_passed = tree_size, es_ls_AA[1], t2 - t1, time_passed
+
 else:
     print('Subtree AA is empty')
 
-tree_size, coal_rate, program_time, time_passed = tree_size, es_ls_AA[1], t2 - t1, time_passed
+
 
 
 def writeMutations(mut):
