@@ -1,4 +1,9 @@
 # VGsim
+Fast simulator of viral genealogies in the world-scale pandemic scenarios.
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![linux tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/ubuntu.yml/badge.svg)
+![macOS tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/macos.yml/badge.svg)
 
 
 Building the package
@@ -18,16 +23,19 @@ $ python -m pip install numpy>=1.19.5 cython
 $ python -m pip install git+https://github.com/ev-br/mc_lib.git@v0.1
 ```
 
-Then, build the C extensions,
+Then, build the C extensions (note that we are doing an inplace, editable build
+with `-e .`),
 
 ```
-$ python setup.py build_ext --inplace
+$ python -m pip install -e .
 ```
 
-That's it! You may now run simulations:
+That's it! 
+
+You may now run simulations:
 
 ```
-$ python ./VGsim.py example/example.rt -it 100000 -pm example/example.pp example/example.mg -seed 2020
+$ python ./vgsim.py example/example.rt -it 100000 -pm example/example.pp example/example.mg -seed 2020
 ```
 
 If you encounter problems with either of these steps, please file an issue at
@@ -37,9 +45,6 @@ If you encounter problems with either of these steps, please file an issue at
 We tested this procedure on python 3.7-3.9 on Ubuntu linux and MacOS. Whether
 it works on Apple Silicon hardware, we do not know (most likely, it should
 as soon as there is a NumPy version which supports this hardware).
-
-![linux tests](https://github.com/ev-br/mc_lib/actions/workflows/python-package.yml/badge.svg)
-![macOS tests](https://github.com/ev-br/mc_lib/actions/workflows/macos.yml/badge.svg)
 
 
 
@@ -108,6 +113,16 @@ AC 2 1.0 1.1 0.0
 There are three susceptibility types `S0`, `S1` and `S2` in this example. All the individuals start in `S0`, and they have susceptibility of `1.0` to all strains. `T` is the type of susceptibility (immunity) caused by recovering from a particular strain. Inficting by haplotype `AA` leads to susceptibility type `S1`, which gives total resistance (susceptibility 0.0) to haplotype `AA`, partial resitance to `AT` (susceptibility 0.4) and increases susceptibility (1.1) to strain `AC`.
 
 *NB* There is no "immunity memory" - the immunity does not depend on the whole illness history of an individual, but only on the **latest** infection.
+
+### Susceptibility transition
+
+The user can specify the rates of direct transitions between susceptibility types. This can be used for example to model vaccination or immunity loss. Use `--suscepTransition` or, `-st` flag followed by the file with susceptibility transition rate matrix (non-negative `float` entrys). Example:
+```
+#Susceptibility_format_version 0.0.1
+0.0 0.0 0.0001
+0.001 0.0 0.0001
+0.0 0.0 0.0
+```
 
 Output
 ------

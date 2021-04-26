@@ -2,8 +2,8 @@
 
 import time
 import sys
-from VSim.BirthDeath import BirthDeathModel
-from VSim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
+from Simulator.BirthDeath import BirthDeathModel
+from Simulator.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from get_subtree import SubtreeCreation
 from random import randrange
 
@@ -11,7 +11,7 @@ from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
 
 def GenerateSimulation():
-    frates_file = 'test/test.rt'
+    frates_file = '../test/test.rt'
 
     bRate, dRate, sRate, mRate = ReadRates(frates_file)
     populationModel = None

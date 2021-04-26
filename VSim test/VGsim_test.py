@@ -3,10 +3,11 @@
 import argparse
 import sys
 import time
-from VSim.BirthDeathCython import BirthDeathModel
-from VSim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
+from Simulator.VGsim import BirthDeathModel, PopulationModel, Population, Lockdown
+from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
 from random import randrange
-from get_subtree import SubtreeCreation2
+from get_subtree import SubtreeCreation
+import numpy as np
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -18,7 +19,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
 iterations = 100000
 susceptibility = None
-seed = 227922792421876636
+seed = None
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -99,14 +100,14 @@ times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
 
-newtree = ArrayTreeToTreeClass(tree, times, mut) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
+newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
 
-sc = SubtreeCreation2(A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, tree = newtree)
+sc = SubtreeCreation(A_nucleotyde = 'A', A_cite = 0, B_nucleotyde = 'A', B_cite = 1, tree = newtree)
 
-subtree_AA = SubtreeCreation2.GetABsubtrees(sc)
+subtree_AA = SubtreeCreation.GetABsubtrees(sc)
 
 #for tree in subtree_AA:
 #    tree.show()
@@ -129,17 +130,15 @@ if len(subtree_AA) > 0:
 
     time_start = 999
 
-    for timestamp in [x / 10000 for x in range(1, 100000)]:
-        if ls_AA.DistinctLineages(timestamp) == 5:
-            print('On time', timestamp, 'there was', ls_AA.DistinctLineages(timestamp), 'distinct lineages')
-            time_start = timestamp
-            break
+    for event in ls_AA.events_sequence:
+        if ls_AA.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
+            time_start = event.event_time
 
     print('Current time ', currentTime)
     print('Time start: ', time_start)
     time_passed = currentTime - time_start
     if time_passed < 0:
-        print('Never was 5 simulatanious linages')
+        print('Never was 10 simulatanious linages')
     else:
         print('Time passed: ', time_passed)
 
@@ -147,8 +146,6 @@ else:
     print('Subtree AA is empty')
 
 tree_size, coal_rate, program_time, time_passed = tree_size, es_ls_AA[1], t2 - t1, time_passed
-
-
 
 
 def writeMutations(mut):

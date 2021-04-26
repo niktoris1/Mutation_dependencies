@@ -24,7 +24,9 @@ class MutationOnNode: # defines a mutation on specific node
         self.new_nucleotyde = new_nucleotyde
         self.time_of_birth = time_of_birth
 
-def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets everythong with a placeholder mutations
+def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutation_in_root_node = False): # sets everythong with a placeholder mutations
+
+    # if is_AA_mutation_in_root_node == True, we assume that we have a predefined AA nucleotydes in the root node
 
     tree = Tree()
 
@@ -41,6 +43,13 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations): # sets every
     for i in range(0, len(array_tree)):
         if i != root_id:
             tree.move_node(i, array_tree[i])
+
+    if tree.root not in array_mutations[0] and is_AA_mutation_in_root_node == True:
+        array_mutations[0].append(tree.root)
+        array_mutations[1].append(0)
+        array_mutations[2].append(0)
+        array_mutations[3].append(0)
+        array_times.append(0)
 
     for i in range(0, len(array_mutations[0])):
         tree.update_node(array_mutations[0][i], data = MutationOnNode(mutation_name=str(number_to_letter(array_mutations[1][i]))+ \

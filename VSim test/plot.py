@@ -14,5 +14,5 @@ program_time_list = [float(item) for item in program_time_list]
 time_passed_list = [float(item) for item in time_passed_list]
 
 
-plt.plot(tree_size_list, coal_rate_list, 'bo')
+plt.plot(tree_size_list, time_passed_list, 'bo')
 plt.show()
