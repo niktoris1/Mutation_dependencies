@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
 iterations = 100000
 susceptibility = None
-seed = None
+seed = 2214296189541389034
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -99,6 +99,7 @@ tree = simulation.GetTree()
 times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
+events = simulation.GetEvents()
 
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
@@ -126,9 +127,9 @@ if len(subtree) > 0:
     print("Tree size is ", tree_size)
 
     t1 = time.time()
-    es_ls_AA = ls.GetEstimation()
+    es_ls = ls.GetEstimation()
     t2 = time.time()
-    print('es_ls_AA =', es_ls_AA)
+    print('es_ls_AA =', es_ls)
     print('Time spent on estimation: ', t2 - t1)
 
     time_start = 999
@@ -145,7 +146,7 @@ if len(subtree) > 0:
     else:
         print('Time passed: ', time_passed)
 
-    tree_size, coal_rate, program_time, time_passed = tree_size, es_ls_AA[1], t2 - t1, time_passed
+    tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
 else:
     print('Subtree AA is empty')

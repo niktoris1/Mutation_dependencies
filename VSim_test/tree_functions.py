@@ -44,7 +44,7 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
         if i != root_id:
             tree.move_node(i, array_tree[i])
 
-    if tree.root not in array_mutations[0] and is_AA_mutation_in_root_node == True:
+    if tree.root not in array_mutations[0] and is_AA_mutation_in_root_node == True: # adding a mutation on tree root
         array_mutations[0].append(tree.root)
         array_mutations[1].append(0)
         array_mutations[2].append(0)
