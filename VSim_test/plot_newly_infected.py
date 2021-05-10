@@ -19,7 +19,7 @@ data = simulation.LogDynamics(1000)
 #print(data[0])
 print(data[1])
 
-for e_id in range(events.ptr):
+for e_id in range(len(events)):
     pass
 
 

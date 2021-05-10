@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
 iterations = 100000
 susceptibility = None
-seed = 2214296189541389034
+seed = 5750693369156385614
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -99,7 +99,7 @@ tree = simulation.GetTree()
 times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
-events = simulation.GetEvents()
+#events = simulation.GetEvents()
 
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 

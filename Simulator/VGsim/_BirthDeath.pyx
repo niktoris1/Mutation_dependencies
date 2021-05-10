@@ -863,4 +863,7 @@ cdef class BirthDeathModel:
         return self.currentTime
 
     def GetEvents(self):
-        return self.events
+        events = []
+        for i in range(len(self.events.times)):
+            events.append(0)
+        return events

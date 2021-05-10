@@ -19354,7 +19354,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTim
  *         return self.currentTime
  * 
  *     def GetEvents(self):             # <<<<<<<<<<<<<<
- *         return self.events
+ *         events = []
+ *         for i in range(len(self.events.times)):
  */
 
 /* Python wrapper */
@@ -19371,29 +19372,78 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetEvents(PyO
 }
 
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  PyObject *__pyx_v_events = NULL;
+  CYTHON_UNUSED Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetEvents", 0);
 
   /* "VGsim/_BirthDeath.pyx":866
  * 
  *     def GetEvents(self):
- *         return self.events             # <<<<<<<<<<<<<<
+ *         events = []             # <<<<<<<<<<<<<<
+ *         for i in range(len(self.events.times)):
+ *             events.append(0)
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 866, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_events = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":867
+ *     def GetEvents(self):
+ *         events = []
+ *         for i in range(len(self.events.times)):             # <<<<<<<<<<<<<<
+ *             events.append(0)
+ *         return events
+ */
+  __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->events->times); 
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+
+    /* "VGsim/_BirthDeath.pyx":868
+ *         events = []
+ *         for i in range(len(self.events.times)):
+ *             events.append(0)             # <<<<<<<<<<<<<<
+ *         return events
+ */
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_events, __pyx_int_0); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 868, __pyx_L1_error)
+  }
+
+  /* "VGsim/_BirthDeath.pyx":869
+ *         for i in range(len(self.events.times)):
+ *             events.append(0)
+ *         return events             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(((PyObject *)__pyx_v_self->events));
-  __pyx_r = ((PyObject *)__pyx_v_self->events);
+  __Pyx_INCREF(__pyx_v_events);
+  __pyx_r = __pyx_v_events;
   goto __pyx_L0;
 
   /* "VGsim/_BirthDeath.pyx":865
  *         return self.currentTime
  * 
  *     def GetEvents(self):             # <<<<<<<<<<<<<<
- *         return self.events
+ *         events = []
+ *         for i in range(len(self.events.times)):
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetEvents", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_events);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
