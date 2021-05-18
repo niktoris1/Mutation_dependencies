@@ -865,5 +865,5 @@ cdef class BirthDeathModel:
     def GetEvents(self):
         events = []
         for i in range(len(self.events.times)):
-            events.append(0)
+            events.append(self.events.types[i])
         return events

@@ -1,6 +1,5 @@
 import math
 from scipy import optimize
-#from get_subtree import test_trees
 from tree_functions import GetEventsFromTree
 from treelib import Tree
 
@@ -17,7 +16,7 @@ class LikelyhoodEstimation:
                 raise ('Trying to estimate empty subtree - undefined. Seems that this mutation simply does not exist.')
             self.estimated_tree = estimated_tree
         elif isinstance(estimated_tree, Tree):
-            self.estimated_tree = [estimated_tree]
+            self.estimated_tree = [estimated_tree] # making a single tree a list for the sake of consitency
         else:
             raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
 
@@ -40,7 +39,7 @@ class LikelyhoodEstimation:
         addition = [0] * self.number_of_events
 
 
-        for iteration in range(0, self.number_of_events):
+        for iteration in range(self.number_of_events):
             events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
             event_type_array[iteration] = events[iteration].event_type
             time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
@@ -50,20 +49,10 @@ class LikelyhoodEstimation:
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
 
         for iteration in range(1, self.number_of_events):
-            addition[iteration] = (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) * \
+            addition[iteration] = (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) *
                math.comb(distinct_lineages_array[iteration], 2)) + math.log(event_probability_array[iteration])
 
             LLH_values[iteration] = LLH_values[iteration - 1] + addition[iteration]
-
-            #print("distinct_lineages = ", distinct_lineages)
-            #print("event_probability = ", event_probability)
-            #print("value_on_this_step = ", value_on_this_step)
-            #print("event_type = ", event_type)
-            #print("-----------------")
-
-            #print(value_on_this_step)
-
-        #plt.show()
 
 
         return LLH_values[-1]
@@ -94,11 +83,12 @@ class LikelyhoodEstimation:
         return IterationFromTimeStartFinish(time, 0, len(self.events_sequence) - 1)
 
 
-    def BuildDistinctLineages(self, event_sequence): #returns number of distinct lineages which corresponds to the event sequence
+    def BuildDistinctLineages(self, event_sequence):
+        # returns number of distinct lineages which corresponds to the times at the event sequence
 
         distinct_lineages = [0] * len(event_sequence)
 
-        for iteration in range(0, len(event_sequence)):
+        for iteration in range(len(event_sequence)):
             if iteration > 0:
                 distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
             else:

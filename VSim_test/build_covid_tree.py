@@ -1,11 +1,13 @@
 from treelib import Node, Tree
-from initialize_tree import raw_nodes
+from build_tree_from_newick import nodes_from_newick_file
 from parse_mutations import mutations
 import re
 
 from tree_functions import MutationOnNode
 
 def MakeCovidTree():
+
+    raw_nodes = nodes_from_newick_file("data.txt")
 
     name_id_dict = {} # dictionary in type id: name
 

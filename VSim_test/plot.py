@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 myFiler = open("report_data", "r")
 Colist = str(myFiler.read()).split('\n')
@@ -14,5 +15,6 @@ program_time_list = [float(item) for item in program_time_list]
 time_passed_list = [float(item) for item in time_passed_list]
 
 
-plt.plot(tree_size_list, time_passed_list, 'bo')
+plt.plot(tree_size_list, np.log(coal_rate_list), 'bo')
+
 plt.show()

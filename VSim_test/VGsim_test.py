@@ -7,7 +7,6 @@ from Simulator.VGsim import BirthDeathModel, PopulationModel, Population, Lockdo
 from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
 from random import randrange
 from get_subtree import SubtreeCreation
-import numpy as np
 
 from tree_functions import ArrayTreeToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
@@ -69,10 +68,6 @@ if susceptibility == None:
 else:
     susceptible = ReadSusceptibility(susceptibility)
 
-# if clargs.lockdownModel == None:
-#     lockdownModel = None
-# else:
-#     lockdownModel = ReadLockdown(clargs.lockdownModel)
 
 if seed == None:
     rndseed = randrange(sys.maxsize)
@@ -80,6 +75,9 @@ else:
     rndseed = seed
 print("Seed: ", rndseed)
 
+#lockdownModel = None # artificially switching off lockdown
+
+#Beware,
 simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
 # simulation.Debug()
 t1 = time.time()
@@ -99,21 +97,18 @@ tree = simulation.GetTree()
 times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
-#events = simulation.GetEvents()
+events = simulation.GetEvents()
 
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
-A_nucleotyde = 'T'
+A_nucleotyde = 'G'
 B_nucleotyde = 'T'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = newtree)
 
 subtree = SubtreeCreation.GetABsubtrees(sc)
-
-#for tree in subtree_AA:
-#    tree.show()
 
 
 if len(subtree) > 0:
@@ -129,7 +124,7 @@ if len(subtree) > 0:
     t1 = time.time()
     es_ls = ls.GetEstimation()
     t2 = time.time()
-    print('es_ls_AA =', es_ls)
+    print('es_ls =', es_ls)
     print('Time spent on estimation: ', t2 - t1)
 
     time_start = 999
@@ -149,7 +144,7 @@ if len(subtree) > 0:
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
 else:
-    print('Subtree AA is empty')
+    print('Subtree is empty')
 
 
 
