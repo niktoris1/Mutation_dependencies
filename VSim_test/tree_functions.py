@@ -65,11 +65,12 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
 
 
 class Event:
-    def __init__(self, vertex_tag, event_type, event_time, number_of_children):
+    def __init__(self, vertex_tag, event_type, event_time, number_of_children, vertex_id):
         self.event_type = event_type
         self.vertex_tag = vertex_tag
         self.event_time = event_time
         self.number_of_children = number_of_children
+        self.vertex_id = vertex_id
 
 def GetTime(node):
     return node.data.time_of_birth
@@ -90,11 +91,12 @@ def GetEventsFromTree(tree_list):
 
     events_array = []
 
-    for event_number in range(0, len(nodes_array)):
+    for event_number in range(len(nodes_array)):
         events_array.append(Event(vertex_tag=nodes_array[event_number].tag,
                                            event_time=nodes_array[event_number].data.time_of_birth,
                                            event_type=EventTypeFromNode(nodes_array[event_number]),
-                                           number_of_children=len(nodes_array[event_number].fpointer)))
+                                           number_of_children=len(nodes_array[event_number].fpointer),
+                                           vertex_id = nodes_array[event_number].identifier))
 
     def takeBirth(elem):
         return elem.event_time

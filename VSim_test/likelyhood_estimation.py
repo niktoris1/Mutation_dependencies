@@ -1,6 +1,6 @@
 import math
 from scipy import optimize
-from tree_functions import GetEventsFromTree
+from VSim_test.tree_functions import GetEventsFromTree
 from treelib import Tree
 
 import matplotlib.pyplot as plt
@@ -33,7 +33,6 @@ class LikelyhoodEstimation:
         event_type_array = [0] * self.number_of_events
         time_array = [0] * self.number_of_events
         current_time_array = [0] * self.number_of_events
-        #previous_time_array = [0] * self.number_of_events
         distinct_lineages_array = [0] * self.number_of_events
         event_probability_array = [0] * self.number_of_events
         addition = [0] * self.number_of_events
@@ -95,15 +94,15 @@ class LikelyhoodEstimation:
                 distinct_lineages[iteration] = -1
 
             for individual_tree in self.estimated_tree:
-                if individual_tree.contains(event_sequence[iteration].vertex_tag):
+                if individual_tree.contains(event_sequence[iteration].vertex_id):
                     if event_sequence[iteration].event_type == "coalescence":
-                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].vertex_tag).fpointer)
+                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].vertex_id).fpointer)
                         distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
                             #print('Added ', number_of_children, 'children')
-                    if individual_tree.root == event_sequence[iteration].vertex_tag:
+                    if individual_tree.root == event_sequence[iteration].vertex_id:
                         distinct_lineages[iteration] = distinct_lineages[iteration] + 1
                             #print('Added ', 1, 'for root')
-                    break
+                break
 
             if distinct_lineages[iteration] < 0:
                 raise Exception('Error, less than zero lineages!')

@@ -103,8 +103,8 @@ newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=Tru
 
 #newtree.show()
 #print("Time is", currentTime)
-A_nucleotyde = 'G'
-B_nucleotyde = 'T'
+A_nucleotyde = 'A'
+B_nucleotyde = 'A'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = newtree)
 

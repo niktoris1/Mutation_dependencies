@@ -1,6 +1,3 @@
-from treelib import Tree
-from tree_functions import GetEventsFromTree, MutationOnNode
-
 class SubtreeCreation:
 
     def __init__(self, A_nucleotyde, A_cite, B_nucleotyde, B_cite, tree):

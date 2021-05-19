@@ -1,7 +1,6 @@
-from treelib import Node, Tree
-from build_tree_from_newick import nodes_from_newick_file
+from treelib import Tree
+from VSim_test.newick_test.build_raw_nodes_from_newick import nodes_from_newick_file
 from parse_mutations import mutations
-import re
 
 from tree_functions import MutationOnNode
 
