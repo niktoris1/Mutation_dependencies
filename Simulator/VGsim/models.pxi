@@ -38,7 +38,7 @@ class Lockdown:
 cdef class PopulationModel:
     cdef:
         Py_ssize_t globalInfectious
-        int[::1] sizes, totalSusceptible, totalInfectious
+        int[::1] sizes, totalSusceptible, totalInfectious, totalSusceptibleArray, totalInfectiousArray
         int[:,::1] susceptible
         double[::1] contactDensity, contactDensityBeforeLockdown, contactDensityAfterLockdown, startLD, endLD
         bint lockdownON
@@ -53,6 +53,9 @@ cdef class PopulationModel:
         self.totalSusceptible = np.zeros(sizePop, dtype=np.int32)
         self.totalInfectious = np.zeros(sizePop, dtype=np.int32)
         self.globalInfectious = 0
+
+        totalSusceptibleArray = np.zeros(sizePop, dtype=np.int32)
+        totalInfectiousArray = np.zeros(sizePop, dtype=np.int32)
 
         self.susceptible = np.zeros((sizePop, susceptible_num), dtype=np.int32)
         for i in range(sizePop):
@@ -83,6 +86,9 @@ cdef class PopulationModel:
         self.totalInfectious[popId] += 1
         self.globalInfectious += 1
 
+        self.totalSusceptibleArray.append(self.totalSusceptibleArray[-1] - 1)
+        self.totalInfectiousArray.append(self.totalInfectiousArray[-1] + 1)
+
     @cython.boundscheck(False)
     @cython.wraparound(False)
     cdef inline void NewRecovery(self, Py_ssize_t popId, Py_ssize_t suscId):
@@ -90,3 +96,6 @@ cdef class PopulationModel:
         self.totalSusceptible[popId] += 1
         self.totalInfectious[popId] -= 1
         self.globalInfectious -= 1
+
+        self.totalSusceptibleArray.append(self.totalSusceptibleArray[-1] + 1)
+        self.totalInfectiousArray.append(self.totalInfectiousArray[-1] - 1)
