@@ -102,7 +102,7 @@ class LikelyhoodEstimation:
                     if individual_tree.root == event_sequence[iteration].vertex_id:
                         distinct_lineages[iteration] = distinct_lineages[iteration] + 1
                             #print('Added ', 1, 'for root')
-                break
+                    break
 
             if distinct_lineages[iteration] < 0:
                 raise Exception('Error, less than zero lineages!')
