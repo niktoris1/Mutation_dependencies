@@ -3,8 +3,8 @@
 import argparse
 import sys
 import time
-from Simulator.VGsim import BirthDeathModel, PopulationModel, Population, Lockdown
-from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
+from VGsim._BirthDeath import BirthDeathModel
+from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
 from random import randrange
 from get_subtree import SubtreeCreation
 
@@ -98,6 +98,8 @@ times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
 events = simulation.GetEvents()
+#susceptibleArray = simulation.GetTotalSusceptibleArray()
+#infectiousArray = simulation.GetTotalInfectiousArray()
 
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
@@ -142,6 +144,9 @@ if len(subtree) > 0:
         print('Time passed: ', time_passed)
 
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
+
+    #print(simulation.GetTotalSusceptibleArray())
+    #print(simulation.GetTotalInfectiousArray())
 
 else:
     print('Subtree is empty')
