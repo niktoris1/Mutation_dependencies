@@ -101,6 +101,7 @@ events = simulation.GetEvents()
 susceptibleArray = simulation.GetTotalSusceptibleArray()
 infectiousArray = simulation.GetTotalInfectiousArray()
 
+
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
@@ -145,8 +146,8 @@ if len(subtree) > 0:
 
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
-    print(simulation.GetTotalSusceptibleArray())
-    print(simulation.GetTotalInfectiousArray())
+    print(susceptibleArray)
+    print(infectiousArray)
 
 else:
     print('Subtree is empty')
