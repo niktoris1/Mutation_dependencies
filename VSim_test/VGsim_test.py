@@ -98,6 +98,7 @@ times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
 events = simulation.GetEvents()
+
 #susceptibleArray = simulation.GetTotalSusceptibleArray()
 #infectiousArray = simulation.GetTotalInfectiousArray()
 
