@@ -99,8 +99,8 @@ mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
 events = simulation.GetEvents()
 
-#susceptibleArray = simulation.GetTotalSusceptibleArray()
-#infectiousArray = simulation.GetTotalInfectiousArray()
+susceptibleArray = simulation.GetTotalSusceptibleArray()
+infectiousArray = simulation.GetTotalInfectiousArray()
 
 
 newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
