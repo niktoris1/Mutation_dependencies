@@ -97,20 +97,20 @@ tree = simulation.GetTree()
 times = simulation.GetTimes()
 mut = simulation.GetMut()
 currentTime = simulation.GetCurrentTime()
-events = simulation.GetEvents()
+event_types = simulation.GetEventTypes()
 
 susceptibleArray = simulation.GetTotalSusceptibleArray()
 infectiousArray = simulation.GetTotalInfectiousArray()
 
 
-newtree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
+alltree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
 A_nucleotyde = 'G'
-B_nucleotyde = 'A'
+B_nucleotyde = 'G'
 
-sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = newtree)
+sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = alltree)
 
 subtree = SubtreeCreation.GetABsubtrees(sc)
 
@@ -133,7 +133,7 @@ if len(subtree) > 0:
 
     time_start = 999
 
-    for event in ls.events_sequence:
+    for event in ls.es.events_sequence:
         if ls.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
             time_start = event.event_time
 
@@ -147,8 +147,11 @@ if len(subtree) > 0:
 
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
-    print(susceptibleArray)
-    print(infectiousArray)
+    coal_rate_change = sum(susceptibleArray) / sum(infectiousArray)
+    coal_rate = coal_rate * coal_rate_change
+
+    print("Coal rate change is", coal_rate_change)
+    print("Adjusted coal rate is", coal_rate)
 
 else:
     print('Subtree is empty')

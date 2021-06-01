@@ -1,6 +1,6 @@
 import math
 from scipy import optimize
-from VSim_test.tree_functions import GetEventsFromTree
+from VSim_test.tree_functions import GetEventsFromTree, IterationFromTime
 from treelib import Tree
 
 import matplotlib.pyplot as plt
@@ -10,7 +10,7 @@ logging.captureWarnings(True)
 
 class LikelyhoodEstimation:
 
-    def __init__(self, estimated_tree):
+    def __init__(self, estimated_tree=None, es=None):
         if isinstance(estimated_tree, list):
             if len(estimated_tree) == 0:
                 raise ('Trying to estimate empty subtree - undefined. Seems that this mutation simply does not exist.')
@@ -20,9 +20,12 @@ class LikelyhoodEstimation:
         else:
             raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
 
-        self.events_sequence = GetEventsFromTree(self.estimated_tree)
-        self.number_of_events = len(self.events_sequence)
-        self.distinct_lineages = self.BuildDistinctLineages(self.events_sequence)
+        if estimated_tree != None:
+            self.es = GetEventsFromTree(self.estimated_tree)
+        else:
+            self.es = es
+        self.number_of_events = len(self.es.events_sequence)
+        self.distinct_lineages = self.BuildDistinctLineages(self.es.events_sequence)
 
 
 
@@ -31,7 +34,6 @@ class LikelyhoodEstimation:
         LLH_values = [0] * self.number_of_events
         events = [0] * self.number_of_events
         event_type_array = [0] * self.number_of_events
-        time_array = [0] * self.number_of_events
         current_time_array = [0] * self.number_of_events
         distinct_lineages_array = [0] * self.number_of_events
         event_probability_array = [0] * self.number_of_events
@@ -41,8 +43,7 @@ class LikelyhoodEstimation:
         for iteration in range(self.number_of_events):
             events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
             event_type_array[iteration] = events[iteration].event_type
-            time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
-            current_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration)
+            current_time_array[iteration] = self.es.TimeFromIteration(iteration)
             #previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
             distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
@@ -53,33 +54,7 @@ class LikelyhoodEstimation:
 
             LLH_values[iteration] = LLH_values[iteration - 1] + addition[iteration]
 
-
         return LLH_values[-1]
-
-
-    def TimeFromIteration(self, iteration):
-        if iteration < 0:
-            return 0
-        return self.events_sequence[iteration].event_time
-
-    def IterationFromTime(self, time):
-
-        def IterationFromTimeStartFinish(time, start, finish):
-            middle = (start + finish) // 2
-
-            if time <= self.events_sequence[start].event_time:
-                return start
-            if time >= self.events_sequence[finish].event_time:
-                return finish
-
-            if time == self.events_sequence[middle].event_time:
-                return middle
-            if time > self.events_sequence[middle].event_time:
-                return IterationFromTimeStartFinish(time, middle + 1, finish)
-            else:
-                return IterationFromTimeStartFinish(time, start, middle - 1)
-
-        return IterationFromTimeStartFinish(time, 0, len(self.events_sequence) - 1)
 
 
     def BuildDistinctLineages(self, event_sequence):
@@ -112,11 +87,11 @@ class LikelyhoodEstimation:
         return distinct_lineages
 
     def DistinctLineages(self, time):
-        iteration = self.IterationFromTime(time)
+        iteration = IterationFromTime(time, es=self.es)
         return self.distinct_lineages[iteration]
 
     def EventFromIteration(self, iteration):
-        return self.events_sequence[iteration]
+        return self.es.events_sequence[iteration]
 
     def EventProbability(self, time, event, coal_rate):
 

@@ -1,9 +1,6 @@
 from treelib import Tree
 import re
 
-def getcite(mutation_name): # gets a cite name from the name of mutation
-    return int(re.findall('\d+', mutation_name)[0])
-
 def number_to_letter(number):
     if number == 0:
         return 'A'
@@ -14,14 +11,49 @@ def number_to_letter(number):
     if number == 3:
         return 'G'
 
+class Event:
+    def __init__(self, vertex_tag, event_type, event_time,
+                 number_of_children, vertex_id, iteration = None, haplotype=None):
+        self.event_type = event_type
+        self.vertex_tag = vertex_tag
+        self.event_time = event_time
+        self.number_of_children = number_of_children
+        self.vertex_id = vertex_id
+        self.iteration = iteration
+        self.haplotype = haplotype
 
-class MutationOnNode: # defines a mutation on specific node
-    def __init__(self, mutation_name, old_nucleotyde, new_nucleotyde, time_of_birth, mutation_cite = 9999999):
-        self.mutation_name = mutation_name
-        self.mutation_cite = mutation_cite if mutation_cite != 9999999 else getcite(mutation_name)
-        self.old_nucleotyde = old_nucleotyde
-        self.new_nucleotyde = new_nucleotyde
+class EventSequence:
+    def __init__(self, events_sequence):
+        self.events_sequence = events_sequence
+
+    def TimeFromIteration(self, iteration):
+        if iteration < 0:
+            return 0
+        return self.events_sequence[iteration].event_time
+
+class DataOnNode: # defines a mutation on specific node
+    def __init__(self, is_mutation, mutation_name = None, old_nucleotyde = None,
+                 new_nucleotyde = None, time_of_birth = None, mutation_cite = None,
+                 haplotype=None, current_sucseptible = None, current_infectious = None):
+        self.is_mutation = is_mutation
+
+        if is_mutation == True:
+            self.mutation_name = mutation_name
+            self.mutation_cite = mutation_cite
+            self.old_nucleotyde = old_nucleotyde
+            self.new_nucleotyde = new_nucleotyde
+        else:
+            self.mutation_name = None
+            self.mutation_cite = None
+            self.old_nucleotyde = None
+            self.new_nucleotyde = None
+
         self.time_of_birth = time_of_birth
+        self.haplotype = haplotype
+
+
+    def getcite(self, mutation_name):  # gets a cite name from the name of mutation
+        return int(re.findall('\d+', mutation_name)[0])
 
 def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutation_in_root_node = False):
 
@@ -35,7 +67,7 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
     for i in range(len(array_tree)):
         if array_tree[i] == -1:
             root_id = i
-            tree.create_node(root_id, root_id, data=MutationOnNode(mutation_name="999999999", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[root_id]))
+            tree.create_node(root_id, root_id, data=DataOnNode(is_mutation=False, time_of_birth=array_times[root_id]))
             break # there can be only one root
 
     if root_id == 'Unknown':
@@ -43,7 +75,7 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
 
     for i in range(len(array_tree)):
         if i != root_id:
-            tree.create_node(i, i, parent=root_id, data=MutationOnNode(mutation_name="999999999", old_nucleotyde="None", new_nucleotyde="None", time_of_birth=array_times[i]))
+            tree.create_node(i, i, parent=root_id, data=DataOnNode(is_mutation=False, time_of_birth=array_times[i]))
 
     for i in range(len(array_tree)):
         if i != root_id:
@@ -51,26 +83,38 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
 
     if tree.root not in array_mutations[0] and is_AA_mutation_in_root_node == True: # adding a mutation on tree root
         array_mutations[0].append(tree.root)
-        array_mutations[1].append(0) # old nucleotyde is zero
-        array_mutations[2].append(0) # we consider a cite, there we had a mutation as zero
-        array_mutations[3].append(0) # new nucleotyde is zero
+        array_mutations[1].append(None) # old nucleotyde is zero
+        array_mutations[2].append(None) # we consider a cite, there we had a mutation as zero
+        array_mutations[3].append(None) # new nucleotyde is zero
         array_times.append(0)
 
     for i in range(len(array_mutations[0])):
-        tree.update_node(array_mutations[0][i], data = MutationOnNode(mutation_name=str(number_to_letter(array_mutations[1][i]))+
-            "_to_"+str(number_to_letter(array_mutations[3][i]))+"_on_time_"+str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]), new_nucleotyde=number_to_letter(array_mutations[3][i]),
-                                                                   time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i]))
+        tree.update_node(array_mutations[0][i], data = DataOnNode(is_mutation=True, mutation_name=str(number_to_letter(array_mutations[1][i])) +
+            "_to_" + str(number_to_letter(array_mutations[3][i])) +"_on_time_" + str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]), new_nucleotyde=number_to_letter(array_mutations[3][i]),
+                                                                  time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i]))
 
     return tree
 
 
-class Event:
-    def __init__(self, vertex_tag, event_type, event_time, number_of_children, vertex_id):
-        self.event_type = event_type
-        self.vertex_tag = vertex_tag
-        self.event_time = event_time
-        self.number_of_children = number_of_children
-        self.vertex_id = vertex_id
+def IterationFromTime(time, es):
+    def IterationFromTimeStartFinish(time, start, finish):
+        middle = (start + finish) // 2
+
+        if time <= es.events_sequence[start].event_time:
+            return start
+        if time >= es.events_sequence[finish].event_time:
+            return finish
+
+        if time == es.events_sequence[middle].event_time:
+            return middle
+        if time > es.events_sequence[middle].event_time:
+            return IterationFromTimeStartFinish(time, middle + 1, finish)
+        else:
+            return IterationFromTimeStartFinish(time, start, middle - 1)
+
+    return IterationFromTimeStartFinish(time, 0, len(es.events_sequence) - 1)
+
+
 
 def GetTime(node):
     return node.data.time_of_birth
@@ -89,21 +133,22 @@ def GetEventsFromTree(tree_list):
             return "coalescence"
 
 
-    events_array = []
+    es = EventSequence(events_sequence=[])
 
     for event_number in range(len(nodes_array)):
-        events_array.append(Event(vertex_tag=nodes_array[event_number].tag,
+        es.events_sequence.append(Event(vertex_tag=nodes_array[event_number].tag,
                                            event_time=nodes_array[event_number].data.time_of_birth,
                                            event_type=EventTypeFromNode(nodes_array[event_number]),
                                            number_of_children=len(nodes_array[event_number].fpointer),
-                                           vertex_id = nodes_array[event_number].identifier))
+                                           vertex_id = nodes_array[event_number].identifier,
+                                           haplotype="AA"))
 
     def takeBirth(elem):
         return elem.event_time
 
-    events_array.sort(key=takeBirth)
+    es.events_sequence.sort(key=takeBirth)
 
-    return events_array
+    return es
 
 
 def GetTimesFromEvents(events_array):

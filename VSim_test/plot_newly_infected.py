@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from VGsim_test import tree,  newtree, LikelyhoodEstimation, simulation, events, es_ls, ls
+from VGsim_test import tree,  alltree, LikelyhoodEstimation, simulation, event_types, es_ls, ls
 #from VGsim._BirthDeath import LogDynamics
 
 

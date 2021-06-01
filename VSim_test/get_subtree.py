@@ -15,7 +15,7 @@ class SubtreeCreation:
         AB_roots = []
 
         def CheckNode(node):
-            if type(node.data) == None:
+            if node.data.is_mutation == False:
                 return 'Nothing'
             elif node.data.mutation_cite == self.A_cite and node.data.new_nucleotyde == self.A_nucleotyde:
                 return 'A'
@@ -69,6 +69,10 @@ class SubtreeCreation:
             for subtree in subtrees:
                 if subtree.contains(bad_root.identifier):
                     subtree.remove_node(bad_root.identifier)
+
+        #for subtree in subtrees:
+        #    for node in subtrees.all_nodes():
+        #        node.data.DataOnNode.haplotype = [self.A_cite, self.B_cite]
 
         return subtrees
 
