@@ -44,7 +44,6 @@ class LikelyhoodEstimation:
             events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
             event_type_array[iteration] = events[iteration].event_type
             current_time_array[iteration] = self.es.TimeFromIteration(iteration)
-            #previous_time_array[iteration] = LikelyhoodEstimation.TimeFromIteration(self, iteration - 1)
             distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
 

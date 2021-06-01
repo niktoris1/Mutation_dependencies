@@ -8,7 +8,7 @@ from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSuscept
 from random import randrange
 from get_subtree import SubtreeCreation
 
-from tree_functions import ArrayTreeToTreeClass
+from tree_functions import ArraysToTreeClass, GetTotalInfectiousByTree, GetTotalSucseptibleByTree
 from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -103,7 +103,7 @@ susceptibleArray = simulation.GetTotalSusceptibleArray()
 infectiousArray = simulation.GetTotalInfectiousArray()
 
 
-alltree = ArrayTreeToTreeClass(tree, times, mut, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
+alltree = ArraysToTreeClass(tree, times, mut, susceptibleArray, infectiousArray, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
@@ -112,15 +112,15 @@ B_nucleotyde = 'G'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = alltree)
 
-subtree = SubtreeCreation.GetABsubtrees(sc)
+result = SubtreeCreation.GetABsubtrees(sc)
 
 
-if len(subtree) > 0:
+if len(result) > 0:
     print('Subtree ', A_nucleotyde, B_nucleotyde, ' is not empty')
-    ls = LikelyhoodEstimation(subtree)
+    ls = LikelyhoodEstimation(result)
 
     tree_size = 0
-    for tree in subtree:
+    for tree in result:
         tree_size = tree_size + tree.size()
 
     print("Tree size is ", tree_size)
@@ -147,7 +147,14 @@ if len(subtree) > 0:
 
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
-    coal_rate_change = sum(susceptibleArray) / sum(infectiousArray)
+    total_sucs = 0
+    total_inf = 0
+
+    for tree in result:
+        total_sucs = total_sucs + GetTotalSucseptibleByTree(tree)
+        total_inf = total_inf + GetTotalInfectiousByTree(tree)
+
+    coal_rate_change = total_sucs / total_inf
     coal_rate = coal_rate * coal_rate_change
 
     print("Coal rate change is", coal_rate_change)

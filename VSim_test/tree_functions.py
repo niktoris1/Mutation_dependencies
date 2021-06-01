@@ -50,16 +50,18 @@ class DataOnNode: # defines a mutation on specific node
 
         self.time_of_birth = time_of_birth
         self.haplotype = haplotype
+        self.current_sucseptible = None
+        self.current_infectious = None
 
 
     def getcite(self, mutation_name):  # gets a cite name from the name of mutation
         return int(re.findall('\d+', mutation_name)[0])
 
-def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutation_in_root_node = False):
+def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_array, infectious_array, is_AA_mutation_in_root_node = False):
 
-    # sets everythong with a placeholder mutations
+        # sets everythong with a placeholder mutations
 
-    # if is_AA_mutation_in_root_node == True, we assume that we have a predefined AA nucleotydes in the root node
+        # if is_AA_mutation_in_root_node == True, we assume that we have a predefined AA nucleotydes in the root node
 
     tree = Tree()
 
@@ -88,10 +90,13 @@ def ArrayTreeToTreeClass(array_tree, array_times, array_mutations, is_AA_mutatio
         array_mutations[3].append(None) # new nucleotyde is zero
         array_times.append(0)
 
-    for i in range(len(array_mutations[0])):
+    for i in range(len(array_mutations[0])): # i - это номер, представленный в списке мутаций. Совпадает с номером в списке эвентов
         tree.update_node(array_mutations[0][i], data = DataOnNode(is_mutation=True, mutation_name=str(number_to_letter(array_mutations[1][i])) +
-            "_to_" + str(number_to_letter(array_mutations[3][i])) +"_on_time_" + str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]), new_nucleotyde=number_to_letter(array_mutations[3][i]),
-                                                                  time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i]))
+            "_to_" + str(number_to_letter(array_mutations[3][i])) +"_on_time_" + str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]),
+                                                                  new_nucleotyde=number_to_letter(array_mutations[3][i]),
+                                                                  time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i],
+                                                                  current_sucseptible = sucseptible_array[i], current_infectious = infectious_array[i])
+                         )
 
     return tree
 
@@ -158,3 +163,15 @@ def GetTimesFromEvents(events_array):
         times_array[time_number] = events_array[time_number].event_time
 
     return times_array
+
+def GetTotalSucseptibleByTree(tree):
+    ts = 0
+    for node in tree.all_nodes():
+        ts = ts + node.data.current_sucseptible
+    return ts
+
+def GetTotalInfectiousByTree(tree):
+    ti = 0
+    for node in tree.all_nodes():
+        ti = ti + node.data.current_sucseptible
+    return ti
