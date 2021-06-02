@@ -108,7 +108,7 @@ alltree = ArraysToTreeClass(tree, times, mut, susceptibleArray, infectiousArray,
 #newtree.show()
 #print("Time is", currentTime)
 A_nucleotyde = 'G'
-B_nucleotyde = 'G'
+B_nucleotyde = 'T'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = alltree)
 
@@ -162,9 +162,6 @@ if len(result) > 0:
 
 else:
     print('Subtree is empty')
-
-
-
 
 def writeMutations(mut):
     #digits replacement
