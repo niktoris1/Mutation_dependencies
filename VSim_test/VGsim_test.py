@@ -108,7 +108,7 @@ alltree = ArraysToTreeClass(tree, times, mut, susceptibleArray, infectiousArray,
 #newtree.show()
 #print("Time is", currentTime)
 A_nucleotyde = 'G'
-B_nucleotyde = 'T'
+B_nucleotyde = 'A'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = alltree)
 
