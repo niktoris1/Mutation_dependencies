@@ -57,7 +57,7 @@ class DataOnNode: # defines a mutation on specific node
     def getcite(self, mutation_name):  # gets a cite name from the name of mutation
         return int(re.findall('\d+', mutation_name)[0])
 
-def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_array, infectious_array, is_AA_mutation_in_root_node = False):
+def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_array_on_tree, infectious_array_on_tree, is_AA_mutation_in_root_node = False):
 
         # sets everythong with a placeholder mutations
 
@@ -70,7 +70,7 @@ def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_arra
         if array_tree[i] == -1:
             root_id = i
             tree.create_node(root_id, root_id, data=DataOnNode(is_mutation=False, time_of_birth=array_times[root_id],
-                                                               current_sucseptible = sucseptible_array[i], current_infectious=infectious_array[i]))
+                                                               current_sucseptible = sucseptible_array_on_tree[i], current_infectious=infectious_array_on_tree[i]))
             break # there can be only one root
 
     if root_id == 'Unknown':
@@ -79,8 +79,8 @@ def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_arra
     for i in range(len(array_tree)):
         if i != root_id:
             tree.create_node(i, i, parent=root_id, data=DataOnNode(is_mutation=False, time_of_birth=array_times[i],
-                                                                   current_sucseptible=sucseptible_array[i],
-                                                                   current_infectious=infectious_array[i]
+                                                                   current_sucseptible=sucseptible_array_on_tree[i],
+                                                                   current_infectious=infectious_array_on_tree[i]
                                                                    ))
 
     for i in range(len(array_tree)):
@@ -99,7 +99,7 @@ def ArraysToTreeClass(array_tree, array_times, array_mutations, sucseptible_arra
             "_to_" + str(number_to_letter(array_mutations[3][i])) +"_on_time_" + str(array_times[i]), old_nucleotyde=number_to_letter(array_mutations[1][i]),
                                                                   new_nucleotyde=number_to_letter(array_mutations[3][i]),
                                                                   time_of_birth=array_times[array_mutations[0][i]], mutation_cite = array_mutations[2][i],
-                                                                  current_sucseptible = sucseptible_array[array_mutations[0][i]], current_infectious = infectious_array[array_mutations[0][i]])
+                                                                  current_sucseptible = sucseptible_array_on_tree[array_mutations[0][i]], current_infectious = infectious_array_on_tree[array_mutations[0][i]])
                          )
 
     return tree

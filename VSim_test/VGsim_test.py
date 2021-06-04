@@ -8,7 +8,8 @@ from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSuscept
 from random import randrange
 from get_subtree import SubtreeCreation
 
-from tree_functions import ArraysToTreeClass, GetTotalInfectiousByTree, GetTotalSucseptibleByTree
+from tree_functions import ArraysToTreeClass, \
+    GetTotalInfectiousByTree, GetTotalSucseptibleByTree
 from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -16,7 +17,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 100000
+iterations = 300000
 susceptibility = None
 seed = 5750693369156385614
 populationModel = ['test/test.pp', 'test/test.mg']
@@ -101,9 +102,16 @@ event_types = simulation.GetEventTypes()
 
 susceptibleArray = simulation.GetTotalSusceptibleArray()
 infectiousArray = simulation.GetTotalInfectiousArray()
+all_times = simulation.GetAllTimes()
 
+susceptibleArrayOnTree = [] #TODO - сделать это не через одно место
+infectiousArrayOnTree = []
+for i in range(len(times)):
+    ind = all_times.index(times[i])
+    susceptibleArrayOnTree.append(susceptibleArray[ind])
+    infectiousArrayOnTree.append(infectiousArray[ind])
 
-alltree = ArraysToTreeClass(tree, times, mut, susceptibleArray, infectiousArray, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
+alltree = ArraysToTreeClass(tree, times, mut, susceptibleArrayOnTree, infectiousArrayOnTree, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
