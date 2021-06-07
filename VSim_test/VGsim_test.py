@@ -8,8 +8,7 @@ from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSuscept
 from random import randrange
 from get_subtree import SubtreeCreation
 
-from tree_functions import ArraysToTreeClass, \
-    GetTotalInfectiousByTree, GetTotalSucseptibleByTree
+from tree_functions import EventsFromSimulation, EventSequenceToTreeClass
 from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -93,32 +92,16 @@ print(t2 - t1)
 print(t3 - t2)
 print("_________________________________")
 
+events = EventsFromSimulation(simulation = simulation, is_AA_mutation_in_root_node = False)
+treeclasstree = EventSequenceToTreeClass(simulation=simulation, event_sequence=events)
 
-tree = simulation.GetTree()
-times = simulation.GetTimes()
-mut = simulation.GetMut()
-currentTime = simulation.GetCurrentTime()
-event_types = simulation.GetEventTypes()
-
-susceptibleArray = simulation.GetTotalSusceptibleArray()
-infectiousArray = simulation.GetTotalInfectiousArray()
-all_times = simulation.GetAllTimes()
-
-susceptibleArrayOnTree = [] #TODO - сделать это не через одно место
-infectiousArrayOnTree = []
-for i in range(len(times)):
-    ind = all_times.index(times[i])
-    susceptibleArrayOnTree.append(susceptibleArray[ind])
-    infectiousArrayOnTree.append(infectiousArray[ind])
-
-alltree = ArraysToTreeClass(tree, times, mut, susceptibleArrayOnTree, infectiousArrayOnTree, is_AA_mutation_in_root_node=True) # need to get self.tree, self.times and self.muts from BirthDeathClass - тут должно быть дерево, времена создания каждой из нод и мутации на нодах
 
 #newtree.show()
 #print("Time is", currentTime)
 A_nucleotyde = 'G'
 B_nucleotyde = 'A'
 
-sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = alltree)
+sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = treeclasstree)
 
 result = SubtreeCreation.GetABsubtrees(sc)
 
@@ -141,7 +124,7 @@ if len(result) > 0:
 
     time_start = 999
 
-    for event in ls.es.events_sequence:
+    for event in ls.es.sequence:
         if ls.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
             time_start = event.event_time
 

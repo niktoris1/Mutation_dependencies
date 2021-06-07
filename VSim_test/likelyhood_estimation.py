@@ -24,8 +24,8 @@ class LikelyhoodEstimation:
             self.es = GetEventsFromTree(self.estimated_tree)
         else:
             self.es = es
-        self.number_of_events = len(self.es.events_sequence)
-        self.distinct_lineages = self.BuildDistinctLineages(self.es.events_sequence)
+        self.number_of_events = len(self.es.sequence)
+        self.distinct_lineages = self.BuildDistinctLineages(self.es.sequence)
 
 
 
@@ -90,7 +90,7 @@ class LikelyhoodEstimation:
         return self.distinct_lineages[iteration]
 
     def EventFromIteration(self, iteration):
-        return self.es.events_sequence[iteration]
+        return self.es.sequence[iteration]
 
     def EventProbability(self, time, event, coal_rate):
 
