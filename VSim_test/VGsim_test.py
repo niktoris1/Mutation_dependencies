@@ -3,8 +3,8 @@
 import argparse
 import sys
 import time
-from VGsim._BirthDeath import BirthDeathModel
-from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
+from Simulator.VGsim._BirthDeath import BirthDeathModel
+from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility
 from random import randrange
 from get_subtree import SubtreeCreation
 
