@@ -1,5 +1,6 @@
 from treelib import Tree
 import re
+import time
 
 class Event:
     def __init__(self, type = None, time = None, iteration = None,
@@ -77,7 +78,7 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
             return None
 
     def IsThereAMutationOnNodeId(node_id):
-        if node_id in simulation.GetTreeMuts[0]:
+        if node_id in simulation.GetTreeMutsNodeIds():
             return True
         else:
             return False
@@ -89,7 +90,7 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
         else:
             return None
 
-    def GetCite(mutation_name):  # gets a cite name from the name of mutation
+    def GetSite(mutation_name):  # gets a cite name from the name of mutation
         return int(re.findall('\d+', mutation_name)[0])
 
     def NumberToLetter(number):
@@ -103,32 +104,48 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
             return 'G'
 
     for i in range(simulation.GetNumberOfEvents()):
-        type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
-        time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
+        t1 = time.time()
+
+        event_type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
+        event_time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
         iteration = i # the number of event in a sequence
         haplotype = simulation.GetHaplotypes()[len(simulation.GetHaplotypes()) - 1 - i] # which haplotype was in place, when event occured
         node_id = GetNodeIdByEventIteration(iteration)
         number_of_children = NumberOfChildrenFromNodeId(node_id)
-        current_sucseptible = events.newSucseptibles[i] # it's worrying, that this array is forward-time, while others are backward-time
-        current_infectious = events.newInfectious[i] # same goes here
+        current_sucseptible = simulation.GetSucseptibles()[i] # it's worrying, that this array is forward-time, while others are backward-time
+        current_infectious = simulation.GetInfectious()[i] # same goes here
         is_a_mutation = IsThereAMutationOnNodeId(node_id)
-        old_nucleotyde = NumberToLetter(simulation.GetTreeMuts[1][node_id])
-        new_nucleotyde = NumberToLetter(simulation.GetTreeMuts[3][node_id])
-        mutation_cite = simulation.GetTreeMuts[2][node_id]
-        mutation_name = GetCite(mutation_cite)
+        if is_a_mutation == True:
+            old_nucleotyde = NumberToLetter(simulation.GetTreeMutsASs[node_id])
+            new_nucleotyde = NumberToLetter(simulation.GetTreeMutsDSs[node_id])
+            mitation_site = simulation.GetTreeMutsSites[node_id]
+            mutation_name = GetSite(mitation_site)
+        else:
+            old_nucleotyde = None
+            new_nucleotyde = None
+            mitation_site = None
+            mutation_name = None
 
-        event = Event(type = type, time = time, iteration = iteration,
+
+        event = Event(type = event_type, time = event_time, iteration = iteration,
                  haplotype = haplotype, node_id = node_id, number_of_children = number_of_children, current_sucseptible = current_sucseptible,
                  current_infectious = current_infectious, is_a_mutation = is_a_mutation, old_nucleotyde = old_nucleotyde,
-                 new_nucleotyde = new_nucleotyde, mutation_cite = mutation_cite, mutation_name = mutation_name)
+                 new_nucleotyde = new_nucleotyde, mutation_cite = mitation_site, mutation_name = mutation_name)
+
+        t2 = time.time()
 
         es.sequence.append(event)
+
+
+        print(t2-t1)
 
     if is_AA_mutation_in_root_node == True:
         es.sequence[0].is_a_mutation = True
         es.sequence[0].old_nucleotyde = 'A'
         es.sequence[0].new_nucleotyde = 'A'
         es.sequence[0].mutation_cite = 0
+
+    print("Fin")
 
     return es
 

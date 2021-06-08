@@ -1265,7 +1265,7 @@ struct __pyx_ctuple_Py_ssize_t__and_double {
   double f1;
 };
 
-/* "VGsim/_BirthDeath.pyx":295
+/* "VGsim/_BirthDeath.pyx":303
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef Py_ssize_t GenerateEvent(self, useNumpy = False):             # <<<<<<<<<<<<<<
@@ -1277,7 +1277,7 @@ struct __pyx_opt_args_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent {
   PyObject *useNumpy;
 };
 
-/* "VGsim/_BirthDeath.pyx":467
+/* "VGsim/_BirthDeath.pyx":479
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Death(self, Py_ssize_t popId, Py_ssize_t haplotype, bint add_event = True):             # <<<<<<<<<<<<<<
@@ -1428,10 +1428,12 @@ struct __pyx_obj_5VGsim_11_BirthDeath_Events {
   __Pyx_memviewslice haplotypes;
   __Pyx_memviewslice newHaplotypes;
   __Pyx_memviewslice newPopulations;
+  __Pyx_memviewslice currentSucseptibles;
+  __Pyx_memviewslice currentInfectious;
 };
 
 
-/* "VGsim/_BirthDeath.pyx":80
+/* "VGsim/_BirthDeath.pyx":88
  * 
  * 
  * cdef class BirthDeathModel:             # <<<<<<<<<<<<<<
@@ -1641,13 +1643,13 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewReco
  */
 
 struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events {
-  void (*AddEvent)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, double, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t);
+  void (*AddEvent)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, double, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t);
   struct __pyx_obj_5VGsim_11_BirthDeath_Event *(*GetEvent)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, Py_ssize_t);
 };
 static struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *__pyx_vtabptr_5VGsim_11_BirthDeath_Events;
 
 
-/* "VGsim/_BirthDeath.pyx":80
+/* "VGsim/_BirthDeath.pyx":88
  * 
  * 
  * cdef class BirthDeathModel:             # <<<<<<<<<<<<<<
@@ -2717,7 +2719,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 static void __pyx_f_5VGsim_11_BirthDeath_9Mutations_AddMutation(struct __pyx_obj_5VGsim_11_BirthDeath_Mutations *__pyx_v_self, Py_ssize_t __pyx_v_nodeId, Py_ssize_t __pyx_v_haplotype, Py_ssize_t __pyx_v_newHaplotype); /* proto*/
 static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewInfection(struct __pyx_obj_5VGsim_11_BirthDeath_PopulationModel *__pyx_v_self, Py_ssize_t __pyx_v_popId, Py_ssize_t __pyx_v_suscId); /* proto*/
 static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewRecovery(struct __pyx_obj_5VGsim_11_BirthDeath_PopulationModel *__pyx_v_self, Py_ssize_t __pyx_v_popId, Py_ssize_t __pyx_v_suscId); /* proto*/
-static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v_self, double __pyx_v_time_, Py_ssize_t __pyx_v_type_, Py_ssize_t __pyx_v_population, Py_ssize_t __pyx_v_haplotype, Py_ssize_t __pyx_v_newHaplotype, Py_ssize_t __pyx_v_newPopulation); /* proto*/
+static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v_self, double __pyx_v_time_, Py_ssize_t __pyx_v_type_, Py_ssize_t __pyx_v_population, Py_ssize_t __pyx_v_haplotype, Py_ssize_t __pyx_v_newHaplotype, Py_ssize_t __pyx_v_newPopulation, Py_ssize_t __pyx_v_currentSucseptibles, Py_ssize_t __pyx_v_currentInfectious); /* proto*/
 static struct __pyx_obj_5VGsim_11_BirthDeath_Event *__pyx_f_5VGsim_11_BirthDeath_6Events_GetEvent(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v_self, Py_ssize_t __pyx_v_e_id); /* proto*/
 static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto*/
 static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto*/
@@ -2869,6 +2871,7 @@ int __pyx_module_is_main_VGsim___BirthDeath = 0;
 /* Implementation of 'VGsim._BirthDeath' */
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_print;
+static PyObject *__pyx_builtin_sum;
 static PyObject *__pyx_builtin_ImportError;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_MemoryError;
@@ -2890,6 +2893,7 @@ static const char __pyx_k_end[] = "end";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_sep[] = "sep";
+static const char __pyx_k_sum[] = "sum";
 static const char __pyx_k_sys[] = "sys";
 static const char __pyx_k_args[] = "args";
 static const char __pyx_k_base[] = "base";
@@ -2979,7 +2983,6 @@ static const char __pyx_k_models_pxi[] = "models.pxi";
 static const char __pyx_k_population[] = "population";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
-static const char __pyx_k_GetAllTimes[] = "GetAllTimes";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
@@ -3012,7 +3015,6 @@ static const char __pyx_k_Birth_rate_const[] = "Birth rate(const): ";
 static const char __pyx_k_Death_rate_const[] = "Death rate(const): ";
 static const char __pyx_k_Susceptible_type[] = "Susceptible type(): ";
 static const char __pyx_k_suscepTransition[] = "suscepTransition";
-static const char __pyx_k_GetNumberOfEvents[] = "GetNumberOfEvents";
 static const char __pyx_k_Number_of_samples[] = "Number of samples:";
 static const char __pyx_k_Population___init[] = "Population.__init__";
 static const char __pyx_k_VGsim__BirthDeath[] = "VGsim._BirthDeath";
@@ -3072,10 +3074,10 @@ static const char __pyx_k_Event_haplotypes_populations_rat[] = "Event haplotypes
 static const char __pyx_k_Haplotypes_populations_rates_mut[] = "Haplotypes populations rates(mutable)----";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x06[] = "Incompatible checksums (%s vs 0x06dc02f = (bCounter, bRate, birthHapPopRate, currentTime, dCounter, dRate, dim, elementsArr2, eventHapPopRate, events, hapMutType, hapNum, hapPopRate, immunePopRate, immuneSourcePopRate, infectPopRate, liveBranches, mRate, maxEffectiveBirth, maxSusceptibility, migCounter, migNonPlus, migPlus, migPopRate, mut, mutCounter, pm, pm_effectiveMigration, pm_maxEffectiveMigration, pm_migrationRates, popNum, popRate, rn, rndm, sCounter, sRate, sourceSuscepTransition, suscType, suscepCumulTransition, suscepTransition, susceptHapPopRate, susceptibility, susceptible_num, swapLockdown, tEventHapPopRate, times, tmRate, totalHapMutType, totalMigrationRate, totalRate, tree))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x1c[] = "Incompatible checksums (%s vs 0x1c20bd0 = (haplotype, newHaplotype, newPopulation, population, time, type_))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x57[] = "Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x66[] = "Incompatible checksums (%s vs 0x6665525 = (contactDensity, contactDensityAfterLockdown, contactDensityBeforeLockdown, endLD, globalInfectious, lockdownON, sizes, startLD, susceptible, totalInfectious, totalSusceptible))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x8e[] = "Incompatible checksums (%s vs 0x8e4026c = (AS, DS, nodeId, site))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
-static const char __pyx_k_Incompatible_checksums_s_vs_0xd0[] = "Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got %s";
 static const char __pyx_k_Less_than_two_cases_were_sampled[] = "Less than two cases were sampled...";
@@ -3122,18 +3124,16 @@ static PyObject *__pyx_kp_u_Error_3;
 static PyObject *__pyx_n_s_Event;
 static PyObject *__pyx_kp_u_Event_haplotypes_populations_rat;
 static PyObject *__pyx_n_s_Events;
-static PyObject *__pyx_n_s_GetAllTimes;
 static PyObject *__pyx_n_s_GetGenealogy;
-static PyObject *__pyx_n_s_GetNumberOfEvents;
 static PyObject *__pyx_kp_u_Haplotypes_number_const;
 static PyObject *__pyx_kp_u_Haplotypes_populations_rates_mut;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x06;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x1c;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x57;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x66;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x8e;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xd0;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
@@ -3310,6 +3310,7 @@ static PyObject *__pyx_kp_s_strided_and_direct_or_indirect;
 static PyObject *__pyx_kp_s_strided_and_indirect;
 static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_struct;
+static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_suscepTransition;
 static PyObject *__pyx_n_s_susceptible;
 static PyObject *__pyx_n_s_susceptible_num;
@@ -3347,13 +3348,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_2__pyx_unpickle_Mutations(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_4__pyx_unpickle_PopulationModel(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6__pyx_unpickle_Event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -3425,10 +3432,10 @@ static PyObject *__pyx_int_1256;
 static PyObject *__pyx_int_1000000;
 static PyObject *__pyx_int_7192623;
 static PyObject *__pyx_int_29494224;
+static PyObject *__pyx_int_92209634;
 static PyObject *__pyx_int_107369765;
 static PyObject *__pyx_int_149160556;
 static PyObject *__pyx_int_184977713;
-static PyObject *__pyx_int_218487186;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
@@ -7235,7 +7242,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_5Event_4__setstate_cython__(struc
 }
 
 /* "VGsim/_BirthDeath.pyx":51
- *         Py_ssize_t[::1] types, populations, haplotypes, newHaplotypes, newPopulations
+ *         Py_ssize_t[::1] types, populations, haplotypes, newHaplotypes, newPopulations, currentSucseptibles, currentInfectious
  * 
  *     def __init__(self, Py_ssize_t size_):             # <<<<<<<<<<<<<<
  *         self.size = size_
@@ -7502,7 +7509,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_6Events___init__(struct __pyx_obj_5VGsi
  *         self.newHaplotypes = np.zeros(self.size, dtype=int)
  *         self.newPopulations = np.zeros(self.size, dtype=int)             # <<<<<<<<<<<<<<
  * 
- *     @cython.boundscheck(False)
+ *         self.currentSucseptibles = np.zeros(self.size, dtype=int)
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -7531,8 +7538,76 @@ static int __pyx_pf_5VGsim_11_BirthDeath_6Events___init__(struct __pyx_obj_5VGsi
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
+  /* "VGsim/_BirthDeath.pyx":62
+ *         self.newPopulations = np.zeros(self.size, dtype=int)
+ * 
+ *         self.currentSucseptibles = np.zeros(self.size, dtype=int)             # <<<<<<<<<<<<<<
+ *         self.currentInfectious = np.zeros(self.size, dtype=int)
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 62, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 62, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->currentSucseptibles, 0);
+  __pyx_v_self->currentSucseptibles = __pyx_t_6;
+  __pyx_t_6.memview = NULL;
+  __pyx_t_6.data = NULL;
+
+  /* "VGsim/_BirthDeath.pyx":63
+ * 
+ *         self.currentSucseptibles = np.zeros(self.size, dtype=int)
+ *         self.currentInfectious = np.zeros(self.size, dtype=int)             # <<<<<<<<<<<<<<
+ * 
+ *     @cython.boundscheck(False)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+  __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->currentInfectious, 0);
+  __pyx_v_self->currentInfectious = __pyx_t_6;
+  __pyx_t_6.memview = NULL;
+  __pyx_t_6.data = NULL;
+
   /* "VGsim/_BirthDeath.pyx":51
- *         Py_ssize_t[::1] types, populations, haplotypes, newHaplotypes, newPopulations
+ *         Py_ssize_t[::1] types, populations, haplotypes, newHaplotypes, newPopulations, currentSucseptibles, currentInfectious
  * 
  *     def __init__(self, Py_ssize_t size_):             # <<<<<<<<<<<<<<
  *         self.size = size_
@@ -7556,22 +7631,22 @@ static int __pyx_pf_5VGsim_11_BirthDeath_6Events___init__(struct __pyx_obj_5VGsi
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":64
+/* "VGsim/_BirthDeath.pyx":67
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
- *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype, Py_ssize_t newHaplotype, Py_ssize_t newPopulation):             # <<<<<<<<<<<<<<
- *         self.times[ self.ptr ] = time_
- *         self.types[ self.ptr ] = type_
+ *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype,             # <<<<<<<<<<<<<<
+ *                        Py_ssize_t newHaplotype, Py_ssize_t newPopulation, Py_ssize_t currentSucseptibles,
+ *                        Py_ssize_t currentInfectious):
  */
 
-static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v_self, double __pyx_v_time_, Py_ssize_t __pyx_v_type_, Py_ssize_t __pyx_v_population, Py_ssize_t __pyx_v_haplotype, Py_ssize_t __pyx_v_newHaplotype, Py_ssize_t __pyx_v_newPopulation) {
+static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v_self, double __pyx_v_time_, Py_ssize_t __pyx_v_type_, Py_ssize_t __pyx_v_population, Py_ssize_t __pyx_v_haplotype, Py_ssize_t __pyx_v_newHaplotype, Py_ssize_t __pyx_v_newPopulation, Py_ssize_t __pyx_v_currentSucseptibles, Py_ssize_t __pyx_v_currentInfectious) {
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   __Pyx_RefNannySetupContext("AddEvent", 0);
 
-  /* "VGsim/_BirthDeath.pyx":65
- *     @cython.wraparound(False)
- *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype, Py_ssize_t newHaplotype, Py_ssize_t newPopulation):
+  /* "VGsim/_BirthDeath.pyx":70
+ *                        Py_ssize_t newHaplotype, Py_ssize_t newPopulation, Py_ssize_t currentSucseptibles,
+ *                        Py_ssize_t currentInfectious):
  *         self.times[ self.ptr ] = time_             # <<<<<<<<<<<<<<
  *         self.types[ self.ptr ] = type_
  *         self.populations[ self.ptr ] = population
@@ -7579,8 +7654,8 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_1)) )) = __pyx_v_time_;
 
-  /* "VGsim/_BirthDeath.pyx":66
- *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype, Py_ssize_t newHaplotype, Py_ssize_t newPopulation):
+  /* "VGsim/_BirthDeath.pyx":71
+ *                        Py_ssize_t currentInfectious):
  *         self.times[ self.ptr ] = time_
  *         self.types[ self.ptr ] = type_             # <<<<<<<<<<<<<<
  *         self.populations[ self.ptr ] = population
@@ -7589,7 +7664,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->types.data) + __pyx_t_1)) )) = __pyx_v_type_;
 
-  /* "VGsim/_BirthDeath.pyx":67
+  /* "VGsim/_BirthDeath.pyx":72
  *         self.times[ self.ptr ] = time_
  *         self.types[ self.ptr ] = type_
  *         self.populations[ self.ptr ] = population             # <<<<<<<<<<<<<<
@@ -7599,7 +7674,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->populations.data) + __pyx_t_1)) )) = __pyx_v_population;
 
-  /* "VGsim/_BirthDeath.pyx":68
+  /* "VGsim/_BirthDeath.pyx":73
  *         self.types[ self.ptr ] = type_
  *         self.populations[ self.ptr ] = population
  *         self.haplotypes[ self.ptr ] = haplotype             # <<<<<<<<<<<<<<
@@ -7609,7 +7684,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->haplotypes.data) + __pyx_t_1)) )) = __pyx_v_haplotype;
 
-  /* "VGsim/_BirthDeath.pyx":69
+  /* "VGsim/_BirthDeath.pyx":74
  *         self.populations[ self.ptr ] = population
  *         self.haplotypes[ self.ptr ] = haplotype
  *         self.newHaplotypes[ self.ptr ] = newHaplotype             # <<<<<<<<<<<<<<
@@ -7619,7 +7694,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newHaplotypes.data) + __pyx_t_1)) )) = __pyx_v_newHaplotype;
 
-  /* "VGsim/_BirthDeath.pyx":70
+  /* "VGsim/_BirthDeath.pyx":75
  *         self.haplotypes[ self.ptr ] = haplotype
  *         self.newHaplotypes[ self.ptr ] = newHaplotype
  *         self.newPopulations[ self.ptr ] = newPopulation             # <<<<<<<<<<<<<<
@@ -7629,28 +7704,48 @@ static void __pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent(struct __pyx_obj_5VGsi
   __pyx_t_1 = __pyx_v_self->ptr;
   *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newPopulations.data) + __pyx_t_1)) )) = __pyx_v_newPopulation;
 
-  /* "VGsim/_BirthDeath.pyx":71
+  /* "VGsim/_BirthDeath.pyx":76
  *         self.newHaplotypes[ self.ptr ] = newHaplotype
  *         self.newPopulations[ self.ptr ] = newPopulation
  *         self.ptr += 1             # <<<<<<<<<<<<<<
  * 
- *     @cython.boundscheck(False)
+ *         self.currentSucseptibles[ self.ptr ] = currentSucseptibles
  */
   __pyx_v_self->ptr = (__pyx_v_self->ptr + 1);
 
-  /* "VGsim/_BirthDeath.pyx":64
+  /* "VGsim/_BirthDeath.pyx":78
+ *         self.ptr += 1
+ * 
+ *         self.currentSucseptibles[ self.ptr ] = currentSucseptibles             # <<<<<<<<<<<<<<
+ *         self.currentInfectious[ self.ptr ] = currentInfectious
+ * 
+ */
+  __pyx_t_1 = __pyx_v_self->ptr;
+  *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->currentSucseptibles.data) + __pyx_t_1)) )) = __pyx_v_currentSucseptibles;
+
+  /* "VGsim/_BirthDeath.pyx":79
+ * 
+ *         self.currentSucseptibles[ self.ptr ] = currentSucseptibles
+ *         self.currentInfectious[ self.ptr ] = currentInfectious             # <<<<<<<<<<<<<<
+ * 
+ *     @cython.boundscheck(False)
+ */
+  __pyx_t_1 = __pyx_v_self->ptr;
+  *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->currentInfectious.data) + __pyx_t_1)) )) = __pyx_v_currentInfectious;
+
+  /* "VGsim/_BirthDeath.pyx":67
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
- *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype, Py_ssize_t newHaplotype, Py_ssize_t newPopulation):             # <<<<<<<<<<<<<<
- *         self.times[ self.ptr ] = time_
- *         self.types[ self.ptr ] = type_
+ *     cdef void AddEvent(self, double time_, Py_ssize_t type_, Py_ssize_t population, Py_ssize_t haplotype,             # <<<<<<<<<<<<<<
+ *                        Py_ssize_t newHaplotype, Py_ssize_t newPopulation, Py_ssize_t currentSucseptibles,
+ *                        Py_ssize_t currentInfectious):
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":75
+/* "VGsim/_BirthDeath.pyx":83
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef Event GetEvent(self, Py_ssize_t e_id):             # <<<<<<<<<<<<<<
@@ -7675,7 +7770,7 @@ static struct __pyx_obj_5VGsim_11_BirthDeath_Event *__pyx_f_5VGsim_11_BirthDeath
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetEvent", 0);
 
-  /* "VGsim/_BirthDeath.pyx":76
+  /* "VGsim/_BirthDeath.pyx":84
  *     @cython.wraparound(False)
  *     cdef Event GetEvent(self, Py_ssize_t e_id):
  *         ev = Event( self.times[ e_id ], self.types[ e_id ], self.populations[ e_id ], self.haplotypes[ e_id ], self.newHaplotypes[ e_id ], self.newPopulations[ e_id ])             # <<<<<<<<<<<<<<
@@ -7683,24 +7778,24 @@ static struct __pyx_obj_5VGsim_11_BirthDeath_Event *__pyx_f_5VGsim_11_BirthDeath
  * 
  */
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_3 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->types.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->types.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_4 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->populations.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_4 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->populations.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_5 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->haplotypes.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->haplotypes.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_6 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newHaplotypes.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newHaplotypes.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_1 = __pyx_v_e_id;
-  __pyx_t_7 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newPopulations.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->newPopulations.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyTuple_New(6); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(6); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
@@ -7720,13 +7815,13 @@ static struct __pyx_obj_5VGsim_11_BirthDeath_Event *__pyx_f_5VGsim_11_BirthDeath
   __pyx_t_5 = 0;
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Event), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Event), __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_v_ev = ((struct __pyx_obj_5VGsim_11_BirthDeath_Event *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":77
+  /* "VGsim/_BirthDeath.pyx":85
  *     cdef Event GetEvent(self, Py_ssize_t e_id):
  *         ev = Event( self.times[ e_id ], self.types[ e_id ], self.populations[ e_id ], self.haplotypes[ e_id ], self.newHaplotypes[ e_id ], self.newPopulations[ e_id ])
  *         return( ev )             # <<<<<<<<<<<<<<
@@ -7738,7 +7833,7 @@ static struct __pyx_obj_5VGsim_11_BirthDeath_Event *__pyx_f_5VGsim_11_BirthDeath
   __pyx_r = __pyx_v_ev;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":75
+  /* "VGsim/_BirthDeath.pyx":83
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef Event GetEvent(self, Py_ssize_t e_id):             # <<<<<<<<<<<<<<
@@ -7798,8 +7893,10 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  int __pyx_t_10;
-  int __pyx_t_11;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  int __pyx_t_12;
+  int __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7808,44 +7905,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)             # <<<<<<<<<<<<<<
+ *     state = (self.currentInfectious, self.currentSucseptibles, self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->haplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->newHaplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->currentSucseptibles, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->newPopulations, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->haplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->populations, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->newHaplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_self->ptr); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->newPopulations, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->populations, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_self->ptr); if (unlikely(!__pyx_t_7)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->types, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyTuple_New(8); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->types, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_11 = PyTuple_New(10); if (unlikely(!__pyx_t_11)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_9, 3, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_11, 3, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_9, 4, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_11, 4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_9, 5, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_11, 5, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_9, 6, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_11, 6, __pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_9, 7, __pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_11, 7, __pyx_t_8);
+  __Pyx_GIVEREF(__pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_11, 8, __pyx_t_9);
+  __Pyx_GIVEREF(__pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_11, 9, __pyx_t_10);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -7854,31 +7959,33 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
   __pyx_t_8 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_9);
   __pyx_t_9 = 0;
+  __pyx_t_10 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_11);
+  __pyx_t_11 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
+ *     state = (self.currentInfectious, self.currentSucseptibles, self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_9 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_v__dict = __pyx_t_9;
-  __pyx_t_9 = 0;
+  __pyx_t_11 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_11)) __PYX_ERR(3, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_v__dict = __pyx_t_11;
+  __pyx_t_11 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
+ *     state = (self.currentInfectious, self.currentSucseptibles, self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_10 = (__pyx_v__dict != Py_None);
-  __pyx_t_11 = (__pyx_t_10 != 0);
-  if (__pyx_t_11) {
+  __pyx_t_12 = (__pyx_v__dict != Py_None);
+  __pyx_t_13 = (__pyx_t_12 != 0);
+  if (__pyx_t_13) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -7887,16 +7994,16 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(3, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v__dict);
-    __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_8));
-    __pyx_t_8 = 0;
+    PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_v__dict);
+    __pyx_t_10 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(3, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_10));
+    __pyx_t_10 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
@@ -7908,7 +8015,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
+ *     state = (self.currentInfectious, self.currentSucseptibles, self.haplotypes, self.newHaplotypes, self.newPopulations, self.populations, self.ptr, self.size, self.times, self.types)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -7922,7 +8029,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
  *     else:
  *         use_setstate = False             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, None), state
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, None), state
  */
   /*else*/ {
     __pyx_v_use_setstate = 0;
@@ -7933,89 +8040,89 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
  *     else:
  *         use_setstate = False
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, None), state
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, None), state
  *     else:
  */
-  __pyx_t_11 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_11) {
+  __pyx_t_13 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_13) {
 
     /* "(tree fragment)":13
  *         use_setstate = False
  *     if use_setstate:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, state)
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_pyx_unpickle_Events); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyTuple_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_pyx_unpickle_Events); if (unlikely(!__pyx_t_10)) __PYX_ERR(3, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(3, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_9, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_218487186);
-    __Pyx_GIVEREF(__pyx_int_218487186);
-    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_int_218487186);
+    PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_92209634);
+    __Pyx_GIVEREF(__pyx_int_92209634);
+    PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_int_92209634);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_9, 2, Py_None);
-    __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(3, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8);
-    __Pyx_GIVEREF(__pyx_t_9);
-    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_9);
+    PyTuple_SET_ITEM(__pyx_t_11, 2, Py_None);
+    __pyx_t_9 = PyTuple_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_GIVEREF(__pyx_t_10);
+    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_10);
+    __Pyx_GIVEREF(__pyx_t_11);
+    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_11);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_v_state);
-    __pyx_t_8 = 0;
+    PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_v_state);
+    __pyx_t_10 = 0;
+    __pyx_t_11 = 0;
+    __pyx_r = __pyx_t_9;
     __pyx_t_9 = 0;
-    __pyx_r = __pyx_t_7;
-    __pyx_t_7 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
  *         use_setstate = False
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, None), state
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, None), state
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, None), state
  *     else:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Events__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_pyx_unpickle_Events); if (unlikely(!__pyx_t_7)) __PYX_ERR(3, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = PyTuple_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_pyx_unpickle_Events); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(3, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_9, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_218487186);
-    __Pyx_GIVEREF(__pyx_int_218487186);
-    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_int_218487186);
+    PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_92209634);
+    __Pyx_GIVEREF(__pyx_int_92209634);
+    PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_int_92209634);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_v_state);
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_v_state);
+    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(3, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_9);
-    PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_9);
-    __pyx_t_7 = 0;
+    PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9);
+    __Pyx_GIVEREF(__pyx_t_11);
+    PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_11);
     __pyx_t_9 = 0;
-    __pyx_r = __pyx_t_8;
-    __pyx_t_8 = 0;
+    __pyx_t_11 = 0;
+    __pyx_r = __pyx_t_10;
+    __pyx_t_10 = 0;
     goto __pyx_L0;
   }
 
@@ -8036,6 +8143,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
   __Pyx_AddTraceback("VGsim._BirthDeath.Events.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -8048,7 +8157,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_2__reduce_cython__(struct
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, state)
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Events__set_state(self, __pyx_state)
  */
@@ -8076,7 +8185,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_4__setstate_cython__(stru
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, state)
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_Events__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -8087,7 +8196,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_4__setstate_cython__(stru
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Events, (type(self), 0xd05d992, state)
+ *         return __pyx_unpickle_Events, (type(self), 0x57f01e2, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_Events__set_state(self, __pyx_state)
  */
@@ -8105,7 +8214,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6Events_4__setstate_cython__(stru
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":97
+/* "VGsim/_BirthDeath.pyx":105
  *         double[:,:,::1] eventHapPopRate, susceptHapPopRate, hapMutType
  * 
  *     def __init__(self, iterations, bRate, dRate, sRate, mRate, populationModel=None, susceptible=None, suscepTransition=None, lockdownModel=None, rndseed=1256, **kwargs):             # <<<<<<<<<<<<<<
@@ -8179,25 +8288,25 @@ static int __pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_1__init__(PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bRate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 1); __PYX_ERR(1, 97, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 1); __PYX_ERR(1, 105, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dRate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 2); __PYX_ERR(1, 97, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 2); __PYX_ERR(1, 105, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sRate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 3); __PYX_ERR(1, 97, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 3); __PYX_ERR(1, 105, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mRate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 4); __PYX_ERR(1, 97, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, 4); __PYX_ERR(1, 105, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
@@ -8231,7 +8340,7 @@ static int __pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_1__init__(PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 97, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 105, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8267,7 +8376,7 @@ static int __pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_1__init__(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 97, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 10, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 105, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -8306,7 +8415,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "VGsim/_BirthDeath.pyx":98
+  /* "VGsim/_BirthDeath.pyx":106
  * 
  *     def __init__(self, iterations, bRate, dRate, sRate, mRate, populationModel=None, susceptible=None, suscepTransition=None, lockdownModel=None, rndseed=1256, **kwargs):
  *         self.currentTime = 0.0             # <<<<<<<<<<<<<<
@@ -8315,7 +8424,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->currentTime = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":99
+  /* "VGsim/_BirthDeath.pyx":107
  *     def __init__(self, iterations, bRate, dRate, sRate, mRate, populationModel=None, susceptible=None, suscepTransition=None, lockdownModel=None, rndseed=1256, **kwargs):
  *         self.currentTime = 0.0
  *         self.sCounter = 0 #sample counter             # <<<<<<<<<<<<<<
@@ -8324,7 +8433,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->sCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":100
+  /* "VGsim/_BirthDeath.pyx":108
  *         self.currentTime = 0.0
  *         self.sCounter = 0 #sample counter
  *         self.bCounter = 0             # <<<<<<<<<<<<<<
@@ -8333,7 +8442,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->bCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":101
+  /* "VGsim/_BirthDeath.pyx":109
  *         self.sCounter = 0 #sample counter
  *         self.bCounter = 0
  *         self.dCounter = 0             # <<<<<<<<<<<<<<
@@ -8342,7 +8451,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->dCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":102
+  /* "VGsim/_BirthDeath.pyx":110
  *         self.bCounter = 0
  *         self.dCounter = 0
  *         self.migCounter = 0             # <<<<<<<<<<<<<<
@@ -8351,7 +8460,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->migCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":103
+  /* "VGsim/_BirthDeath.pyx":111
  *         self.dCounter = 0
  *         self.migCounter = 0
  *         self.mutCounter = 0             # <<<<<<<<<<<<<<
@@ -8360,16 +8469,16 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->mutCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":104
+  /* "VGsim/_BirthDeath.pyx":112
  *         self.migCounter = 0
  *         self.mutCounter = 0
  *         self.events = Events(iterations+1)             # <<<<<<<<<<<<<<
  *         self.mut = Mutations()
  *         self.migPlus = 0
  */
-  __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_iterations, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_iterations, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Events), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Events), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -8378,14 +8487,14 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_v_self->events = ((struct __pyx_obj_5VGsim_11_BirthDeath_Events *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":105
+  /* "VGsim/_BirthDeath.pyx":113
  *         self.mutCounter = 0
  *         self.events = Events(iterations+1)
  *         self.mut = Mutations()             # <<<<<<<<<<<<<<
  *         self.migPlus = 0
  *         self.migNonPlus = 0
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Mutations)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 105, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_Mutations)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->mut);
@@ -8393,7 +8502,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_v_self->mut = ((struct __pyx_obj_5VGsim_11_BirthDeath_Mutations *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":106
+  /* "VGsim/_BirthDeath.pyx":114
  *         self.events = Events(iterations+1)
  *         self.mut = Mutations()
  *         self.migPlus = 0             # <<<<<<<<<<<<<<
@@ -8402,7 +8511,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->migPlus = 0;
 
-  /* "VGsim/_BirthDeath.pyx":107
+  /* "VGsim/_BirthDeath.pyx":115
  *         self.mut = Mutations()
  *         self.migPlus = 0
  *         self.migNonPlus = 0             # <<<<<<<<<<<<<<
@@ -8411,7 +8520,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->migNonPlus = 0;
 
-  /* "VGsim/_BirthDeath.pyx":108
+  /* "VGsim/_BirthDeath.pyx":116
  *         self.migPlus = 0
  *         self.migNonPlus = 0
  *         self.swapLockdown = 0             # <<<<<<<<<<<<<<
@@ -8420,7 +8529,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->swapLockdown = 0;
 
-  /* "VGsim/_BirthDeath.pyx":110
+  /* "VGsim/_BirthDeath.pyx":118
  *         self.swapLockdown = 0
  * 
  *         if susceptible is None:             # <<<<<<<<<<<<<<
@@ -8431,7 +8540,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "VGsim/_BirthDeath.pyx":111
+    /* "VGsim/_BirthDeath.pyx":119
  * 
  *         if susceptible is None:
  *             self.susceptible_num = 2             # <<<<<<<<<<<<<<
@@ -8440,7 +8549,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
     __pyx_v_self->susceptible_num = 2;
 
-    /* "VGsim/_BirthDeath.pyx":110
+    /* "VGsim/_BirthDeath.pyx":118
  *         self.swapLockdown = 0
  * 
  *         if susceptible is None:             # <<<<<<<<<<<<<<
@@ -8450,7 +8559,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     goto __pyx_L3;
   }
 
-  /* "VGsim/_BirthDeath.pyx":113
+  /* "VGsim/_BirthDeath.pyx":121
  *             self.susceptible_num = 2
  *         else:
  *             self.susceptible_num = len( susceptible[0][0] )             # <<<<<<<<<<<<<<
@@ -8458,18 +8567,18 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  *         #Set population model
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_susceptible, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 113, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_susceptible, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 113, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_5 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 113, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 121, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->susceptible_num = __pyx_t_5;
   }
   __pyx_L3:;
 
-  /* "VGsim/_BirthDeath.pyx":116
+  /* "VGsim/_BirthDeath.pyx":124
  * 
  *         #Set population model
  *         if populationModel is None:             # <<<<<<<<<<<<<<
@@ -8480,14 +8589,14 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
 
-    /* "VGsim/_BirthDeath.pyx":117
+    /* "VGsim/_BirthDeath.pyx":125
  *         #Set population model
  *         if populationModel is None:
  *             self.pm = PopulationModel( [ Population() ], self.susceptible_num)             # <<<<<<<<<<<<<<
  *             self.pm_migrationRates = np.asarray((0, 0), dtype=float)
  *         else:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Population); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 117, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Population); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -8501,17 +8610,17 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 117, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 117, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_1);
     PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 117, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 117, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
@@ -8519,7 +8628,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_1);
     __pyx_t_2 = 0;
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_PopulationModel), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 117, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_PopulationModel), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GIVEREF(__pyx_t_1);
@@ -8528,33 +8637,33 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     __pyx_v_self->pm = ((struct __pyx_obj_5VGsim_11_BirthDeath_PopulationModel *)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":118
+    /* "VGsim/_BirthDeath.pyx":126
  *         if populationModel is None:
  *             self.pm = PopulationModel( [ Population() ], self.susceptible_num)
  *             self.pm_migrationRates = np.asarray((0, 0), dtype=float)             # <<<<<<<<<<<<<<
  *         else:
  *             self.pm = PopulationModel( populationModel[0] , self.susceptible_num, lockdownModel)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 118, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 118, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 118, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 118, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 118, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 126, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 118, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 126, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->pm_migrationRates, 0);
     __pyx_v_self->pm_migrationRates = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "VGsim/_BirthDeath.pyx":116
+    /* "VGsim/_BirthDeath.pyx":124
  * 
  *         #Set population model
  *         if populationModel is None:             # <<<<<<<<<<<<<<
@@ -8564,7 +8673,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     goto __pyx_L4;
   }
 
-  /* "VGsim/_BirthDeath.pyx":120
+  /* "VGsim/_BirthDeath.pyx":128
  *             self.pm_migrationRates = np.asarray((0, 0), dtype=float)
  *         else:
  *             self.pm = PopulationModel( populationModel[0] , self.susceptible_num, lockdownModel)             # <<<<<<<<<<<<<<
@@ -8572,11 +8681,11 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  *         self.popNum = self.pm.sizes.shape[0]
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_populationModel, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 120, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_populationModel, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 120, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 120, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
@@ -8587,7 +8696,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_v_lockdownModel);
     __pyx_t_2 = 0;
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_PopulationModel), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 120, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5VGsim_11_BirthDeath_PopulationModel), __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GIVEREF(__pyx_t_1);
@@ -8596,19 +8705,19 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     __pyx_v_self->pm = ((struct __pyx_obj_5VGsim_11_BirthDeath_PopulationModel *)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":121
+    /* "VGsim/_BirthDeath.pyx":129
  *         else:
  *             self.pm = PopulationModel( populationModel[0] , self.susceptible_num, lockdownModel)
  *             self.pm_migrationRates = np.asarray(populationModel[1])             # <<<<<<<<<<<<<<
  *         self.popNum = self.pm.sizes.shape[0]
  *         self.pm_effectiveMigration = np.zeros((self.popNum, self.popNum), dtype=float)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_populationModel, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_populationModel, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -8623,10 +8732,10 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 121, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 129, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->pm_migrationRates, 0);
     __pyx_v_self->pm_migrationRates = __pyx_t_7;
@@ -8635,7 +8744,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   }
   __pyx_L4:;
 
-  /* "VGsim/_BirthDeath.pyx":122
+  /* "VGsim/_BirthDeath.pyx":130
  *             self.pm = PopulationModel( populationModel[0] , self.susceptible_num, lockdownModel)
  *             self.pm_migrationRates = np.asarray(populationModel[1])
  *         self.popNum = self.pm.sizes.shape[0]             # <<<<<<<<<<<<<<
@@ -8644,23 +8753,23 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->popNum = (__pyx_v_self->pm->sizes.shape[0]);
 
-  /* "VGsim/_BirthDeath.pyx":123
+  /* "VGsim/_BirthDeath.pyx":131
  *             self.pm_migrationRates = np.asarray(populationModel[1])
  *         self.popNum = self.pm.sizes.shape[0]
  *         self.pm_effectiveMigration = np.zeros((self.popNum, self.popNum), dtype=float)             # <<<<<<<<<<<<<<
  *         self.pm_maxEffectiveMigration = np.zeros(self.popNum, dtype=float)
  *         self.SetEffectiveMigration()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1);
@@ -8668,61 +8777,61 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_6);
   __pyx_t_1 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 123, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 123, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 131, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->pm_effectiveMigration, 0);
   __pyx_v_self->pm_effectiveMigration = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":124
+  /* "VGsim/_BirthDeath.pyx":132
  *         self.popNum = self.pm.sizes.shape[0]
  *         self.pm_effectiveMigration = np.zeros((self.popNum, self.popNum), dtype=float)
  *         self.pm_maxEffectiveMigration = np.zeros(self.popNum, dtype=float)             # <<<<<<<<<<<<<<
  *         self.SetEffectiveMigration()
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 132, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 132, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->pm_maxEffectiveMigration, 0);
   __pyx_v_self->pm_maxEffectiveMigration = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":125
+  /* "VGsim/_BirthDeath.pyx":133
  *         self.pm_effectiveMigration = np.zeros((self.popNum, self.popNum), dtype=float)
  *         self.pm_maxEffectiveMigration = np.zeros(self.popNum, dtype=float)
  *         self.SetEffectiveMigration()             # <<<<<<<<<<<<<<
@@ -8731,31 +8840,31 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->SetEffectiveMigration(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":128
+  /* "VGsim/_BirthDeath.pyx":136
  * 
  *         #Initialise haplotypes
  *         if len(mRate) > 0:             # <<<<<<<<<<<<<<
  *             self.dim = len(mRate[0])
  *         else:
  */
-  __pyx_t_5 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 128, __pyx_L1_error)
+  __pyx_t_5 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 136, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_5 > 0) != 0);
   if (__pyx_t_3) {
 
-    /* "VGsim/_BirthDeath.pyx":129
+    /* "VGsim/_BirthDeath.pyx":137
  *         #Initialise haplotypes
  *         if len(mRate) > 0:
  *             self.dim = len(mRate[0])             # <<<<<<<<<<<<<<
  *         else:
  *             self.dim = 0
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 129, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 129, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 137, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_self->dim = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":128
+    /* "VGsim/_BirthDeath.pyx":136
  * 
  *         #Initialise haplotypes
  *         if len(mRate) > 0:             # <<<<<<<<<<<<<<
@@ -8765,7 +8874,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     goto __pyx_L5;
   }
 
-  /* "VGsim/_BirthDeath.pyx":131
+  /* "VGsim/_BirthDeath.pyx":139
  *             self.dim = len(mRate[0])
  *         else:
  *             self.dim = 0             # <<<<<<<<<<<<<<
@@ -8777,7 +8886,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   }
   __pyx_L5:;
 
-  /* "VGsim/_BirthDeath.pyx":132
+  /* "VGsim/_BirthDeath.pyx":140
  *         else:
  *             self.dim = 0
  *         self.hapNum = int(4**self.dim)             # <<<<<<<<<<<<<<
@@ -8786,7 +8895,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   __pyx_v_self->hapNum = __Pyx_pow_Py_ssize_t(4, __pyx_v_self->dim);
 
-  /* "VGsim/_BirthDeath.pyx":134
+  /* "VGsim/_BirthDeath.pyx":142
  *         self.hapNum = int(4**self.dim)
  * 
  *         self.InitLiveBranches()             # <<<<<<<<<<<<<<
@@ -8795,33 +8904,33 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->InitLiveBranches(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":136
+  /* "VGsim/_BirthDeath.pyx":144
  *         self.InitLiveBranches()
  * 
  *         self.elementsArr2 = np.zeros(2, dtype=float)             # <<<<<<<<<<<<<<
  * 
  *         if susceptible is None:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 136, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 136, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 144, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->elementsArr2, 0);
   __pyx_v_self->elementsArr2 = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":138
+  /* "VGsim/_BirthDeath.pyx":146
  *         self.elementsArr2 = np.zeros(2, dtype=float)
  * 
  *         if susceptible is None:             # <<<<<<<<<<<<<<
@@ -8832,26 +8941,26 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "VGsim/_BirthDeath.pyx":139
+    /* "VGsim/_BirthDeath.pyx":147
  * 
  *         if susceptible is None:
  *             self.susceptibility = np.asarray( [ [1.0, 0.0] for _ in range(self.hapNum) ] )             # <<<<<<<<<<<<<<
  *             self.suscType = np.ones(int(self.hapNum), dtype=np.int32)
  *         else:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 139, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 139, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     { /* enter inner scope */
-      __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 139, __pyx_L1_error)
+      __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_5 = __pyx_v_self->hapNum;
       __pyx_t_10 = __pyx_t_5;
       for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
         __pyx_7genexpr__pyx_v__ = __pyx_t_11;
-        __pyx_t_8 = PyList_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 139, __pyx_L1_error)
+        __pyx_t_8 = PyList_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 147, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_INCREF(__pyx_float_1_0);
         __Pyx_GIVEREF(__pyx_float_1_0);
@@ -8859,7 +8968,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
         __Pyx_INCREF(__pyx_float_0_0);
         __Pyx_GIVEREF(__pyx_float_0_0);
         PyList_SET_ITEM(__pyx_t_8, 1, __pyx_float_0_0);
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_8))) __PYX_ERR(1, 139, __pyx_L1_error)
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_8))) __PYX_ERR(1, 147, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
     } /* exit inner scope */
@@ -8876,60 +8985,60 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     __pyx_t_6 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_8, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 139, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 139, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->susceptibility, 0);
     __pyx_v_self->susceptibility = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "VGsim/_BirthDeath.pyx":140
+    /* "VGsim/_BirthDeath.pyx":148
  *         if susceptible is None:
  *             self.susceptibility = np.asarray( [ [1.0, 0.0] for _ in range(self.hapNum) ] )
  *             self.suscType = np.ones(int(self.hapNum), dtype=np.int32)             # <<<<<<<<<<<<<<
  *         else:
  *             self.susceptibility = np.asarray( susceptible[0], dtype=float)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ones); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ones); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyInt_Type)), __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyInt_Type)), __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_int32); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_int32); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(1, 140, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_12, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 140, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_12, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->suscType, 0);
     __pyx_v_self->suscType = __pyx_t_13;
     __pyx_t_13.memview = NULL;
     __pyx_t_13.data = NULL;
 
-    /* "VGsim/_BirthDeath.pyx":138
+    /* "VGsim/_BirthDeath.pyx":146
  *         self.elementsArr2 = np.zeros(2, dtype=float)
  * 
  *         if susceptible is None:             # <<<<<<<<<<<<<<
@@ -8939,7 +9048,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     goto __pyx_L6;
   }
 
-  /* "VGsim/_BirthDeath.pyx":142
+  /* "VGsim/_BirthDeath.pyx":150
  *             self.suscType = np.ones(int(self.hapNum), dtype=np.int32)
  *         else:
  *             self.susceptibility = np.asarray( susceptible[0], dtype=float)             # <<<<<<<<<<<<<<
@@ -8947,67 +9056,67 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  * 
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_susceptible, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_susceptible, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_12);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_12);
     __pyx_t_12 = 0;
-    __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 142, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, __pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 142, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 150, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, __pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 142, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->susceptibility, 0);
     __pyx_v_self->susceptibility = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "VGsim/_BirthDeath.pyx":143
+    /* "VGsim/_BirthDeath.pyx":151
  *         else:
  *             self.susceptibility = np.asarray( susceptible[0], dtype=float)
  *             self.suscType = np.asarray( susceptible[1], dtype=np.int32 )             # <<<<<<<<<<<<<<
  * 
  *         self.susceptHapPopRate = np.zeros((self.popNum, self.hapNum, self.susceptible_num), dtype=float)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_susceptible, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_susceptible, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_int32); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_int32); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(1, 143, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 143, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 151, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->suscType, 0);
     __pyx_v_self->suscType = __pyx_t_13;
@@ -9016,25 +9125,25 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   }
   __pyx_L6:;
 
-  /* "VGsim/_BirthDeath.pyx":145
+  /* "VGsim/_BirthDeath.pyx":153
  *             self.suscType = np.asarray( susceptible[1], dtype=np.int32 )
  * 
  *         self.susceptHapPopRate = np.zeros((self.popNum, self.hapNum, self.susceptible_num), dtype=float)             # <<<<<<<<<<<<<<
  * 
  *         if suscepTransition is None:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_12 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_12 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
@@ -9045,27 +9154,27 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_t_8 = 0;
   __pyx_t_6 = 0;
   __pyx_t_12 = 0;
-  __pyx_t_12 = PyTuple_New(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_12 = PyTuple_New(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 145, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_12, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 145, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 153, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_12, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(1, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->susceptHapPopRate, 0);
   __pyx_v_self->susceptHapPopRate = __pyx_t_14;
   __pyx_t_14.memview = NULL;
   __pyx_t_14.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":147
+  /* "VGsim/_BirthDeath.pyx":155
  *         self.susceptHapPopRate = np.zeros((self.popNum, self.hapNum, self.susceptible_num), dtype=float)
  * 
  *         if suscepTransition is None:             # <<<<<<<<<<<<<<
@@ -9076,23 +9185,23 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
 
-    /* "VGsim/_BirthDeath.pyx":148
+    /* "VGsim/_BirthDeath.pyx":156
  * 
  *         if suscepTransition is None:
  *             self.suscepTransition = np.zeros( (self.susceptible_num, self.susceptible_num), dtype=float)             # <<<<<<<<<<<<<<
  *         else:
  *             self.suscepTransition = np.asarray( suscepTransition )
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_12 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_12 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6);
@@ -9100,27 +9209,27 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_12);
     __pyx_t_6 = 0;
     __pyx_t_12 = 0;
-    __pyx_t_12 = PyTuple_New(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_12 = PyTuple_New(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 148, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 156, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->suscepTransition, 0);
     __pyx_v_self->suscepTransition = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "VGsim/_BirthDeath.pyx":147
+    /* "VGsim/_BirthDeath.pyx":155
  *         self.susceptHapPopRate = np.zeros((self.popNum, self.hapNum, self.susceptible_num), dtype=float)
  * 
  *         if suscepTransition is None:             # <<<<<<<<<<<<<<
@@ -9130,7 +9239,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     goto __pyx_L9;
   }
 
-  /* "VGsim/_BirthDeath.pyx":150
+  /* "VGsim/_BirthDeath.pyx":158
  *             self.suscepTransition = np.zeros( (self.susceptible_num, self.susceptible_num), dtype=float)
  *         else:
  *             self.suscepTransition = np.asarray( suscepTransition )             # <<<<<<<<<<<<<<
@@ -9138,9 +9247,9 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  *         #Set rates
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 150, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 150, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -9155,10 +9264,10 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
     }
     __pyx_t_6 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_1, __pyx_v_suscepTransition) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_v_suscepTransition);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 150, __pyx_L1_error)
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 150, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 158, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->suscepTransition, 0);
     __pyx_v_self->suscepTransition = __pyx_t_7;
@@ -9167,7 +9276,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   }
   __pyx_L9:;
 
-  /* "VGsim/_BirthDeath.pyx":153
+  /* "VGsim/_BirthDeath.pyx":161
  * 
  *         #Set rates
  *         self.SetRates(bRate, dRate, sRate, mRate)             # <<<<<<<<<<<<<<
@@ -9176,41 +9285,41 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->SetRates(__pyx_v_self, __pyx_v_bRate, __pyx_v_dRate, __pyx_v_sRate, __pyx_v_mRate);
 
-  /* "VGsim/_BirthDeath.pyx":154
+  /* "VGsim/_BirthDeath.pyx":162
  *         #Set rates
  *         self.SetRates(bRate, dRate, sRate, mRate)
  *         self.maxSusceptibility = np.zeros(self.hapNum, dtype=float)             # <<<<<<<<<<<<<<
  *         self.SetMaxBirth()
  *         self.migPopRate = np.zeros(len(self.pm_migrationRates), dtype=float)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 154, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 154, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->maxSusceptibility, 0);
   __pyx_v_self->maxSusceptibility = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":155
+  /* "VGsim/_BirthDeath.pyx":163
  *         self.SetRates(bRate, dRate, sRate, mRate)
  *         self.maxSusceptibility = np.zeros(self.hapNum, dtype=float)
  *         self.SetMaxBirth()             # <<<<<<<<<<<<<<
@@ -9219,42 +9328,42 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->SetMaxBirth(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":156
+  /* "VGsim/_BirthDeath.pyx":164
  *         self.maxSusceptibility = np.zeros(self.hapNum, dtype=float)
  *         self.SetMaxBirth()
  *         self.migPopRate = np.zeros(len(self.pm_migrationRates), dtype=float)             # <<<<<<<<<<<<<<
  *         self.MigrationRates()
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_15 = __Pyx_MemoryView_Len(__pyx_v_self->pm_migrationRates); 
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 156, __pyx_L1_error)
-  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 156, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 164, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_12, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 156, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_12, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 164, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->migPopRate, 0);
   __pyx_v_self->migPopRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":157
+  /* "VGsim/_BirthDeath.pyx":165
  *         self.SetMaxBirth()
  *         self.migPopRate = np.zeros(len(self.pm_migrationRates), dtype=float)
  *         self.MigrationRates()             # <<<<<<<<<<<<<<
@@ -9263,16 +9372,16 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
  */
   (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-  /* "VGsim/_BirthDeath.pyx":160
+  /* "VGsim/_BirthDeath.pyx":168
  * 
  *         #Set random generator
  *         self.rndm = RndmWrapper(seed=(rndseed, 0))             # <<<<<<<<<<<<<<
  * 
  *     @cython.boundscheck(False)
  */
-  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 160, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 160, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_rndseed);
   __Pyx_GIVEREF(__pyx_v_rndseed);
@@ -9280,9 +9389,9 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_0);
-  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_seed, __pyx_t_2) < 0) __PYX_ERR(1, 160, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_seed, __pyx_t_2) < 0) __PYX_ERR(1, 168, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6mc_lib_4rndm_RndmWrapper), __pyx_empty_tuple, __pyx_t_12); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 160, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6mc_lib_4rndm_RndmWrapper), __pyx_empty_tuple, __pyx_t_12); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -9291,7 +9400,7 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   __pyx_v_self->rndm = ((struct __pyx_obj_6mc_lib_4rndm_RndmWrapper *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":97
+  /* "VGsim/_BirthDeath.pyx":105
  *         double[:,:,::1] eventHapPopRate, susceptHapPopRate, hapMutType
  * 
  *     def __init__(self, iterations, bRate, dRate, sRate, mRate, populationModel=None, susceptible=None, suscepTransition=None, lockdownModel=None, rndseed=1256, **kwargs):             # <<<<<<<<<<<<<<
@@ -9319,12 +9428,12 @@ static int __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":164
+/* "VGsim/_BirthDeath.pyx":172
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void InitLiveBranches(self):             # <<<<<<<<<<<<<<
  *         self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
  */
 
 static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
@@ -9337,28 +9446,29 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(stru
   __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("InitLiveBranches", 0);
 
-  /* "VGsim/_BirthDeath.pyx":165
+  /* "VGsim/_BirthDeath.pyx":173
  *     @cython.wraparound(False)
  *     cdef void InitLiveBranches(self):
  *         self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)             # <<<<<<<<<<<<<<
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
  *         self.liveBranches[0, 0] += 2
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -9366,54 +9476,61 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(stru
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_1 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int32); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int32); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(1, 165, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_int(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_int(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->liveBranches, 0);
   __pyx_v_self->liveBranches = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":166
+  /* "VGsim/_BirthDeath.pyx":174
  *     cdef void InitLiveBranches(self):
  *         self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)             # <<<<<<<<<<<<<<
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)             # <<<<<<<<<<<<<<
  *         self.liveBranches[0, 0] += 2
  *         self.pm.NewInfection(0, 0)
  */
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 0, 0, 0, 0, 0);
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->pm->sizes, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 174, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 0, 0, 0, 0, 0, __pyx_t_7, 1);
 
-  /* "VGsim/_BirthDeath.pyx":167
+  /* "VGsim/_BirthDeath.pyx":175
  *         self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
  *         self.liveBranches[0, 0] += 2             # <<<<<<<<<<<<<<
  *         self.pm.NewInfection(0, 0)
  *         self.pm.NewInfection(0, 0)
  */
-  __pyx_t_7 = 0;
   __pyx_t_8 = 0;
-  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_7 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_8)) )) += 2;
+  __pyx_t_9 = 0;
+  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_8 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_9)) )) += 2;
 
-  /* "VGsim/_BirthDeath.pyx":168
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)
+  /* "VGsim/_BirthDeath.pyx":176
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
  *         self.liveBranches[0, 0] += 2
  *         self.pm.NewInfection(0, 0)             # <<<<<<<<<<<<<<
  *         self.pm.NewInfection(0, 0)
@@ -9421,7 +9538,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(stru
  */
   __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewInfection(__pyx_v_self->pm, 0, 0);
 
-  /* "VGsim/_BirthDeath.pyx":169
+  /* "VGsim/_BirthDeath.pyx":177
  *         self.liveBranches[0, 0] += 2
  *         self.pm.NewInfection(0, 0)
  *         self.pm.NewInfection(0, 0)             # <<<<<<<<<<<<<<
@@ -9430,12 +9547,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(stru
  */
   __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewInfection(__pyx_v_self->pm, 0, 0);
 
-  /* "VGsim/_BirthDeath.pyx":164
+  /* "VGsim/_BirthDeath.pyx":172
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void InitLiveBranches(self):             # <<<<<<<<<<<<<<
  *         self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)
- *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0)
+ *         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
  */
 
   /* function exit code */
@@ -9452,7 +9569,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_InitLiveBranches(stru
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":173
+/* "VGsim/_BirthDeath.pyx":181
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void SetMaxBirth(self):             # <<<<<<<<<<<<<<
@@ -9476,7 +9593,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("SetMaxBirth", 0);
 
-  /* "VGsim/_BirthDeath.pyx":174
+  /* "VGsim/_BirthDeath.pyx":182
  *     @cython.wraparound(False)
  *     cdef void SetMaxBirth(self):
  *         for k in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -9488,7 +9605,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_k = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":175
+    /* "VGsim/_BirthDeath.pyx":183
  *     cdef void SetMaxBirth(self):
  *         for k in range(self.hapNum):
  *             self.maxSusceptibility[k] = 0.0             # <<<<<<<<<<<<<<
@@ -9498,7 +9615,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
     __pyx_t_4 = __pyx_v_k;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_4)) )) = 0.0;
 
-    /* "VGsim/_BirthDeath.pyx":176
+    /* "VGsim/_BirthDeath.pyx":184
  *         for k in range(self.hapNum):
  *             self.maxSusceptibility[k] = 0.0
  *             for sType in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -9510,7 +9627,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_sType = __pyx_t_7;
 
-      /* "VGsim/_BirthDeath.pyx":177
+      /* "VGsim/_BirthDeath.pyx":185
  *             self.maxSusceptibility[k] = 0.0
  *             for sType in range(self.susceptible_num):
  *                 if self.susceptibility[k, sType] > self.maxSusceptibility[k]:             # <<<<<<<<<<<<<<
@@ -9523,7 +9640,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
       __pyx_t_10 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_4 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_8)) ))) > (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_9)) )))) != 0);
       if (__pyx_t_10) {
 
-        /* "VGsim/_BirthDeath.pyx":178
+        /* "VGsim/_BirthDeath.pyx":186
  *             for sType in range(self.susceptible_num):
  *                 if self.susceptibility[k, sType] > self.maxSusceptibility[k]:
  *                     self.maxSusceptibility[k] = self.susceptibility[k, sType]             # <<<<<<<<<<<<<<
@@ -9535,7 +9652,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
         __pyx_t_4 = __pyx_v_k;
         *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_4)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_9 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_8)) )));
 
-        /* "VGsim/_BirthDeath.pyx":177
+        /* "VGsim/_BirthDeath.pyx":185
  *             self.maxSusceptibility[k] = 0.0
  *             for sType in range(self.susceptible_num):
  *                 if self.susceptibility[k, sType] > self.maxSusceptibility[k]:             # <<<<<<<<<<<<<<
@@ -9546,7 +9663,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":179
+  /* "VGsim/_BirthDeath.pyx":187
  *                 if self.susceptibility[k, sType] > self.maxSusceptibility[k]:
  *                     self.maxSusceptibility[k] = self.susceptibility[k, sType]
  *         self.maxEffectiveBirth = 0.0             # <<<<<<<<<<<<<<
@@ -9555,7 +9672,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
  */
   __pyx_v_self->maxEffectiveBirth = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":180
+  /* "VGsim/_BirthDeath.pyx":188
  *                     self.maxSusceptibility[k] = self.susceptibility[k, sType]
  *         self.maxEffectiveBirth = 0.0
  *         for k in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -9567,7 +9684,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_k = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":181
+    /* "VGsim/_BirthDeath.pyx":189
  *         self.maxEffectiveBirth = 0.0
  *         for k in range(self.hapNum):
  *             if self.maxEffectiveBirth < self.bRate[k]*self.maxSusceptibility[k]:             # <<<<<<<<<<<<<<
@@ -9579,7 +9696,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
     __pyx_t_10 = ((__pyx_v_self->maxEffectiveBirth < ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_9)) ))))) != 0);
     if (__pyx_t_10) {
 
-      /* "VGsim/_BirthDeath.pyx":182
+      /* "VGsim/_BirthDeath.pyx":190
  *         for k in range(self.hapNum):
  *             if self.maxEffectiveBirth < self.bRate[k]*self.maxSusceptibility[k]:
  *                 self.maxEffectiveBirth = self.bRate[k]*self.maxSusceptibility[k]             # <<<<<<<<<<<<<<
@@ -9590,7 +9707,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
       __pyx_t_8 = __pyx_v_k;
       __pyx_v_self->maxEffectiveBirth = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_9)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_8)) ))));
 
-      /* "VGsim/_BirthDeath.pyx":181
+      /* "VGsim/_BirthDeath.pyx":189
  *         self.maxEffectiveBirth = 0.0
  *         for k in range(self.hapNum):
  *             if self.maxEffectiveBirth < self.bRate[k]*self.maxSusceptibility[k]:             # <<<<<<<<<<<<<<
@@ -9600,7 +9717,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":173
+  /* "VGsim/_BirthDeath.pyx":181
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void SetMaxBirth(self):             # <<<<<<<<<<<<<<
@@ -9612,7 +9729,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetMaxBirth(struct __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":187
+/* "VGsim/_BirthDeath.pyx":195
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void SetEffectiveMigration(self):             # <<<<<<<<<<<<<<
@@ -9643,7 +9760,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
   int __pyx_t_17;
   __Pyx_RefNannySetupContext("SetEffectiveMigration", 0);
 
-  /* "VGsim/_BirthDeath.pyx":188
+  /* "VGsim/_BirthDeath.pyx":196
  *     @cython.cdivision(True)
  *     cdef void SetEffectiveMigration(self):
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -9655,7 +9772,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":189
+    /* "VGsim/_BirthDeath.pyx":197
  *     cdef void SetEffectiveMigration(self):
  *         for i in range(self.popNum):
  *             self.pm_maxEffectiveMigration[i] = 0.0             # <<<<<<<<<<<<<<
@@ -9666,7 +9783,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_4)) )) = 0.0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":190
+  /* "VGsim/_BirthDeath.pyx":198
  *         for i in range(self.popNum):
  *             self.pm_maxEffectiveMigration[i] = 0.0
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -9678,7 +9795,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":191
+    /* "VGsim/_BirthDeath.pyx":199
  *             self.pm_maxEffectiveMigration[i] = 0.0
  *         for i in range(self.popNum):
  *             for j in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -9690,7 +9807,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_j = __pyx_t_7;
 
-      /* "VGsim/_BirthDeath.pyx":192
+      /* "VGsim/_BirthDeath.pyx":200
  *         for i in range(self.popNum):
  *             for j in range(self.popNum):
  *                 self.pm_effectiveMigration[i,j] = self.pm_migrationRates[i,j]*self.pm.contactDensity[j]/self.pm.sizes[j]+self.pm_migrationRates[j,i]*self.pm.contactDensity[i]/self.pm.sizes[i]             # <<<<<<<<<<<<<<
@@ -9709,7 +9826,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
       __pyx_t_16 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_15 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_16)) )) = ((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_migrationRates.data + __pyx_t_4 * __pyx_v_self->pm_migrationRates.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_9)) )))) / ((double)(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->sizes.data) + __pyx_t_10)) ))))) + (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_migrationRates.data + __pyx_t_11 * __pyx_v_self->pm_migrationRates.strides[0]) )) + __pyx_t_12)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_13)) )))) / ((double)(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->sizes.data) + __pyx_t_14)) ))))));
 
-      /* "VGsim/_BirthDeath.pyx":193
+      /* "VGsim/_BirthDeath.pyx":201
  *             for j in range(self.popNum):
  *                 self.pm_effectiveMigration[i,j] = self.pm_migrationRates[i,j]*self.pm.contactDensity[j]/self.pm.sizes[j]+self.pm_migrationRates[j,i]*self.pm.contactDensity[i]/self.pm.sizes[i]
  *                 if self.pm_effectiveMigration[i,j] > self.pm_maxEffectiveMigration[j]:             # <<<<<<<<<<<<<<
@@ -9722,7 +9839,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
       __pyx_t_17 = (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_14 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_13)) ))) > (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_12)) )))) != 0);
       if (__pyx_t_17) {
 
-        /* "VGsim/_BirthDeath.pyx":194
+        /* "VGsim/_BirthDeath.pyx":202
  *                 self.pm_effectiveMigration[i,j] = self.pm_migrationRates[i,j]*self.pm.contactDensity[j]/self.pm.sizes[j]+self.pm_migrationRates[j,i]*self.pm.contactDensity[i]/self.pm.sizes[i]
  *                 if self.pm_effectiveMigration[i,j] > self.pm_maxEffectiveMigration[j]:
  *                     self.pm_maxEffectiveMigration[j] = self.pm_effectiveMigration[i,j]             # <<<<<<<<<<<<<<
@@ -9734,7 +9851,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
         __pyx_t_14 = __pyx_v_j;
         *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_14)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_12 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_13)) )));
 
-        /* "VGsim/_BirthDeath.pyx":193
+        /* "VGsim/_BirthDeath.pyx":201
  *             for j in range(self.popNum):
  *                 self.pm_effectiveMigration[i,j] = self.pm_migrationRates[i,j]*self.pm.contactDensity[j]/self.pm.sizes[j]+self.pm_migrationRates[j,i]*self.pm.contactDensity[i]/self.pm.sizes[i]
  *                 if self.pm_effectiveMigration[i,j] > self.pm_maxEffectiveMigration[j]:             # <<<<<<<<<<<<<<
@@ -9745,7 +9862,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":187
+  /* "VGsim/_BirthDeath.pyx":195
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void SetEffectiveMigration(self):             # <<<<<<<<<<<<<<
@@ -9757,7 +9874,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetEffectiveMigration
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":200
+/* "VGsim/_BirthDeath.pyx":208
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void SetRates(self, bRate, dRate, sRate, mRate):             # <<<<<<<<<<<<<<
@@ -9798,16 +9915,16 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SetRates", 0);
 
-  /* "VGsim/_BirthDeath.pyx":201
+  /* "VGsim/_BirthDeath.pyx":209
  *     @cython.wraparound(False)
  *     cdef void SetRates(self, bRate, dRate, sRate, mRate):
  *         self.bRate, self.dRate, self.sRate = np.asarray(bRate), np.asarray(dRate), np.asarray(sRate)             # <<<<<<<<<<<<<<
  * 
  *         self.mRate = np.zeros((len(mRate), len(mRate[0])), dtype=float)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -9822,14 +9939,14 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_bRate) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_bRate);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 201, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -9844,14 +9961,14 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_dRate) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_dRate);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 201, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -9866,10 +9983,10 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_sRate) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_sRate);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 201, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 201, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->bRate, 0);
   __pyx_v_self->bRate = __pyx_t_4;
@@ -9884,28 +10001,28 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":203
+  /* "VGsim/_BirthDeath.pyx":211
  *         self.bRate, self.dRate, self.sRate = np.asarray(bRate), np.asarray(dRate), np.asarray(sRate)
  * 
  *         self.mRate = np.zeros((len(mRate), len(mRate[0])), dtype=float)             # <<<<<<<<<<<<<<
  *         self.hapMutType = np.zeros((self.hapNum, len(mRate[0]), 3), dtype=float)
  *         self.totalHapMutType = np.zeros((self.hapNum, len(mRate[0])), dtype=float)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 203, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 211, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1);
@@ -9913,47 +10030,47 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_2);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 203, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 203, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 211, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 203, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 211, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->mRate, 0);
   __pyx_v_self->mRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":204
+  /* "VGsim/_BirthDeath.pyx":212
  * 
  *         self.mRate = np.zeros((len(mRate), len(mRate[0])), dtype=float)
  *         self.hapMutType = np.zeros((self.hapNum, len(mRate[0]), 3), dtype=float)             # <<<<<<<<<<<<<<
  *         self.totalHapMutType = np.zeros((self.hapNum, len(mRate[0])), dtype=float)
  *         for i in range(len(mRate)):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -9964,47 +10081,47 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_int_3);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 204, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 204, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 212, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 204, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->hapMutType, 0);
   __pyx_v_self->hapMutType = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":205
+  /* "VGsim/_BirthDeath.pyx":213
  *         self.mRate = np.zeros((len(mRate), len(mRate[0])), dtype=float)
  *         self.hapMutType = np.zeros((self.hapNum, len(mRate[0]), 3), dtype=float)
  *         self.totalHapMutType = np.zeros((self.hapNum, len(mRate[0])), dtype=float)             # <<<<<<<<<<<<<<
  *         for i in range(len(mRate)):
  *             for j in range(len(mRate[0])):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1);
@@ -10012,54 +10129,54 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_2);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 205, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 205, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 213, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->totalHapMutType, 0);
   __pyx_v_self->totalHapMutType = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":206
+  /* "VGsim/_BirthDeath.pyx":214
  *         self.hapMutType = np.zeros((self.hapNum, len(mRate[0]), 3), dtype=float)
  *         self.totalHapMutType = np.zeros((self.hapNum, len(mRate[0])), dtype=float)
  *         for i in range(len(mRate)):             # <<<<<<<<<<<<<<
  *             for j in range(len(mRate[0])):
  *                 self.totalHapMutType[i, j] = 0
  */
-  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 206, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 214, __pyx_L1_error)
   __pyx_t_11 = __pyx_t_7;
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":207
+    /* "VGsim/_BirthDeath.pyx":215
  *         self.totalHapMutType = np.zeros((self.hapNum, len(mRate[0])), dtype=float)
  *         for i in range(len(mRate)):
  *             for j in range(len(mRate[0])):             # <<<<<<<<<<<<<<
  *                 self.totalHapMutType[i, j] = 0
  *                 self.mRate[i, j] = mRate[i][j][0]
  */
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 215, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_13 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(1, 207, __pyx_L1_error)
+    __pyx_t_13 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(1, 215, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_14 = __pyx_t_13;
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":208
+      /* "VGsim/_BirthDeath.pyx":216
  *         for i in range(len(mRate)):
  *             for j in range(len(mRate[0])):
  *                 self.totalHapMutType[i, j] = 0             # <<<<<<<<<<<<<<
@@ -10070,151 +10187,151 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_17 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->totalHapMutType.data + __pyx_t_16 * __pyx_v_self->totalHapMutType.strides[0]) )) + __pyx_t_17)) )) = 0.0;
 
-      /* "VGsim/_BirthDeath.pyx":209
+      /* "VGsim/_BirthDeath.pyx":217
  *             for j in range(len(mRate[0])):
  *                 self.totalHapMutType[i, j] = 0
  *                 self.mRate[i, j] = mRate[i][j][0]             # <<<<<<<<<<<<<<
  *                 self.hapMutType[i, j, 0] = mRate[i][j][1]
  *                 self.totalHapMutType[i, j] += mRate[i][j][1]
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 209, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 209, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 217, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_17 = __pyx_v_i;
       __pyx_t_16 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->mRate.data + __pyx_t_17 * __pyx_v_self->mRate.strides[0]) )) + __pyx_t_16)) )) = __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":210
+      /* "VGsim/_BirthDeath.pyx":218
  *                 self.totalHapMutType[i, j] = 0
  *                 self.mRate[i, j] = mRate[i][j][0]
  *                 self.hapMutType[i, j, 0] = mRate[i][j][1]             # <<<<<<<<<<<<<<
  *                 self.totalHapMutType[i, j] += mRate[i][j][1]
  *                 self.hapMutType[i, j, 1] = mRate[i][j][2]
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 210, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 210, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 210, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 210, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 218, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_16 = __pyx_v_i;
       __pyx_t_17 = __pyx_v_j;
       __pyx_t_19 = 0;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->hapMutType.data + __pyx_t_16 * __pyx_v_self->hapMutType.strides[0]) ) + __pyx_t_17 * __pyx_v_self->hapMutType.strides[1]) )) + __pyx_t_19)) )) = __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":211
+      /* "VGsim/_BirthDeath.pyx":219
  *                 self.mRate[i, j] = mRate[i][j][0]
  *                 self.hapMutType[i, j, 0] = mRate[i][j][1]
  *                 self.totalHapMutType[i, j] += mRate[i][j][1]             # <<<<<<<<<<<<<<
  *                 self.hapMutType[i, j, 1] = mRate[i][j][2]
  *                 self.totalHapMutType[i, j] += mRate[i][j][2]
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 211, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 211, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 211, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 219, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_19 = __pyx_v_i;
       __pyx_t_17 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->totalHapMutType.data + __pyx_t_19 * __pyx_v_self->totalHapMutType.strides[0]) )) + __pyx_t_17)) )) += __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":212
+      /* "VGsim/_BirthDeath.pyx":220
  *                 self.hapMutType[i, j, 0] = mRate[i][j][1]
  *                 self.totalHapMutType[i, j] += mRate[i][j][1]
  *                 self.hapMutType[i, j, 1] = mRate[i][j][2]             # <<<<<<<<<<<<<<
  *                 self.totalHapMutType[i, j] += mRate[i][j][2]
  *                 self.hapMutType[i, j, 2] = mRate[i][j][3]
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 212, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 212, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 212, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 220, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_17 = __pyx_v_i;
       __pyx_t_19 = __pyx_v_j;
       __pyx_t_16 = 1;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->hapMutType.data + __pyx_t_17 * __pyx_v_self->hapMutType.strides[0]) ) + __pyx_t_19 * __pyx_v_self->hapMutType.strides[1]) )) + __pyx_t_16)) )) = __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":213
+      /* "VGsim/_BirthDeath.pyx":221
  *                 self.totalHapMutType[i, j] += mRate[i][j][1]
  *                 self.hapMutType[i, j, 1] = mRate[i][j][2]
  *                 self.totalHapMutType[i, j] += mRate[i][j][2]             # <<<<<<<<<<<<<<
  *                 self.hapMutType[i, j, 2] = mRate[i][j][3]
  *                 self.totalHapMutType[i, j] += mRate[i][j][3]
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 221, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 213, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 221, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 221, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 213, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 221, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_16 = __pyx_v_i;
       __pyx_t_19 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->totalHapMutType.data + __pyx_t_16 * __pyx_v_self->totalHapMutType.strides[0]) )) + __pyx_t_19)) )) += __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":214
+      /* "VGsim/_BirthDeath.pyx":222
  *                 self.hapMutType[i, j, 1] = mRate[i][j][2]
  *                 self.totalHapMutType[i, j] += mRate[i][j][2]
  *                 self.hapMutType[i, j, 2] = mRate[i][j][3]             # <<<<<<<<<<<<<<
  *                 self.totalHapMutType[i, j] += mRate[i][j][3]
  * 
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 222, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 214, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 222, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 222, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 214, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 222, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_19 = __pyx_v_i;
       __pyx_t_16 = __pyx_v_j;
       __pyx_t_17 = 2;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->hapMutType.data + __pyx_t_19 * __pyx_v_self->hapMutType.strides[0]) ) + __pyx_t_16 * __pyx_v_self->hapMutType.strides[1]) )) + __pyx_t_17)) )) = __pyx_t_18;
 
-      /* "VGsim/_BirthDeath.pyx":215
+      /* "VGsim/_BirthDeath.pyx":223
  *                 self.totalHapMutType[i, j] += mRate[i][j][2]
  *                 self.hapMutType[i, j, 2] = mRate[i][j][3]
  *                 self.totalHapMutType[i, j] += mRate[i][j][3]             # <<<<<<<<<<<<<<
  * 
  *         self.tmRate = np.zeros(len(mRate), dtype=float)
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 215, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_mRate, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 215, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 215, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_8, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 215, __pyx_L1_error)
+      __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 223, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_17 = __pyx_v_i;
       __pyx_t_16 = __pyx_v_j;
@@ -10222,42 +10339,42 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":217
+  /* "VGsim/_BirthDeath.pyx":225
  *                 self.totalHapMutType[i, j] += mRate[i][j][3]
  * 
  *         self.tmRate = np.zeros(len(mRate), dtype=float)             # <<<<<<<<<<<<<<
  *         for i in range(self.mRate.shape[0]):
  *             for j in range(self.mRate.shape[1]):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 217, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_v_mRate); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(1, 225, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 217, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 217, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 225, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 225, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->tmRate, 0);
   __pyx_v_self->tmRate = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":218
+  /* "VGsim/_BirthDeath.pyx":226
  * 
  *         self.tmRate = np.zeros(len(mRate), dtype=float)
  *         for i in range(self.mRate.shape[0]):             # <<<<<<<<<<<<<<
@@ -10269,7 +10386,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":219
+    /* "VGsim/_BirthDeath.pyx":227
  *         self.tmRate = np.zeros(len(mRate), dtype=float)
  *         for i in range(self.mRate.shape[0]):
  *             for j in range(self.mRate.shape[1]):             # <<<<<<<<<<<<<<
@@ -10281,7 +10398,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":220
+      /* "VGsim/_BirthDeath.pyx":228
  *         for i in range(self.mRate.shape[0]):
  *             for j in range(self.mRate.shape[1]):
  *                 self.tmRate[i] += self.mRate[i, j]             # <<<<<<<<<<<<<<
@@ -10295,23 +10412,23 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":222
+  /* "VGsim/_BirthDeath.pyx":230
  *                 self.tmRate[i] += self.mRate[i, j]
  * 
  *         self.birthHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)             # <<<<<<<<<<<<<<
  *         self.eventHapPopRate = np.zeros((self.popNum, self.hapNum, 4), dtype=float)
  *         self.tEventHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3);
@@ -10319,43 +10436,43 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_2);
   __pyx_t_3 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 222, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 230, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 230, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->birthHapPopRate, 0);
   __pyx_v_self->birthHapPopRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":223
+  /* "VGsim/_BirthDeath.pyx":231
  * 
  *         self.birthHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         self.eventHapPopRate = np.zeros((self.popNum, self.hapNum, 4), dtype=float)             # <<<<<<<<<<<<<<
  *         self.tEventHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         for pn in range(self.popNum):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
@@ -10366,43 +10483,43 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_int_4);
   __pyx_t_3 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 223, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 223, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 231, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 223, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 231, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->eventHapPopRate, 0);
   __pyx_v_self->eventHapPopRate = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":224
+  /* "VGsim/_BirthDeath.pyx":232
  *         self.birthHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         self.eventHapPopRate = np.zeros((self.popNum, self.hapNum, 4), dtype=float)
  *         self.tEventHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)             # <<<<<<<<<<<<<<
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3);
@@ -10410,27 +10527,27 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_2);
   __pyx_t_3 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 224, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 224, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 232, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 224, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 232, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->tEventHapPopRate, 0);
   __pyx_v_self->tEventHapPopRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":225
+  /* "VGsim/_BirthDeath.pyx":233
  *         self.eventHapPopRate = np.zeros((self.popNum, self.hapNum, 4), dtype=float)
  *         self.tEventHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         for pn in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10442,7 +10559,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_pn = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":226
+    /* "VGsim/_BirthDeath.pyx":234
  *         self.tEventHapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -10454,7 +10571,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_hn = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":227
+      /* "VGsim/_BirthDeath.pyx":235
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):
  *                 self.birthHapPopRate[pn, hn] = self.BirthRate(pn, hn)             # <<<<<<<<<<<<<<
@@ -10465,7 +10582,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_16 = __pyx_v_hn;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_17 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_16)) )) = __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_BirthRate(__pyx_v_self, __pyx_v_pn, __pyx_v_hn);
 
-      /* "VGsim/_BirthDeath.pyx":228
+      /* "VGsim/_BirthDeath.pyx":236
  *             for hn in range(self.hapNum):
  *                 self.birthHapPopRate[pn, hn] = self.BirthRate(pn, hn)
  *                 self.eventHapPopRate[pn, hn, 0] = self.birthHapPopRate[pn, hn]             # <<<<<<<<<<<<<<
@@ -10479,7 +10596,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_21 = 0;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_19 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_20 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_21)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_16 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_17)) )));
 
-      /* "VGsim/_BirthDeath.pyx":229
+      /* "VGsim/_BirthDeath.pyx":237
  *                 self.birthHapPopRate[pn, hn] = self.BirthRate(pn, hn)
  *                 self.eventHapPopRate[pn, hn, 0] = self.birthHapPopRate[pn, hn]
  *                 self.eventHapPopRate[pn, hn, 1] = self.dRate[hn]             # <<<<<<<<<<<<<<
@@ -10492,7 +10609,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_20 = 1;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_16 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_21 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_20)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->dRate.data) + __pyx_t_17)) )));
 
-      /* "VGsim/_BirthDeath.pyx":230
+      /* "VGsim/_BirthDeath.pyx":238
  *                 self.eventHapPopRate[pn, hn, 0] = self.birthHapPopRate[pn, hn]
  *                 self.eventHapPopRate[pn, hn, 1] = self.dRate[hn]
  *                 self.eventHapPopRate[pn, hn, 2] = self.sRate[hn]             # <<<<<<<<<<<<<<
@@ -10505,7 +10622,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_16 = 2;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_20 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_21 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_16)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->sRate.data) + __pyx_t_17)) )));
 
-      /* "VGsim/_BirthDeath.pyx":231
+      /* "VGsim/_BirthDeath.pyx":239
  *                 self.eventHapPopRate[pn, hn, 1] = self.dRate[hn]
  *                 self.eventHapPopRate[pn, hn, 2] = self.sRate[hn]
  *                 self.eventHapPopRate[pn, hn, 3] = self.tmRate[hn]             # <<<<<<<<<<<<<<
@@ -10518,7 +10635,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_20 = 3;
       *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_16 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_21 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_20)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->tmRate.data) + __pyx_t_17)) )));
 
-      /* "VGsim/_BirthDeath.pyx":232
+      /* "VGsim/_BirthDeath.pyx":240
  *                 self.eventHapPopRate[pn, hn, 2] = self.sRate[hn]
  *                 self.eventHapPopRate[pn, hn, 3] = self.tmRate[hn]
  *                 for i in range(4):             # <<<<<<<<<<<<<<
@@ -10528,7 +10645,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       for (__pyx_t_22 = 0; __pyx_t_22 < 4; __pyx_t_22+=1) {
         __pyx_v_i = __pyx_t_22;
 
-        /* "VGsim/_BirthDeath.pyx":233
+        /* "VGsim/_BirthDeath.pyx":241
  *                 self.eventHapPopRate[pn, hn, 3] = self.tmRate[hn]
  *                 for i in range(4):
  *                     self.tEventHapPopRate[pn, hn] += self.eventHapPopRate[pn, hn, i]             # <<<<<<<<<<<<<<
@@ -10545,23 +10662,23 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":235
+  /* "VGsim/_BirthDeath.pyx":243
  *                     self.tEventHapPopRate[pn, hn] += self.eventHapPopRate[pn, hn, i]
  * 
  *         self.hapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)             # <<<<<<<<<<<<<<
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
@@ -10569,27 +10686,27 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
   __pyx_t_3 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 235, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 243, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 243, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->hapPopRate, 0);
   __pyx_v_self->hapPopRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":236
+  /* "VGsim/_BirthDeath.pyx":244
  * 
  *         self.hapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         for pn in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10601,7 +10718,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_pn = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":237
+    /* "VGsim/_BirthDeath.pyx":245
  *         self.hapPopRate = np.zeros((self.popNum, self.hapNum), dtype=float)
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -10613,7 +10730,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_hn = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":238
+      /* "VGsim/_BirthDeath.pyx":246
  *         for pn in range(self.popNum):
  *             for hn in range(self.hapNum):
  *                 self.HapPopRate(pn, hn)             # <<<<<<<<<<<<<<
@@ -10624,41 +10741,41 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":241
+  /* "VGsim/_BirthDeath.pyx":249
  * 
  * 
  *         self.infectPopRate = np.zeros(self.popNum, dtype=float)             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 241, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 241, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 249, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 241, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 249, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->infectPopRate, 0);
   __pyx_v_self->infectPopRate = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":242
+  /* "VGsim/_BirthDeath.pyx":250
  * 
  *         self.infectPopRate = np.zeros(self.popNum, dtype=float)
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10670,7 +10787,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":243
+    /* "VGsim/_BirthDeath.pyx":251
  *         self.infectPopRate = np.zeros(self.popNum, dtype=float)
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -10682,7 +10799,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":244
+      /* "VGsim/_BirthDeath.pyx":252
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 self.infectPopRate[i] += self.hapPopRate[i, j]             # <<<<<<<<<<<<<<
@@ -10696,41 +10813,41 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":247
+  /* "VGsim/_BirthDeath.pyx":255
  * 
  * 
  *         self.suscepCumulTransition = np.zeros(self.susceptible_num, dtype=float)             # <<<<<<<<<<<<<<
  *         for i in range(self.susceptible_num):
  *             for j in range(self.susceptible_num):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 247, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 247, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 255, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 247, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 255, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->suscepCumulTransition, 0);
   __pyx_v_self->suscepCumulTransition = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":248
+  /* "VGsim/_BirthDeath.pyx":256
  * 
  *         self.suscepCumulTransition = np.zeros(self.susceptible_num, dtype=float)
  *         for i in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -10742,7 +10859,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":249
+    /* "VGsim/_BirthDeath.pyx":257
  *         self.suscepCumulTransition = np.zeros(self.susceptible_num, dtype=float)
  *         for i in range(self.susceptible_num):
  *             for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -10754,7 +10871,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":250
+      /* "VGsim/_BirthDeath.pyx":258
  *         for i in range(self.susceptible_num):
  *             for j in range(self.susceptible_num):
  *                 self.suscepCumulTransition[i] += self.suscepTransition[i, j]             # <<<<<<<<<<<<<<
@@ -10768,23 +10885,23 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":252
+  /* "VGsim/_BirthDeath.pyx":260
  *                 self.suscepCumulTransition[i] += self.suscepTransition[i, j]
  * 
  *         self.immuneSourcePopRate = np.zeros((self.popNum, self.susceptible_num), dtype=float)             # <<<<<<<<<<<<<<
  *         self.immunePopRate = np.zeros(self.popNum, dtype=float)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -10792,61 +10909,61 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 252, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 252, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 252, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 260, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->immuneSourcePopRate, 0);
   __pyx_v_self->immuneSourcePopRate = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":253
+  /* "VGsim/_BirthDeath.pyx":261
  * 
  *         self.immuneSourcePopRate = np.zeros((self.popNum, self.susceptible_num), dtype=float)
  *         self.immunePopRate = np.zeros(self.popNum, dtype=float)             # <<<<<<<<<<<<<<
  * 
  *         for i in range(self.popNum):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 253, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 253, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 261, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 253, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_8, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 261, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->immunePopRate, 0);
   __pyx_v_self->immunePopRate = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":255
+  /* "VGsim/_BirthDeath.pyx":263
  *         self.immunePopRate = np.zeros(self.popNum, dtype=float)
  * 
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10858,7 +10975,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":256
+    /* "VGsim/_BirthDeath.pyx":264
  * 
  *         for i in range(self.popNum):
  *             for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -10870,7 +10987,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "VGsim/_BirthDeath.pyx":257
+      /* "VGsim/_BirthDeath.pyx":265
  *         for i in range(self.popNum):
  *             for j in range(self.susceptible_num):
  *                 self.immuneSourcePopRate[i, j] += self.suscepCumulTransition[j]*self.pm.susceptible[i, j]             # <<<<<<<<<<<<<<
@@ -10884,7 +11001,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
       __pyx_t_16 = __pyx_v_j;
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_19 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_16)) )) += ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_21)) ))) * (*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_20 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_17)) ))));
 
-      /* "VGsim/_BirthDeath.pyx":258
+      /* "VGsim/_BirthDeath.pyx":266
  *             for j in range(self.susceptible_num):
  *                 self.immuneSourcePopRate[i, j] += self.suscepCumulTransition[j]*self.pm.susceptible[i, j]
  *                 self.immunePopRate[i] += self.immuneSourcePopRate[i, j]             # <<<<<<<<<<<<<<
@@ -10898,41 +11015,41 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":260
+  /* "VGsim/_BirthDeath.pyx":268
  *                 self.immunePopRate[i] += self.immuneSourcePopRate[i, j]
  * 
  *         self.popRate = np.zeros(self.popNum, dtype=float)             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             self.popRate[i] = self.infectPopRate[i] + self.immunePopRate[i]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 260, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 260, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 268, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 268, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->popRate, 0);
   __pyx_v_self->popRate = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":261
+  /* "VGsim/_BirthDeath.pyx":269
  * 
  *         self.popRate = np.zeros(self.popNum, dtype=float)
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10944,7 +11061,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":262
+    /* "VGsim/_BirthDeath.pyx":270
  *         self.popRate = np.zeros(self.popNum, dtype=float)
  *         for i in range(self.popNum):
  *             self.popRate[i] = self.infectPopRate[i] + self.immunePopRate[i]             # <<<<<<<<<<<<<<
@@ -10957,7 +11074,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_21)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_20)) ))) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_17)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":264
+  /* "VGsim/_BirthDeath.pyx":272
  *             self.popRate[i] = self.infectPopRate[i] + self.immunePopRate[i]
  * 
  *         self.totalRate = 0             # <<<<<<<<<<<<<<
@@ -10966,7 +11083,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
  */
   __pyx_v_self->totalRate = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":265
+  /* "VGsim/_BirthDeath.pyx":273
  * 
  *         self.totalRate = 0
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -10978,7 +11095,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "VGsim/_BirthDeath.pyx":266
+    /* "VGsim/_BirthDeath.pyx":274
  *         self.totalRate = 0
  *         for i in range(self.popNum):
  *             self.totalRate += self.popRate[i]             # <<<<<<<<<<<<<<
@@ -10989,7 +11106,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
     __pyx_v_self->totalRate = (__pyx_v_self->totalRate + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_17)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":200
+  /* "VGsim/_BirthDeath.pyx":208
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void SetRates(self, bRate, dRate, sRate, mRate):             # <<<<<<<<<<<<<<
@@ -11014,7 +11131,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SetRates(struct __pyx
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":270
+/* "VGsim/_BirthDeath.pyx":278
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef inline void HapPopRate(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -11032,7 +11149,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopR
   Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("HapPopRate", 0);
 
-  /* "VGsim/_BirthDeath.pyx":271
+  /* "VGsim/_BirthDeath.pyx":279
  *     @cython.wraparound(False)
  *     cdef inline void HapPopRate(self, Py_ssize_t popId, Py_ssize_t haplotype):
  *         self.hapPopRate[popId, haplotype] = self.tEventHapPopRate[popId, haplotype]*self.liveBranches[popId, haplotype]             # <<<<<<<<<<<<<<
@@ -11047,7 +11164,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopR
   __pyx_t_6 = __pyx_v_haplotype;
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_5 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_6)) )) = ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->tEventHapPopRate.data + __pyx_t_1 * __pyx_v_self->tEventHapPopRate.strides[0]) )) + __pyx_t_2)) ))) * (*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_3 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_4)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":270
+  /* "VGsim/_BirthDeath.pyx":278
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef inline void HapPopRate(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -11059,7 +11176,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopR
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":276
+/* "VGsim/_BirthDeath.pyx":284
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline double BirthRate(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -11084,7 +11201,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
   Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("BirthRate", 0);
 
-  /* "VGsim/_BirthDeath.pyx":277
+  /* "VGsim/_BirthDeath.pyx":285
  *     @cython.cdivision(True)
  *     cdef inline double BirthRate(self, Py_ssize_t popId, Py_ssize_t haplotype):
  *         cdef double ws = 0.0             # <<<<<<<<<<<<<<
@@ -11093,7 +11210,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
  */
   __pyx_v_ws = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":278
+  /* "VGsim/_BirthDeath.pyx":286
  *     cdef inline double BirthRate(self, Py_ssize_t popId, Py_ssize_t haplotype):
  *         cdef double ws = 0.0
  *         for i in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -11105,7 +11222,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":279
+    /* "VGsim/_BirthDeath.pyx":287
  *         cdef double ws = 0.0
  *         for i in range(self.susceptible_num):
  *             self.susceptHapPopRate[popId, haplotype, i] = self.pm.susceptible[popId, i]*self.susceptibility[haplotype, i]             # <<<<<<<<<<<<<<
@@ -11121,7 +11238,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
     __pyx_t_10 = __pyx_v_i;
     *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->susceptHapPopRate.data + __pyx_t_8 * __pyx_v_self->susceptHapPopRate.strides[0]) ) + __pyx_t_9 * __pyx_v_self->susceptHapPopRate.strides[1]) )) + __pyx_t_10)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_4 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_5)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_6 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_7)) ))));
 
-    /* "VGsim/_BirthDeath.pyx":280
+    /* "VGsim/_BirthDeath.pyx":288
  *         for i in range(self.susceptible_num):
  *             self.susceptHapPopRate[popId, haplotype, i] = self.pm.susceptible[popId, i]*self.susceptibility[haplotype, i]
  *             ws += self.susceptHapPopRate[popId, haplotype, i]             # <<<<<<<<<<<<<<
@@ -11134,7 +11251,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
     __pyx_v_ws = (__pyx_v_ws + (*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->susceptHapPopRate.data + __pyx_t_7 * __pyx_v_self->susceptHapPopRate.strides[0]) ) + __pyx_t_6 * __pyx_v_self->susceptHapPopRate.strides[1]) )) + __pyx_t_5)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":282
+  /* "VGsim/_BirthDeath.pyx":290
  *             ws += self.susceptHapPopRate[popId, haplotype, i]
  * 
  *         return self.bRate[haplotype]*ws/self.pm.sizes[popId]*self.pm.contactDensity[popId]             # <<<<<<<<<<<<<<
@@ -11147,7 +11264,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
   __pyx_r = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_5)) ))) * __pyx_v_ws) / ((double)(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->sizes.data) + __pyx_t_6)) ))))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_7)) ))));
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":276
+  /* "VGsim/_BirthDeath.pyx":284
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline double BirthRate(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -11161,7 +11278,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":287
+/* "VGsim/_BirthDeath.pyx":295
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline double MigrationRates(self):             # <<<<<<<<<<<<<<
@@ -11182,7 +11299,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
   Py_ssize_t __pyx_t_7;
   __Pyx_RefNannySetupContext("MigrationRates", 0);
 
-  /* "VGsim/_BirthDeath.pyx":288
+  /* "VGsim/_BirthDeath.pyx":296
  *     @cython.cdivision(True)
  *     cdef inline double MigrationRates(self):
  *         self.totalMigrationRate = 0.0             # <<<<<<<<<<<<<<
@@ -11191,7 +11308,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
  */
   __pyx_v_self->totalMigrationRate = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":289
+  /* "VGsim/_BirthDeath.pyx":297
  *     cdef inline double MigrationRates(self):
  *         self.totalMigrationRate = 0.0
  *         for p in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -11203,7 +11320,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_p = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":290
+    /* "VGsim/_BirthDeath.pyx":298
  *         self.totalMigrationRate = 0.0
  *         for p in range(self.popNum):
  *             self.migPopRate[p] = self.pm_maxEffectiveMigration[p]*self.maxEffectiveBirth*self.pm.totalSusceptible[p]*(self.pm.globalInfectious-self.pm.totalInfectious[p])             # <<<<<<<<<<<<<<
@@ -11216,7 +11333,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
     __pyx_t_7 = __pyx_v_p;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->migPopRate.data) + __pyx_t_7)) )) = ((((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_4)) ))) * __pyx_v_self->maxEffectiveBirth) * (*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalSusceptible.data) + __pyx_t_5)) )))) * (__pyx_v_self->pm->globalInfectious - (*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalInfectious.data) + __pyx_t_6)) )))));
 
-    /* "VGsim/_BirthDeath.pyx":291
+    /* "VGsim/_BirthDeath.pyx":299
  *         for p in range(self.popNum):
  *             self.migPopRate[p] = self.pm_maxEffectiveMigration[p]*self.maxEffectiveBirth*self.pm.totalSusceptible[p]*(self.pm.globalInfectious-self.pm.totalInfectious[p])
  *             self.totalMigrationRate += self.migPopRate[p]             # <<<<<<<<<<<<<<
@@ -11227,7 +11344,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
     __pyx_v_self->totalMigrationRate = (__pyx_v_self->totalMigrationRate + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->migPopRate.data) + __pyx_t_6)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":287
+  /* "VGsim/_BirthDeath.pyx":295
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline double MigrationRates(self):             # <<<<<<<<<<<<<<
@@ -11241,7 +11358,7 @@ static CYTHON_INLINE double __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Migra
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":295
+/* "VGsim/_BirthDeath.pyx":303
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef Py_ssize_t GenerateEvent(self, useNumpy = False):             # <<<<<<<<<<<<<<
@@ -11268,7 +11385,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
   if (__pyx_optional_args) {
   }
 
-  /* "VGsim/_BirthDeath.pyx":299
+  /* "VGsim/_BirthDeath.pyx":307
  *             Py_ssize_t popId, haplotype, eventType, et
  * 
  *         self.rn = self.rndm.uniform()             # <<<<<<<<<<<<<<
@@ -11277,7 +11394,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
  */
   __pyx_v_self->rn = ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm);
 
-  /* "VGsim/_BirthDeath.pyx":301
+  /* "VGsim/_BirthDeath.pyx":309
  *         self.rn = self.rndm.uniform()
  * 
  *         self.elementsArr2[0] = self.totalRate             # <<<<<<<<<<<<<<
@@ -11288,7 +11405,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
   __pyx_t_2 = 0;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->elementsArr2.data) + __pyx_t_2)) )) = __pyx_t_1;
 
-  /* "VGsim/_BirthDeath.pyx":302
+  /* "VGsim/_BirthDeath.pyx":310
  * 
  *         self.elementsArr2[0] = self.totalRate
  *         self.elementsArr2[1] = self.totalMigrationRate             # <<<<<<<<<<<<<<
@@ -11299,7 +11416,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
   __pyx_t_2 = 1;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->elementsArr2.data) + __pyx_t_2)) )) = __pyx_t_1;
 
-  /* "VGsim/_BirthDeath.pyx":303
+  /* "VGsim/_BirthDeath.pyx":311
  *         self.elementsArr2[0] = self.totalRate
  *         self.elementsArr2[1] = self.totalMigrationRate
  *         et, self.rn = fastChoose1( self.elementsArr2, self.totalRate+self.totalMigrationRate, self.rn)             # <<<<<<<<<<<<<<
@@ -11312,7 +11429,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
   __pyx_v_et = __pyx_t_4;
   __pyx_v_self->rn = __pyx_t_1;
 
-  /* "VGsim/_BirthDeath.pyx":305
+  /* "VGsim/_BirthDeath.pyx":313
  *         et, self.rn = fastChoose1( self.elementsArr2, self.totalRate+self.totalMigrationRate, self.rn)
  * 
  *         if et == 0:             # <<<<<<<<<<<<<<
@@ -11322,7 +11439,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
   __pyx_t_5 = ((__pyx_v_et == 0) != 0);
   if (__pyx_t_5) {
 
-    /* "VGsim/_BirthDeath.pyx":306
+    /* "VGsim/_BirthDeath.pyx":314
  * 
  *         if et == 0:
  *             popId, self.rn = fastChoose1( self.popRate, self.totalRate, self.rn)             # <<<<<<<<<<<<<<
@@ -11335,7 +11452,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
     __pyx_v_popId = __pyx_t_4;
     __pyx_v_self->rn = __pyx_t_1;
 
-    /* "VGsim/_BirthDeath.pyx":307
+    /* "VGsim/_BirthDeath.pyx":315
  *         if et == 0:
  *             popId, self.rn = fastChoose1( self.popRate, self.totalRate, self.rn)
  *             self.elementsArr2[0] = self.immunePopRate[popId]             # <<<<<<<<<<<<<<
@@ -11346,7 +11463,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
     __pyx_t_6 = 0;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->elementsArr2.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_2)) )));
 
-    /* "VGsim/_BirthDeath.pyx":308
+    /* "VGsim/_BirthDeath.pyx":316
  *             popId, self.rn = fastChoose1( self.popRate, self.totalRate, self.rn)
  *             self.elementsArr2[0] = self.immunePopRate[popId]
  *             self.elementsArr2[1] = self.infectPopRate[popId]             # <<<<<<<<<<<<<<
@@ -11357,7 +11474,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
     __pyx_t_6 = 1;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->elementsArr2.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_2)) )));
 
-    /* "VGsim/_BirthDeath.pyx":309
+    /* "VGsim/_BirthDeath.pyx":317
  *             self.elementsArr2[0] = self.immunePopRate[popId]
  *             self.elementsArr2[1] = self.infectPopRate[popId]
  *             immune_vs_infect, self.rn = fastChoose1( self.elementsArr2, self.popRate[popId], self.rn)             # <<<<<<<<<<<<<<
@@ -11371,7 +11488,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
     __pyx_v_immune_vs_infect = __pyx_t_4;
     __pyx_v_self->rn = __pyx_t_1;
 
-    /* "VGsim/_BirthDeath.pyx":310
+    /* "VGsim/_BirthDeath.pyx":318
  *             self.elementsArr2[1] = self.infectPopRate[popId]
  *             immune_vs_infect, self.rn = fastChoose1( self.elementsArr2, self.popRate[popId], self.rn)
  *             if immune_vs_infect == 0:             # <<<<<<<<<<<<<<
@@ -11381,7 +11498,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
     __pyx_t_5 = ((__pyx_v_immune_vs_infect == 0) != 0);
     if (__pyx_t_5) {
 
-      /* "VGsim/_BirthDeath.pyx":311
+      /* "VGsim/_BirthDeath.pyx":319
  *             immune_vs_infect, self.rn = fastChoose1( self.elementsArr2, self.popRate[popId], self.rn)
  *             if immune_vs_infect == 0:
  *                 self.ImmunityTransition(popId)             # <<<<<<<<<<<<<<
@@ -11390,7 +11507,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
  */
       ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->ImmunityTransition(__pyx_v_self, __pyx_v_popId);
 
-      /* "VGsim/_BirthDeath.pyx":310
+      /* "VGsim/_BirthDeath.pyx":318
  *             self.elementsArr2[1] = self.infectPopRate[popId]
  *             immune_vs_infect, self.rn = fastChoose1( self.elementsArr2, self.popRate[popId], self.rn)
  *             if immune_vs_infect == 0:             # <<<<<<<<<<<<<<
@@ -11400,7 +11517,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateEvent(s
       goto __pyx_L4;
     }
 
-    /* "VGsim/_BirthDeath.pyx":313
+    /* "VGsim/_BirthDeath.pyx":321
  *                 self.ImmunityTransition(popId)
  *             else:
  *                 haplotype, self.rn = fastChoose1( self.hapPopRate[popId], self.infectPopRate[popId], self.rn)             # <<<<<<<<<<<<<<
@@ -11431,7 +11548,7 @@ __pyx_t_2 = __pyx_v_popId;
       __pyx_v_haplotype = __pyx_t_4;
       __pyx_v_self->rn = __pyx_t_1;
 
-      /* "VGsim/_BirthDeath.pyx":314
+      /* "VGsim/_BirthDeath.pyx":322
  *             else:
  *                 haplotype, self.rn = fastChoose1( self.hapPopRate[popId], self.infectPopRate[popId], self.rn)
  *                 eventType, self.rn = fastChoose1( self.eventHapPopRate[popId, haplotype], self.tEventHapPopRate[popId, haplotype], self.rn)             # <<<<<<<<<<<<<<
@@ -11468,7 +11585,7 @@ __pyx_t_2 = __pyx_v_popId;
       __pyx_v_eventType = __pyx_t_4;
       __pyx_v_self->rn = __pyx_t_1;
 
-      /* "VGsim/_BirthDeath.pyx":315
+      /* "VGsim/_BirthDeath.pyx":323
  *                 haplotype, self.rn = fastChoose1( self.hapPopRate[popId], self.infectPopRate[popId], self.rn)
  *                 eventType, self.rn = fastChoose1( self.eventHapPopRate[popId, haplotype], self.tEventHapPopRate[popId, haplotype], self.rn)
  *                 if eventType == BIRTH:             # <<<<<<<<<<<<<<
@@ -11478,7 +11595,7 @@ __pyx_t_2 = __pyx_v_popId;
       switch (__pyx_v_eventType) {
         case 0:
 
-        /* "VGsim/_BirthDeath.pyx":316
+        /* "VGsim/_BirthDeath.pyx":324
  *                 eventType, self.rn = fastChoose1( self.eventHapPopRate[popId, haplotype], self.tEventHapPopRate[popId, haplotype], self.rn)
  *                 if eventType == BIRTH:
  *                     self.Birth(popId, haplotype)             # <<<<<<<<<<<<<<
@@ -11487,7 +11604,7 @@ __pyx_t_2 = __pyx_v_popId;
  */
         ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->Birth(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype);
 
-        /* "VGsim/_BirthDeath.pyx":315
+        /* "VGsim/_BirthDeath.pyx":323
  *                 haplotype, self.rn = fastChoose1( self.hapPopRate[popId], self.infectPopRate[popId], self.rn)
  *                 eventType, self.rn = fastChoose1( self.eventHapPopRate[popId, haplotype], self.tEventHapPopRate[popId, haplotype], self.rn)
  *                 if eventType == BIRTH:             # <<<<<<<<<<<<<<
@@ -11497,7 +11614,7 @@ __pyx_t_2 = __pyx_v_popId;
         break;
         case 1:
 
-        /* "VGsim/_BirthDeath.pyx":318
+        /* "VGsim/_BirthDeath.pyx":326
  *                     self.Birth(popId, haplotype)
  *                 elif eventType == DEATH:
  *                     self.Death(popId, haplotype)             # <<<<<<<<<<<<<<
@@ -11506,7 +11623,7 @@ __pyx_t_2 = __pyx_v_popId;
  */
         ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->Death(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype, NULL);
 
-        /* "VGsim/_BirthDeath.pyx":317
+        /* "VGsim/_BirthDeath.pyx":325
  *                 if eventType == BIRTH:
  *                     self.Birth(popId, haplotype)
  *                 elif eventType == DEATH:             # <<<<<<<<<<<<<<
@@ -11516,7 +11633,7 @@ __pyx_t_2 = __pyx_v_popId;
         break;
         case 2:
 
-        /* "VGsim/_BirthDeath.pyx":320
+        /* "VGsim/_BirthDeath.pyx":328
  *                     self.Death(popId, haplotype)
  *                 elif eventType == SAMPLING:
  *                     self.Sampling(popId, haplotype)             # <<<<<<<<<<<<<<
@@ -11525,7 +11642,7 @@ __pyx_t_2 = __pyx_v_popId;
  */
         ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->Sampling(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype);
 
-        /* "VGsim/_BirthDeath.pyx":319
+        /* "VGsim/_BirthDeath.pyx":327
  *                 elif eventType == DEATH:
  *                     self.Death(popId, haplotype)
  *                 elif eventType == SAMPLING:             # <<<<<<<<<<<<<<
@@ -11535,7 +11652,7 @@ __pyx_t_2 = __pyx_v_popId;
         break;
         default:
 
-        /* "VGsim/_BirthDeath.pyx":322
+        /* "VGsim/_BirthDeath.pyx":330
  *                     self.Sampling(popId, haplotype)
  *                 else:
  *                     self.Mutation(popId, haplotype)             # <<<<<<<<<<<<<<
@@ -11548,7 +11665,7 @@ __pyx_t_2 = __pyx_v_popId;
     }
     __pyx_L4:;
 
-    /* "VGsim/_BirthDeath.pyx":305
+    /* "VGsim/_BirthDeath.pyx":313
  *         et, self.rn = fastChoose1( self.elementsArr2, self.totalRate+self.totalMigrationRate, self.rn)
  * 
  *         if et == 0:             # <<<<<<<<<<<<<<
@@ -11558,7 +11675,7 @@ __pyx_t_2 = __pyx_v_popId;
     goto __pyx_L3;
   }
 
-  /* "VGsim/_BirthDeath.pyx":324
+  /* "VGsim/_BirthDeath.pyx":332
  *                     self.Mutation(popId, haplotype)
  *         else:
  *             popId = self.GenerateMigration()             # <<<<<<<<<<<<<<
@@ -11570,7 +11687,7 @@ __pyx_t_2 = __pyx_v_popId;
   }
   __pyx_L3:;
 
-  /* "VGsim/_BirthDeath.pyx":325
+  /* "VGsim/_BirthDeath.pyx":333
  *         else:
  *             popId = self.GenerateMigration()
  *         return popId             # <<<<<<<<<<<<<<
@@ -11580,7 +11697,7 @@ __pyx_t_2 = __pyx_v_popId;
   __pyx_r = __pyx_v_popId;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":295
+  /* "VGsim/_BirthDeath.pyx":303
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef Py_ssize_t GenerateEvent(self, useNumpy = False):             # <<<<<<<<<<<<<<
@@ -11594,7 +11711,7 @@ __pyx_t_2 = __pyx_v_popId;
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":330
+/* "VGsim/_BirthDeath.pyx":338
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void ImmunityTransition(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -11620,12 +11737,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_ImmunityTransition(st
   Py_ssize_t __pyx_t_11;
   __Pyx_RefNannySetupContext("ImmunityTransition", 0);
 
-  /* "VGsim/_BirthDeath.pyx":333
+  /* "VGsim/_BirthDeath.pyx":341
  *         cdef:
  *             Py_ssize_t sourceImmune, targetImmune
  *         sourceImmune, self.rn = fastChoose1( self.immuneSourcePopRate[popId], self.immunePopRate[popId], self.rn)             # <<<<<<<<<<<<<<
  *         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)
- *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0)
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],
  */
   __pyx_t_1.data = __pyx_v_self->immuneSourcePopRate.data;
   __pyx_t_1.memview = __pyx_v_self->immuneSourcePopRate.memview;
@@ -11650,12 +11767,12 @@ __pyx_t_2 = __pyx_v_popId;
   __pyx_v_sourceImmune = __pyx_t_4;
   __pyx_v_self->rn = __pyx_t_5;
 
-  /* "VGsim/_BirthDeath.pyx":334
+  /* "VGsim/_BirthDeath.pyx":342
  *             Py_ssize_t sourceImmune, targetImmune
  *         sourceImmune, self.rn = fastChoose1( self.immuneSourcePopRate[popId], self.immunePopRate[popId], self.rn)
  *         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)             # <<<<<<<<<<<<<<
- *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0)
- *         self.pm.susceptible[popId, sourceImmune] -= 1
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  */
   __pyx_t_1.data = __pyx_v_self->suscepTransition.data;
   __pyx_t_1.memview = __pyx_v_self->suscepTransition.memview;
@@ -11680,52 +11797,70 @@ __pyx_t_2 = __pyx_v_sourceImmune;
   __pyx_v_targetImmune = __pyx_t_4;
   __pyx_v_self->rn = __pyx_t_5;
 
-  /* "VGsim/_BirthDeath.pyx":335
+  /* "VGsim/_BirthDeath.pyx":343
  *         sourceImmune, self.rn = fastChoose1( self.immuneSourcePopRate[popId], self.immunePopRate[popId], self.rn)
  *         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)
- *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0)             # <<<<<<<<<<<<<<
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ *         self.pm.susceptible[popId, sourceImmune] -= 1
+ */
+  __pyx_t_2 = (__pyx_v_self->events->ptr - 1);
+
+  /* "VGsim/_BirthDeath.pyx":344
+ *         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])             # <<<<<<<<<<<<<<
  *         self.pm.susceptible[popId, sourceImmune] -= 1
  *         self.pm.susceptible[popId, targetImmune] += 1
  */
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 4, __pyx_v_popId, __pyx_v_sourceImmune, __pyx_v_targetImmune, 0);
+  __pyx_t_6 = (__pyx_v_self->events->ptr - 1);
 
-  /* "VGsim/_BirthDeath.pyx":336
+  /* "VGsim/_BirthDeath.pyx":343
+ *         sourceImmune, self.rn = fastChoose1( self.immuneSourcePopRate[popId], self.immunePopRate[popId], self.rn)
  *         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)
- *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0)
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ *         self.pm.susceptible[popId, sourceImmune] -= 1
+ */
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 4, __pyx_v_popId, __pyx_v_sourceImmune, __pyx_v_targetImmune, 0, (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_2)) ))), (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_6)) ))));
+
+  /* "VGsim/_BirthDeath.pyx":345
+ *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  *         self.pm.susceptible[popId, sourceImmune] -= 1             # <<<<<<<<<<<<<<
  *         self.pm.susceptible[popId, targetImmune] += 1
  * 
  */
-  __pyx_t_2 = __pyx_v_popId;
-  __pyx_t_6 = __pyx_v_sourceImmune;
-  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_2 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_6)) )) -= 1;
+  __pyx_t_6 = __pyx_v_popId;
+  __pyx_t_2 = __pyx_v_sourceImmune;
+  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_2)) )) -= 1;
 
-  /* "VGsim/_BirthDeath.pyx":337
- *         self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0)
+  /* "VGsim/_BirthDeath.pyx":346
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  *         self.pm.susceptible[popId, sourceImmune] -= 1
  *         self.pm.susceptible[popId, targetImmune] += 1             # <<<<<<<<<<<<<<
  * 
  *         self.immuneSourcePopRate[popId, sourceImmune] = self.pm.susceptible[popId, sourceImmune]*self.suscepCumulTransition[sourceImmune]
  */
-  __pyx_t_6 = __pyx_v_popId;
-  __pyx_t_2 = __pyx_v_targetImmune;
-  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_2)) )) += 1;
+  __pyx_t_2 = __pyx_v_popId;
+  __pyx_t_6 = __pyx_v_targetImmune;
+  *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_2 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_6)) )) += 1;
 
-  /* "VGsim/_BirthDeath.pyx":339
+  /* "VGsim/_BirthDeath.pyx":348
  *         self.pm.susceptible[popId, targetImmune] += 1
  * 
  *         self.immuneSourcePopRate[popId, sourceImmune] = self.pm.susceptible[popId, sourceImmune]*self.suscepCumulTransition[sourceImmune]             # <<<<<<<<<<<<<<
  *         self.immuneSourcePopRate[popId, targetImmune] = self.pm.susceptible[popId, targetImmune]*self.suscepCumulTransition[targetImmune]
  *         self.immunePopRate[popId] = 0.0
  */
-  __pyx_t_2 = __pyx_v_popId;
-  __pyx_t_6 = __pyx_v_sourceImmune;
+  __pyx_t_6 = __pyx_v_popId;
+  __pyx_t_2 = __pyx_v_sourceImmune;
   __pyx_t_7 = __pyx_v_sourceImmune;
   __pyx_t_8 = __pyx_v_popId;
   __pyx_t_9 = __pyx_v_sourceImmune;
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_8 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_9)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_2 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_7)) ))));
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_8 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_9)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_7)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":340
+  /* "VGsim/_BirthDeath.pyx":349
  * 
  *         self.immuneSourcePopRate[popId, sourceImmune] = self.pm.susceptible[popId, sourceImmune]*self.suscepCumulTransition[sourceImmune]
  *         self.immuneSourcePopRate[popId, targetImmune] = self.pm.susceptible[popId, targetImmune]*self.suscepCumulTransition[targetImmune]             # <<<<<<<<<<<<<<
@@ -11733,23 +11868,23 @@ __pyx_t_2 = __pyx_v_sourceImmune;
  *         for j in range(self.susceptible_num):
  */
   __pyx_t_7 = __pyx_v_popId;
-  __pyx_t_6 = __pyx_v_targetImmune;
   __pyx_t_2 = __pyx_v_targetImmune;
+  __pyx_t_6 = __pyx_v_targetImmune;
   __pyx_t_9 = __pyx_v_popId;
   __pyx_t_8 = __pyx_v_targetImmune;
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_9 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_8)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_7 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_2)) ))));
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_9 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_8)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_7 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_6)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":341
+  /* "VGsim/_BirthDeath.pyx":350
  *         self.immuneSourcePopRate[popId, sourceImmune] = self.pm.susceptible[popId, sourceImmune]*self.suscepCumulTransition[sourceImmune]
  *         self.immuneSourcePopRate[popId, targetImmune] = self.pm.susceptible[popId, targetImmune]*self.suscepCumulTransition[targetImmune]
  *         self.immunePopRate[popId] = 0.0             # <<<<<<<<<<<<<<
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  */
-  __pyx_t_2 = __pyx_v_popId;
-  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_2)) )) = 0.0;
+  __pyx_t_6 = __pyx_v_popId;
+  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_6)) )) = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":342
+  /* "VGsim/_BirthDeath.pyx":351
  *         self.immuneSourcePopRate[popId, targetImmune] = self.pm.susceptible[popId, targetImmune]*self.suscepCumulTransition[targetImmune]
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -11761,20 +11896,20 @@ __pyx_t_2 = __pyx_v_sourceImmune;
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_j = __pyx_t_11;
 
-    /* "VGsim/_BirthDeath.pyx":343
+    /* "VGsim/_BirthDeath.pyx":352
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]             # <<<<<<<<<<<<<<
  *         self.UpdateRates(popId)
  * 
  */
-    __pyx_t_2 = __pyx_v_popId;
-    __pyx_t_6 = __pyx_v_j;
+    __pyx_t_6 = __pyx_v_popId;
+    __pyx_t_2 = __pyx_v_j;
     __pyx_t_7 = __pyx_v_popId;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_7)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_2 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_6)) )));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_7)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_6 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_2)) )));
   }
 
-  /* "VGsim/_BirthDeath.pyx":344
+  /* "VGsim/_BirthDeath.pyx":353
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  *         self.UpdateRates(popId)             # <<<<<<<<<<<<<<
@@ -11783,7 +11918,7 @@ __pyx_t_2 = __pyx_v_sourceImmune;
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateRates(__pyx_v_self, __pyx_v_popId);
 
-  /* "VGsim/_BirthDeath.pyx":330
+  /* "VGsim/_BirthDeath.pyx":338
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void ImmunityTransition(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -11795,7 +11930,7 @@ __pyx_t_2 = __pyx_v_sourceImmune;
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":349
+/* "VGsim/_BirthDeath.pyx":358
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef Py_ssize_t GenerateMigration(self):             # <<<<<<<<<<<<<<
@@ -11827,7 +11962,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateMigrati
   Py_ssize_t __pyx_t_13;
   __Pyx_RefNannySetupContext("GenerateMigration", 0);
 
-  /* "VGsim/_BirthDeath.pyx":353
+  /* "VGsim/_BirthDeath.pyx":362
  *             Py_ssize_t targetPopId, sourcePopId, haplotype, suscType
  *             double p_accept
  *         targetPopId, self.rn = fastChoose1( self.migPopRate, self.totalMigrationRate, self.rn)             # <<<<<<<<<<<<<<
@@ -11840,7 +11975,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateMigrati
   __pyx_v_targetPopId = __pyx_t_2;
   __pyx_v_self->rn = __pyx_t_3;
 
-  /* "VGsim/_BirthDeath.pyx":354
+  /* "VGsim/_BirthDeath.pyx":363
  *             double p_accept
  *         targetPopId, self.rn = fastChoose1( self.migPopRate, self.totalMigrationRate, self.rn)
  *         sourcePopId, self.rn = fastChoose2_skip( self.pm.totalInfectious, self.pm.globalInfectious-self.pm.totalInfectious[targetPopId], self.rn, skip = targetPopId)             # <<<<<<<<<<<<<<
@@ -11854,7 +11989,7 @@ static Py_ssize_t __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GenerateMigrati
   __pyx_v_sourcePopId = __pyx_t_2;
   __pyx_v_self->rn = __pyx_t_3;
 
-  /* "VGsim/_BirthDeath.pyx":355
+  /* "VGsim/_BirthDeath.pyx":364
  *         targetPopId, self.rn = fastChoose1( self.migPopRate, self.totalMigrationRate, self.rn)
  *         sourcePopId, self.rn = fastChoose2_skip( self.pm.totalInfectious, self.pm.globalInfectious-self.pm.totalInfectious[targetPopId], self.rn, skip = targetPopId)
  *         haplotype, self.rn = fastChoose2( self.liveBranches[sourcePopId], self.pm.totalInfectious[sourcePopId], self.rn)             # <<<<<<<<<<<<<<
@@ -11884,7 +12019,7 @@ __pyx_t_4 = __pyx_v_sourcePopId;
   __pyx_v_haplotype = __pyx_t_2;
   __pyx_v_self->rn = __pyx_t_3;
 
-  /* "VGsim/_BirthDeath.pyx":356
+  /* "VGsim/_BirthDeath.pyx":365
  *         sourcePopId, self.rn = fastChoose2_skip( self.pm.totalInfectious, self.pm.globalInfectious-self.pm.totalInfectious[targetPopId], self.rn, skip = targetPopId)
  *         haplotype, self.rn = fastChoose2( self.liveBranches[sourcePopId], self.pm.totalInfectious[sourcePopId], self.rn)
  *         suscType, self.rn = fastChoose2( self.pm.susceptible[targetPopId], self.pm.totalSusceptible[targetPopId], self.rn)             # <<<<<<<<<<<<<<
@@ -11914,7 +12049,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   __pyx_v_suscType = __pyx_t_2;
   __pyx_v_self->rn = __pyx_t_3;
 
-  /* "VGsim/_BirthDeath.pyx":357
+  /* "VGsim/_BirthDeath.pyx":366
  *         haplotype, self.rn = fastChoose2( self.liveBranches[sourcePopId], self.pm.totalInfectious[sourcePopId], self.rn)
  *         suscType, self.rn = fastChoose2( self.pm.susceptible[targetPopId], self.pm.totalSusceptible[targetPopId], self.rn)
  *         p_accept = self.pm_effectiveMigration[sourcePopId, targetPopId]*self.bRate[haplotype]*self.susceptibility[haplotype, suscType]/self.pm_maxEffectiveMigration[targetPopId]/self.maxEffectiveBirth             # <<<<<<<<<<<<<<
@@ -11929,7 +12064,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   __pyx_t_10 = __pyx_v_targetPopId;
   __pyx_v_p_accept = (((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_4 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_7)) )))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_8 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_9)) )))) / (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_10)) )))) / __pyx_v_self->maxEffectiveBirth);
 
-  /* "VGsim/_BirthDeath.pyx":358
+  /* "VGsim/_BirthDeath.pyx":367
  *         suscType, self.rn = fastChoose2( self.pm.susceptible[targetPopId], self.pm.totalSusceptible[targetPopId], self.rn)
  *         p_accept = self.pm_effectiveMigration[sourcePopId, targetPopId]*self.bRate[haplotype]*self.susceptibility[haplotype, suscType]/self.pm_maxEffectiveMigration[targetPopId]/self.maxEffectiveBirth
  *         if p_accept < self.rn:             # <<<<<<<<<<<<<<
@@ -11939,7 +12074,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   __pyx_t_11 = ((__pyx_v_p_accept < __pyx_v_self->rn) != 0);
   if (__pyx_t_11) {
 
-    /* "VGsim/_BirthDeath.pyx":359
+    /* "VGsim/_BirthDeath.pyx":368
  *         p_accept = self.pm_effectiveMigration[sourcePopId, targetPopId]*self.bRate[haplotype]*self.susceptibility[haplotype, suscType]/self.pm_maxEffectiveMigration[targetPopId]/self.maxEffectiveBirth
  *         if p_accept < self.rn:
  *             self.liveBranches[targetPopId, haplotype] += 1             # <<<<<<<<<<<<<<
@@ -11950,7 +12085,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
     __pyx_t_9 = __pyx_v_haplotype;
     *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_10 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_9)) )) += 1;
 
-    /* "VGsim/_BirthDeath.pyx":360
+    /* "VGsim/_BirthDeath.pyx":369
  *         if p_accept < self.rn:
  *             self.liveBranches[targetPopId, haplotype] += 1
  *             self.pm.NewInfection(targetPopId, suscType)             # <<<<<<<<<<<<<<
@@ -11959,7 +12094,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
  */
     __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewInfection(__pyx_v_self->pm, __pyx_v_targetPopId, __pyx_v_suscType);
 
-    /* "VGsim/_BirthDeath.pyx":362
+    /* "VGsim/_BirthDeath.pyx":371
  *             self.pm.NewInfection(targetPopId, suscType)
  * 
  *             self.immuneSourcePopRate[targetPopId, suscType] = self.pm.susceptible[targetPopId, suscType]*self.suscepCumulTransition[suscType]             # <<<<<<<<<<<<<<
@@ -11973,7 +12108,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
     __pyx_t_6 = __pyx_v_suscType;
     *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_7 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_6)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_9 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_10)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_8)) ))));
 
-    /* "VGsim/_BirthDeath.pyx":363
+    /* "VGsim/_BirthDeath.pyx":372
  * 
  *             self.immuneSourcePopRate[targetPopId, suscType] = self.pm.susceptible[targetPopId, suscType]*self.suscepCumulTransition[suscType]
  *             self.immunePopRate[targetPopId] = 0.0             # <<<<<<<<<<<<<<
@@ -11983,7 +12118,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
     __pyx_t_8 = __pyx_v_targetPopId;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_8)) )) = 0.0;
 
-    /* "VGsim/_BirthDeath.pyx":364
+    /* "VGsim/_BirthDeath.pyx":373
  *             self.immuneSourcePopRate[targetPopId, suscType] = self.pm.susceptible[targetPopId, suscType]*self.suscepCumulTransition[suscType]
  *             self.immunePopRate[targetPopId] = 0.0
  *             for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -11995,7 +12130,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
     for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
       __pyx_v_j = __pyx_t_13;
 
-      /* "VGsim/_BirthDeath.pyx":365
+      /* "VGsim/_BirthDeath.pyx":374
  *             self.immunePopRate[targetPopId] = 0.0
  *             for j in range(self.susceptible_num):
  *                 self.immunePopRate[targetPopId] += self.immuneSourcePopRate[targetPopId, j]             # <<<<<<<<<<<<<<
@@ -12008,44 +12143,62 @@ __pyx_t_4 = __pyx_v_targetPopId;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_9)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_8 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_10)) )));
     }
 
-    /* "VGsim/_BirthDeath.pyx":367
+    /* "VGsim/_BirthDeath.pyx":376
  *                 self.immunePopRate[targetPopId] += self.immuneSourcePopRate[targetPopId, j]
  * 
  *             self.UpdateRates(targetPopId)             # <<<<<<<<<<<<<<
  *             self.MigrationRates()
- *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId)
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],
  */
     ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateRates(__pyx_v_self, __pyx_v_targetPopId);
 
-    /* "VGsim/_BirthDeath.pyx":368
+    /* "VGsim/_BirthDeath.pyx":377
  * 
  *             self.UpdateRates(targetPopId)
  *             self.MigrationRates()             # <<<<<<<<<<<<<<
- *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId)
- *             self.migPlus += 1
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  */
     (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-    /* "VGsim/_BirthDeath.pyx":369
+    /* "VGsim/_BirthDeath.pyx":378
  *             self.UpdateRates(targetPopId)
  *             self.MigrationRates()
- *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId)             # <<<<<<<<<<<<<<
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ *             self.migPlus += 1
+ */
+    __pyx_t_10 = (__pyx_v_self->events->ptr - 1);
+
+    /* "VGsim/_BirthDeath.pyx":379
+ *             self.MigrationRates()
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])             # <<<<<<<<<<<<<<
  *             self.migPlus += 1
  *             self.migCounter += 1
  */
-    ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 5, __pyx_v_sourcePopId, __pyx_v_haplotype, 0, __pyx_v_targetPopId);
+    __pyx_t_8 = (__pyx_v_self->events->ptr - 1);
 
-    /* "VGsim/_BirthDeath.pyx":370
+    /* "VGsim/_BirthDeath.pyx":378
+ *             self.UpdateRates(targetPopId)
  *             self.MigrationRates()
- *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId)
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ *             self.migPlus += 1
+ */
+    ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 5, __pyx_v_sourcePopId, __pyx_v_haplotype, 0, __pyx_v_targetPopId, (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_10)) ))), (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_8)) ))));
+
+    /* "VGsim/_BirthDeath.pyx":380
+ *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  *             self.migPlus += 1             # <<<<<<<<<<<<<<
  *             self.migCounter += 1
  *         else:
  */
     __pyx_v_self->migPlus = (__pyx_v_self->migPlus + 1);
 
-    /* "VGsim/_BirthDeath.pyx":371
- *             self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId)
+    /* "VGsim/_BirthDeath.pyx":381
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  *             self.migPlus += 1
  *             self.migCounter += 1             # <<<<<<<<<<<<<<
  *         else:
@@ -12053,7 +12206,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
  */
     __pyx_v_self->migCounter = (__pyx_v_self->migCounter + 1);
 
-    /* "VGsim/_BirthDeath.pyx":358
+    /* "VGsim/_BirthDeath.pyx":367
  *         suscType, self.rn = fastChoose2( self.pm.susceptible[targetPopId], self.pm.totalSusceptible[targetPopId], self.rn)
  *         p_accept = self.pm_effectiveMigration[sourcePopId, targetPopId]*self.bRate[haplotype]*self.susceptibility[haplotype, suscType]/self.pm_maxEffectiveMigration[targetPopId]/self.maxEffectiveBirth
  *         if p_accept < self.rn:             # <<<<<<<<<<<<<<
@@ -12063,7 +12216,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
     goto __pyx_L3;
   }
 
-  /* "VGsim/_BirthDeath.pyx":373
+  /* "VGsim/_BirthDeath.pyx":383
  *             self.migCounter += 1
  *         else:
  *             self.migNonPlus += 1             # <<<<<<<<<<<<<<
@@ -12075,7 +12228,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   }
   __pyx_L3:;
 
-  /* "VGsim/_BirthDeath.pyx":374
+  /* "VGsim/_BirthDeath.pyx":384
  *         else:
  *             self.migNonPlus += 1
  *         return targetPopId             # <<<<<<<<<<<<<<
@@ -12085,7 +12238,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   __pyx_r = __pyx_v_targetPopId;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":349
+  /* "VGsim/_BirthDeath.pyx":358
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef Py_ssize_t GenerateMigration(self):             # <<<<<<<<<<<<<<
@@ -12099,7 +12252,7 @@ __pyx_t_4 = __pyx_v_targetPopId;
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":379
+/* "VGsim/_BirthDeath.pyx":389
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void Mutation(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -12127,7 +12280,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Mutation(struct __pyx
   Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("Mutation", 0);
 
-  /* "VGsim/_BirthDeath.pyx":383
+  /* "VGsim/_BirthDeath.pyx":393
  *             Py_ssize_t mutationType, digit4, AS, DS, newHaplotype
  * 
  *         mutationType, self.rn = fastChoose1( self.mRate[haplotype], self.tmRate[haplotype], self.rn)             # <<<<<<<<<<<<<<
@@ -12157,7 +12310,7 @@ __pyx_t_2 = __pyx_v_haplotype;
   __pyx_v_mutationType = __pyx_t_4;
   __pyx_v_self->rn = __pyx_t_5;
 
-  /* "VGsim/_BirthDeath.pyx":384
+  /* "VGsim/_BirthDeath.pyx":394
  * 
  *         mutationType, self.rn = fastChoose1( self.mRate[haplotype], self.tmRate[haplotype], self.rn)
  *         digit4 = 4**mutationType             # <<<<<<<<<<<<<<
@@ -12166,7 +12319,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_v_digit4 = __Pyx_pow_Py_ssize_t(4, __pyx_v_mutationType);
 
-  /* "VGsim/_BirthDeath.pyx":385
+  /* "VGsim/_BirthDeath.pyx":395
  *         mutationType, self.rn = fastChoose1( self.mRate[haplotype], self.tmRate[haplotype], self.rn)
  *         digit4 = 4**mutationType
  *         AS = int(floor(haplotype/digit4) % 4)             # <<<<<<<<<<<<<<
@@ -12175,7 +12328,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_v_AS = ((Py_ssize_t)fmod(floor((__pyx_v_haplotype / __pyx_v_digit4)), 4.0));
 
-  /* "VGsim/_BirthDeath.pyx":386
+  /* "VGsim/_BirthDeath.pyx":396
  *         digit4 = 4**mutationType
  *         AS = int(floor(haplotype/digit4) % 4)
  *         DS, self.rn = fastChoose1(self.hapMutType[haplotype, mutationType], self.totalHapMutType[haplotype, mutationType], self.rn)#TODO non-uniform rates???             # <<<<<<<<<<<<<<
@@ -12212,7 +12365,7 @@ __pyx_t_2 = __pyx_v_haplotype;
   __pyx_v_DS = __pyx_t_4;
   __pyx_v_self->rn = __pyx_t_5;
 
-  /* "VGsim/_BirthDeath.pyx":387
+  /* "VGsim/_BirthDeath.pyx":397
  *         AS = int(floor(haplotype/digit4) % 4)
  *         DS, self.rn = fastChoose1(self.hapMutType[haplotype, mutationType], self.totalHapMutType[haplotype, mutationType], self.rn)#TODO non-uniform rates???
  *         if DS >= AS:             # <<<<<<<<<<<<<<
@@ -12222,7 +12375,7 @@ __pyx_t_2 = __pyx_v_haplotype;
   __pyx_t_7 = ((__pyx_v_DS >= __pyx_v_AS) != 0);
   if (__pyx_t_7) {
 
-    /* "VGsim/_BirthDeath.pyx":388
+    /* "VGsim/_BirthDeath.pyx":398
  *         DS, self.rn = fastChoose1(self.hapMutType[haplotype, mutationType], self.totalHapMutType[haplotype, mutationType], self.rn)#TODO non-uniform rates???
  *         if DS >= AS:
  *             DS += 1             # <<<<<<<<<<<<<<
@@ -12231,7 +12384,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
     __pyx_v_DS = (__pyx_v_DS + 1);
 
-    /* "VGsim/_BirthDeath.pyx":387
+    /* "VGsim/_BirthDeath.pyx":397
  *         AS = int(floor(haplotype/digit4) % 4)
  *         DS, self.rn = fastChoose1(self.hapMutType[haplotype, mutationType], self.totalHapMutType[haplotype, mutationType], self.rn)#TODO non-uniform rates???
  *         if DS >= AS:             # <<<<<<<<<<<<<<
@@ -12240,7 +12393,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   }
 
-  /* "VGsim/_BirthDeath.pyx":389
+  /* "VGsim/_BirthDeath.pyx":399
  *         if DS >= AS:
  *             DS += 1
  *         newHaplotype = haplotype + (DS-AS)*digit4             # <<<<<<<<<<<<<<
@@ -12249,7 +12402,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_v_newHaplotype = (__pyx_v_haplotype + ((__pyx_v_DS - __pyx_v_AS) * __pyx_v_digit4));
 
-  /* "VGsim/_BirthDeath.pyx":393
+  /* "VGsim/_BirthDeath.pyx":403
  *         # print("MutType, AS, DS: ", mutationType, AS, DS)
  * 
  *         self.liveBranches[popId, newHaplotype] += 1             # <<<<<<<<<<<<<<
@@ -12260,28 +12413,46 @@ __pyx_t_2 = __pyx_v_haplotype;
   __pyx_t_2 = __pyx_v_newHaplotype;
   *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_6 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_2)) )) += 1;
 
-  /* "VGsim/_BirthDeath.pyx":394
+  /* "VGsim/_BirthDeath.pyx":404
  * 
  *         self.liveBranches[popId, newHaplotype] += 1
  *         self.liveBranches[popId, haplotype] -= 1             # <<<<<<<<<<<<<<
  * 
- *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0)
+ *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0, self.events.currentSucseptibles[self.events.ptr - 1],
  */
   __pyx_t_2 = __pyx_v_popId;
   __pyx_t_6 = __pyx_v_haplotype;
   *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_2 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_6)) )) -= 1;
 
-  /* "VGsim/_BirthDeath.pyx":396
+  /* "VGsim/_BirthDeath.pyx":406
  *         self.liveBranches[popId, haplotype] -= 1
  * 
- *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0)             # <<<<<<<<<<<<<<
+ *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ * 
+ */
+  __pyx_t_6 = (__pyx_v_self->events->ptr - 1);
+
+  /* "VGsim/_BirthDeath.pyx":407
+ * 
+ *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])             # <<<<<<<<<<<<<<
  * 
  *         self.HapPopRate(popId, haplotype)
  */
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 3, __pyx_v_popId, __pyx_v_haplotype, __pyx_v_newHaplotype, 0);
+  __pyx_t_2 = (__pyx_v_self->events->ptr - 1);
 
-  /* "VGsim/_BirthDeath.pyx":398
- *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0)
+  /* "VGsim/_BirthDeath.pyx":406
+ *         self.liveBranches[popId, haplotype] -= 1
+ * 
+ *         self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ * 
+ */
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 3, __pyx_v_popId, __pyx_v_haplotype, __pyx_v_newHaplotype, 0, (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_6)) ))), (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_2)) ))));
+
+  /* "VGsim/_BirthDeath.pyx":409
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  * 
  *         self.HapPopRate(popId, haplotype)             # <<<<<<<<<<<<<<
  *         self.HapPopRate(popId, newHaplotype)
@@ -12289,7 +12460,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopRate(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype);
 
-  /* "VGsim/_BirthDeath.pyx":399
+  /* "VGsim/_BirthDeath.pyx":410
  * 
  *         self.HapPopRate(popId, haplotype)
  *         self.HapPopRate(popId, newHaplotype)             # <<<<<<<<<<<<<<
@@ -12298,17 +12469,17 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopRate(__pyx_v_self, __pyx_v_popId, __pyx_v_newHaplotype);
 
-  /* "VGsim/_BirthDeath.pyx":401
+  /* "VGsim/_BirthDeath.pyx":412
  *         self.HapPopRate(popId, newHaplotype)
  * 
  *         self.infectPopRate[popId] = 0             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             self.infectPopRate[popId] += self.hapPopRate[popId, i]
  */
-  __pyx_t_6 = __pyx_v_popId;
-  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_6)) )) = 0.0;
+  __pyx_t_2 = __pyx_v_popId;
+  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_2)) )) = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":402
+  /* "VGsim/_BirthDeath.pyx":413
  * 
  *         self.infectPopRate[popId] = 0
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -12320,32 +12491,32 @@ __pyx_t_2 = __pyx_v_haplotype;
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "VGsim/_BirthDeath.pyx":403
+    /* "VGsim/_BirthDeath.pyx":414
  *         self.infectPopRate[popId] = 0
  *         for i in range(self.hapNum):
  *             self.infectPopRate[popId] += self.hapPopRate[popId, i]             # <<<<<<<<<<<<<<
  *         self.popRate[popId] = self.infectPopRate[popId] + self.immunePopRate[popId]
  * 
  */
-    __pyx_t_6 = __pyx_v_popId;
-    __pyx_t_2 = __pyx_v_i;
+    __pyx_t_2 = __pyx_v_popId;
+    __pyx_t_6 = __pyx_v_i;
     __pyx_t_10 = __pyx_v_popId;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_10)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_6 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_2)) )));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_10)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_2 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_6)) )));
   }
 
-  /* "VGsim/_BirthDeath.pyx":404
+  /* "VGsim/_BirthDeath.pyx":415
  *         for i in range(self.hapNum):
  *             self.infectPopRate[popId] += self.hapPopRate[popId, i]
  *         self.popRate[popId] = self.infectPopRate[popId] + self.immunePopRate[popId]             # <<<<<<<<<<<<<<
  * 
  *         self.totalRate = 0
  */
-  __pyx_t_2 = __pyx_v_popId;
   __pyx_t_6 = __pyx_v_popId;
+  __pyx_t_2 = __pyx_v_popId;
   __pyx_t_10 = __pyx_v_popId;
-  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_10)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_2)) ))) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_6)) ))));
+  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_10)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_6)) ))) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_2)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":406
+  /* "VGsim/_BirthDeath.pyx":417
  *         self.popRate[popId] = self.infectPopRate[popId] + self.immunePopRate[popId]
  * 
  *         self.totalRate = 0             # <<<<<<<<<<<<<<
@@ -12354,7 +12525,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_v_self->totalRate = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":407
+  /* "VGsim/_BirthDeath.pyx":418
  * 
  *         self.totalRate = 0
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -12366,18 +12537,18 @@ __pyx_t_2 = __pyx_v_haplotype;
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "VGsim/_BirthDeath.pyx":408
+    /* "VGsim/_BirthDeath.pyx":419
  *         self.totalRate = 0
  *         for i in range(self.popNum):
  *             self.totalRate += self.popRate[i]             # <<<<<<<<<<<<<<
  *         self.mutCounter += 1
  *         self.MigrationRates()
  */
-    __pyx_t_6 = __pyx_v_i;
-    __pyx_v_self->totalRate = (__pyx_v_self->totalRate + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_6)) ))));
+    __pyx_t_2 = __pyx_v_i;
+    __pyx_v_self->totalRate = (__pyx_v_self->totalRate + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_2)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":409
+  /* "VGsim/_BirthDeath.pyx":420
  *         for i in range(self.popNum):
  *             self.totalRate += self.popRate[i]
  *         self.mutCounter += 1             # <<<<<<<<<<<<<<
@@ -12386,7 +12557,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   __pyx_v_self->mutCounter = (__pyx_v_self->mutCounter + 1);
 
-  /* "VGsim/_BirthDeath.pyx":410
+  /* "VGsim/_BirthDeath.pyx":421
  *             self.totalRate += self.popRate[i]
  *         self.mutCounter += 1
  *         self.MigrationRates()             # <<<<<<<<<<<<<<
@@ -12395,7 +12566,7 @@ __pyx_t_2 = __pyx_v_haplotype;
  */
   (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-  /* "VGsim/_BirthDeath.pyx":379
+  /* "VGsim/_BirthDeath.pyx":389
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef void Mutation(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -12407,7 +12578,7 @@ __pyx_t_2 = __pyx_v_haplotype;
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":415
+/* "VGsim/_BirthDeath.pyx":426
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline void SampleTime(self):             # <<<<<<<<<<<<<<
@@ -12420,7 +12591,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SampleT
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("SampleTime", 0);
 
-  /* "VGsim/_BirthDeath.pyx":416
+  /* "VGsim/_BirthDeath.pyx":427
  *     @cython.cdivision(True)
  *     cdef inline void SampleTime(self):
  *         cdef double tau = - log(self.rndm.uniform()) / self.totalRate             # <<<<<<<<<<<<<<
@@ -12429,7 +12600,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SampleT
  */
   __pyx_v_tau = ((-log(((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))) / __pyx_v_self->totalRate);
 
-  /* "VGsim/_BirthDeath.pyx":417
+  /* "VGsim/_BirthDeath.pyx":428
  *     cdef inline void SampleTime(self):
  *         cdef double tau = - log(self.rndm.uniform()) / self.totalRate
  *         self.currentTime += tau             # <<<<<<<<<<<<<<
@@ -12438,7 +12609,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SampleT
  */
   __pyx_v_self->currentTime = (__pyx_v_self->currentTime + __pyx_v_tau);
 
-  /* "VGsim/_BirthDeath.pyx":415
+  /* "VGsim/_BirthDeath.pyx":426
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cdef inline void SampleTime(self):             # <<<<<<<<<<<<<<
@@ -12450,7 +12621,7 @@ static CYTHON_INLINE void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SampleT
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":421
+/* "VGsim/_BirthDeath.pyx":432
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Birth(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -12477,7 +12648,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth(struct __pyx_ob
   Py_ssize_t __pyx_t_11;
   __Pyx_RefNannySetupContext("Birth", 0);
 
-  /* "VGsim/_BirthDeath.pyx":422
+  /* "VGsim/_BirthDeath.pyx":433
  *     @cython.wraparound(False)
  *     cdef void Birth(self, Py_ssize_t popId, Py_ssize_t haplotype):
  *         self.liveBranches[popId, haplotype] += 1             # <<<<<<<<<<<<<<
@@ -12488,7 +12659,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth(struct __pyx_ob
   __pyx_t_2 = __pyx_v_haplotype;
   *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_1 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_2)) )) += 1;
 
-  /* "VGsim/_BirthDeath.pyx":424
+  /* "VGsim/_BirthDeath.pyx":435
  *         self.liveBranches[popId, haplotype] += 1
  * 
  *         cdef double ws = 0.0             # <<<<<<<<<<<<<<
@@ -12497,7 +12668,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth(struct __pyx_ob
  */
   __pyx_v_ws = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":425
+  /* "VGsim/_BirthDeath.pyx":436
  * 
  *         cdef double ws = 0.0
  *         for i in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -12509,7 +12680,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth(struct __pyx_ob
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":426
+    /* "VGsim/_BirthDeath.pyx":437
  *         cdef double ws = 0.0
  *         for i in range(self.susceptible_num):
  *             ws += self.susceptHapPopRate[popId, haplotype, i]             # <<<<<<<<<<<<<<
@@ -12522,7 +12693,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Birth(struct __pyx_ob
     __pyx_v_ws = (__pyx_v_ws + (*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->susceptHapPopRate.data + __pyx_t_2 * __pyx_v_self->susceptHapPopRate.strides[0]) ) + __pyx_t_1 * __pyx_v_self->susceptHapPopRate.strides[1]) )) + __pyx_t_6)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":427
+  /* "VGsim/_BirthDeath.pyx":438
  *         for i in range(self.susceptible_num):
  *             ws += self.susceptHapPopRate[popId, haplotype, i]
  *         st, self.rn = fastChoose1(self.susceptHapPopRate[popId, haplotype], ws, self.rn)             # <<<<<<<<<<<<<<
@@ -12557,40 +12728,58 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
   __pyx_v_st = __pyx_t_3;
   __pyx_v_self->rn = __pyx_t_9;
 
-  /* "VGsim/_BirthDeath.pyx":429
+  /* "VGsim/_BirthDeath.pyx":440
  *         st, self.rn = fastChoose1(self.susceptHapPopRate[popId, haplotype], ws, self.rn)
  * 
  *         self.pm.NewInfection(popId, st)             # <<<<<<<<<<<<<<
  * 
- *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0)
+ *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,
  */
   __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewInfection(__pyx_v_self->pm, __pyx_v_popId, __pyx_v_st);
 
-  /* "VGsim/_BirthDeath.pyx":431
+  /* "VGsim/_BirthDeath.pyx":442
  *         self.pm.NewInfection(popId, st)
  * 
- *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0)             # <<<<<<<<<<<<<<
+ *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1] + 1)
+ *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
+ */
+  __pyx_t_6 = (__pyx_v_self->events->ptr - 1);
+
+  /* "VGsim/_BirthDeath.pyx":443
+ * 
+ *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,
+ *                              self.events.currentInfectious[self.events.ptr - 1] + 1)             # <<<<<<<<<<<<<<
  *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
  *         self.immunePopRate[popId] = 0.0
  */
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 0, __pyx_v_popId, __pyx_v_haplotype, 0, 0);
+  __pyx_t_1 = (__pyx_v_self->events->ptr - 1);
 
-  /* "VGsim/_BirthDeath.pyx":432
+  /* "VGsim/_BirthDeath.pyx":442
+ *         self.pm.NewInfection(popId, st)
  * 
- *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0)
+ *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1] + 1)
+ *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
+ */
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 0, __pyx_v_popId, __pyx_v_haplotype, 0, 0, ((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_6)) ))) - 1), ((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_1)) ))) + 1));
+
+  /* "VGsim/_BirthDeath.pyx":444
+ *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,
+ *                              self.events.currentInfectious[self.events.ptr - 1] + 1)
  *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]             # <<<<<<<<<<<<<<
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):
  */
-  __pyx_t_6 = __pyx_v_popId;
-  __pyx_t_1 = __pyx_v_st;
+  __pyx_t_1 = __pyx_v_popId;
+  __pyx_t_6 = __pyx_v_st;
   __pyx_t_2 = __pyx_v_st;
   __pyx_t_10 = __pyx_v_popId;
   __pyx_t_11 = __pyx_v_st;
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_10 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_11)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_1)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_2)) ))));
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_10 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_11)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_1 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_2)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":433
- *         self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0)
+  /* "VGsim/_BirthDeath.pyx":445
+ *                              self.events.currentInfectious[self.events.ptr - 1] + 1)
  *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
  *         self.immunePopRate[popId] = 0.0             # <<<<<<<<<<<<<<
  *         for j in range(self.susceptible_num):
@@ -12599,7 +12788,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
   __pyx_t_2 = __pyx_v_popId;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_2)) )) = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":434
+  /* "VGsim/_BirthDeath.pyx":446
  *         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -12611,7 +12800,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_j = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":435
+    /* "VGsim/_BirthDeath.pyx":447
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]             # <<<<<<<<<<<<<<
@@ -12619,12 +12808,12 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
  *         self.bCounter += 1
  */
     __pyx_t_2 = __pyx_v_popId;
-    __pyx_t_1 = __pyx_v_j;
-    __pyx_t_6 = __pyx_v_popId;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_6)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_2 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_1)) )));
+    __pyx_t_6 = __pyx_v_j;
+    __pyx_t_1 = __pyx_v_popId;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_1)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_2 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_6)) )));
   }
 
-  /* "VGsim/_BirthDeath.pyx":436
+  /* "VGsim/_BirthDeath.pyx":448
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  *         self.UpdateRates(popId)             # <<<<<<<<<<<<<<
@@ -12633,7 +12822,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateRates(__pyx_v_self, __pyx_v_popId);
 
-  /* "VGsim/_BirthDeath.pyx":437
+  /* "VGsim/_BirthDeath.pyx":449
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  *         self.UpdateRates(popId)
  *         self.bCounter += 1             # <<<<<<<<<<<<<<
@@ -12642,7 +12831,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
  */
   __pyx_v_self->bCounter = (__pyx_v_self->bCounter + 1);
 
-  /* "VGsim/_BirthDeath.pyx":438
+  /* "VGsim/_BirthDeath.pyx":450
  *         self.UpdateRates(popId)
  *         self.bCounter += 1
  *         self.MigrationRates()             # <<<<<<<<<<<<<<
@@ -12651,7 +12840,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
  */
   (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-  /* "VGsim/_BirthDeath.pyx":421
+  /* "VGsim/_BirthDeath.pyx":432
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Birth(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
@@ -12663,7 +12852,7 @@ __pyx_t_8 = __pyx_f_5VGsim_11_BirthDeath_fastChoose1(__pyx_t_7, __pyx_v_ws, __py
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":442
+/* "VGsim/_BirthDeath.pyx":454
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void UpdateRates(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -12693,7 +12882,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   Py_ssize_t __pyx_t_15;
   __Pyx_RefNannySetupContext("UpdateRates", 0);
 
-  /* "VGsim/_BirthDeath.pyx":445
+  /* "VGsim/_BirthDeath.pyx":457
  *         cdef double tmp
  * 
  *         for h in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -12705,7 +12894,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_h = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":446
+    /* "VGsim/_BirthDeath.pyx":458
  * 
  *         for h in range(self.hapNum):
  *             self.birthHapPopRate[popId, h] = self.BirthRate(popId, h)             # <<<<<<<<<<<<<<
@@ -12716,7 +12905,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_5 = __pyx_v_h;
     *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_4 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_5)) )) = __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_BirthRate(__pyx_v_self, __pyx_v_popId, __pyx_v_h);
 
-    /* "VGsim/_BirthDeath.pyx":447
+    /* "VGsim/_BirthDeath.pyx":459
  *         for h in range(self.hapNum):
  *             self.birthHapPopRate[popId, h] = self.BirthRate(popId, h)
  *             self.eventHapPopRate[popId, h, 0] = self.birthHapPopRate[popId, h]             # <<<<<<<<<<<<<<
@@ -12730,7 +12919,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_8 = 0;
     *((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_6 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_7 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_8)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_5 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_4)) )));
 
-    /* "VGsim/_BirthDeath.pyx":448
+    /* "VGsim/_BirthDeath.pyx":460
  *             self.birthHapPopRate[popId, h] = self.BirthRate(popId, h)
  *             self.eventHapPopRate[popId, h, 0] = self.birthHapPopRate[popId, h]
  *             tmp = (self.eventHapPopRate[popId, h, 0] +             # <<<<<<<<<<<<<<
@@ -12741,7 +12930,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_5 = __pyx_v_h;
     __pyx_t_8 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":449
+    /* "VGsim/_BirthDeath.pyx":461
  *             self.eventHapPopRate[popId, h, 0] = self.birthHapPopRate[popId, h]
  *             tmp = (self.eventHapPopRate[popId, h, 0] +
  *                    self.eventHapPopRate[popId, h, 1] +             # <<<<<<<<<<<<<<
@@ -12752,7 +12941,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_6 = __pyx_v_h;
     __pyx_t_9 = 1;
 
-    /* "VGsim/_BirthDeath.pyx":450
+    /* "VGsim/_BirthDeath.pyx":462
  *             tmp = (self.eventHapPopRate[popId, h, 0] +
  *                    self.eventHapPopRate[popId, h, 1] +
  *                    self.eventHapPopRate[popId, h, 2] +             # <<<<<<<<<<<<<<
@@ -12763,7 +12952,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_11 = __pyx_v_h;
     __pyx_t_12 = 2;
 
-    /* "VGsim/_BirthDeath.pyx":451
+    /* "VGsim/_BirthDeath.pyx":463
  *                    self.eventHapPopRate[popId, h, 1] +
  *                    self.eventHapPopRate[popId, h, 2] +
  *                    self.eventHapPopRate[popId, h, 3] )             # <<<<<<<<<<<<<<
@@ -12774,7 +12963,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_14 = __pyx_v_h;
     __pyx_t_15 = 3;
 
-    /* "VGsim/_BirthDeath.pyx":450
+    /* "VGsim/_BirthDeath.pyx":462
  *             tmp = (self.eventHapPopRate[popId, h, 0] +
  *                    self.eventHapPopRate[popId, h, 1] +
  *                    self.eventHapPopRate[popId, h, 2] +             # <<<<<<<<<<<<<<
@@ -12783,7 +12972,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
  */
     __pyx_v_tmp = ((((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_4 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_5 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_8)) ))) + (*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_7 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_6 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_9)) )))) + (*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_10 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_11 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_12)) )))) + (*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_13 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_14 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_15)) ))));
 
-    /* "VGsim/_BirthDeath.pyx":452
+    /* "VGsim/_BirthDeath.pyx":464
  *                    self.eventHapPopRate[popId, h, 2] +
  *                    self.eventHapPopRate[popId, h, 3] )
  *             self.tEventHapPopRate[popId, h] = tmp             # <<<<<<<<<<<<<<
@@ -12794,7 +12983,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_t_14 = __pyx_v_h;
     *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->tEventHapPopRate.data + __pyx_t_15 * __pyx_v_self->tEventHapPopRate.strides[0]) )) + __pyx_t_14)) )) = __pyx_v_tmp;
 
-    /* "VGsim/_BirthDeath.pyx":453
+    /* "VGsim/_BirthDeath.pyx":465
  *                    self.eventHapPopRate[popId, h, 3] )
  *             self.tEventHapPopRate[popId, h] = tmp
  *             self.HapPopRate(popId, h)             # <<<<<<<<<<<<<<
@@ -12804,7 +12993,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_HapPopRate(__pyx_v_self, __pyx_v_popId, __pyx_v_h);
   }
 
-  /* "VGsim/_BirthDeath.pyx":455
+  /* "VGsim/_BirthDeath.pyx":467
  *             self.HapPopRate(popId, h)
  * 
  *         self.infectPopRate[popId] = 0.0             # <<<<<<<<<<<<<<
@@ -12814,7 +13003,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   __pyx_t_14 = __pyx_v_popId;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_14)) )) = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":456
+  /* "VGsim/_BirthDeath.pyx":468
  * 
  *         self.infectPopRate[popId] = 0.0
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -12826,7 +13015,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":457
+    /* "VGsim/_BirthDeath.pyx":469
  *         self.infectPopRate[popId] = 0.0
  *         for i in range(self.hapNum):
  *             self.infectPopRate[popId] += self.hapPopRate[popId, i]             # <<<<<<<<<<<<<<
@@ -12839,7 +13028,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_13)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_14 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_15)) )));
   }
 
-  /* "VGsim/_BirthDeath.pyx":459
+  /* "VGsim/_BirthDeath.pyx":471
  *             self.infectPopRate[popId] += self.hapPopRate[popId, i]
  * 
  *         self.popRate[popId] = self.infectPopRate[popId] + self.immunePopRate[popId]             # <<<<<<<<<<<<<<
@@ -12851,7 +13040,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   __pyx_t_13 = __pyx_v_popId;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_13)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->infectPopRate.data) + __pyx_t_15)) ))) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_14)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":461
+  /* "VGsim/_BirthDeath.pyx":473
  *         self.popRate[popId] = self.infectPopRate[popId] + self.immunePopRate[popId]
  * 
  *         self.totalRate = 0.0             # <<<<<<<<<<<<<<
@@ -12860,7 +13049,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
  */
   __pyx_v_self->totalRate = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":462
+  /* "VGsim/_BirthDeath.pyx":474
  * 
  *         self.totalRate = 0.0
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -12872,7 +13061,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":463
+    /* "VGsim/_BirthDeath.pyx":475
  *         self.totalRate = 0.0
  *         for i in range(self.popNum):
  *             self.totalRate += self.popRate[i]             # <<<<<<<<<<<<<<
@@ -12883,7 +13072,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
     __pyx_v_self->totalRate = (__pyx_v_self->totalRate + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_14)) ))));
   }
 
-  /* "VGsim/_BirthDeath.pyx":442
+  /* "VGsim/_BirthDeath.pyx":454
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void UpdateRates(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -12895,7 +13084,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateRates(struct __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":467
+/* "VGsim/_BirthDeath.pyx":479
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Death(self, Py_ssize_t popId, Py_ssize_t haplotype, bint add_event = True):             # <<<<<<<<<<<<<<
@@ -12926,7 +13115,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":468
+  /* "VGsim/_BirthDeath.pyx":480
  *     @cython.wraparound(False)
  *     cdef void Death(self, Py_ssize_t popId, Py_ssize_t haplotype, bint add_event = True):
  *         self.liveBranches[popId, haplotype] -= 1             # <<<<<<<<<<<<<<
@@ -12937,7 +13126,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   __pyx_t_2 = __pyx_v_haplotype;
   *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_1 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_2)) )) -= 1;
 
-  /* "VGsim/_BirthDeath.pyx":469
+  /* "VGsim/_BirthDeath.pyx":481
  *     cdef void Death(self, Py_ssize_t popId, Py_ssize_t haplotype, bint add_event = True):
  *         self.liveBranches[popId, haplotype] -= 1
  *         self.pm.NewRecovery(popId, self.suscType[haplotype])             # <<<<<<<<<<<<<<
@@ -12947,7 +13136,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   __pyx_t_2 = __pyx_v_haplotype;
   __pyx_f_5VGsim_11_BirthDeath_15PopulationModel_NewRecovery(__pyx_v_self->pm, __pyx_v_popId, (*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->suscType.data) + __pyx_t_2)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":471
+  /* "VGsim/_BirthDeath.pyx":483
  *         self.pm.NewRecovery(popId, self.suscType[haplotype])
  * 
  *         self.immuneSourcePopRate[popId, self.suscType[haplotype]] = self.pm.susceptible[popId, self.suscType[haplotype]]*self.suscepCumulTransition[self.suscType[haplotype]]             # <<<<<<<<<<<<<<
@@ -12964,7 +13153,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   __pyx_t_8 = (*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->suscType.data) + __pyx_t_6)) )));
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_7 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_8)) )) = ((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_1 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_3)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->suscepCumulTransition.data) + __pyx_t_5)) ))));
 
-  /* "VGsim/_BirthDeath.pyx":472
+  /* "VGsim/_BirthDeath.pyx":484
  * 
  *         self.immuneSourcePopRate[popId, self.suscType[haplotype]] = self.pm.susceptible[popId, self.suscType[haplotype]]*self.suscepCumulTransition[self.suscType[haplotype]]
  *         self.immunePopRate[popId] = 0.0             # <<<<<<<<<<<<<<
@@ -12974,7 +13163,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   __pyx_t_4 = __pyx_v_popId;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_4)) )) = 0.0;
 
-  /* "VGsim/_BirthDeath.pyx":473
+  /* "VGsim/_BirthDeath.pyx":485
  *         self.immuneSourcePopRate[popId, self.suscType[haplotype]] = self.pm.susceptible[popId, self.suscType[haplotype]]*self.suscepCumulTransition[self.suscType[haplotype]]
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -12986,7 +13175,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_j = __pyx_t_11;
 
-    /* "VGsim/_BirthDeath.pyx":474
+    /* "VGsim/_BirthDeath.pyx":486
  *         self.immunePopRate[popId] = 0.0
  *         for j in range(self.susceptible_num):
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]             # <<<<<<<<<<<<<<
@@ -12999,45 +13188,63 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->immunePopRate.data) + __pyx_t_2)) )) += (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->immuneSourcePopRate.data + __pyx_t_4 * __pyx_v_self->immuneSourcePopRate.strides[0]) )) + __pyx_t_5)) )));
   }
 
-  /* "VGsim/_BirthDeath.pyx":476
+  /* "VGsim/_BirthDeath.pyx":488
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  * 
  *         if add_event:             # <<<<<<<<<<<<<<
  *             self.dCounter += 1
- *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0)
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,
  */
   __pyx_t_12 = (__pyx_v_add_event != 0);
   if (__pyx_t_12) {
 
-    /* "VGsim/_BirthDeath.pyx":477
+    /* "VGsim/_BirthDeath.pyx":489
  * 
  *         if add_event:
  *             self.dCounter += 1             # <<<<<<<<<<<<<<
- *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0)
- * 
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,
+ *                              self.events.currentInfectious[self.events.ptr - 1] - 1)
  */
     __pyx_v_self->dCounter = (__pyx_v_self->dCounter + 1);
 
-    /* "VGsim/_BirthDeath.pyx":478
+    /* "VGsim/_BirthDeath.pyx":490
  *         if add_event:
  *             self.dCounter += 1
- *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0)             # <<<<<<<<<<<<<<
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1] - 1)
+ * 
+ */
+    __pyx_t_5 = (__pyx_v_self->events->ptr - 1);
+
+    /* "VGsim/_BirthDeath.pyx":491
+ *             self.dCounter += 1
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,
+ *                              self.events.currentInfectious[self.events.ptr - 1] - 1)             # <<<<<<<<<<<<<<
  * 
  *         self.UpdateRates(popId)
  */
-    ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 1, __pyx_v_popId, __pyx_v_haplotype, 0, 0);
+    __pyx_t_4 = (__pyx_v_self->events->ptr - 1);
 
-    /* "VGsim/_BirthDeath.pyx":476
+    /* "VGsim/_BirthDeath.pyx":490
+ *         if add_event:
+ *             self.dCounter += 1
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1] - 1)
+ * 
+ */
+    ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 1, __pyx_v_popId, __pyx_v_haplotype, 0, 0, ((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_5)) ))) + 1), ((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_4)) ))) - 1));
+
+    /* "VGsim/_BirthDeath.pyx":488
  *             self.immunePopRate[popId] += self.immuneSourcePopRate[popId, j]
  * 
  *         if add_event:             # <<<<<<<<<<<<<<
  *             self.dCounter += 1
- *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0)
+ *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,
  */
   }
 
-  /* "VGsim/_BirthDeath.pyx":480
- *             self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0)
+  /* "VGsim/_BirthDeath.pyx":493
+ *                              self.events.currentInfectious[self.events.ptr - 1] - 1)
  * 
  *         self.UpdateRates(popId)             # <<<<<<<<<<<<<<
  *         self.MigrationRates()
@@ -13045,7 +13252,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateRates(__pyx_v_self, __pyx_v_popId);
 
-  /* "VGsim/_BirthDeath.pyx":481
+  /* "VGsim/_BirthDeath.pyx":494
  * 
  *         self.UpdateRates(popId)
  *         self.MigrationRates()             # <<<<<<<<<<<<<<
@@ -13054,7 +13261,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
  */
   (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-  /* "VGsim/_BirthDeath.pyx":467
+  /* "VGsim/_BirthDeath.pyx":479
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Death(self, Py_ssize_t popId, Py_ssize_t haplotype, bint add_event = True):             # <<<<<<<<<<<<<<
@@ -13066,40 +13273,60 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Death(struct __pyx_ob
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":485
+/* "VGsim/_BirthDeath.pyx":498
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
- *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0)
- * 
+ *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  */
 
 static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Sampling(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, Py_ssize_t __pyx_v_popId, Py_ssize_t __pyx_v_haplotype) {
   __Pyx_RefNannyDeclarations
-  struct __pyx_opt_args_5VGsim_11_BirthDeath_15BirthDeathModel_Death __pyx_t_1;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  struct __pyx_opt_args_5VGsim_11_BirthDeath_15BirthDeathModel_Death __pyx_t_3;
   __Pyx_RefNannySetupContext("Sampling", 0);
 
-  /* "VGsim/_BirthDeath.pyx":486
+  /* "VGsim/_BirthDeath.pyx":499
  *     @cython.wraparound(False)
  *     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):
- *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0)             # <<<<<<<<<<<<<<
+ *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ * 
+ */
+  __pyx_t_1 = (__pyx_v_self->events->ptr - 1);
+
+  /* "VGsim/_BirthDeath.pyx":500
+ *     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):
+ *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])             # <<<<<<<<<<<<<<
  * 
  *         self.Death(popId, haplotype, False)
  */
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 2, __pyx_v_popId, __pyx_v_haplotype, 0, 0);
+  __pyx_t_2 = (__pyx_v_self->events->ptr - 1);
 
-  /* "VGsim/_BirthDeath.pyx":488
- *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0)
+  /* "VGsim/_BirthDeath.pyx":499
+ *     @cython.wraparound(False)
+ *     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):
+ *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],             # <<<<<<<<<<<<<<
+ *                              self.events.currentInfectious[self.events.ptr - 1])
+ * 
+ */
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Events *)__pyx_v_self->events->__pyx_vtab)->AddEvent(__pyx_v_self->events, __pyx_v_self->currentTime, 2, __pyx_v_popId, __pyx_v_haplotype, 0, 0, (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentSucseptibles.data) + __pyx_t_1)) ))), (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->currentInfectious.data) + __pyx_t_2)) ))));
+
+  /* "VGsim/_BirthDeath.pyx":502
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  * 
  *         self.Death(popId, haplotype, False)             # <<<<<<<<<<<<<<
  *         self.sCounter += 1
  * 
  */
-  __pyx_t_1.__pyx_n = 1;
-  __pyx_t_1.add_event = 0;
-  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->Death(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype, &__pyx_t_1); 
+  __pyx_t_3.__pyx_n = 1;
+  __pyx_t_3.add_event = 0;
+  ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->Death(__pyx_v_self, __pyx_v_popId, __pyx_v_haplotype, &__pyx_t_3); 
 
-  /* "VGsim/_BirthDeath.pyx":489
+  /* "VGsim/_BirthDeath.pyx":503
  * 
  *         self.Death(popId, haplotype, False)
  *         self.sCounter += 1             # <<<<<<<<<<<<<<
@@ -13108,19 +13335,19 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_Sampling(struct __pyx
  */
   __pyx_v_self->sCounter = (__pyx_v_self->sCounter + 1);
 
-  /* "VGsim/_BirthDeath.pyx":485
+  /* "VGsim/_BirthDeath.pyx":498
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):             # <<<<<<<<<<<<<<
- *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0)
- * 
+ *         self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+ *                              self.events.currentInfectious[self.events.ptr - 1])
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":493
+/* "VGsim/_BirthDeath.pyx":507
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cpdef void SimulatePopulation(self, Py_ssize_t iterations):             # <<<<<<<<<<<<<<
@@ -13158,10 +13385,10 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_SimulatePopulation); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 493, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_SimulatePopulation); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 507, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_3SimulatePopulation)) {
-        __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_iterations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 493, __pyx_L1_error)
+        __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_iterations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 507, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -13177,7 +13404,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
         __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 493, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 507, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -13197,7 +13424,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
     #endif
   }
 
-  /* "VGsim/_BirthDeath.pyx":495
+  /* "VGsim/_BirthDeath.pyx":509
  *     cpdef void SimulatePopulation(self, Py_ssize_t iterations):
  *         cdef Py_ssize_t popId
  *         max_time = 0             # <<<<<<<<<<<<<<
@@ -13206,7 +13433,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
   __pyx_v_max_time = 0;
 
-  /* "VGsim/_BirthDeath.pyx":496
+  /* "VGsim/_BirthDeath.pyx":510
  *         cdef Py_ssize_t popId
  *         max_time = 0
  *         sCounter = 0             # <<<<<<<<<<<<<<
@@ -13215,7 +13442,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
   __pyx_v_sCounter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":497
+  /* "VGsim/_BirthDeath.pyx":511
  *         max_time = 0
  *         sCounter = 0
  *         for j in range(0, iterations):             # <<<<<<<<<<<<<<
@@ -13227,7 +13454,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_j = __pyx_t_8;
 
-    /* "VGsim/_BirthDeath.pyx":498
+    /* "VGsim/_BirthDeath.pyx":512
  *         sCounter = 0
  *         for j in range(0, iterations):
  *             self.SampleTime()             # <<<<<<<<<<<<<<
@@ -13236,7 +13463,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
     __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SampleTime(__pyx_v_self);
 
-    /* "VGsim/_BirthDeath.pyx":499
+    /* "VGsim/_BirthDeath.pyx":513
  *         for j in range(0, iterations):
  *             self.SampleTime()
  *             popId = self.GenerateEvent()             # <<<<<<<<<<<<<<
@@ -13245,7 +13472,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
     __pyx_v_popId = ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->GenerateEvent(__pyx_v_self, NULL);
 
-    /* "VGsim/_BirthDeath.pyx":500
+    /* "VGsim/_BirthDeath.pyx":514
  *             self.SampleTime()
  *             popId = self.GenerateEvent()
  *             if self.totalRate == 0.0 or self.pm.globalInfectious == 0:             # <<<<<<<<<<<<<<
@@ -13263,7 +13490,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":501
+      /* "VGsim/_BirthDeath.pyx":515
  *             popId = self.GenerateEvent()
  *             if self.totalRate == 0.0 or self.pm.globalInfectious == 0:
  *                 break             # <<<<<<<<<<<<<<
@@ -13272,7 +13499,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
       goto __pyx_L4_break;
 
-      /* "VGsim/_BirthDeath.pyx":500
+      /* "VGsim/_BirthDeath.pyx":514
  *             self.SampleTime()
  *             popId = self.GenerateEvent()
  *             if self.totalRate == 0.0 or self.pm.globalInfectious == 0:             # <<<<<<<<<<<<<<
@@ -13281,7 +13508,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
     }
 
-    /* "VGsim/_BirthDeath.pyx":502
+    /* "VGsim/_BirthDeath.pyx":516
  *             if self.totalRate == 0.0 or self.pm.globalInfectious == 0:
  *                 break
  *             self.CheckLockdown(popId)             # <<<<<<<<<<<<<<
@@ -13292,16 +13519,16 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
   }
   __pyx_L4_break:;
 
-  /* "VGsim/_BirthDeath.pyx":503
+  /* "VGsim/_BirthDeath.pyx":517
  *                 break
  *             self.CheckLockdown(popId)
  *         print("Total number of iterations: ", self.events.ptr)             # <<<<<<<<<<<<<<
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle
  *             print("Less than two cases were sampled...")
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->events->ptr); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 503, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->events->ptr); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 503, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_u_Total_number_of_iterations);
   __Pyx_GIVEREF(__pyx_kp_u_Total_number_of_iterations);
@@ -13309,12 +13536,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 503, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":504
+  /* "VGsim/_BirthDeath.pyx":518
  *             self.CheckLockdown(popId)
  *         print("Total number of iterations: ", self.events.ptr)
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle             # <<<<<<<<<<<<<<
@@ -13324,38 +13551,38 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
   __pyx_t_9 = ((__pyx_v_self->sCounter < 2) != 0);
   if (__pyx_t_9) {
 
-    /* "VGsim/_BirthDeath.pyx":505
+    /* "VGsim/_BirthDeath.pyx":519
  *         print("Total number of iterations: ", self.events.ptr)
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle
  *             print("Less than two cases were sampled...")             # <<<<<<<<<<<<<<
  *             print("_________________________________")
  *             sys.exit(0)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 505, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":506
+    /* "VGsim/_BirthDeath.pyx":520
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle
  *             print("Less than two cases were sampled...")
  *             print("_________________________________")             # <<<<<<<<<<<<<<
  *             sys.exit(0)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 506, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":507
+    /* "VGsim/_BirthDeath.pyx":521
  *             print("Less than two cases were sampled...")
  *             print("_________________________________")
  *             sys.exit(0)             # <<<<<<<<<<<<<<
  * 
  *     @cython.boundscheck(False)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 507, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 521, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 507, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 521, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -13370,12 +13597,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
     }
     __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_2, __pyx_int_0) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_int_0);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 507, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 521, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":504
+    /* "VGsim/_BirthDeath.pyx":518
  *             self.CheckLockdown(popId)
  *         print("Total number of iterations: ", self.events.ptr)
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle             # <<<<<<<<<<<<<<
@@ -13384,7 +13611,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(st
  */
   }
 
-  /* "VGsim/_BirthDeath.pyx":493
+  /* "VGsim/_BirthDeath.pyx":507
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cpdef void SimulatePopulation(self, Py_ssize_t iterations):             # <<<<<<<<<<<<<<
@@ -13416,7 +13643,7 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_3SimulatePopula
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("SimulatePopulation (wrapper)", 0);
   assert(__pyx_arg_iterations); {
-    __pyx_v_iterations = __Pyx_PyIndex_AsSsize_t(__pyx_arg_iterations); if (unlikely((__pyx_v_iterations == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 493, __pyx_L3_error)
+    __pyx_v_iterations = __Pyx_PyIndex_AsSsize_t(__pyx_arg_iterations); if (unlikely((__pyx_v_iterations == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 507, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -13440,7 +13667,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_2SimulatePopula
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SimulatePopulation", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(__pyx_v_self, __pyx_v_iterations, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 493, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_SimulatePopulation(__pyx_v_self, __pyx_v_iterations, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 507, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13457,7 +13684,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_2SimulatePopula
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":511
+/* "VGsim/_BirthDeath.pyx":525
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void UpdateContactDensity(self, Py_ssize_t popId, float newCD):             # <<<<<<<<<<<<<<
@@ -13470,7 +13697,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
   Py_ssize_t __pyx_t_1;
   __Pyx_RefNannySetupContext("UpdateContactDensity", 0);
 
-  /* "VGsim/_BirthDeath.pyx":512
+  /* "VGsim/_BirthDeath.pyx":526
  *     @cython.wraparound(False)
  *     cdef void UpdateContactDensity(self, Py_ssize_t popId, float newCD):
  *         self.pm.contactDensity[popId] = newCD             # <<<<<<<<<<<<<<
@@ -13480,7 +13707,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
   __pyx_t_1 = __pyx_v_popId;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_1)) )) = __pyx_v_newCD;
 
-  /* "VGsim/_BirthDeath.pyx":513
+  /* "VGsim/_BirthDeath.pyx":527
  *     cdef void UpdateContactDensity(self, Py_ssize_t popId, float newCD):
  *         self.pm.contactDensity[popId] = newCD
  *         self.SetEffectiveMigration()             # <<<<<<<<<<<<<<
@@ -13489,7 +13716,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->SetEffectiveMigration(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":514
+  /* "VGsim/_BirthDeath.pyx":528
  *         self.pm.contactDensity[popId] = newCD
  *         self.SetEffectiveMigration()
  *         self.SetMaxBirth()             # <<<<<<<<<<<<<<
@@ -13498,7 +13725,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->SetMaxBirth(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":515
+  /* "VGsim/_BirthDeath.pyx":529
  *         self.SetEffectiveMigration()
  *         self.SetMaxBirth()
  *         self.MigrationRates()             # <<<<<<<<<<<<<<
@@ -13507,7 +13734,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
  */
   (void)(__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_MigrationRates(__pyx_v_self));
 
-  /* "VGsim/_BirthDeath.pyx":516
+  /* "VGsim/_BirthDeath.pyx":530
  *         self.SetMaxBirth()
  *         self.MigrationRates()
  *         self.UpdateRates(popId)             # <<<<<<<<<<<<<<
@@ -13516,7 +13743,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateRates(__pyx_v_self, __pyx_v_popId);
 
-  /* "VGsim/_BirthDeath.pyx":511
+  /* "VGsim/_BirthDeath.pyx":525
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void UpdateContactDensity(self, Py_ssize_t popId, float newCD):             # <<<<<<<<<<<<<<
@@ -13528,7 +13755,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_UpdateContactDensity(
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":520
+/* "VGsim/_BirthDeath.pyx":534
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void CheckLockdown(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -13544,7 +13771,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("CheckLockdown", 0);
 
-  /* "VGsim/_BirthDeath.pyx":521
+  /* "VGsim/_BirthDeath.pyx":535
  *     @cython.wraparound(False)
  *     cdef void CheckLockdown(self, Py_ssize_t popId):
  *         if self.pm.totalInfectious[popId] > self.pm.startLD[popId] and not self.pm.lockdownON:             # <<<<<<<<<<<<<<
@@ -13564,7 +13791,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "VGsim/_BirthDeath.pyx":522
+    /* "VGsim/_BirthDeath.pyx":536
  *     cdef void CheckLockdown(self, Py_ssize_t popId):
  *         if self.pm.totalInfectious[popId] > self.pm.startLD[popId] and not self.pm.lockdownON:
  *             self.UpdateContactDensity(popId, self.pm.contactDensityAfterLockdown[popId] )             # <<<<<<<<<<<<<<
@@ -13574,7 +13801,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
     __pyx_t_3 = __pyx_v_popId;
     ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateContactDensity(__pyx_v_self, __pyx_v_popId, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensityAfterLockdown.data) + __pyx_t_3)) ))));
 
-    /* "VGsim/_BirthDeath.pyx":523
+    /* "VGsim/_BirthDeath.pyx":537
  *         if self.pm.totalInfectious[popId] > self.pm.startLD[popId] and not self.pm.lockdownON:
  *             self.UpdateContactDensity(popId, self.pm.contactDensityAfterLockdown[popId] )
  *             self.swapLockdown += 1             # <<<<<<<<<<<<<<
@@ -13583,7 +13810,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
     __pyx_v_self->swapLockdown = (__pyx_v_self->swapLockdown + 1);
 
-    /* "VGsim/_BirthDeath.pyx":524
+    /* "VGsim/_BirthDeath.pyx":538
  *             self.UpdateContactDensity(popId, self.pm.contactDensityAfterLockdown[popId] )
  *             self.swapLockdown += 1
  *             self.pm.lockdownON = True             # <<<<<<<<<<<<<<
@@ -13592,7 +13819,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
     __pyx_v_self->pm->lockdownON = 1;
 
-    /* "VGsim/_BirthDeath.pyx":521
+    /* "VGsim/_BirthDeath.pyx":535
  *     @cython.wraparound(False)
  *     cdef void CheckLockdown(self, Py_ssize_t popId):
  *         if self.pm.totalInfectious[popId] > self.pm.startLD[popId] and not self.pm.lockdownON:             # <<<<<<<<<<<<<<
@@ -13601,7 +13828,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
   }
 
-  /* "VGsim/_BirthDeath.pyx":525
+  /* "VGsim/_BirthDeath.pyx":539
  *             self.swapLockdown += 1
  *             self.pm.lockdownON = True
  *         if self.pm.totalInfectious[popId] < self.pm.endLD[popId] and self.pm.lockdownON:             # <<<<<<<<<<<<<<
@@ -13621,7 +13848,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
   __pyx_L7_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "VGsim/_BirthDeath.pyx":526
+    /* "VGsim/_BirthDeath.pyx":540
  *             self.pm.lockdownON = True
  *         if self.pm.totalInfectious[popId] < self.pm.endLD[popId] and self.pm.lockdownON:
  *             self.UpdateContactDensity(popId, self.pm.contactDensityBeforeLockdown[popId] )             # <<<<<<<<<<<<<<
@@ -13631,7 +13858,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
     __pyx_t_2 = __pyx_v_popId;
     ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->UpdateContactDensity(__pyx_v_self, __pyx_v_popId, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensityBeforeLockdown.data) + __pyx_t_2)) ))));
 
-    /* "VGsim/_BirthDeath.pyx":527
+    /* "VGsim/_BirthDeath.pyx":541
  *         if self.pm.totalInfectious[popId] < self.pm.endLD[popId] and self.pm.lockdownON:
  *             self.UpdateContactDensity(popId, self.pm.contactDensityBeforeLockdown[popId] )
  *             self.swapLockdown += 1             # <<<<<<<<<<<<<<
@@ -13640,7 +13867,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
     __pyx_v_self->swapLockdown = (__pyx_v_self->swapLockdown + 1);
 
-    /* "VGsim/_BirthDeath.pyx":528
+    /* "VGsim/_BirthDeath.pyx":542
  *             self.UpdateContactDensity(popId, self.pm.contactDensityBeforeLockdown[popId] )
  *             self.swapLockdown += 1
  *             self.pm.lockdownON = False             # <<<<<<<<<<<<<<
@@ -13649,7 +13876,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
     __pyx_v_self->pm->lockdownON = 0;
 
-    /* "VGsim/_BirthDeath.pyx":525
+    /* "VGsim/_BirthDeath.pyx":539
  *             self.swapLockdown += 1
  *             self.pm.lockdownON = True
  *         if self.pm.totalInfectious[popId] < self.pm.endLD[popId] and self.pm.lockdownON:             # <<<<<<<<<<<<<<
@@ -13658,7 +13885,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
  */
   }
 
-  /* "VGsim/_BirthDeath.pyx":520
+  /* "VGsim/_BirthDeath.pyx":534
  *     @cython.boundscheck(False)
  *     @cython.wraparound(False)
  *     cdef void CheckLockdown(self, Py_ssize_t popId):             # <<<<<<<<<<<<<<
@@ -13670,7 +13897,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown(struct 
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":533
+/* "VGsim/_BirthDeath.pyx":547
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cpdef GetGenealogy(self):             # <<<<<<<<<<<<<<
@@ -13738,7 +13965,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_GetGenealogy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 533, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_GetGenealogy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 547, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_5GetGenealogy)) {
         __Pyx_XDECREF(__pyx_r);
@@ -13755,7 +13982,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 533, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 547, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -13776,7 +14003,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     #endif
   }
 
-  /* "VGsim/_BirthDeath.pyx":544
+  /* "VGsim/_BirthDeath.pyx":558
  *             Py_ssize_t e_type_, e_population, e_haplotype, e_newHaplotype, e_newPopulation
  * 
  *         ptrTreeAndTime = 0             # <<<<<<<<<<<<<<
@@ -13785,81 +14012,81 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
   __pyx_v_ptrTreeAndTime = 0;
 
-  /* "VGsim/_BirthDeath.pyx":545
+  /* "VGsim/_BirthDeath.pyx":559
  * 
  *         ptrTreeAndTime = 0
  *         self.tree = np.zeros(2 * self.sCounter - 1, dtype=np.int32)             # <<<<<<<<<<<<<<
  *         self.times = np.zeros(2 * self.sCounter - 1, dtype=float)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(((2 * __pyx_v_self->sCounter) - 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(((2 * __pyx_v_self->sCounter) - 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_int32); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_int32); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(1, 545, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 545, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 559, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->tree, 0);
   __pyx_v_self->tree = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":546
+  /* "VGsim/_BirthDeath.pyx":560
  *         ptrTreeAndTime = 0
  *         self.tree = np.zeros(2 * self.sCounter - 1, dtype=np.int32)
  *         self.times = np.zeros(2 * self.sCounter - 1, dtype=float)             # <<<<<<<<<<<<<<
  * 
  *         for i in range( self.popNum ):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyInt_FromSsize_t(((2 * __pyx_v_self->sCounter) - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(((2 * __pyx_v_self->sCounter) - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 546, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 546, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(1, 560, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 546, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 560, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->times, 0);
   __pyx_v_self->times = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":548
+  /* "VGsim/_BirthDeath.pyx":562
  *         self.times = np.zeros(2 * self.sCounter - 1, dtype=float)
  * 
  *         for i in range( self.popNum ):             # <<<<<<<<<<<<<<
@@ -13871,7 +14098,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "VGsim/_BirthDeath.pyx":549
+    /* "VGsim/_BirthDeath.pyx":563
  * 
  *         for i in range( self.popNum ):
  *             liveBranchesS.push_back(vecint2)             # <<<<<<<<<<<<<<
@@ -13882,10 +14109,10 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_v_liveBranchesS.push_back(__pyx_v_vecint2);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(1, 549, __pyx_L1_error)
+      __PYX_ERR(1, 563, __pyx_L1_error)
     }
 
-    /* "VGsim/_BirthDeath.pyx":550
+    /* "VGsim/_BirthDeath.pyx":564
  *         for i in range( self.popNum ):
  *             liveBranchesS.push_back(vecint2)
  *             for _ in range( self.hapNum ):             # <<<<<<<<<<<<<<
@@ -13897,7 +14124,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
       __pyx_v__ = __pyx_t_13;
 
-      /* "VGsim/_BirthDeath.pyx":551
+      /* "VGsim/_BirthDeath.pyx":565
  *             liveBranchesS.push_back(vecint2)
  *             for _ in range( self.hapNum ):
  *                 liveBranchesS[i].push_back(vecint1)             # <<<<<<<<<<<<<<
@@ -13908,12 +14135,12 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         (__pyx_v_liveBranchesS[__pyx_v_i]).push_back(__pyx_v_vecint1);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(1, 551, __pyx_L1_error)
+        __PYX_ERR(1, 565, __pyx_L1_error)
       }
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":553
+  /* "VGsim/_BirthDeath.pyx":567
  *                 liveBranchesS[i].push_back(vecint1)
  * 
  *         for e_id in range(self.events.ptr-1, -1, -1):             # <<<<<<<<<<<<<<
@@ -13923,7 +14150,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
   for (__pyx_t_8 = (__pyx_v_self->events->ptr - 1); __pyx_t_8 > -1L; __pyx_t_8-=1) {
     __pyx_v_e_id = __pyx_t_8;
 
-    /* "VGsim/_BirthDeath.pyx":555
+    /* "VGsim/_BirthDeath.pyx":569
  *         for e_id in range(self.events.ptr-1, -1, -1):
  *             # this event
  *             e_time = self.events.times[e_id]             # <<<<<<<<<<<<<<
@@ -13933,7 +14160,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_time = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->events->times.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":556
+    /* "VGsim/_BirthDeath.pyx":570
  *             # this event
  *             e_time = self.events.times[e_id]
  *             e_type_ = self.events.types[e_id]             # <<<<<<<<<<<<<<
@@ -13943,7 +14170,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_type_ = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->types.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":557
+    /* "VGsim/_BirthDeath.pyx":571
  *             e_time = self.events.times[e_id]
  *             e_type_ = self.events.types[e_id]
  *             e_population = self.events.populations[e_id]             # <<<<<<<<<<<<<<
@@ -13953,7 +14180,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_population = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->populations.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":558
+    /* "VGsim/_BirthDeath.pyx":572
  *             e_type_ = self.events.types[e_id]
  *             e_population = self.events.populations[e_id]
  *             e_haplotype = self.events.haplotypes[e_id]             # <<<<<<<<<<<<<<
@@ -13963,7 +14190,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_haplotype = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->haplotypes.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":559
+    /* "VGsim/_BirthDeath.pyx":573
  *             e_population = self.events.populations[e_id]
  *             e_haplotype = self.events.haplotypes[e_id]
  *             e_newHaplotype = self.events.newHaplotypes[e_id]             # <<<<<<<<<<<<<<
@@ -13973,7 +14200,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_newHaplotype = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newHaplotypes.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":560
+    /* "VGsim/_BirthDeath.pyx":574
  *             e_haplotype = self.events.haplotypes[e_id]
  *             e_newHaplotype = self.events.newHaplotypes[e_id]
  *             e_newPopulation = self.events.newPopulations[e_id]             # <<<<<<<<<<<<<<
@@ -13983,7 +14210,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     __pyx_t_14 = __pyx_v_e_id;
     __pyx_v_e_newPopulation = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newPopulations.data) + __pyx_t_14)) )));
 
-    /* "VGsim/_BirthDeath.pyx":561
+    /* "VGsim/_BirthDeath.pyx":575
  *             e_newHaplotype = self.events.newHaplotypes[e_id]
  *             e_newPopulation = self.events.newPopulations[e_id]
  *             if e_type_ == BIRTH:             # <<<<<<<<<<<<<<
@@ -13993,7 +14220,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     switch (__pyx_v_e_type_) {
       case 0:
 
-      /* "VGsim/_BirthDeath.pyx":562
+      /* "VGsim/_BirthDeath.pyx":576
  *             e_newPopulation = self.events.newPopulations[e_id]
  *             if e_type_ == BIRTH:
  *                 lbs = liveBranchesS[e_population][e_haplotype].size()             # <<<<<<<<<<<<<<
@@ -14002,7 +14229,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       __pyx_v_lbs = ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).size();
 
-      /* "VGsim/_BirthDeath.pyx":563
+      /* "VGsim/_BirthDeath.pyx":577
  *             if e_type_ == BIRTH:
  *                 lbs = liveBranchesS[e_population][e_haplotype].size()
  *                 lbs_e = self.liveBranches[e_population][e_haplotype]             # <<<<<<<<<<<<<<
@@ -14013,7 +14240,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_15 = __pyx_v_e_haplotype;
       __pyx_v_lbs_e = (*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )));
 
-      /* "VGsim/_BirthDeath.pyx":564
+      /* "VGsim/_BirthDeath.pyx":578
  *                 lbs = liveBranchesS[e_population][e_haplotype].size()
  *                 lbs_e = self.liveBranches[e_population][e_haplotype]
  *                 p = lbs*(lbs-1)/ lbs_e / (lbs_e - 1)             # <<<<<<<<<<<<<<
@@ -14022,7 +14249,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       __pyx_v_p = (((__pyx_v_lbs * (__pyx_v_lbs - 1)) / __pyx_v_lbs_e) / (__pyx_v_lbs_e - 1));
 
-      /* "VGsim/_BirthDeath.pyx":565
+      /* "VGsim/_BirthDeath.pyx":579
  *                 lbs_e = self.liveBranches[e_population][e_haplotype]
  *                 p = lbs*(lbs-1)/ lbs_e / (lbs_e - 1)
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14032,7 +14259,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_16 = ((((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm) < __pyx_v_p) != 0);
       if (__pyx_t_16) {
 
-        /* "VGsim/_BirthDeath.pyx":566
+        /* "VGsim/_BirthDeath.pyx":580
  *                 p = lbs*(lbs-1)/ lbs_e / (lbs_e - 1)
  *                 if self.rndm.uniform() < p:
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))             # <<<<<<<<<<<<<<
@@ -14041,7 +14268,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_n1 = ((Py_ssize_t)floor((__pyx_v_lbs * ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))));
 
-        /* "VGsim/_BirthDeath.pyx":567
+        /* "VGsim/_BirthDeath.pyx":581
  *                 if self.rndm.uniform() < p:
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))
  *                     n2 = int(floor( (lbs-1)*self.rndm.uniform() ))             # <<<<<<<<<<<<<<
@@ -14050,7 +14277,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_n2 = ((Py_ssize_t)floor(((__pyx_v_lbs - 1) * ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))));
 
-        /* "VGsim/_BirthDeath.pyx":568
+        /* "VGsim/_BirthDeath.pyx":582
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))
  *                     n2 = int(floor( (lbs-1)*self.rndm.uniform() ))
  *                     if n2 >= n1:             # <<<<<<<<<<<<<<
@@ -14060,7 +14287,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         __pyx_t_16 = ((__pyx_v_n2 >= __pyx_v_n1) != 0);
         if (__pyx_t_16) {
 
-          /* "VGsim/_BirthDeath.pyx":569
+          /* "VGsim/_BirthDeath.pyx":583
  *                     n2 = int(floor( (lbs-1)*self.rndm.uniform() ))
  *                     if n2 >= n1:
  *                         n2 += 1             # <<<<<<<<<<<<<<
@@ -14069,7 +14296,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_n2 = (__pyx_v_n2 + 1);
 
-          /* "VGsim/_BirthDeath.pyx":568
+          /* "VGsim/_BirthDeath.pyx":582
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))
  *                     n2 = int(floor( (lbs-1)*self.rndm.uniform() ))
  *                     if n2 >= n1:             # <<<<<<<<<<<<<<
@@ -14078,7 +14305,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         }
 
-        /* "VGsim/_BirthDeath.pyx":570
+        /* "VGsim/_BirthDeath.pyx":584
  *                     if n2 >= n1:
  *                         n2 += 1
  *                     id1 = liveBranchesS[e_population][e_haplotype][n1]             # <<<<<<<<<<<<<<
@@ -14087,7 +14314,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_id1 = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_n1]);
 
-        /* "VGsim/_BirthDeath.pyx":571
+        /* "VGsim/_BirthDeath.pyx":585
  *                         n2 += 1
  *                     id1 = liveBranchesS[e_population][e_haplotype][n1]
  *                     id2 = liveBranchesS[e_population][e_haplotype][n2]             # <<<<<<<<<<<<<<
@@ -14096,7 +14323,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_id2 = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_n2]);
 
-        /* "VGsim/_BirthDeath.pyx":572
+        /* "VGsim/_BirthDeath.pyx":586
  *                     id1 = liveBranchesS[e_population][e_haplotype][n1]
  *                     id2 = liveBranchesS[e_population][e_haplotype][n2]
  *                     id3 = ptrTreeAndTime             # <<<<<<<<<<<<<<
@@ -14105,7 +14332,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_id3 = __pyx_v_ptrTreeAndTime;
 
-        /* "VGsim/_BirthDeath.pyx":573
+        /* "VGsim/_BirthDeath.pyx":587
  *                     id2 = liveBranchesS[e_population][e_haplotype][n2]
  *                     id3 = ptrTreeAndTime
  *                     liveBranchesS[e_population][e_haplotype][n1] = id3             # <<<<<<<<<<<<<<
@@ -14114,7 +14341,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_n1]) = __pyx_v_id3;
 
-        /* "VGsim/_BirthDeath.pyx":574
+        /* "VGsim/_BirthDeath.pyx":588
  *                     id3 = ptrTreeAndTime
  *                     liveBranchesS[e_population][e_haplotype][n1] = id3
  *                     liveBranchesS[e_population][e_haplotype][n2] = liveBranchesS[e_population][e_haplotype][lbs-1]             # <<<<<<<<<<<<<<
@@ -14123,7 +14350,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_n2]) = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[(__pyx_v_lbs - 1)]);
 
-        /* "VGsim/_BirthDeath.pyx":575
+        /* "VGsim/_BirthDeath.pyx":589
  *                     liveBranchesS[e_population][e_haplotype][n1] = id3
  *                     liveBranchesS[e_population][e_haplotype][n2] = liveBranchesS[e_population][e_haplotype][lbs-1]
  *                     liveBranchesS[e_population][e_haplotype].pop_back()             # <<<<<<<<<<<<<<
@@ -14132,7 +14359,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).pop_back();
 
-        /* "VGsim/_BirthDeath.pyx":576
+        /* "VGsim/_BirthDeath.pyx":590
  *                     liveBranchesS[e_population][e_haplotype][n2] = liveBranchesS[e_population][e_haplotype][lbs-1]
  *                     liveBranchesS[e_population][e_haplotype].pop_back()
  *                     self.tree[id1] = id3             # <<<<<<<<<<<<<<
@@ -14142,7 +14369,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         __pyx_t_15 = __pyx_v_id1;
         *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = __pyx_v_id3;
 
-        /* "VGsim/_BirthDeath.pyx":577
+        /* "VGsim/_BirthDeath.pyx":591
  *                     liveBranchesS[e_population][e_haplotype].pop_back()
  *                     self.tree[id1] = id3
  *                     self.tree[id2] = id3             # <<<<<<<<<<<<<<
@@ -14152,7 +14379,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         __pyx_t_15 = __pyx_v_id2;
         *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = __pyx_v_id3;
 
-        /* "VGsim/_BirthDeath.pyx":578
+        /* "VGsim/_BirthDeath.pyx":592
  *                     self.tree[id1] = id3
  *                     self.tree[id2] = id3
  *                     self.tree[ptrTreeAndTime] = -1             # <<<<<<<<<<<<<<
@@ -14162,7 +14389,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         __pyx_t_15 = __pyx_v_ptrTreeAndTime;
         *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = -1;
 
-        /* "VGsim/_BirthDeath.pyx":579
+        /* "VGsim/_BirthDeath.pyx":593
  *                     self.tree[id2] = id3
  *                     self.tree[ptrTreeAndTime] = -1
  *                     self.times[ptrTreeAndTime] = e_time             # <<<<<<<<<<<<<<
@@ -14172,7 +14399,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         __pyx_t_15 = __pyx_v_ptrTreeAndTime;
         *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_15)) )) = __pyx_v_e_time;
 
-        /* "VGsim/_BirthDeath.pyx":580
+        /* "VGsim/_BirthDeath.pyx":594
  *                     self.tree[ptrTreeAndTime] = -1
  *                     self.times[ptrTreeAndTime] = e_time
  *                     ptrTreeAndTime += 1             # <<<<<<<<<<<<<<
@@ -14181,7 +14408,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_ptrTreeAndTime = (__pyx_v_ptrTreeAndTime + 1);
 
-        /* "VGsim/_BirthDeath.pyx":565
+        /* "VGsim/_BirthDeath.pyx":579
  *                 lbs_e = self.liveBranches[e_population][e_haplotype]
  *                 p = lbs*(lbs-1)/ lbs_e / (lbs_e - 1)
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14190,7 +14417,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       }
 
-      /* "VGsim/_BirthDeath.pyx":581
+      /* "VGsim/_BirthDeath.pyx":595
  *                     self.times[ptrTreeAndTime] = e_time
  *                     ptrTreeAndTime += 1
  *                 self.liveBranches[e_population][e_haplotype] -= 1             # <<<<<<<<<<<<<<
@@ -14201,7 +14428,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_e_haplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_15 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_14)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":561
+      /* "VGsim/_BirthDeath.pyx":575
  *             e_newHaplotype = self.events.newHaplotypes[e_id]
  *             e_newPopulation = self.events.newPopulations[e_id]
  *             if e_type_ == BIRTH:             # <<<<<<<<<<<<<<
@@ -14211,7 +14438,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       case 1:
 
-      /* "VGsim/_BirthDeath.pyx":583
+      /* "VGsim/_BirthDeath.pyx":597
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
@@ -14222,7 +14449,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_15 = __pyx_v_e_haplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":582
+      /* "VGsim/_BirthDeath.pyx":596
  *                     ptrTreeAndTime += 1
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:             # <<<<<<<<<<<<<<
@@ -14232,7 +14459,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       case 2:
 
-      /* "VGsim/_BirthDeath.pyx":585
+      /* "VGsim/_BirthDeath.pyx":599
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
@@ -14243,7 +14470,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_e_haplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_15 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_14)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":586
+      /* "VGsim/_BirthDeath.pyx":600
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *                 liveBranchesS[e_population][e_haplotype].push_back( ptrTreeAndTime )             # <<<<<<<<<<<<<<
@@ -14254,10 +14481,10 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).push_back(__pyx_v_ptrTreeAndTime);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(1, 586, __pyx_L1_error)
+        __PYX_ERR(1, 600, __pyx_L1_error)
       }
 
-      /* "VGsim/_BirthDeath.pyx":587
+      /* "VGsim/_BirthDeath.pyx":601
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *                 liveBranchesS[e_population][e_haplotype].push_back( ptrTreeAndTime )
  *                 self.tree[ptrTreeAndTime] = -1             # <<<<<<<<<<<<<<
@@ -14267,7 +14494,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_ptrTreeAndTime;
       *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_14)) )) = -1;
 
-      /* "VGsim/_BirthDeath.pyx":588
+      /* "VGsim/_BirthDeath.pyx":602
  *                 liveBranchesS[e_population][e_haplotype].push_back( ptrTreeAndTime )
  *                 self.tree[ptrTreeAndTime] = -1
  *                 self.times[ptrTreeAndTime] = e_time             # <<<<<<<<<<<<<<
@@ -14277,7 +14504,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_ptrTreeAndTime;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_14)) )) = __pyx_v_e_time;
 
-      /* "VGsim/_BirthDeath.pyx":589
+      /* "VGsim/_BirthDeath.pyx":603
  *                 self.tree[ptrTreeAndTime] = -1
  *                 self.times[ptrTreeAndTime] = e_time
  *                 ptrTreeAndTime += 1             # <<<<<<<<<<<<<<
@@ -14286,7 +14513,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       __pyx_v_ptrTreeAndTime = (__pyx_v_ptrTreeAndTime + 1);
 
-      /* "VGsim/_BirthDeath.pyx":584
+      /* "VGsim/_BirthDeath.pyx":598
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:             # <<<<<<<<<<<<<<
@@ -14296,7 +14523,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       case 3:
 
-      /* "VGsim/_BirthDeath.pyx":591
+      /* "VGsim/_BirthDeath.pyx":605
  *                 ptrTreeAndTime += 1
  *             elif e_type_ == MUTATION:
  *                 lbs = liveBranchesS[e_population][e_newHaplotype].size()             # <<<<<<<<<<<<<<
@@ -14305,7 +14532,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       __pyx_v_lbs = ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_newHaplotype]).size();
 
-      /* "VGsim/_BirthDeath.pyx":592
+      /* "VGsim/_BirthDeath.pyx":606
  *             elif e_type_ == MUTATION:
  *                 lbs = liveBranchesS[e_population][e_newHaplotype].size()
  *                 p = lbs/self.liveBranches[e_population][e_newHaplotype]             # <<<<<<<<<<<<<<
@@ -14316,7 +14543,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_15 = __pyx_v_e_newHaplotype;
       __pyx_v_p = (__pyx_v_lbs / ((Py_ssize_t)(*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )))));
 
-      /* "VGsim/_BirthDeath.pyx":593
+      /* "VGsim/_BirthDeath.pyx":607
  *                 lbs = liveBranchesS[e_population][e_newHaplotype].size()
  *                 p = lbs/self.liveBranches[e_population][e_newHaplotype]
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14326,7 +14553,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_16 = ((((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm) < __pyx_v_p) != 0);
       if (__pyx_t_16) {
 
-        /* "VGsim/_BirthDeath.pyx":594
+        /* "VGsim/_BirthDeath.pyx":608
  *                 p = lbs/self.liveBranches[e_population][e_newHaplotype]
  *                 if self.rndm.uniform() < p:
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))             # <<<<<<<<<<<<<<
@@ -14335,7 +14562,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_n1 = ((Py_ssize_t)floor((__pyx_v_lbs * ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))));
 
-        /* "VGsim/_BirthDeath.pyx":595
+        /* "VGsim/_BirthDeath.pyx":609
  *                 if self.rndm.uniform() < p:
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))
  *                     id1 = liveBranchesS[e_population][e_newHaplotype][n1]             # <<<<<<<<<<<<<<
@@ -14344,7 +14571,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_id1 = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_newHaplotype])[__pyx_v_n1]);
 
-        /* "VGsim/_BirthDeath.pyx":596
+        /* "VGsim/_BirthDeath.pyx":610
  *                     n1 = int(floor( lbs*self.rndm.uniform() ))
  *                     id1 = liveBranchesS[e_population][e_newHaplotype][n1]
  *                     liveBranchesS[e_population][e_newHaplotype][n1] = liveBranchesS[e_population][e_newHaplotype][lbs-1]             # <<<<<<<<<<<<<<
@@ -14353,7 +14580,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_newHaplotype])[__pyx_v_n1]) = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_newHaplotype])[(__pyx_v_lbs - 1)]);
 
-        /* "VGsim/_BirthDeath.pyx":597
+        /* "VGsim/_BirthDeath.pyx":611
  *                     id1 = liveBranchesS[e_population][e_newHaplotype][n1]
  *                     liveBranchesS[e_population][e_newHaplotype][n1] = liveBranchesS[e_population][e_newHaplotype][lbs-1]
  *                     liveBranchesS[e_population][e_newHaplotype].pop_back()             # <<<<<<<<<<<<<<
@@ -14362,7 +14589,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_newHaplotype]).pop_back();
 
-        /* "VGsim/_BirthDeath.pyx":598
+        /* "VGsim/_BirthDeath.pyx":612
  *                     liveBranchesS[e_population][e_newHaplotype][n1] = liveBranchesS[e_population][e_newHaplotype][lbs-1]
  *                     liveBranchesS[e_population][e_newHaplotype].pop_back()
  *                     liveBranchesS[e_population][e_haplotype].push_back(id1)             # <<<<<<<<<<<<<<
@@ -14373,10 +14600,10 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).push_back(__pyx_v_id1);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(1, 598, __pyx_L1_error)
+          __PYX_ERR(1, 612, __pyx_L1_error)
         }
 
-        /* "VGsim/_BirthDeath.pyx":599
+        /* "VGsim/_BirthDeath.pyx":613
  *                     liveBranchesS[e_population][e_newHaplotype].pop_back()
  *                     liveBranchesS[e_population][e_haplotype].push_back(id1)
  *                     self.mut.AddMutation(id1, e_haplotype, e_newHaplotype)             # <<<<<<<<<<<<<<
@@ -14385,7 +14612,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_Mutations *)__pyx_v_self->mut->__pyx_vtab)->AddMutation(__pyx_v_self->mut, __pyx_v_id1, __pyx_v_e_haplotype, __pyx_v_e_newHaplotype);
 
-        /* "VGsim/_BirthDeath.pyx":593
+        /* "VGsim/_BirthDeath.pyx":607
  *                 lbs = liveBranchesS[e_population][e_newHaplotype].size()
  *                 p = lbs/self.liveBranches[e_population][e_newHaplotype]
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14394,7 +14621,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       }
 
-      /* "VGsim/_BirthDeath.pyx":600
+      /* "VGsim/_BirthDeath.pyx":614
  *                     liveBranchesS[e_population][e_haplotype].push_back(id1)
  *                     self.mut.AddMutation(id1, e_haplotype, e_newHaplotype)
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1             # <<<<<<<<<<<<<<
@@ -14405,7 +14632,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_e_newHaplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_15 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_14)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":601
+      /* "VGsim/_BirthDeath.pyx":615
  *                     self.mut.AddMutation(id1, e_haplotype, e_newHaplotype)
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
@@ -14416,7 +14643,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_15 = __pyx_v_e_haplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":590
+      /* "VGsim/_BirthDeath.pyx":604
  *                 self.times[ptrTreeAndTime] = e_time
  *                 ptrTreeAndTime += 1
  *             elif e_type_ == MUTATION:             # <<<<<<<<<<<<<<
@@ -14426,7 +14653,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       case 4:
 
-      /* "VGsim/_BirthDeath.pyx":602
+      /* "VGsim/_BirthDeath.pyx":616
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SUSCCHANGE:             # <<<<<<<<<<<<<<
@@ -14436,7 +14663,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       case 5:
 
-      /* "VGsim/_BirthDeath.pyx":605
+      /* "VGsim/_BirthDeath.pyx":619
  *                 pass
  *             elif e_type_ == MIGRATION:
  *                 lbs = liveBranchesS[e_newPopulation][e_haplotype].size()             # <<<<<<<<<<<<<<
@@ -14445,7 +14672,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       __pyx_v_lbs = ((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype]).size();
 
-      /* "VGsim/_BirthDeath.pyx":606
+      /* "VGsim/_BirthDeath.pyx":620
  *             elif e_type_ == MIGRATION:
  *                 lbs = liveBranchesS[e_newPopulation][e_haplotype].size()
  *                 p = lbs/self.liveBranches[e_newPopulation][e_haplotype]             # <<<<<<<<<<<<<<
@@ -14456,7 +14683,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_e_haplotype;
       __pyx_v_p = (__pyx_v_lbs / ((Py_ssize_t)(*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_15 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_14)) )))));
 
-      /* "VGsim/_BirthDeath.pyx":607
+      /* "VGsim/_BirthDeath.pyx":621
  *                 lbs = liveBranchesS[e_newPopulation][e_haplotype].size()
  *                 p = lbs/self.liveBranches[e_newPopulation][e_haplotype]
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14466,7 +14693,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_16 = ((((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm) < __pyx_v_p) != 0);
       if (__pyx_t_16) {
 
-        /* "VGsim/_BirthDeath.pyx":608
+        /* "VGsim/_BirthDeath.pyx":622
  *                 p = lbs/self.liveBranches[e_newPopulation][e_haplotype]
  *                 if self.rndm.uniform() < p:
  *                     nt = int(floor( lbs*self.rndm.uniform() ))             # <<<<<<<<<<<<<<
@@ -14475,7 +14702,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_nt = ((Py_ssize_t)floor((__pyx_v_lbs * ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))));
 
-        /* "VGsim/_BirthDeath.pyx":609
+        /* "VGsim/_BirthDeath.pyx":623
  *                 if self.rndm.uniform() < p:
  *                     nt = int(floor( lbs*self.rndm.uniform() ))
  *                     lbss = liveBranchesS[e_population][e_haplotype].size()             # <<<<<<<<<<<<<<
@@ -14484,7 +14711,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_v_lbss = ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).size();
 
-        /* "VGsim/_BirthDeath.pyx":610
+        /* "VGsim/_BirthDeath.pyx":624
  *                     nt = int(floor( lbs*self.rndm.uniform() ))
  *                     lbss = liveBranchesS[e_population][e_haplotype].size()
  *                     p1 = lbss/self.liveBranches[e_population][e_haplotype]             # <<<<<<<<<<<<<<
@@ -14493,27 +14720,27 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
         __pyx_t_14 = __pyx_v_e_population;
         __pyx_t_15 = __pyx_v_e_haplotype;
-        __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_lbss / ((Py_ssize_t)(*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )))))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 610, __pyx_L1_error)
+        __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_lbss / ((Py_ssize_t)(*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_14 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_15)) )))))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 624, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_XDECREF_SET(__pyx_v_p1, __pyx_t_2);
         __pyx_t_2 = 0;
 
-        /* "VGsim/_BirthDeath.pyx":611
+        /* "VGsim/_BirthDeath.pyx":625
  *                     lbss = liveBranchesS[e_population][e_haplotype].size()
  *                     p1 = lbss/self.liveBranches[e_population][e_haplotype]
  *                     if self.rndm.uniform() < p1:             # <<<<<<<<<<<<<<
  *                         ns = int(floor( lbss*self.rndm.uniform() ))
  *                         idt = liveBranchesS[e_newPopulation][e_haplotype][nt]
  */
-        __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 611, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 625, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_v_p1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 611, __pyx_L1_error)
+        __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_v_p1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 625, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(1, 611, __pyx_L1_error)
+        __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(1, 625, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (__pyx_t_16) {
 
-          /* "VGsim/_BirthDeath.pyx":612
+          /* "VGsim/_BirthDeath.pyx":626
  *                     p1 = lbss/self.liveBranches[e_population][e_haplotype]
  *                     if self.rndm.uniform() < p1:
  *                         ns = int(floor( lbss*self.rndm.uniform() ))             # <<<<<<<<<<<<<<
@@ -14522,7 +14749,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_ns = ((Py_ssize_t)floor((__pyx_v_lbss * ((struct __pyx_vtabstruct_6mc_lib_4rndm_RndmWrapper *)__pyx_v_self->rndm->__pyx_vtab)->uniform(__pyx_v_self->rndm))));
 
-          /* "VGsim/_BirthDeath.pyx":613
+          /* "VGsim/_BirthDeath.pyx":627
  *                     if self.rndm.uniform() < p1:
  *                         ns = int(floor( lbss*self.rndm.uniform() ))
  *                         idt = liveBranchesS[e_newPopulation][e_haplotype][nt]             # <<<<<<<<<<<<<<
@@ -14531,7 +14758,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_idt = (((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[__pyx_v_nt]);
 
-          /* "VGsim/_BirthDeath.pyx":614
+          /* "VGsim/_BirthDeath.pyx":628
  *                         ns = int(floor( lbss*self.rndm.uniform() ))
  *                         idt = liveBranchesS[e_newPopulation][e_haplotype][nt]
  *                         ids = liveBranchesS[e_population][e_haplotype][ns]             # <<<<<<<<<<<<<<
@@ -14540,7 +14767,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_ids = (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_ns]);
 
-          /* "VGsim/_BirthDeath.pyx":615
+          /* "VGsim/_BirthDeath.pyx":629
  *                         idt = liveBranchesS[e_newPopulation][e_haplotype][nt]
  *                         ids = liveBranchesS[e_population][e_haplotype][ns]
  *                         id3 = ptrTreeAndTime             # <<<<<<<<<<<<<<
@@ -14549,7 +14776,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_id3 = __pyx_v_ptrTreeAndTime;
 
-          /* "VGsim/_BirthDeath.pyx":616
+          /* "VGsim/_BirthDeath.pyx":630
  *                         ids = liveBranchesS[e_population][e_haplotype][ns]
  *                         id3 = ptrTreeAndTime
  *                         liveBranchesS[e_population][e_haplotype][ns] = id3             # <<<<<<<<<<<<<<
@@ -14558,7 +14785,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           (((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype])[__pyx_v_ns]) = __pyx_v_id3;
 
-          /* "VGsim/_BirthDeath.pyx":617
+          /* "VGsim/_BirthDeath.pyx":631
  *                         id3 = ptrTreeAndTime
  *                         liveBranchesS[e_population][e_haplotype][ns] = id3
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]             # <<<<<<<<<<<<<<
@@ -14567,7 +14794,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           (((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[__pyx_v_nt]) = (((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[(__pyx_v_lbs - 1)]);
 
-          /* "VGsim/_BirthDeath.pyx":618
+          /* "VGsim/_BirthDeath.pyx":632
  *                         liveBranchesS[e_population][e_haplotype][ns] = id3
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]
  *                         liveBranchesS[e_newPopulation][e_haplotype].pop_back()             # <<<<<<<<<<<<<<
@@ -14576,7 +14803,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           ((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype]).pop_back();
 
-          /* "VGsim/_BirthDeath.pyx":619
+          /* "VGsim/_BirthDeath.pyx":633
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]
  *                         liveBranchesS[e_newPopulation][e_haplotype].pop_back()
  *                         self.tree[idt] = id3             # <<<<<<<<<<<<<<
@@ -14586,7 +14813,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           __pyx_t_15 = __pyx_v_idt;
           *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = __pyx_v_id3;
 
-          /* "VGsim/_BirthDeath.pyx":620
+          /* "VGsim/_BirthDeath.pyx":634
  *                         liveBranchesS[e_newPopulation][e_haplotype].pop_back()
  *                         self.tree[idt] = id3
  *                         self.tree[ids] = id3             # <<<<<<<<<<<<<<
@@ -14596,7 +14823,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           __pyx_t_15 = __pyx_v_ids;
           *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = __pyx_v_id3;
 
-          /* "VGsim/_BirthDeath.pyx":621
+          /* "VGsim/_BirthDeath.pyx":635
  *                         self.tree[idt] = id3
  *                         self.tree[ids] = id3
  *                         self.tree[ptrTreeAndTime] = -1             # <<<<<<<<<<<<<<
@@ -14606,7 +14833,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           __pyx_t_15 = __pyx_v_ptrTreeAndTime;
           *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_15)) )) = -1;
 
-          /* "VGsim/_BirthDeath.pyx":622
+          /* "VGsim/_BirthDeath.pyx":636
  *                         self.tree[ids] = id3
  *                         self.tree[ptrTreeAndTime] = -1
  *                         self.times[ptrTreeAndTime] = e_time             # <<<<<<<<<<<<<<
@@ -14616,7 +14843,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           __pyx_t_15 = __pyx_v_ptrTreeAndTime;
           *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_15)) )) = __pyx_v_e_time;
 
-          /* "VGsim/_BirthDeath.pyx":623
+          /* "VGsim/_BirthDeath.pyx":637
  *                         self.tree[ptrTreeAndTime] = -1
  *                         self.times[ptrTreeAndTime] = e_time
  *                         ptrTreeAndTime += 1             # <<<<<<<<<<<<<<
@@ -14625,7 +14852,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           __pyx_v_ptrTreeAndTime = (__pyx_v_ptrTreeAndTime + 1);
 
-          /* "VGsim/_BirthDeath.pyx":611
+          /* "VGsim/_BirthDeath.pyx":625
  *                     lbss = liveBranchesS[e_population][e_haplotype].size()
  *                     p1 = lbss/self.liveBranches[e_population][e_haplotype]
  *                     if self.rndm.uniform() < p1:             # <<<<<<<<<<<<<<
@@ -14635,7 +14862,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
           goto __pyx_L13;
         }
 
-        /* "VGsim/_BirthDeath.pyx":625
+        /* "VGsim/_BirthDeath.pyx":639
  *                         ptrTreeAndTime += 1
  *                     else:
  *                         liveBranchesS[e_population][e_haplotype].push_back(liveBranchesS[e_newPopulation][e_haplotype][nt])             # <<<<<<<<<<<<<<
@@ -14647,10 +14874,10 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
             ((__pyx_v_liveBranchesS[__pyx_v_e_population])[__pyx_v_e_haplotype]).push_back((((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[__pyx_v_nt]));
           } catch(...) {
             __Pyx_CppExn2PyErr();
-            __PYX_ERR(1, 625, __pyx_L1_error)
+            __PYX_ERR(1, 639, __pyx_L1_error)
           }
 
-          /* "VGsim/_BirthDeath.pyx":626
+          /* "VGsim/_BirthDeath.pyx":640
  *                     else:
  *                         liveBranchesS[e_population][e_haplotype].push_back(liveBranchesS[e_newPopulation][e_haplotype][nt])
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]             # <<<<<<<<<<<<<<
@@ -14659,7 +14886,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
           (((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[__pyx_v_nt]) = (((__pyx_v_liveBranchesS[__pyx_v_e_newPopulation])[__pyx_v_e_haplotype])[(__pyx_v_lbs - 1)]);
 
-          /* "VGsim/_BirthDeath.pyx":627
+          /* "VGsim/_BirthDeath.pyx":641
  *                         liveBranchesS[e_population][e_haplotype].push_back(liveBranchesS[e_newPopulation][e_haplotype][nt])
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]
  *                         liveBranchesS[e_newPopulation][e_haplotype].pop_back()             # <<<<<<<<<<<<<<
@@ -14670,7 +14897,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
         }
         __pyx_L13:;
 
-        /* "VGsim/_BirthDeath.pyx":607
+        /* "VGsim/_BirthDeath.pyx":621
  *                 lbs = liveBranchesS[e_newPopulation][e_haplotype].size()
  *                 p = lbs/self.liveBranches[e_newPopulation][e_haplotype]
  *                 if self.rndm.uniform() < p:             # <<<<<<<<<<<<<<
@@ -14679,7 +14906,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
       }
 
-      /* "VGsim/_BirthDeath.pyx":628
+      /* "VGsim/_BirthDeath.pyx":642
  *                         liveBranchesS[e_newPopulation][e_haplotype][nt] = liveBranchesS[e_newPopulation][e_haplotype][lbs-1]
  *                         liveBranchesS[e_newPopulation][e_haplotype].pop_back()
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1             # <<<<<<<<<<<<<<
@@ -14690,7 +14917,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __pyx_t_14 = __pyx_v_e_haplotype;
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_15 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_14)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":604
+      /* "VGsim/_BirthDeath.pyx":618
  *             elif e_type_ == SUSCCHANGE:
  *                 pass
  *             elif e_type_ == MIGRATION:             # <<<<<<<<<<<<<<
@@ -14700,16 +14927,16 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       break;
       default:
 
-      /* "VGsim/_BirthDeath.pyx":630
+      /* "VGsim/_BirthDeath.pyx":644
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  *             else:
  *                 print("Unknown event type: ", e_type_)             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_e_type_); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 630, __pyx_L1_error)
+      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_e_type_); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 630, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_kp_u_Unknown_event_type);
       __Pyx_GIVEREF(__pyx_kp_u_Unknown_event_type);
@@ -14717,32 +14944,32 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 630, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":631
+      /* "VGsim/_BirthDeath.pyx":645
  *             else:
  *                 print("Unknown event type: ", e_type_)
  *                 print("_________________________________")             # <<<<<<<<<<<<<<
  *                 sys.exit(0)
  *         self.CheckTree()
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 631, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 645, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":632
+      /* "VGsim/_BirthDeath.pyx":646
  *                 print("Unknown event type: ", e_type_)
  *                 print("_________________________________")
  *                 sys.exit(0)             # <<<<<<<<<<<<<<
  *         self.CheckTree()
  * 
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 632, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 632, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_2 = NULL;
@@ -14757,7 +14984,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
       }
       __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_int_0) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_int_0);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 632, __pyx_L1_error)
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -14765,7 +14992,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":633
+  /* "VGsim/_BirthDeath.pyx":647
  *                 print("_________________________________")
  *                 sys.exit(0)
  *         self.CheckTree()             # <<<<<<<<<<<<<<
@@ -14774,7 +15001,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(str
  */
   ((struct __pyx_vtabstruct_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self->__pyx_vtab)->CheckTree(__pyx_v_self);
 
-  /* "VGsim/_BirthDeath.pyx":533
+  /* "VGsim/_BirthDeath.pyx":547
  *     @cython.wraparound(False)
  *     @cython.cdivision(True)
  *     cpdef GetGenealogy(self):             # <<<<<<<<<<<<<<
@@ -14824,7 +15051,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_4GetGenealogy(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetGenealogy", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 533, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 547, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -14841,7 +15068,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_4GetGenealogy(s
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":635
+/* "VGsim/_BirthDeath.pyx":649
  *         self.CheckTree()
  * 
  *     cdef void CheckTree(self):             # <<<<<<<<<<<<<<
@@ -14867,7 +15094,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("CheckTree", 0);
 
-  /* "VGsim/_BirthDeath.pyx":637
+  /* "VGsim/_BirthDeath.pyx":651
  *     cdef void CheckTree(self):
  *         cdef Py_ssize_t counter
  *         counter = 0             # <<<<<<<<<<<<<<
@@ -14876,7 +15103,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
  */
   __pyx_v_counter = 0;
 
-  /* "VGsim/_BirthDeath.pyx":638
+  /* "VGsim/_BirthDeath.pyx":652
  *         cdef Py_ssize_t counter
  *         counter = 0
  *         for i in range(self.sCounter * 2 - 1):             # <<<<<<<<<<<<<<
@@ -14888,7 +15115,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "VGsim/_BirthDeath.pyx":639
+    /* "VGsim/_BirthDeath.pyx":653
  *         counter = 0
  *         for i in range(self.sCounter * 2 - 1):
  *             if self.tree[i] == 0:             # <<<<<<<<<<<<<<
@@ -14903,43 +15130,43 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
     } else if (unlikely(__pyx_t_4 >= __pyx_v_self->tree.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(1, 639, __pyx_L1_error)
+      __PYX_ERR(1, 653, __pyx_L1_error)
     }
     __pyx_t_6 = (((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_4)) ))) == 0) != 0);
     if (__pyx_t_6) {
 
-      /* "VGsim/_BirthDeath.pyx":640
+      /* "VGsim/_BirthDeath.pyx":654
  *         for i in range(self.sCounter * 2 - 1):
  *             if self.tree[i] == 0:
  *                 print("Error 1")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 640, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 654, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":641
+      /* "VGsim/_BirthDeath.pyx":655
  *             if self.tree[i] == 0:
  *                 print("Error 1")
  *                 print("_________________________________")             # <<<<<<<<<<<<<<
  *                 sys.exit(0)
  *             if self.tree[i] == 1:
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 641, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 655, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":642
+      /* "VGsim/_BirthDeath.pyx":656
  *                 print("Error 1")
  *                 print("_________________________________")
  *                 sys.exit(0)             # <<<<<<<<<<<<<<
  *             if self.tree[i] == 1:
  *                 counter += 1
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_sys); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 642, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_sys); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 656, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 642, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 656, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_8 = NULL;
@@ -14954,12 +15181,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
       }
       __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, __pyx_int_0) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_int_0);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 642, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 656, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":639
+      /* "VGsim/_BirthDeath.pyx":653
  *         counter = 0
  *         for i in range(self.sCounter * 2 - 1):
  *             if self.tree[i] == 0:             # <<<<<<<<<<<<<<
@@ -14968,7 +15195,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
  */
     }
 
-    /* "VGsim/_BirthDeath.pyx":643
+    /* "VGsim/_BirthDeath.pyx":657
  *                 print("_________________________________")
  *                 sys.exit(0)
  *             if self.tree[i] == 1:             # <<<<<<<<<<<<<<
@@ -14983,12 +15210,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
     } else if (unlikely(__pyx_t_4 >= __pyx_v_self->tree.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(1, 643, __pyx_L1_error)
+      __PYX_ERR(1, 657, __pyx_L1_error)
     }
     __pyx_t_6 = (((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_4)) ))) == 1) != 0);
     if (__pyx_t_6) {
 
-      /* "VGsim/_BirthDeath.pyx":644
+      /* "VGsim/_BirthDeath.pyx":658
  *                 sys.exit(0)
  *             if self.tree[i] == 1:
  *                 counter += 1             # <<<<<<<<<<<<<<
@@ -14997,7 +15224,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
  */
       __pyx_v_counter = (__pyx_v_counter + 1);
 
-      /* "VGsim/_BirthDeath.pyx":643
+      /* "VGsim/_BirthDeath.pyx":657
  *                 print("_________________________________")
  *                 sys.exit(0)
  *             if self.tree[i] == 1:             # <<<<<<<<<<<<<<
@@ -15006,7 +15233,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
  */
     }
 
-    /* "VGsim/_BirthDeath.pyx":645
+    /* "VGsim/_BirthDeath.pyx":659
  *             if self.tree[i] == 1:
  *                 counter += 1
  *             if counter >= 2:             # <<<<<<<<<<<<<<
@@ -15016,38 +15243,38 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
     __pyx_t_6 = ((__pyx_v_counter >= 2) != 0);
     if (__pyx_t_6) {
 
-      /* "VGsim/_BirthDeath.pyx":646
+      /* "VGsim/_BirthDeath.pyx":660
  *                 counter += 1
  *             if counter >= 2:
  *                 print("Error 2")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 646, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 660, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":647
+      /* "VGsim/_BirthDeath.pyx":661
  *             if counter >= 2:
  *                 print("Error 2")
  *                 print("_________________________________")             # <<<<<<<<<<<<<<
  *                 sys.exit(0)
  *             if self.tree[i] == i:
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 647, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 661, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":648
+      /* "VGsim/_BirthDeath.pyx":662
  *                 print("Error 2")
  *                 print("_________________________________")
  *                 sys.exit(0)             # <<<<<<<<<<<<<<
  *             if self.tree[i] == i:
  *                 print("Error 3")
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_sys); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 648, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_sys); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 662, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_exit); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 648, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_exit); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 662, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __pyx_t_9 = NULL;
@@ -15062,12 +15289,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
       }
       __pyx_t_7 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_int_0) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_int_0);
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 648, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 662, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":645
+      /* "VGsim/_BirthDeath.pyx":659
  *             if self.tree[i] == 1:
  *                 counter += 1
  *             if counter >= 2:             # <<<<<<<<<<<<<<
@@ -15076,7 +15303,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
  */
     }
 
-    /* "VGsim/_BirthDeath.pyx":649
+    /* "VGsim/_BirthDeath.pyx":663
  *                 print("_________________________________")
  *                 sys.exit(0)
  *             if self.tree[i] == i:             # <<<<<<<<<<<<<<
@@ -15091,43 +15318,43 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
     } else if (unlikely(__pyx_t_4 >= __pyx_v_self->tree.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(1, 649, __pyx_L1_error)
+      __PYX_ERR(1, 663, __pyx_L1_error)
     }
     __pyx_t_6 = (((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_4)) ))) == __pyx_v_i) != 0);
     if (__pyx_t_6) {
 
-      /* "VGsim/_BirthDeath.pyx":650
+      /* "VGsim/_BirthDeath.pyx":664
  *                 sys.exit(0)
  *             if self.tree[i] == i:
  *                 print("Error 3")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 650, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 664, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":651
+      /* "VGsim/_BirthDeath.pyx":665
  *             if self.tree[i] == i:
  *                 print("Error 3")
  *                 print("_________________________________")             # <<<<<<<<<<<<<<
  *                 sys.exit(0)
  * 
  */
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 651, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 665, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":652
+      /* "VGsim/_BirthDeath.pyx":666
  *                 print("Error 3")
  *                 print("_________________________________")
  *                 sys.exit(0)             # <<<<<<<<<<<<<<
  * 
  *     def LogDynamics(self, step_num = 1000):
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_sys); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 652, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_sys); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 666, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 652, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 666, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_8 = NULL;
@@ -15142,12 +15369,12 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
       }
       __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, __pyx_int_0) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_int_0);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 652, __pyx_L1_error)
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 666, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":649
+      /* "VGsim/_BirthDeath.pyx":663
  *                 print("_________________________________")
  *                 sys.exit(0)
  *             if self.tree[i] == i:             # <<<<<<<<<<<<<<
@@ -15157,7 +15384,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":635
+  /* "VGsim/_BirthDeath.pyx":649
  *         self.CheckTree()
  * 
  *     cdef void CheckTree(self):             # <<<<<<<<<<<<<<
@@ -15176,7 +15403,7 @@ static void __pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree(struct __py
   __Pyx_RefNannyFinishContext();
 }
 
-/* "VGsim/_BirthDeath.pyx":654
+/* "VGsim/_BirthDeath.pyx":668
  *                 sys.exit(0)
  * 
  *     def LogDynamics(self, step_num = 1000):             # <<<<<<<<<<<<<<
@@ -15216,7 +15443,7 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_7LogDynamics(Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "LogDynamics") < 0)) __PYX_ERR(1, 654, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "LogDynamics") < 0)) __PYX_ERR(1, 668, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -15230,7 +15457,7 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_7LogDynamics(Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("LogDynamics", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 654, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("LogDynamics", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 668, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.LogDynamics", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -15281,7 +15508,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("LogDynamics", 0);
 
-  /* "VGsim/_BirthDeath.pyx":655
+  /* "VGsim/_BirthDeath.pyx":669
  * 
  *     def LogDynamics(self, step_num = 1000):
  *         count = 0             # <<<<<<<<<<<<<<
@@ -15290,7 +15517,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  */
   __pyx_v_count = 0;
 
-  /* "VGsim/_BirthDeath.pyx":656
+  /* "VGsim/_BirthDeath.pyx":670
  *     def LogDynamics(self, step_num = 1000):
  *         count = 0
  *         time_points = [i*self.currentTime/step_num for i in range(step_num+1)]             # <<<<<<<<<<<<<<
@@ -15298,20 +15525,20 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  *         ptr = step_num
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 656, __pyx_L5_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 670, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_step_num, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 656, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_step_num, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 670, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 656, __pyx_L5_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 670, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 656, __pyx_L5_error)
+      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 670, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 656, __pyx_L5_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 670, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -15319,17 +15546,17 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 656, __pyx_L5_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 670, __pyx_L5_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 656, __pyx_L5_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 670, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 656, __pyx_L5_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 670, __pyx_L5_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 656, __pyx_L5_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 670, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -15339,7 +15566,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(1, 656, __pyx_L5_error)
+            else __PYX_ERR(1, 670, __pyx_L5_error)
           }
           break;
         }
@@ -15347,15 +15574,15 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_i, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 656, __pyx_L5_error)
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 670, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PyNumber_Multiply(__pyx_8genexpr1__pyx_v_i, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 656, __pyx_L5_error)
+      __pyx_t_6 = PyNumber_Multiply(__pyx_8genexpr1__pyx_v_i, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 670, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_v_step_num); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 656, __pyx_L5_error)
+      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_v_step_num); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 670, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_3))) __PYX_ERR(1, 656, __pyx_L5_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_3))) __PYX_ERR(1, 670, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -15369,7 +15596,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   __pyx_v_time_points = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":657
+  /* "VGsim/_BirthDeath.pyx":671
  *         count = 0
  *         time_points = [i*self.currentTime/step_num for i in range(step_num+1)]
  *         dynamics = [None for i in range(step_num+1)]             # <<<<<<<<<<<<<<
@@ -15377,20 +15604,20 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  *         for e_id in range(self.events.ptr-1, -1, -1):
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 657, __pyx_L11_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 671, __pyx_L11_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_step_num, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 657, __pyx_L11_error)
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_step_num, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 671, __pyx_L11_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 657, __pyx_L11_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 671, __pyx_L11_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 657, __pyx_L11_error)
+      __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 671, __pyx_L11_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 657, __pyx_L11_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 671, __pyx_L11_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -15398,17 +15625,17 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 657, __pyx_L11_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 671, __pyx_L11_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 657, __pyx_L11_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 671, __pyx_L11_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 657, __pyx_L11_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 671, __pyx_L11_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 657, __pyx_L11_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 671, __pyx_L11_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -15418,7 +15645,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(1, 657, __pyx_L11_error)
+            else __PYX_ERR(1, 671, __pyx_L11_error)
           }
           break;
         }
@@ -15426,7 +15653,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       }
       __Pyx_XDECREF_SET(__pyx_8genexpr2__pyx_v_i, __pyx_t_3);
       __pyx_t_3 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)Py_None))) __PYX_ERR(1, 657, __pyx_L11_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)Py_None))) __PYX_ERR(1, 671, __pyx_L11_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF(__pyx_8genexpr2__pyx_v_i); __pyx_8genexpr2__pyx_v_i = 0;
@@ -15439,7 +15666,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   __pyx_v_dynamics = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":658
+  /* "VGsim/_BirthDeath.pyx":672
  *         time_points = [i*self.currentTime/step_num for i in range(step_num+1)]
  *         dynamics = [None for i in range(step_num+1)]
  *         ptr = step_num             # <<<<<<<<<<<<<<
@@ -15449,7 +15676,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   __Pyx_INCREF(__pyx_v_step_num);
   __pyx_v_ptr = __pyx_v_step_num;
 
-  /* "VGsim/_BirthDeath.pyx":659
+  /* "VGsim/_BirthDeath.pyx":673
  *         dynamics = [None for i in range(step_num+1)]
  *         ptr = step_num
  *         for e_id in range(self.events.ptr-1, -1, -1):             # <<<<<<<<<<<<<<
@@ -15459,7 +15686,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   for (__pyx_t_4 = (__pyx_v_self->events->ptr - 1); __pyx_t_4 > -1L; __pyx_t_4-=1) {
     __pyx_v_e_id = __pyx_t_4;
 
-    /* "VGsim/_BirthDeath.pyx":660
+    /* "VGsim/_BirthDeath.pyx":674
  *         ptr = step_num
  *         for e_id in range(self.events.ptr-1, -1, -1):
  *             e_time = self.events.times[e_id]             # <<<<<<<<<<<<<<
@@ -15474,14 +15701,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->times.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 660, __pyx_L1_error)
+      __PYX_ERR(1, 674, __pyx_L1_error)
     }
-    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->events->times.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 660, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->events->times.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 674, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_time, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":661
+    /* "VGsim/_BirthDeath.pyx":675
  *         for e_id in range(self.events.ptr-1, -1, -1):
  *             e_time = self.events.times[e_id]
  *             e_type_ = self.events.types[e_id]             # <<<<<<<<<<<<<<
@@ -15496,14 +15723,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->types.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 661, __pyx_L1_error)
+      __PYX_ERR(1, 675, __pyx_L1_error)
     }
-    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->types.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 661, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->types.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 675, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_type_, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":662
+    /* "VGsim/_BirthDeath.pyx":676
  *             e_time = self.events.times[e_id]
  *             e_type_ = self.events.types[e_id]
  *             e_population = self.events.populations[e_id]             # <<<<<<<<<<<<<<
@@ -15518,14 +15745,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->populations.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 662, __pyx_L1_error)
+      __PYX_ERR(1, 676, __pyx_L1_error)
     }
-    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->populations.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 662, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->populations.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_population, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":663
+    /* "VGsim/_BirthDeath.pyx":677
  *             e_type_ = self.events.types[e_id]
  *             e_population = self.events.populations[e_id]
  *             e_haplotype = self.events.haplotypes[e_id]             # <<<<<<<<<<<<<<
@@ -15540,14 +15767,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->haplotypes.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 663, __pyx_L1_error)
+      __PYX_ERR(1, 677, __pyx_L1_error)
     }
-    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->haplotypes.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 663, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->haplotypes.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 677, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_haplotype, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":664
+    /* "VGsim/_BirthDeath.pyx":678
  *             e_population = self.events.populations[e_id]
  *             e_haplotype = self.events.haplotypes[e_id]
  *             e_newHaplotype = self.events.newHaplotypes[e_id]             # <<<<<<<<<<<<<<
@@ -15562,14 +15789,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->newHaplotypes.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 664, __pyx_L1_error)
+      __PYX_ERR(1, 678, __pyx_L1_error)
     }
-    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newHaplotypes.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 664, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newHaplotypes.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 678, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_newHaplotype, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":665
+    /* "VGsim/_BirthDeath.pyx":679
  *             e_haplotype = self.events.haplotypes[e_id]
  *             e_newHaplotype = self.events.newHaplotypes[e_id]
  *             e_newPopulation = self.events.newPopulations[e_id]             # <<<<<<<<<<<<<<
@@ -15584,35 +15811,35 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->newPopulations.shape[0])) __pyx_t_8 = 0;
     if (unlikely(__pyx_t_8 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 665, __pyx_L1_error)
+      __PYX_ERR(1, 679, __pyx_L1_error)
     }
-    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newPopulations.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 665, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->newPopulations.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 679, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_e_newPopulation, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":667
+    /* "VGsim/_BirthDeath.pyx":681
  *             e_newPopulation = self.events.newPopulations[e_id]
  * 
  *             if e_type_ == BIRTH:             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:
  */
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 667, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 681, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 667, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 681, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":668
+      /* "VGsim/_BirthDeath.pyx":682
  * 
  *             if e_type_ == BIRTH:
  *                 self.liveBranches[e_population][e_haplotype] -= 1             # <<<<<<<<<<<<<<
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  */
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 668, __pyx_L1_error)
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 668, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 682, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 682, __pyx_L1_error)
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_8 = -1;
@@ -15626,11 +15853,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 668, __pyx_L1_error)
+        __PYX_ERR(1, 682, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_7 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_12)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":667
+      /* "VGsim/_BirthDeath.pyx":681
  *             e_newPopulation = self.events.newPopulations[e_id]
  * 
  *             if e_type_ == BIRTH:             # <<<<<<<<<<<<<<
@@ -15640,28 +15867,28 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       goto __pyx_L17;
     }
 
-    /* "VGsim/_BirthDeath.pyx":669
+    /* "VGsim/_BirthDeath.pyx":683
  *             if e_type_ == BIRTH:
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:
  */
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 669, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 683, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 669, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 683, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":670
+      /* "VGsim/_BirthDeath.pyx":684
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  */
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 670, __pyx_L1_error)
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 670, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 684, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 684, __pyx_L1_error)
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_8 = -1;
@@ -15675,11 +15902,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_7 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 670, __pyx_L1_error)
+        __PYX_ERR(1, 684, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_12 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_7)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":669
+      /* "VGsim/_BirthDeath.pyx":683
  *             if e_type_ == BIRTH:
  *                 self.liveBranches[e_population][e_haplotype] -= 1
  *             elif e_type_ == DEATH:             # <<<<<<<<<<<<<<
@@ -15689,28 +15916,28 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       goto __pyx_L17;
     }
 
-    /* "VGsim/_BirthDeath.pyx":671
+    /* "VGsim/_BirthDeath.pyx":685
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == MIGRATION:
  */
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 671, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 671, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 685, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":672
+      /* "VGsim/_BirthDeath.pyx":686
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
  *             elif e_type_ == MIGRATION:
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  */
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 672, __pyx_L1_error)
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 672, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 686, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 686, __pyx_L1_error)
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_8 = -1;
@@ -15724,11 +15951,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 672, __pyx_L1_error)
+        __PYX_ERR(1, 686, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_7 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_12)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":671
+      /* "VGsim/_BirthDeath.pyx":685
  *             elif e_type_ == DEATH:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == SAMPLING:             # <<<<<<<<<<<<<<
@@ -15738,28 +15965,28 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       goto __pyx_L17;
     }
 
-    /* "VGsim/_BirthDeath.pyx":673
+    /* "VGsim/_BirthDeath.pyx":687
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == MIGRATION:             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  *             elif e_type_ == MUTATION:
  */
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_5, 5, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 673, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_5, 5, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 687, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 673, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 687, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":674
+      /* "VGsim/_BirthDeath.pyx":688
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == MIGRATION:
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1             # <<<<<<<<<<<<<<
  *             elif e_type_ == MUTATION:
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1
  */
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_newPopulation); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 674, __pyx_L1_error)
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 674, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_newPopulation); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 688, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 688, __pyx_L1_error)
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_8 = -1;
@@ -15773,11 +16000,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_7 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 674, __pyx_L1_error)
+        __PYX_ERR(1, 688, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_12 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_7)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":673
+      /* "VGsim/_BirthDeath.pyx":687
  *             elif e_type_ == SAMPLING:
  *                 self.liveBranches[e_population][e_haplotype] += 1
  *             elif e_type_ == MIGRATION:             # <<<<<<<<<<<<<<
@@ -15787,28 +16014,28 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       goto __pyx_L17;
     }
 
-    /* "VGsim/_BirthDeath.pyx":675
+    /* "VGsim/_BirthDeath.pyx":689
  *             elif e_type_ == MIGRATION:
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  *             elif e_type_ == MUTATION:             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1
  *                 self.liveBranches[e_population][e_haplotype] += 1
  */
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_3, 3, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 675, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_e_type_, __pyx_int_3, 3, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 689, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 675, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 689, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_9) {
 
-      /* "VGsim/_BirthDeath.pyx":676
+      /* "VGsim/_BirthDeath.pyx":690
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  *             elif e_type_ == MUTATION:
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1             # <<<<<<<<<<<<<<
  *                 self.liveBranches[e_population][e_haplotype] += 1
  * 
  */
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 676, __pyx_L1_error)
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_newHaplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 676, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 690, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_newHaplotype); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 690, __pyx_L1_error)
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_8 = -1;
@@ -15822,19 +16049,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 676, __pyx_L1_error)
+        __PYX_ERR(1, 690, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_7 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_12)) )) -= 1;
 
-      /* "VGsim/_BirthDeath.pyx":677
+      /* "VGsim/_BirthDeath.pyx":691
  *             elif e_type_ == MUTATION:
  *                 self.liveBranches[e_population][e_newHaplotype] -= 1
  *                 self.liveBranches[e_population][e_haplotype] += 1             # <<<<<<<<<<<<<<
  * 
  *             while ptr >= 0 and time_points[ptr] >= e_time:
  */
-      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 677, __pyx_L1_error)
-      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 677, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_population); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 691, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_v_e_haplotype); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 691, __pyx_L1_error)
       __pyx_t_12 = __pyx_t_11;
       __pyx_t_7 = __pyx_t_10;
       __pyx_t_8 = -1;
@@ -15848,11 +16075,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
       } else if (unlikely(__pyx_t_7 >= __pyx_v_self->liveBranches.shape[1])) __pyx_t_8 = 1;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(1, 677, __pyx_L1_error)
+        __PYX_ERR(1, 691, __pyx_L1_error)
       }
       *((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->liveBranches.data + __pyx_t_12 * __pyx_v_self->liveBranches.strides[0]) )) + __pyx_t_7)) )) += 1;
 
-      /* "VGsim/_BirthDeath.pyx":675
+      /* "VGsim/_BirthDeath.pyx":689
  *             elif e_type_ == MIGRATION:
  *                 self.liveBranches[e_newPopulation][e_haplotype] -= 1
  *             elif e_type_ == MUTATION:             # <<<<<<<<<<<<<<
@@ -15862,7 +16089,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
     }
     __pyx_L17:;
 
-    /* "VGsim/_BirthDeath.pyx":679
+    /* "VGsim/_BirthDeath.pyx":693
  *                 self.liveBranches[e_population][e_haplotype] += 1
  * 
  *             while ptr >= 0 and time_points[ptr] >= e_time:             # <<<<<<<<<<<<<<
@@ -15870,25 +16097,25 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  *                 ptr -= 1
  */
     while (1) {
-      __pyx_t_1 = PyObject_RichCompare(__pyx_v_ptr, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 679, __pyx_L1_error)
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(1, 679, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_v_ptr, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 693, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(1, 693, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_13) {
       } else {
         __pyx_t_9 = __pyx_t_13;
         goto __pyx_L20_bool_binop_done;
       }
-      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_time_points, __pyx_v_ptr); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 679, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_time_points, __pyx_v_ptr); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 693, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_e_time, Py_GE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 679, __pyx_L1_error)
+      __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_e_time, Py_GE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 693, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(1, 679, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(1, 693, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_9 = __pyx_t_13;
       __pyx_L20_bool_binop_done:;
       if (!__pyx_t_9) break;
 
-      /* "VGsim/_BirthDeath.pyx":680
+      /* "VGsim/_BirthDeath.pyx":694
  * 
  *             while ptr >= 0 and time_points[ptr] >= e_time:
  *                 dynamics[ptr] = [ [el for el in br] for br in self.liveBranches]             # <<<<<<<<<<<<<<
@@ -15896,17 +16123,17 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  *         return([time_points, dynamics])
  */
       { /* enter inner scope */
-        __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 680, __pyx_L24_error)
+        __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 694, __pyx_L24_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->liveBranches, 2, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 680, __pyx_L24_error)
+        __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->liveBranches, 2, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L24_error)
         __Pyx_GOTREF(__pyx_t_1);
         if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
           __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_10 = 0;
           __pyx_t_5 = NULL;
         } else {
-          __pyx_t_10 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 680, __pyx_L24_error)
+          __pyx_t_10 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 694, __pyx_L24_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 680, __pyx_L24_error)
+          __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 694, __pyx_L24_error)
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         for (;;) {
@@ -15914,17 +16141,17 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
             if (likely(PyList_CheckExact(__pyx_t_3))) {
               if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_3)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(1, 680, __pyx_L24_error)
+              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(1, 694, __pyx_L24_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 680, __pyx_L24_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L24_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             } else {
               if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(1, 680, __pyx_L24_error)
+              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(1, 694, __pyx_L24_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 680, __pyx_L24_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L24_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             }
@@ -15934,7 +16161,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(1, 680, __pyx_L24_error)
+                else __PYX_ERR(1, 694, __pyx_L24_error)
               }
               break;
             }
@@ -15943,32 +16170,32 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
           __Pyx_XDECREF_SET(__pyx_8genexpr3__pyx_v_br, __pyx_t_1);
           __pyx_t_1 = 0;
           { /* enter inner scope */
-            __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 680, __pyx_L29_error)
+            __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L29_error)
             __Pyx_GOTREF(__pyx_t_1);
             if (likely(PyList_CheckExact(__pyx_8genexpr3__pyx_v_br)) || PyTuple_CheckExact(__pyx_8genexpr3__pyx_v_br)) {
               __pyx_t_6 = __pyx_8genexpr3__pyx_v_br; __Pyx_INCREF(__pyx_t_6); __pyx_t_11 = 0;
               __pyx_t_14 = NULL;
             } else {
-              __pyx_t_11 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_8genexpr3__pyx_v_br); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 680, __pyx_L29_error)
+              __pyx_t_11 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_8genexpr3__pyx_v_br); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 694, __pyx_L29_error)
               __Pyx_GOTREF(__pyx_t_6);
-              __pyx_t_14 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 680, __pyx_L29_error)
+              __pyx_t_14 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 694, __pyx_L29_error)
             }
             for (;;) {
               if (likely(!__pyx_t_14)) {
                 if (likely(PyList_CheckExact(__pyx_t_6))) {
                   if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_6)) break;
                   #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                  __pyx_t_15 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_15); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(1, 680, __pyx_L29_error)
+                  __pyx_t_15 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_15); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(1, 694, __pyx_L29_error)
                   #else
-                  __pyx_t_15 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 680, __pyx_L29_error)
+                  __pyx_t_15 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 694, __pyx_L29_error)
                   __Pyx_GOTREF(__pyx_t_15);
                   #endif
                 } else {
                   if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
                   #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                  __pyx_t_15 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_15); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(1, 680, __pyx_L29_error)
+                  __pyx_t_15 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_15); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(1, 694, __pyx_L29_error)
                   #else
-                  __pyx_t_15 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 680, __pyx_L29_error)
+                  __pyx_t_15 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 694, __pyx_L29_error)
                   __Pyx_GOTREF(__pyx_t_15);
                   #endif
                 }
@@ -15978,7 +16205,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
                   PyObject* exc_type = PyErr_Occurred();
                   if (exc_type) {
                     if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                    else __PYX_ERR(1, 680, __pyx_L29_error)
+                    else __PYX_ERR(1, 694, __pyx_L29_error)
                   }
                   break;
                 }
@@ -15986,7 +16213,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
               }
               __Pyx_XDECREF_SET(__pyx_8genexpr4__pyx_v_el, __pyx_t_15);
               __pyx_t_15 = 0;
-              if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_8genexpr4__pyx_v_el))) __PYX_ERR(1, 680, __pyx_L29_error)
+              if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_8genexpr4__pyx_v_el))) __PYX_ERR(1, 694, __pyx_L29_error)
             }
             __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
             __Pyx_XDECREF(__pyx_8genexpr4__pyx_v_el); __pyx_8genexpr4__pyx_v_el = 0;
@@ -15996,7 +16223,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
             goto __pyx_L24_error;
             __pyx_L32_exit_scope:;
           } /* exit inner scope */
-          if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_1))) __PYX_ERR(1, 680, __pyx_L24_error)
+          if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_1))) __PYX_ERR(1, 694, __pyx_L24_error)
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         }
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -16007,24 +16234,24 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
         goto __pyx_L1_error;
         __pyx_L33_exit_scope:;
       } /* exit inner scope */
-      if (unlikely(PyObject_SetItem(__pyx_v_dynamics, __pyx_v_ptr, __pyx_t_2) < 0)) __PYX_ERR(1, 680, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_dynamics, __pyx_v_ptr, __pyx_t_2) < 0)) __PYX_ERR(1, 694, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":681
+      /* "VGsim/_BirthDeath.pyx":695
  *             while ptr >= 0 and time_points[ptr] >= e_time:
  *                 dynamics[ptr] = [ [el for el in br] for br in self.liveBranches]
  *                 ptr -= 1             # <<<<<<<<<<<<<<
  *         return([time_points, dynamics])
  * 
  */
-      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_ptr, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 681, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_ptr, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 695, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF_SET(__pyx_v_ptr, __pyx_t_2);
       __pyx_t_2 = 0;
     }
   }
 
-  /* "VGsim/_BirthDeath.pyx":682
+  /* "VGsim/_BirthDeath.pyx":696
  *                 dynamics[ptr] = [ [el for el in br] for br in self.liveBranches]
  *                 ptr -= 1
  *         return([time_points, dynamics])             # <<<<<<<<<<<<<<
@@ -16032,7 +16259,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
  *     def Report(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 682, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_time_points);
   __Pyx_GIVEREF(__pyx_v_time_points);
@@ -16044,7 +16271,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":654
+  /* "VGsim/_BirthDeath.pyx":668
  *                 sys.exit(0)
  * 
  *     def LogDynamics(self, step_num = 1000):             # <<<<<<<<<<<<<<
@@ -16080,7 +16307,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_6LogDynamics(st
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":684
+/* "VGsim/_BirthDeath.pyx":698
  *         return([time_points, dynamics])
  * 
  *     def Report(self):             # <<<<<<<<<<<<<<
@@ -16111,16 +16338,16 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_8Report(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Report", 0);
 
-  /* "VGsim/_BirthDeath.pyx":685
+  /* "VGsim/_BirthDeath.pyx":699
  * 
  *     def Report(self):
  *         print("Number of samples:", self.sCounter)             # <<<<<<<<<<<<<<
  * 
  *     def Debug(self):
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->sCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 685, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->sCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 685, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_u_Number_of_samples);
   __Pyx_GIVEREF(__pyx_kp_u_Number_of_samples);
@@ -16128,12 +16355,12 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_8Report(struct 
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 685, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":684
+  /* "VGsim/_BirthDeath.pyx":698
  *         return([time_points, dynamics])
  * 
  *     def Report(self):             # <<<<<<<<<<<<<<
@@ -16155,7 +16382,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_8Report(struct 
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":687
+/* "VGsim/_BirthDeath.pyx":701
  *         print("Number of samples:", self.sCounter)
  * 
  *     def Debug(self):             # <<<<<<<<<<<<<<
@@ -16203,339 +16430,31 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Debug", 0);
 
-  /* "VGsim/_BirthDeath.pyx":688
+  /* "VGsim/_BirthDeath.pyx":702
  * 
  *     def Debug(self):
  *         print("Parameters")             # <<<<<<<<<<<<<<
  *         print("swapLockdown: ", self.swapLockdown)
  *         print("Migration plus: ", self.migPlus)
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 688, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 702, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":689
+  /* "VGsim/_BirthDeath.pyx":703
  *     def Debug(self):
  *         print("Parameters")
  *         print("swapLockdown: ", self.swapLockdown)             # <<<<<<<<<<<<<<
  *         print("Migration plus: ", self.migPlus)
  *         print("Migration non plus: ", self.migNonPlus)
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->swapLockdown); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 689, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->swapLockdown); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 703, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 689, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 703, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_u_swapLockdown);
   __Pyx_GIVEREF(__pyx_kp_u_swapLockdown);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_swapLockdown);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 689, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":690
- *         print("Parameters")
- *         print("swapLockdown: ", self.swapLockdown)
- *         print("Migration plus: ", self.migPlus)             # <<<<<<<<<<<<<<
- *         print("Migration non plus: ", self.migNonPlus)
- *         print("Current time(mutable): ", self.currentTime)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migPlus); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 690, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 690, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Migration_plus);
-  __Pyx_GIVEREF(__pyx_kp_u_Migration_plus);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_plus);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 690, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":691
- *         print("swapLockdown: ", self.swapLockdown)
- *         print("Migration plus: ", self.migPlus)
- *         print("Migration non plus: ", self.migNonPlus)             # <<<<<<<<<<<<<<
- *         print("Current time(mutable): ", self.currentTime)
- *         print("Random number(mutable): ", self.rn)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migNonPlus); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 691, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 691, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Migration_non_plus);
-  __Pyx_GIVEREF(__pyx_kp_u_Migration_non_plus);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_non_plus);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 691, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":692
- *         print("Migration plus: ", self.migPlus)
- *         print("Migration non plus: ", self.migNonPlus)
- *         print("Current time(mutable): ", self.currentTime)             # <<<<<<<<<<<<<<
- *         print("Random number(mutable): ", self.rn)
- *         print("Total rate(mutable): ", self.totalRate)
- */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 692, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 692, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Current_time_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Current_time_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Current_time_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 692, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":693
- *         print("Migration non plus: ", self.migNonPlus)
- *         print("Current time(mutable): ", self.currentTime)
- *         print("Random number(mutable): ", self.rn)             # <<<<<<<<<<<<<<
- *         print("Total rate(mutable): ", self.totalRate)
- *         print("Max effective birth(const): ", self.maxEffectiveBirth)
- */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->rn); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 693, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 693, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Random_number_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Random_number_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Random_number_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 693, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":694
- *         print("Current time(mutable): ", self.currentTime)
- *         print("Random number(mutable): ", self.rn)
- *         print("Total rate(mutable): ", self.totalRate)             # <<<<<<<<<<<<<<
- *         print("Max effective birth(const): ", self.maxEffectiveBirth)
- *         print("Total migration rate(mutable): ", self.totalMigrationRate)
- */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->totalRate); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 694, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Total_rate_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Total_rate_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Total_rate_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 694, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":695
- *         print("Random number(mutable): ", self.rn)
- *         print("Total rate(mutable): ", self.totalRate)
- *         print("Max effective birth(const): ", self.maxEffectiveBirth)             # <<<<<<<<<<<<<<
- *         print("Total migration rate(mutable): ", self.totalMigrationRate)
- *         print("Birth counter(mutable): ", self.bCounter)
- */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->maxEffectiveBirth); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 695, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 695, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Max_effective_birth_const);
-  __Pyx_GIVEREF(__pyx_kp_u_Max_effective_birth_const);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Max_effective_birth_const);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 695, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":696
- *         print("Total rate(mutable): ", self.totalRate)
- *         print("Max effective birth(const): ", self.maxEffectiveBirth)
- *         print("Total migration rate(mutable): ", self.totalMigrationRate)             # <<<<<<<<<<<<<<
- *         print("Birth counter(mutable): ", self.bCounter)
- *         print("Death counter(mutable): ", self.dCounter)
- */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->totalMigrationRate); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 696, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 696, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Total_migration_rate_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Total_migration_rate_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Total_migration_rate_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 696, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":697
- *         print("Max effective birth(const): ", self.maxEffectiveBirth)
- *         print("Total migration rate(mutable): ", self.totalMigrationRate)
- *         print("Birth counter(mutable): ", self.bCounter)             # <<<<<<<<<<<<<<
- *         print("Death counter(mutable): ", self.dCounter)
- *         print("Sampling counter(mutable): ", self.sCounter)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->bCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 697, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 697, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Birth_counter_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Birth_counter_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Birth_counter_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 697, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":698
- *         print("Total migration rate(mutable): ", self.totalMigrationRate)
- *         print("Birth counter(mutable): ", self.bCounter)
- *         print("Death counter(mutable): ", self.dCounter)             # <<<<<<<<<<<<<<
- *         print("Sampling counter(mutable): ", self.sCounter)
- *         print("Migration counter(mutable): ", self.migCounter)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->dCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 698, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 698, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Death_counter_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Death_counter_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Death_counter_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 698, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":699
- *         print("Birth counter(mutable): ", self.bCounter)
- *         print("Death counter(mutable): ", self.dCounter)
- *         print("Sampling counter(mutable): ", self.sCounter)             # <<<<<<<<<<<<<<
- *         print("Migration counter(mutable): ", self.migCounter)
- *         print("Mutation counter(mutable): ", self.mutCounter)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->sCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 699, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 699, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Sampling_counter_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Sampling_counter_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Sampling_counter_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 699, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":700
- *         print("Death counter(mutable): ", self.dCounter)
- *         print("Sampling counter(mutable): ", self.sCounter)
- *         print("Migration counter(mutable): ", self.migCounter)             # <<<<<<<<<<<<<<
- *         print("Mutation counter(mutable): ", self.mutCounter)
- *         print("Populations number(const): ", self.popNum)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 700, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 700, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Migration_counter_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Migration_counter_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_counter_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 700, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":701
- *         print("Sampling counter(mutable): ", self.sCounter)
- *         print("Migration counter(mutable): ", self.migCounter)
- *         print("Mutation counter(mutable): ", self.mutCounter)             # <<<<<<<<<<<<<<
- *         print("Populations number(const): ", self.popNum)
- *         print("Mutations number(const): ", self.dim)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->mutCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Mutation_counter_mutable);
-  __Pyx_GIVEREF(__pyx_kp_u_Mutation_counter_mutable);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Mutation_counter_mutable);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 701, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":702
- *         print("Migration counter(mutable): ", self.migCounter)
- *         print("Mutation counter(mutable): ", self.mutCounter)
- *         print("Populations number(const): ", self.popNum)             # <<<<<<<<<<<<<<
- *         print("Mutations number(const): ", self.dim)
- *         print("Haplotypes number(const): ", self.hapNum)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Populations_number_const);
-  __Pyx_GIVEREF(__pyx_kp_u_Populations_number_const);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Populations_number_const);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":703
- *         print("Mutation counter(mutable): ", self.mutCounter)
- *         print("Populations number(const): ", self.popNum)
- *         print("Mutations number(const): ", self.dim)             # <<<<<<<<<<<<<<
- *         print("Haplotypes number(const): ", self.hapNum)
- *         print("Susceptible number(const): ", self.susceptible_num)
- */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->dim); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Mutations_number_const);
-  __Pyx_GIVEREF(__pyx_kp_u_Mutations_number_const);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Mutations_number_const);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
@@ -16545,19 +16464,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "VGsim/_BirthDeath.pyx":704
- *         print("Populations number(const): ", self.popNum)
- *         print("Mutations number(const): ", self.dim)
- *         print("Haplotypes number(const): ", self.hapNum)             # <<<<<<<<<<<<<<
- *         print("Susceptible number(const): ", self.susceptible_num)
- *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
+ *         print("Parameters")
+ *         print("swapLockdown: ", self.swapLockdown)
+ *         print("Migration plus: ", self.migPlus)             # <<<<<<<<<<<<<<
+ *         print("Migration non plus: ", self.migNonPlus)
+ *         print("Current time(mutable): ", self.currentTime)
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 704, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migPlus); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Haplotypes_number_const);
-  __Pyx_GIVEREF(__pyx_kp_u_Haplotypes_number_const);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Haplotypes_number_const);
+  __Pyx_INCREF(__pyx_kp_u_Migration_plus);
+  __Pyx_GIVEREF(__pyx_kp_u_Migration_plus);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_plus);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
@@ -16567,19 +16486,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "VGsim/_BirthDeath.pyx":705
- *         print("Mutations number(const): ", self.dim)
- *         print("Haplotypes number(const): ", self.hapNum)
- *         print("Susceptible number(const): ", self.susceptible_num)             # <<<<<<<<<<<<<<
- *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
- *         print("Susceptible type(): ", sep=" ", end="")
+ *         print("swapLockdown: ", self.swapLockdown)
+ *         print("Migration plus: ", self.migPlus)
+ *         print("Migration non plus: ", self.migNonPlus)             # <<<<<<<<<<<<<<
+ *         print("Current time(mutable): ", self.currentTime)
+ *         print("Random number(mutable): ", self.rn)
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 705, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migNonPlus); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 705, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Susceptible_number_const);
-  __Pyx_GIVEREF(__pyx_kp_u_Susceptible_number_const);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Susceptible_number_const);
+  __Pyx_INCREF(__pyx_kp_u_Migration_non_plus);
+  __Pyx_GIVEREF(__pyx_kp_u_Migration_non_plus);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_non_plus);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
@@ -16589,19 +16508,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "VGsim/_BirthDeath.pyx":706
- *         print("Haplotypes number(const): ", self.hapNum)
- *         print("Susceptible number(const): ", self.susceptible_num)
- *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)             # <<<<<<<<<<<<<<
- *         print("Susceptible type(): ", sep=" ", end="")
- *         for i in range(self.suscType.shape[0]):
+ *         print("Migration plus: ", self.migPlus)
+ *         print("Migration non plus: ", self.migNonPlus)
+ *         print("Current time(mutable): ", self.currentTime)             # <<<<<<<<<<<<<<
+ *         print("Random number(mutable): ", self.rn)
+ *         print("Total rate(mutable): ", self.totalRate)
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->pm->globalInfectious); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 706, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 706, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 706, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_u_Population_model_globalInfectiou);
-  __Pyx_GIVEREF(__pyx_kp_u_Population_model_globalInfectiou);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Population_model_globalInfectiou);
+  __Pyx_INCREF(__pyx_kp_u_Current_time_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Current_time_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Current_time_mutable);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
   __pyx_t_1 = 0;
@@ -16611,22 +16530,330 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "VGsim/_BirthDeath.pyx":707
+ *         print("Migration non plus: ", self.migNonPlus)
+ *         print("Current time(mutable): ", self.currentTime)
+ *         print("Random number(mutable): ", self.rn)             # <<<<<<<<<<<<<<
+ *         print("Total rate(mutable): ", self.totalRate)
+ *         print("Max effective birth(const): ", self.maxEffectiveBirth)
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->rn); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 707, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 707, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Random_number_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Random_number_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Random_number_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 707, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":708
+ *         print("Current time(mutable): ", self.currentTime)
+ *         print("Random number(mutable): ", self.rn)
+ *         print("Total rate(mutable): ", self.totalRate)             # <<<<<<<<<<<<<<
+ *         print("Max effective birth(const): ", self.maxEffectiveBirth)
+ *         print("Total migration rate(mutable): ", self.totalMigrationRate)
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->totalRate); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 708, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 708, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Total_rate_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Total_rate_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Total_rate_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 708, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":709
+ *         print("Random number(mutable): ", self.rn)
+ *         print("Total rate(mutable): ", self.totalRate)
+ *         print("Max effective birth(const): ", self.maxEffectiveBirth)             # <<<<<<<<<<<<<<
+ *         print("Total migration rate(mutable): ", self.totalMigrationRate)
+ *         print("Birth counter(mutable): ", self.bCounter)
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->maxEffectiveBirth); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 709, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 709, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Max_effective_birth_const);
+  __Pyx_GIVEREF(__pyx_kp_u_Max_effective_birth_const);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Max_effective_birth_const);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 709, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":710
+ *         print("Total rate(mutable): ", self.totalRate)
+ *         print("Max effective birth(const): ", self.maxEffectiveBirth)
+ *         print("Total migration rate(mutable): ", self.totalMigrationRate)             # <<<<<<<<<<<<<<
+ *         print("Birth counter(mutable): ", self.bCounter)
+ *         print("Death counter(mutable): ", self.dCounter)
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->totalMigrationRate); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 710, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 710, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Total_migration_rate_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Total_migration_rate_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Total_migration_rate_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 710, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":711
+ *         print("Max effective birth(const): ", self.maxEffectiveBirth)
+ *         print("Total migration rate(mutable): ", self.totalMigrationRate)
+ *         print("Birth counter(mutable): ", self.bCounter)             # <<<<<<<<<<<<<<
+ *         print("Death counter(mutable): ", self.dCounter)
+ *         print("Sampling counter(mutable): ", self.sCounter)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->bCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 711, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 711, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Birth_counter_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Birth_counter_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Birth_counter_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 711, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":712
+ *         print("Total migration rate(mutable): ", self.totalMigrationRate)
+ *         print("Birth counter(mutable): ", self.bCounter)
+ *         print("Death counter(mutable): ", self.dCounter)             # <<<<<<<<<<<<<<
+ *         print("Sampling counter(mutable): ", self.sCounter)
+ *         print("Migration counter(mutable): ", self.migCounter)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->dCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 712, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 712, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Death_counter_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Death_counter_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Death_counter_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 712, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":713
+ *         print("Birth counter(mutable): ", self.bCounter)
+ *         print("Death counter(mutable): ", self.dCounter)
+ *         print("Sampling counter(mutable): ", self.sCounter)             # <<<<<<<<<<<<<<
+ *         print("Migration counter(mutable): ", self.migCounter)
+ *         print("Mutation counter(mutable): ", self.mutCounter)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->sCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 713, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 713, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Sampling_counter_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Sampling_counter_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Sampling_counter_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 713, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":714
+ *         print("Death counter(mutable): ", self.dCounter)
+ *         print("Sampling counter(mutable): ", self.sCounter)
+ *         print("Migration counter(mutable): ", self.migCounter)             # <<<<<<<<<<<<<<
+ *         print("Mutation counter(mutable): ", self.mutCounter)
+ *         print("Populations number(const): ", self.popNum)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->migCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 714, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 714, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Migration_counter_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Migration_counter_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Migration_counter_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 714, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":715
+ *         print("Sampling counter(mutable): ", self.sCounter)
+ *         print("Migration counter(mutable): ", self.migCounter)
+ *         print("Mutation counter(mutable): ", self.mutCounter)             # <<<<<<<<<<<<<<
+ *         print("Populations number(const): ", self.popNum)
+ *         print("Mutations number(const): ", self.dim)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->mutCounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 715, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 715, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Mutation_counter_mutable);
+  __Pyx_GIVEREF(__pyx_kp_u_Mutation_counter_mutable);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Mutation_counter_mutable);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 715, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":716
+ *         print("Migration counter(mutable): ", self.migCounter)
+ *         print("Mutation counter(mutable): ", self.mutCounter)
+ *         print("Populations number(const): ", self.popNum)             # <<<<<<<<<<<<<<
+ *         print("Mutations number(const): ", self.dim)
+ *         print("Haplotypes number(const): ", self.hapNum)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->popNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 716, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 716, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Populations_number_const);
+  __Pyx_GIVEREF(__pyx_kp_u_Populations_number_const);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Populations_number_const);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 716, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":717
+ *         print("Mutation counter(mutable): ", self.mutCounter)
+ *         print("Populations number(const): ", self.popNum)
+ *         print("Mutations number(const): ", self.dim)             # <<<<<<<<<<<<<<
+ *         print("Haplotypes number(const): ", self.hapNum)
+ *         print("Susceptible number(const): ", self.susceptible_num)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->dim); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Mutations_number_const);
+  __Pyx_GIVEREF(__pyx_kp_u_Mutations_number_const);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Mutations_number_const);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":718
+ *         print("Populations number(const): ", self.popNum)
+ *         print("Mutations number(const): ", self.dim)
+ *         print("Haplotypes number(const): ", self.hapNum)             # <<<<<<<<<<<<<<
+ *         print("Susceptible number(const): ", self.susceptible_num)
+ *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->hapNum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 718, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 718, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Haplotypes_number_const);
+  __Pyx_GIVEREF(__pyx_kp_u_Haplotypes_number_const);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Haplotypes_number_const);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 718, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":719
+ *         print("Mutations number(const): ", self.dim)
+ *         print("Haplotypes number(const): ", self.hapNum)
+ *         print("Susceptible number(const): ", self.susceptible_num)             # <<<<<<<<<<<<<<
+ *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
+ *         print("Susceptible type(): ", sep=" ", end="")
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->susceptible_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 719, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 719, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Susceptible_number_const);
+  __Pyx_GIVEREF(__pyx_kp_u_Susceptible_number_const);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Susceptible_number_const);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 719, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":720
+ *         print("Haplotypes number(const): ", self.hapNum)
+ *         print("Susceptible number(const): ", self.susceptible_num)
+ *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)             # <<<<<<<<<<<<<<
+ *         print("Susceptible type(): ", sep=" ", end="")
+ *         for i in range(self.suscType.shape[0]):
+ */
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->pm->globalInfectious); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_kp_u_Population_model_globalInfectiou);
+  __Pyx_GIVEREF(__pyx_kp_u_Population_model_globalInfectiou);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_Population_model_globalInfectiou);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":721
  *         print("Susceptible number(const): ", self.susceptible_num)
  *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
  *         print("Susceptible type(): ", sep=" ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.suscType.shape[0]):
  *             print(self.suscType[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 707, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__13) < 0) __PYX_ERR(1, 707, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 707, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__12, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 707, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__13) < 0) __PYX_ERR(1, 721, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 721, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__12, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":708
+  /* "VGsim/_BirthDeath.pyx":722
  *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
  *         print("Susceptible type(): ", sep=" ", end="")
  *         for i in range(self.suscType.shape[0]):             # <<<<<<<<<<<<<<
@@ -16638,7 +16865,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":709
+    /* "VGsim/_BirthDeath.pyx":723
  *         print("Susceptible type(): ", sep=" ", end="")
  *         for i in range(self.suscType.shape[0]):
  *             print(self.suscType[i], end=" ")             # <<<<<<<<<<<<<<
@@ -16653,53 +16880,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->suscType.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 709, __pyx_L1_error)
+      __PYX_ERR(1, 723, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->suscType.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 709, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->suscType.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 709, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 709, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 709, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 709, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 723, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":710
+  /* "VGsim/_BirthDeath.pyx":724
  *         for i in range(self.suscType.shape[0]):
  *             print(self.suscType[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Birth rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 710, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 724, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":711
+  /* "VGsim/_BirthDeath.pyx":725
  *             print(self.suscType[i], end=" ")
  *         print()
  *         print("Birth rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.bRate[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 711, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 711, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 711, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__15, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 711, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 725, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 725, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__15, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":712
+  /* "VGsim/_BirthDeath.pyx":726
  *         print()
  *         print("Birth rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -16711,7 +16938,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":713
+    /* "VGsim/_BirthDeath.pyx":727
  *         print("Birth rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  *             print(self.bRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -16726,53 +16953,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->bRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 713, __pyx_L1_error)
+      __PYX_ERR(1, 727, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 713, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->bRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 713, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 713, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 713, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 713, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 727, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":714
+  /* "VGsim/_BirthDeath.pyx":728
  *         for i in range(self.hapNum):
  *             print(self.bRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Death rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 714, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 728, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":715
+  /* "VGsim/_BirthDeath.pyx":729
  *             print(self.bRate[i], end=" ")
  *         print()
  *         print("Death rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.dRate[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 715, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 715, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 715, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__16, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 715, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 729, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 729, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__16, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":716
+  /* "VGsim/_BirthDeath.pyx":730
  *         print()
  *         print("Death rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -16784,7 +17011,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":717
+    /* "VGsim/_BirthDeath.pyx":731
  *         print("Death rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  *             print(self.dRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -16799,53 +17026,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->dRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 717, __pyx_L1_error)
+      __PYX_ERR(1, 731, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->dRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 717, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->dRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 731, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 717, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 731, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 717, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 731, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 717, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 717, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 731, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 731, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":718
+  /* "VGsim/_BirthDeath.pyx":732
  *         for i in range(self.hapNum):
  *             print(self.dRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Sampling rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 718, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 732, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":719
+  /* "VGsim/_BirthDeath.pyx":733
  *             print(self.dRate[i], end=" ")
  *         print()
  *         print("Sampling rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.sRate[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 719, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 733, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 719, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 719, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__17, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 719, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 733, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 733, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__17, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 733, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":720
+  /* "VGsim/_BirthDeath.pyx":734
  *         print()
  *         print("Sampling rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -16857,7 +17084,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":721
+    /* "VGsim/_BirthDeath.pyx":735
  *         print("Sampling rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  *             print(self.sRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -16872,53 +17099,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->sRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 721, __pyx_L1_error)
+      __PYX_ERR(1, 735, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->sRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 721, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->sRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 735, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 721, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 735, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 721, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 735, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 721, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 721, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 735, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 735, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":722
+  /* "VGsim/_BirthDeath.pyx":736
  *         for i in range(self.hapNum):
  *             print(self.sRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Total mutation rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 722, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":723
+  /* "VGsim/_BirthDeath.pyx":737
  *             print(self.sRate[i], end=" ")
  *         print()
  *         print("Total mutation rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.tmRate[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 723, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 723, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 723, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__18, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 723, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 737, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 737, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__18, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":724
+  /* "VGsim/_BirthDeath.pyx":738
  *         print()
  *         print("Total mutation rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -16930,7 +17157,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":725
+    /* "VGsim/_BirthDeath.pyx":739
  *         print("Total mutation rate(const): ", sep="", end="")
  *         for i in range(self.hapNum):
  *             print(self.tmRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -16945,53 +17172,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->tmRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 725, __pyx_L1_error)
+      __PYX_ERR(1, 739, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->tmRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 725, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->tmRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 725, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 725, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 725, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 725, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 739, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":726
+  /* "VGsim/_BirthDeath.pyx":740
  *         for i in range(self.hapNum):
  *             print(self.tmRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Migration population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 726, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 740, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":727
+  /* "VGsim/_BirthDeath.pyx":741
  *             print(self.tmRate[i], end=" ")
  *         print()
  *         print("Migration population rate(mutable): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             print(self.migPopRate[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 727, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 727, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 727, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__19, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 727, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 741, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 741, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__19, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":728
+  /* "VGsim/_BirthDeath.pyx":742
  *         print()
  *         print("Migration population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -17003,7 +17230,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":729
+    /* "VGsim/_BirthDeath.pyx":743
  *         print("Migration population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):
  *             print(self.migPopRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17018,53 +17245,53 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->migPopRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 729, __pyx_L1_error)
+      __PYX_ERR(1, 743, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->migPopRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 729, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->migPopRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 743, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 729, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 743, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 729, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 743, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 729, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 729, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 743, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 743, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":730
+  /* "VGsim/_BirthDeath.pyx":744
  *         for i in range(self.popNum):
  *             print(self.migPopRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 730, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 744, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":731
+  /* "VGsim/_BirthDeath.pyx":745
  *             print(self.migPopRate[i], end=" ")
  *         print()
  *         print("Population rate(mutable): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             print(self.popRate[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 731, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 745, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 731, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 731, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__20, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 731, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_sep, __pyx_kp_u__14) < 0) __PYX_ERR(1, 745, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 745, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__20, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 745, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":732
+  /* "VGsim/_BirthDeath.pyx":746
  *         print()
  *         print("Population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -17076,7 +17303,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":733
+    /* "VGsim/_BirthDeath.pyx":747
  *         print("Population rate(mutable): ", sep="", end="")
  *         for i in range(self.popNum):
  *             print(self.popRate[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17091,52 +17318,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->popRate.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 733, __pyx_L1_error)
+      __PYX_ERR(1, 747, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 733, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->popRate.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 747, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 733, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 747, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 733, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 747, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 733, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 733, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 747, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 747, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":734
+  /* "VGsim/_BirthDeath.pyx":748
  *         for i in range(self.popNum):
  *             print(self.popRate[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - sizes(const): ", end="")
  *         for i in range(self.pm.sizes.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 734, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 748, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":735
+  /* "VGsim/_BirthDeath.pyx":749
  *             print(self.popRate[i], end=" ")
  *         print()
  *         print("Population model - sizes(const): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.sizes[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 735, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 749, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 735, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__21, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 735, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 749, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__21, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 749, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":736
+  /* "VGsim/_BirthDeath.pyx":750
  *         print()
  *         print("Population model - sizes(const): ", end="")
  *         for i in range(self.pm.sizes.shape[0]):             # <<<<<<<<<<<<<<
@@ -17148,7 +17375,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":737
+    /* "VGsim/_BirthDeath.pyx":751
  *         print("Population model - sizes(const): ", end="")
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.sizes[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17163,52 +17390,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->sizes.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 737, __pyx_L1_error)
+      __PYX_ERR(1, 751, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->sizes.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 737, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->sizes.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 751, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 737, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 751, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 737, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 751, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 737, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 737, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 751, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 751, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":738
+  /* "VGsim/_BirthDeath.pyx":752
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.sizes[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - totalSusceptible(mutable): ", end="")
  *         for i in range(self.pm.totalSusceptible.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 738, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 752, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":739
+  /* "VGsim/_BirthDeath.pyx":753
  *             print(self.pm.sizes[i], end=" ")
  *         print()
  *         print("Population model - totalSusceptible(mutable): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.totalSusceptible.shape[0]):
  *             print(self.pm.totalSusceptible[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 739, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 753, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 739, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 739, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 753, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__22, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 753, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":740
+  /* "VGsim/_BirthDeath.pyx":754
  *         print()
  *         print("Population model - totalSusceptible(mutable): ", end="")
  *         for i in range(self.pm.totalSusceptible.shape[0]):             # <<<<<<<<<<<<<<
@@ -17220,7 +17447,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":741
+    /* "VGsim/_BirthDeath.pyx":755
  *         print("Population model - totalSusceptible(mutable): ", end="")
  *         for i in range(self.pm.totalSusceptible.shape[0]):
  *             print(self.pm.totalSusceptible[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17235,52 +17462,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->totalSusceptible.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 741, __pyx_L1_error)
+      __PYX_ERR(1, 755, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalSusceptible.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 741, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalSusceptible.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 755, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 741, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 755, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 741, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 755, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 741, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 741, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 755, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 755, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":742
+  /* "VGsim/_BirthDeath.pyx":756
  *         for i in range(self.pm.totalSusceptible.shape[0]):
  *             print(self.pm.totalSusceptible[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - totalInfectious(mutable): ", end="")
  *         for i in range(self.pm.totalInfectious.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 742, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 756, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":743
+  /* "VGsim/_BirthDeath.pyx":757
  *             print(self.pm.totalSusceptible[i], end=" ")
  *         print()
  *         print("Population model - totalInfectious(mutable): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.totalInfectious.shape[0]):
  *             print(self.pm.totalInfectious[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 743, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 757, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 743, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__23, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 743, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__14) < 0) __PYX_ERR(1, 757, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__23, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 757, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":744
+  /* "VGsim/_BirthDeath.pyx":758
  *         print()
  *         print("Population model - totalInfectious(mutable): ", end="")
  *         for i in range(self.pm.totalInfectious.shape[0]):             # <<<<<<<<<<<<<<
@@ -17292,7 +17519,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":745
+    /* "VGsim/_BirthDeath.pyx":759
  *         print("Population model - totalInfectious(mutable): ", end="")
  *         for i in range(self.pm.totalInfectious.shape[0]):
  *             print(self.pm.totalInfectious[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17307,52 +17534,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->totalInfectious.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 745, __pyx_L1_error)
+      __PYX_ERR(1, 759, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalInfectious.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 745, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->pm->totalInfectious.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 759, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 745, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 759, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 745, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 759, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 745, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 745, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 759, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 759, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":746
+  /* "VGsim/_BirthDeath.pyx":760
  *         for i in range(self.pm.totalInfectious.shape[0]):
  *             print(self.pm.totalInfectious[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - contac density(const): ", end=" ")
  *         for i in range(self.pm.sizes.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 746, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 760, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":747
+  /* "VGsim/_BirthDeath.pyx":761
  *             print(self.pm.totalInfectious[i], end=" ")
  *         print()
  *         print("Population model - contac density(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.contactDensity[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 747, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 761, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 747, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__24, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 747, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 761, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__24, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 761, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":748
+  /* "VGsim/_BirthDeath.pyx":762
  *         print()
  *         print("Population model - contac density(const): ", end=" ")
  *         for i in range(self.pm.sizes.shape[0]):             # <<<<<<<<<<<<<<
@@ -17364,7 +17591,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":749
+    /* "VGsim/_BirthDeath.pyx":763
  *         print("Population model - contac density(const): ", end=" ")
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.contactDensity[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17379,52 +17606,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->contactDensity.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 749, __pyx_L1_error)
+      __PYX_ERR(1, 763, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 749, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensity.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 749, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 749, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 749, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 749, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 763, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":750
+  /* "VGsim/_BirthDeath.pyx":764
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.contactDensity[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - max effective migration(const): ", end=" ")
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 750, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 764, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":751
+  /* "VGsim/_BirthDeath.pyx":765
  *             print(self.pm.contactDensity[i], end=" ")
  *         print()
  *         print("Population model - max effective migration(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):
  *             print(self.pm_maxEffectiveMigration[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 751, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 751, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__25, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 751, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 765, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__25, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":752
+  /* "VGsim/_BirthDeath.pyx":766
  *         print()
  *         print("Population model - max effective migration(const): ", end=" ")
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):             # <<<<<<<<<<<<<<
@@ -17436,7 +17663,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":753
+    /* "VGsim/_BirthDeath.pyx":767
  *         print("Population model - max effective migration(const): ", end=" ")
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):
  *             print(self.pm_maxEffectiveMigration[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17451,52 +17678,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm_maxEffectiveMigration.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 753, __pyx_L1_error)
+      __PYX_ERR(1, 767, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 753, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm_maxEffectiveMigration.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 753, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 753, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 753, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 753, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 767, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":754
+  /* "VGsim/_BirthDeath.pyx":768
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):
  *             print(self.pm_maxEffectiveMigration[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - max susceptibility(const): ", end=" ")
  *         for i in range(self.maxSusceptibility.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 754, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 768, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":755
+  /* "VGsim/_BirthDeath.pyx":769
  *             print(self.pm_maxEffectiveMigration[i], end=" ")
  *         print()
  *         print("Population model - max susceptibility(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.maxSusceptibility.shape[0]):
  *             print(self.maxSusceptibility[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 755, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 755, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__26, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 755, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 769, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__26, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":756
+  /* "VGsim/_BirthDeath.pyx":770
  *         print()
  *         print("Population model - max susceptibility(const): ", end=" ")
  *         for i in range(self.maxSusceptibility.shape[0]):             # <<<<<<<<<<<<<<
@@ -17508,7 +17735,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":757
+    /* "VGsim/_BirthDeath.pyx":771
  *         print("Population model - max susceptibility(const): ", end=" ")
  *         for i in range(self.maxSusceptibility.shape[0]):
  *             print(self.maxSusceptibility[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17523,52 +17750,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->maxSusceptibility.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 757, __pyx_L1_error)
+      __PYX_ERR(1, 771, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 757, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->maxSusceptibility.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 771, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 757, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 771, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 757, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 771, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 757, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 757, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 771, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 771, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":758
+  /* "VGsim/_BirthDeath.pyx":772
  *         for i in range(self.maxSusceptibility.shape[0]):
  *             print(self.maxSusceptibility[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  * 
  *         print("Population model - contactDensityAfterLockdown(const): ", end=" ")
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 758, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 772, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":760
+  /* "VGsim/_BirthDeath.pyx":774
  *         print()
  * 
  *         print("Population model - contactDensityAfterLockdown(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.contactDensityAfterLockdown.shape[0]):
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 760, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 774, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 760, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__27, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 760, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 774, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__27, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 774, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":761
+  /* "VGsim/_BirthDeath.pyx":775
  * 
  *         print("Population model - contactDensityAfterLockdown(const): ", end=" ")
  *         for i in range(self.pm.contactDensityAfterLockdown.shape[0]):             # <<<<<<<<<<<<<<
@@ -17580,7 +17807,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":762
+    /* "VGsim/_BirthDeath.pyx":776
  *         print("Population model - contactDensityAfterLockdown(const): ", end=" ")
  *         for i in range(self.pm.contactDensityAfterLockdown.shape[0]):
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17595,52 +17822,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->contactDensityAfterLockdown.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 762, __pyx_L1_error)
+      __PYX_ERR(1, 776, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensityAfterLockdown.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 762, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->contactDensityAfterLockdown.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 762, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 762, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 762, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 762, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 776, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":763
+  /* "VGsim/_BirthDeath.pyx":777
  *         for i in range(self.pm.contactDensityAfterLockdown.shape[0]):
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - startLD(const): ", end=" ")
  *         for i in range(self.pm.startLD.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 763, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 777, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":764
+  /* "VGsim/_BirthDeath.pyx":778
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")
  *         print()
  *         print("Population model - startLD(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.startLD.shape[0]):
  *             print(self.pm.startLD[i], end=" ")
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 764, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 778, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 764, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 764, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 778, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 778, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":765
+  /* "VGsim/_BirthDeath.pyx":779
  *         print()
  *         print("Population model - startLD(const): ", end=" ")
  *         for i in range(self.pm.startLD.shape[0]):             # <<<<<<<<<<<<<<
@@ -17652,7 +17879,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":766
+    /* "VGsim/_BirthDeath.pyx":780
  *         print("Population model - startLD(const): ", end=" ")
  *         for i in range(self.pm.startLD.shape[0]):
  *             print(self.pm.startLD[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17667,52 +17894,52 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->startLD.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 766, __pyx_L1_error)
+      __PYX_ERR(1, 780, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->startLD.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 766, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->startLD.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 766, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 766, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 766, __pyx_L1_error)
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 766, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 780, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":767
+  /* "VGsim/_BirthDeath.pyx":781
  *         for i in range(self.pm.startLD.shape[0]):
  *             print(self.pm.startLD[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - endLD(const): ", end=" ")
  *         for i in range(self.pm.endLD.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 767, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 781, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":768
+  /* "VGsim/_BirthDeath.pyx":782
  *             print(self.pm.startLD[i], end=" ")
  *         print()
  *         print("Population model - endLD(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.endLD.shape[0]):
  *             print(self.pm.endLD[i], end=" ")
  */
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 768, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 768, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__29, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 768, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 782, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__29, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":769
+  /* "VGsim/_BirthDeath.pyx":783
  *         print()
  *         print("Population model - endLD(const): ", end=" ")
  *         for i in range(self.pm.endLD.shape[0]):             # <<<<<<<<<<<<<<
@@ -17724,7 +17951,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":770
+    /* "VGsim/_BirthDeath.pyx":784
  *         print("Population model - endLD(const): ", end=" ")
  *         for i in range(self.pm.endLD.shape[0]):
  *             print(self.pm.endLD[i], end=" ")             # <<<<<<<<<<<<<<
@@ -17739,48 +17966,48 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm->endLD.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 770, __pyx_L1_error)
+      __PYX_ERR(1, 784, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->endLD.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 770, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->pm->endLD.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 770, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 770, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 770, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 770, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 784, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":771
+  /* "VGsim/_BirthDeath.pyx":785
  *         for i in range(self.pm.endLD.shape[0]):
  *             print(self.pm.endLD[i], end=" ")
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - susceptible(mutable)----")
  *         for i in range(self.pm.sizes.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 771, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":772
+  /* "VGsim/_BirthDeath.pyx":786
  *             print(self.pm.endLD[i], end=" ")
  *         print()
  *         print("Population model - susceptible(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             for j in range(self.susceptible_num):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 772, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 786, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":773
+  /* "VGsim/_BirthDeath.pyx":787
  *         print()
  *         print("Population model - susceptible(mutable)----")
  *         for i in range(self.pm.sizes.shape[0]):             # <<<<<<<<<<<<<<
@@ -17792,7 +18019,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":774
+    /* "VGsim/_BirthDeath.pyx":788
  *         print("Population model - susceptible(mutable)----")
  *         for i in range(self.pm.sizes.shape[0]):
  *             for j in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -17804,7 +18031,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":775
+      /* "VGsim/_BirthDeath.pyx":789
  *         for i in range(self.pm.sizes.shape[0]):
  *             for j in range(self.susceptible_num):
  *                 print(self.pm.susceptible[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -17824,60 +18051,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->pm->susceptible.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 775, __pyx_L1_error)
+        __PYX_ERR(1, 789, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyInt_From_int((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 775, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_From_int((*((int *) ( /* dim=1 */ ((char *) (((int *) ( /* dim=0 */ (__pyx_v_self->pm->susceptible.data + __pyx_t_6 * __pyx_v_self->pm->susceptible.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 789, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 775, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 789, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 775, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 789, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 775, __pyx_L1_error)
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 775, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 789, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 789, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":776
+    /* "VGsim/_BirthDeath.pyx":790
  *             for j in range(self.susceptible_num):
  *                 print(self.pm.susceptible[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Population model - migration rates(const)----")
  */
-    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 776, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 790, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":777
+  /* "VGsim/_BirthDeath.pyx":791
  *                 print(self.pm.susceptible[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - migration rates(const)----")
  *         for i in range(self.pm_migrationRates.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 777, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 791, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":778
+  /* "VGsim/_BirthDeath.pyx":792
  *             print()
  *         print()
  *         print("Population model - migration rates(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_migrationRates.shape[0]):
  *             for j in range(self.pm_migrationRates.shape[1]):
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 778, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 792, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":779
+  /* "VGsim/_BirthDeath.pyx":793
  *         print()
  *         print("Population model - migration rates(const)----")
  *         for i in range(self.pm_migrationRates.shape[0]):             # <<<<<<<<<<<<<<
@@ -17889,7 +18116,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":780
+    /* "VGsim/_BirthDeath.pyx":794
  *         print("Population model - migration rates(const)----")
  *         for i in range(self.pm_migrationRates.shape[0]):
  *             for j in range(self.pm_migrationRates.shape[1]):             # <<<<<<<<<<<<<<
@@ -17901,7 +18128,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":781
+      /* "VGsim/_BirthDeath.pyx":795
  *         for i in range(self.pm_migrationRates.shape[0]):
  *             for j in range(self.pm_migrationRates.shape[1]):
  *                 print(self.pm_migrationRates[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -17921,60 +18148,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_6 >= __pyx_v_self->pm_migrationRates.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 781, __pyx_L1_error)
+        __PYX_ERR(1, 795, __pyx_L1_error)
       }
-      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_migrationRates.data + __pyx_t_12 * __pyx_v_self->pm_migrationRates.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 781, __pyx_L1_error)
+      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_migrationRates.data + __pyx_t_12 * __pyx_v_self->pm_migrationRates.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 781, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 781, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 781, __pyx_L1_error)
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 781, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 795, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 795, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":782
+    /* "VGsim/_BirthDeath.pyx":796
  *             for j in range(self.pm_migrationRates.shape[1]):
  *                 print(self.pm_migrationRates[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Population model - effective migration(const)----")
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 782, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 796, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":783
+  /* "VGsim/_BirthDeath.pyx":797
  *                 print(self.pm_migrationRates[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Population model - effective migration(const)----")
  *         for i in range(self.pm_effectiveMigration.shape[0]):
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 783, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 797, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":784
+  /* "VGsim/_BirthDeath.pyx":798
  *             print()
  *         print()
  *         print("Population model - effective migration(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_effectiveMigration.shape[0]):
  *             for j in range(self.pm_effectiveMigration.shape[1]):
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 784, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 798, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":785
+  /* "VGsim/_BirthDeath.pyx":799
  *         print()
  *         print("Population model - effective migration(const)----")
  *         for i in range(self.pm_effectiveMigration.shape[0]):             # <<<<<<<<<<<<<<
@@ -17986,7 +18213,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":786
+    /* "VGsim/_BirthDeath.pyx":800
  *         print("Population model - effective migration(const)----")
  *         for i in range(self.pm_effectiveMigration.shape[0]):
  *             for j in range(self.pm_effectiveMigration.shape[1]):             # <<<<<<<<<<<<<<
@@ -17998,7 +18225,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":787
+      /* "VGsim/_BirthDeath.pyx":801
  *         for i in range(self.pm_effectiveMigration.shape[0]):
  *             for j in range(self.pm_effectiveMigration.shape[1]):
  *                 print(self.pm_effectiveMigration[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18018,60 +18245,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->pm_effectiveMigration.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 787, __pyx_L1_error)
+        __PYX_ERR(1, 801, __pyx_L1_error)
       }
-      __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_6 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 787, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->pm_effectiveMigration.data + __pyx_t_6 * __pyx_v_self->pm_effectiveMigration.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 787, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 787, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 787, __pyx_L1_error)
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 787, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 801, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 801, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":788
+    /* "VGsim/_BirthDeath.pyx":802
  *             for j in range(self.pm_effectiveMigration.shape[1]):
  *                 print(self.pm_effectiveMigration[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Total event haplotype population rate(mutable)----")
  */
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 788, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 802, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":789
+  /* "VGsim/_BirthDeath.pyx":803
  *                 print(self.pm_effectiveMigration[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Total event haplotype population rate(mutable)----")
  *         for i in range(self.popNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 789, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 803, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":790
+  /* "VGsim/_BirthDeath.pyx":804
  *             print()
  *         print()
  *         print("Total event haplotype population rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 790, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 804, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":791
+  /* "VGsim/_BirthDeath.pyx":805
  *         print()
  *         print("Total event haplotype population rate(mutable)----")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -18083,7 +18310,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":792
+    /* "VGsim/_BirthDeath.pyx":806
  *         print("Total event haplotype population rate(mutable)----")
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18095,7 +18322,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":793
+      /* "VGsim/_BirthDeath.pyx":807
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 print(self.tEventHapPopRate[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18115,60 +18342,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_6 >= __pyx_v_self->tEventHapPopRate.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 793, __pyx_L1_error)
+        __PYX_ERR(1, 807, __pyx_L1_error)
       }
-      __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->tEventHapPopRate.data + __pyx_t_12 * __pyx_v_self->tEventHapPopRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 793, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->tEventHapPopRate.data + __pyx_t_12 * __pyx_v_self->tEventHapPopRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 793, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 793, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 793, __pyx_L1_error)
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 793, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 807, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":794
+    /* "VGsim/_BirthDeath.pyx":808
  *             for j in range(self.hapNum):
  *                 print(self.tEventHapPopRate[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Haplotypes populations rates(mutable)----")
  */
-    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 794, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 808, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":795
+  /* "VGsim/_BirthDeath.pyx":809
  *                 print(self.tEventHapPopRate[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Haplotypes populations rates(mutable)----")
  *         for i in range(self.popNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 795, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 809, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":796
+  /* "VGsim/_BirthDeath.pyx":810
  *             print()
  *         print()
  *         print("Haplotypes populations rates(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 796, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":797
+  /* "VGsim/_BirthDeath.pyx":811
  *         print()
  *         print("Haplotypes populations rates(mutable)----")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -18180,7 +18407,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":798
+    /* "VGsim/_BirthDeath.pyx":812
  *         print("Haplotypes populations rates(mutable)----")
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18192,7 +18419,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":799
+      /* "VGsim/_BirthDeath.pyx":813
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 print(self.hapPopRate[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18212,60 +18439,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->hapPopRate.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 799, __pyx_L1_error)
+        __PYX_ERR(1, 813, __pyx_L1_error)
       }
-      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_6 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->hapPopRate.data + __pyx_t_6 * __pyx_v_self->hapPopRate.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 813, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 813, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 813, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 799, __pyx_L1_error)
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 799, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 813, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 813, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":800
+    /* "VGsim/_BirthDeath.pyx":814
  *             for j in range(self.hapNum):
  *                 print(self.hapPopRate[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Mutation rate(const)----")
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 800, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 814, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":801
+  /* "VGsim/_BirthDeath.pyx":815
  *                 print(self.hapPopRate[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Mutation rate(const)----")
  *         for i in range(self.hapNum):
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 801, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 815, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":802
+  /* "VGsim/_BirthDeath.pyx":816
  *             print()
  *         print()
  *         print("Mutation rate(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             for j in range(self.dim):
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 802, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 816, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":803
+  /* "VGsim/_BirthDeath.pyx":817
  *         print()
  *         print("Mutation rate(const)----")
  *         for i in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18277,7 +18504,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":804
+    /* "VGsim/_BirthDeath.pyx":818
  *         print("Mutation rate(const)----")
  *         for i in range(self.hapNum):
  *             for j in range(self.dim):             # <<<<<<<<<<<<<<
@@ -18289,7 +18516,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":805
+      /* "VGsim/_BirthDeath.pyx":819
  *         for i in range(self.hapNum):
  *             for j in range(self.dim):
  *                 print(self.mRate[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18309,60 +18536,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_6 >= __pyx_v_self->mRate.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 805, __pyx_L1_error)
+        __PYX_ERR(1, 819, __pyx_L1_error)
       }
-      __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->mRate.data + __pyx_t_12 * __pyx_v_self->mRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 805, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->mRate.data + __pyx_t_12 * __pyx_v_self->mRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 819, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 805, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 819, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 805, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 819, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 805, __pyx_L1_error)
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 805, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 819, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 819, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":806
+    /* "VGsim/_BirthDeath.pyx":820
  *             for j in range(self.dim):
  *                 print(self.mRate[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Susceptibility(const)----")
  */
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 806, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 820, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":807
+  /* "VGsim/_BirthDeath.pyx":821
  *                 print(self.mRate[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Susceptibility(const)----")
  *         for i in range(self.susceptibility.shape[0]):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 807, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 821, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":808
+  /* "VGsim/_BirthDeath.pyx":822
  *             print()
  *         print()
  *         print("Susceptibility(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.susceptibility.shape[0]):
  *             for j in range(self.susceptibility.shape[1]):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 808, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 822, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":809
+  /* "VGsim/_BirthDeath.pyx":823
  *         print()
  *         print("Susceptibility(const)----")
  *         for i in range(self.susceptibility.shape[0]):             # <<<<<<<<<<<<<<
@@ -18374,7 +18601,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":810
+    /* "VGsim/_BirthDeath.pyx":824
  *         print("Susceptibility(const)----")
  *         for i in range(self.susceptibility.shape[0]):
  *             for j in range(self.susceptibility.shape[1]):             # <<<<<<<<<<<<<<
@@ -18386,7 +18613,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":811
+      /* "VGsim/_BirthDeath.pyx":825
  *         for i in range(self.susceptibility.shape[0]):
  *             for j in range(self.susceptibility.shape[1]):
  *                 print(self.susceptibility[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18406,60 +18633,60 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_12 >= __pyx_v_self->susceptibility.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 811, __pyx_L1_error)
+        __PYX_ERR(1, 825, __pyx_L1_error)
       }
-      __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_6 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 811, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->susceptibility.data + __pyx_t_6 * __pyx_v_self->susceptibility.strides[0]) )) + __pyx_t_12)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 825, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 811, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 825, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 811, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 825, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 811, __pyx_L1_error)
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 811, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 825, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 825, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":812
+    /* "VGsim/_BirthDeath.pyx":826
  *             for j in range(self.susceptibility.shape[1]):
  *                 print(self.susceptibility[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Birth haplotypes populations rate(mutable)----")
  */
-    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 812, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 826, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":813
+  /* "VGsim/_BirthDeath.pyx":827
  *                 print(self.susceptibility[i, j], end=" ")
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Birth haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 813, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 827, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":814
+  /* "VGsim/_BirthDeath.pyx":828
  *             print()
  *         print()
  *         print("Birth haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 814, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 828, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":815
+  /* "VGsim/_BirthDeath.pyx":829
  *         print()
  *         print("Birth haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -18471,7 +18698,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":816
+    /* "VGsim/_BirthDeath.pyx":830
  *         print("Birth haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18483,7 +18710,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":817
+      /* "VGsim/_BirthDeath.pyx":831
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 print(self.birthHapPopRate[i, j], end=" ")             # <<<<<<<<<<<<<<
@@ -18503,49 +18730,49 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       } else if (unlikely(__pyx_t_6 >= __pyx_v_self->birthHapPopRate.shape[1])) __pyx_t_7 = 1;
       if (unlikely(__pyx_t_7 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 817, __pyx_L1_error)
+        __PYX_ERR(1, 831, __pyx_L1_error)
       }
-      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_12 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 817, __pyx_L1_error)
+      __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->birthHapPopRate.data + __pyx_t_12 * __pyx_v_self->birthHapPopRate.strides[0]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 831, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 817, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 831, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 817, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 831, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 817, __pyx_L1_error)
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 817, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 831, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 831, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":818
+    /* "VGsim/_BirthDeath.pyx":832
  *             for j in range(self.hapNum):
  *                 print(self.birthHapPopRate[i, j], end=" ")
  *             print()             # <<<<<<<<<<<<<<
  *         print("Event haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 818, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 832, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":819
+  /* "VGsim/_BirthDeath.pyx":833
  *                 print(self.birthHapPopRate[i, j], end=" ")
  *             print()
  *         print("Event haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 819, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":820
+  /* "VGsim/_BirthDeath.pyx":834
  *             print()
  *         print("Event haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -18557,7 +18784,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":821
+    /* "VGsim/_BirthDeath.pyx":835
  *         print("Event haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18569,7 +18796,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":822
+      /* "VGsim/_BirthDeath.pyx":836
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 for k in range(4):             # <<<<<<<<<<<<<<
@@ -18579,7 +18806,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       for (__pyx_t_13 = 0; __pyx_t_13 < 4; __pyx_t_13+=1) {
         __pyx_v_k = __pyx_t_13;
 
-        /* "VGsim/_BirthDeath.pyx":823
+        /* "VGsim/_BirthDeath.pyx":837
  *             for j in range(self.hapNum):
  *                 for k in range(4):
  *                     print(self.eventHapPopRate[i, j, k], end=" ")             # <<<<<<<<<<<<<<
@@ -18604,72 +18831,72 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
         } else if (unlikely(__pyx_t_14 >= __pyx_v_self->eventHapPopRate.shape[2])) __pyx_t_7 = 2;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
-          __PYX_ERR(1, 823, __pyx_L1_error)
+          __PYX_ERR(1, 837, __pyx_L1_error)
         }
-        __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_6 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_12 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_14)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->eventHapPopRate.data + __pyx_t_6 * __pyx_v_self->eventHapPopRate.strides[0]) ) + __pyx_t_12 * __pyx_v_self->eventHapPopRate.strides[1]) )) + __pyx_t_14)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 837, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 837, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_2);
         PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
         __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 837, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 823, __pyx_L1_error)
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 823, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 837, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 837, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       }
 
-      /* "VGsim/_BirthDeath.pyx":824
+      /* "VGsim/_BirthDeath.pyx":838
  *                 for k in range(4):
  *                     print(self.eventHapPopRate[i, j, k], end=" ")
  *                 print()             # <<<<<<<<<<<<<<
  *             print()
  *         print()
  */
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 824, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 838, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":825
+    /* "VGsim/_BirthDeath.pyx":839
  *                     print(self.eventHapPopRate[i, j, k], end=" ")
  *                 print()
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Susceptible haplotypes populations rate(mutable)----")
  */
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 825, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 839, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":826
+  /* "VGsim/_BirthDeath.pyx":840
  *                 print()
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Susceptible haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 826, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 840, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":827
+  /* "VGsim/_BirthDeath.pyx":841
  *             print()
  *         print()
  *         print("Susceptible haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 827, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 841, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":828
+  /* "VGsim/_BirthDeath.pyx":842
  *         print()
  *         print("Susceptible haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):             # <<<<<<<<<<<<<<
@@ -18681,7 +18908,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":829
+    /* "VGsim/_BirthDeath.pyx":843
  *         print("Susceptible haplotypes populations rate(mutable)----")
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):             # <<<<<<<<<<<<<<
@@ -18693,7 +18920,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":830
+      /* "VGsim/_BirthDeath.pyx":844
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  *                 for k in range(self.susceptible_num):             # <<<<<<<<<<<<<<
@@ -18705,7 +18932,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
         __pyx_v_k = __pyx_t_16;
 
-        /* "VGsim/_BirthDeath.pyx":831
+        /* "VGsim/_BirthDeath.pyx":845
  *             for j in range(self.hapNum):
  *                 for k in range(self.susceptible_num):
  *                     print(self.susceptHapPopRate[i, j, k], end=" ")             # <<<<<<<<<<<<<<
@@ -18730,72 +18957,72 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
         } else if (unlikely(__pyx_t_6 >= __pyx_v_self->susceptHapPopRate.shape[2])) __pyx_t_7 = 2;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
-          __PYX_ERR(1, 831, __pyx_L1_error)
+          __PYX_ERR(1, 845, __pyx_L1_error)
         }
-        __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->susceptHapPopRate.data + __pyx_t_14 * __pyx_v_self->susceptHapPopRate.strides[0]) ) + __pyx_t_12 * __pyx_v_self->susceptHapPopRate.strides[1]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 831, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->susceptHapPopRate.data + __pyx_t_14 * __pyx_v_self->susceptHapPopRate.strides[0]) ) + __pyx_t_12 * __pyx_v_self->susceptHapPopRate.strides[1]) )) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 845, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 831, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 845, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GIVEREF(__pyx_t_1);
         PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
         __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 831, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 845, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 831, __pyx_L1_error)
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 831, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 845, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 845, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
 
-      /* "VGsim/_BirthDeath.pyx":832
+      /* "VGsim/_BirthDeath.pyx":846
  *                 for k in range(self.susceptible_num):
  *                     print(self.susceptHapPopRate[i, j, k], end=" ")
  *                 print()             # <<<<<<<<<<<<<<
  *             print()
  *         print()
  */
-      __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 832, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 846, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":833
+    /* "VGsim/_BirthDeath.pyx":847
  *                     print(self.susceptHapPopRate[i, j, k], end=" ")
  *                 print()
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  *         print("Probabilities of mutations(const)----")
  */
-    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 833, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 847, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":834
+  /* "VGsim/_BirthDeath.pyx":848
  *                 print()
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  *         print("Probabilities of mutations(const)----")
  *         for i in range(self.hapMutType.shape[0]):
  */
-  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 834, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 848, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":835
+  /* "VGsim/_BirthDeath.pyx":849
  *             print()
  *         print()
  *         print("Probabilities of mutations(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapMutType.shape[0]):
  *             for j in range(self.hapMutType.shape[1]):
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 835, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":836
+  /* "VGsim/_BirthDeath.pyx":850
  *         print()
  *         print("Probabilities of mutations(const)----")
  *         for i in range(self.hapMutType.shape[0]):             # <<<<<<<<<<<<<<
@@ -18807,7 +19034,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "VGsim/_BirthDeath.pyx":837
+    /* "VGsim/_BirthDeath.pyx":851
  *         print("Probabilities of mutations(const)----")
  *         for i in range(self.hapMutType.shape[0]):
  *             for j in range(self.hapMutType.shape[1]):             # <<<<<<<<<<<<<<
@@ -18819,7 +19046,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_j = __pyx_t_11;
 
-      /* "VGsim/_BirthDeath.pyx":838
+      /* "VGsim/_BirthDeath.pyx":852
  *         for i in range(self.hapMutType.shape[0]):
  *             for j in range(self.hapMutType.shape[1]):
  *                 for k in range(self.hapMutType.shape[2]):             # <<<<<<<<<<<<<<
@@ -18831,7 +19058,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
       for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
         __pyx_v_k = __pyx_t_16;
 
-        /* "VGsim/_BirthDeath.pyx":839
+        /* "VGsim/_BirthDeath.pyx":853
  *             for j in range(self.hapMutType.shape[1]):
  *                 for k in range(self.hapMutType.shape[2]):
  *                     print(self.hapMutType[i, j, k], end=" ")             # <<<<<<<<<<<<<<
@@ -18856,61 +19083,61 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
         } else if (unlikely(__pyx_t_14 >= __pyx_v_self->hapMutType.shape[2])) __pyx_t_7 = 2;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
-          __PYX_ERR(1, 839, __pyx_L1_error)
+          __PYX_ERR(1, 853, __pyx_L1_error)
         }
-        __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->hapMutType.data + __pyx_t_6 * __pyx_v_self->hapMutType.strides[0]) ) + __pyx_t_12 * __pyx_v_self->hapMutType.strides[1]) )) + __pyx_t_14)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 839, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->hapMutType.data + __pyx_t_6 * __pyx_v_self->hapMutType.strides[0]) ) + __pyx_t_12 * __pyx_v_self->hapMutType.strides[1]) )) + __pyx_t_14)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 853, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 839, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 853, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_GIVEREF(__pyx_t_8);
         PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_8);
         __pyx_t_8 = 0;
-        __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 839, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 853, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 839, __pyx_L1_error)
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 839, __pyx_L1_error)
+        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_end, __pyx_kp_u__13) < 0) __PYX_ERR(1, 853, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 853, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
 
-      /* "VGsim/_BirthDeath.pyx":840
+      /* "VGsim/_BirthDeath.pyx":854
  *                 for k in range(self.hapMutType.shape[2]):
  *                     print(self.hapMutType[i, j, k], end=" ")
  *                 print()             # <<<<<<<<<<<<<<
  *             print()
  *         print()
  */
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 840, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 854, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":841
+    /* "VGsim/_BirthDeath.pyx":855
  *                     print(self.hapMutType[i, j, k], end=" ")
  *                 print()
  *             print()             # <<<<<<<<<<<<<<
  *         print()
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 841, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 855, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":842
+  /* "VGsim/_BirthDeath.pyx":856
  *                 print()
  *             print()
  *         print()             # <<<<<<<<<<<<<<
  * 
- *     def GetTree(self):
+ *     def GetTree(self): #slow
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 842, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_print); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 856, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":687
+  /* "VGsim/_BirthDeath.pyx":701
  *         print("Number of samples:", self.sCounter)
  * 
  *     def Debug(self):             # <<<<<<<<<<<<<<
@@ -18933,10 +19160,10 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":844
+/* "VGsim/_BirthDeath.pyx":858
  *         print()
  * 
- *     def GetTree(self):             # <<<<<<<<<<<<<<
+ *     def GetTree(self): #slow             # <<<<<<<<<<<<<<
  *         result = []
  *         for i in range(len(self.tree)):
  */
@@ -18971,20 +19198,20 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTree", 0);
 
-  /* "VGsim/_BirthDeath.pyx":845
+  /* "VGsim/_BirthDeath.pyx":859
  * 
- *     def GetTree(self):
+ *     def GetTree(self): #slow
  *         result = []             # <<<<<<<<<<<<<<
  *         for i in range(len(self.tree)):
  *             result.append(self.tree[i])
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 845, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 859, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_result = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":846
- *     def GetTree(self):
+  /* "VGsim/_BirthDeath.pyx":860
+ *     def GetTree(self): #slow
  *         result = []
  *         for i in range(len(self.tree)):             # <<<<<<<<<<<<<<
  *             result.append(self.tree[i])
@@ -18995,7 +19222,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "VGsim/_BirthDeath.pyx":847
+    /* "VGsim/_BirthDeath.pyx":861
  *         result = []
  *         for i in range(len(self.tree)):
  *             result.append(self.tree[i])             # <<<<<<<<<<<<<<
@@ -19010,30 +19237,30 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
     } else if (unlikely(__pyx_t_5 >= __pyx_v_self->tree.shape[0])) __pyx_t_6 = 0;
     if (unlikely(__pyx_t_6 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 847, __pyx_L1_error)
+      __PYX_ERR(1, 861, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_5)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 847, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_5)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 861, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(1, 847, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(1, 861, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":848
+  /* "VGsim/_BirthDeath.pyx":862
  *         for i in range(len(self.tree)):
  *             result.append(self.tree[i])
  *         return result             # <<<<<<<<<<<<<<
  * 
- *     def GetTreeTimes(self):
+ *     def GetTreeTimes(self): #slow
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":844
+  /* "VGsim/_BirthDeath.pyx":858
  *         print()
  * 
- *     def GetTree(self):             # <<<<<<<<<<<<<<
+ *     def GetTree(self): #slow             # <<<<<<<<<<<<<<
  *         result = []
  *         for i in range(len(self.tree)):
  */
@@ -19050,10 +19277,10 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":850
+/* "VGsim/_BirthDeath.pyx":864
  *         return result
  * 
- *     def GetTreeTimes(self):             # <<<<<<<<<<<<<<
+ *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *         result = []
  *         for i in range(len(self.times)):
  */
@@ -19073,38 +19300,36 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_15GetTreeTimes(
 
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_v_result = NULL;
-  Py_ssize_t __pyx_v_i;
+  CYTHON_UNUSED Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   size_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
-  int __pyx_t_7;
+  int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeTimes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":851
+  /* "VGsim/_BirthDeath.pyx":865
  * 
- *     def GetTreeTimes(self):
+ *     def GetTreeTimes(self): #slow
  *         result = []             # <<<<<<<<<<<<<<
  *         for i in range(len(self.times)):
- *             result.append(self.tree[i])
+ *             result.append(self.times)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 851, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 865, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_result = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":852
- *     def GetTreeTimes(self):
+  /* "VGsim/_BirthDeath.pyx":866
+ *     def GetTreeTimes(self): #slow
  *         result = []
  *         for i in range(len(self.times)):             # <<<<<<<<<<<<<<
- *             result.append(self.tree[i])
+ *             result.append(self.times)
  *         return result
  */
   __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->times); 
@@ -19112,45 +19337,35 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "VGsim/_BirthDeath.pyx":853
+    /* "VGsim/_BirthDeath.pyx":867
  *         result = []
  *         for i in range(len(self.times)):
- *             result.append(self.tree[i])             # <<<<<<<<<<<<<<
+ *             result.append(self.times)             # <<<<<<<<<<<<<<
  *         return result
  * 
  */
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->tree.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->tree.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 853, __pyx_L1_error)
-    }
-    __pyx_t_1 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_self->tree.data) + __pyx_t_5)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 853, __pyx_L1_error)
+    __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 867, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(1, 853, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 867, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":854
+  /* "VGsim/_BirthDeath.pyx":868
  *         for i in range(len(self.times)):
- *             result.append(self.tree[i])
+ *             result.append(self.times)
  *         return result             # <<<<<<<<<<<<<<
  * 
- *     def GetTreeMuts(self):
+ *     def GetTreeMuts(self): #slow
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":850
+  /* "VGsim/_BirthDeath.pyx":864
  *         return result
  * 
- *     def GetTreeTimes(self):             # <<<<<<<<<<<<<<
+ *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *         result = []
  *         for i in range(len(self.times)):
  */
@@ -19167,10 +19382,10 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":856
+/* "VGsim/_BirthDeath.pyx":870
  *         return result
  * 
- *     def GetTreeMuts(self):             # <<<<<<<<<<<<<<
+ *     def GetTreeMuts(self): #slow             # <<<<<<<<<<<<<<
  *         mut = [[], [], [], []]
  *         for i in range(self.mut.nodeId.size()):
  */
@@ -19207,22 +19422,22 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeMuts", 0);
 
-  /* "VGsim/_BirthDeath.pyx":857
+  /* "VGsim/_BirthDeath.pyx":871
  * 
- *     def GetTreeMuts(self):
+ *     def GetTreeMuts(self): #slow
  *         mut = [[], [], [], []]             # <<<<<<<<<<<<<<
  *         for i in range(self.mut.nodeId.size()):
  *             mut[0].append(self.mut.nodeId[i])
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 857, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 871, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 857, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 871, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 857, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 871, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 857, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 871, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyList_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 857, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 871, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -19239,8 +19454,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(s
   __pyx_v_mut = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":858
- *     def GetTreeMuts(self):
+  /* "VGsim/_BirthDeath.pyx":872
+ *     def GetTreeMuts(self): #slow
  *         mut = [[], [], [], []]
  *         for i in range(self.mut.nodeId.size()):             # <<<<<<<<<<<<<<
  *             mut[0].append(self.mut.nodeId[i])
@@ -19251,83 +19466,83 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(s
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "VGsim/_BirthDeath.pyx":859
+    /* "VGsim/_BirthDeath.pyx":873
  *         mut = [[], [], [], []]
  *         for i in range(self.mut.nodeId.size()):
  *             mut[0].append(self.mut.nodeId[i])             # <<<<<<<<<<<<<<
  *             mut[1].append(self.mut.AS[i])
  *             mut[2].append(self.mut.site[i])
  */
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 859, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 873, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->nodeId[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 859, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->nodeId[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 873, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 859, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 873, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":860
+    /* "VGsim/_BirthDeath.pyx":874
  *         for i in range(self.mut.nodeId.size()):
  *             mut[0].append(self.mut.nodeId[i])
  *             mut[1].append(self.mut.AS[i])             # <<<<<<<<<<<<<<
  *             mut[2].append(self.mut.site[i])
  *             mut[3].append(self.mut.DS[i])
  */
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 860, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 874, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->AS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 860, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->AS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 874, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 860, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 874, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":861
+    /* "VGsim/_BirthDeath.pyx":875
  *             mut[0].append(self.mut.nodeId[i])
  *             mut[1].append(self.mut.AS[i])
  *             mut[2].append(self.mut.site[i])             # <<<<<<<<<<<<<<
  *             mut[3].append(self.mut.DS[i])
  *         return mut
  */
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 861, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 875, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->site[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 861, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->site[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 875, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 861, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 875, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":862
+    /* "VGsim/_BirthDeath.pyx":876
  *             mut[1].append(self.mut.AS[i])
  *             mut[2].append(self.mut.site[i])
  *             mut[3].append(self.mut.DS[i])             # <<<<<<<<<<<<<<
  *         return mut
  * 
  */
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 862, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 876, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->DS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 862, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->DS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 876, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 862, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 876, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
 
-  /* "VGsim/_BirthDeath.pyx":863
+  /* "VGsim/_BirthDeath.pyx":877
  *             mut[2].append(self.mut.site[i])
  *             mut[3].append(self.mut.DS[i])
  *         return mut             # <<<<<<<<<<<<<<
  * 
- *     def GetCurrentTime(self):
+ *     def GetTreeMutsNodeIds(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_mut);
   __pyx_r = __pyx_v_mut;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":856
+  /* "VGsim/_BirthDeath.pyx":870
  *         return result
  * 
- *     def GetTreeMuts(self):             # <<<<<<<<<<<<<<
+ *     def GetTreeMuts(self): #slow             # <<<<<<<<<<<<<<
  *         mut = [[], [], [], []]
  *         for i in range(self.mut.nodeId.size()):
  */
@@ -19348,8 +19563,566 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(s
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":865
+/* "VGsim/_BirthDeath.pyx":879
  *         return mut
+ * 
+ *     def GetTreeMutsNodeIds(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] nodeIds
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsNodeIds (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  __Pyx_memviewslice __pyx_v_nodeIds = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<Py_ssize_t> ::size_type __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<Py_ssize_t> ::size_type __pyx_t_6;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_7;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_8;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsNodeIds", 0);
+
+  /* "VGsim/_BirthDeath.pyx":882
+ *         cdef:
+ *             Py_ssize_t[::1] nodeIds
+ *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)             # <<<<<<<<<<<<<<
+ *         for i in range(self.mut.nodeId.size()):
+ *             nodeIds[i] = self.mut.nodeId[i]
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->nodeId.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_nodeIds = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "VGsim/_BirthDeath.pyx":883
+ *             Py_ssize_t[::1] nodeIds
+ *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
+ *         for i in range(self.mut.nodeId.size()):             # <<<<<<<<<<<<<<
+ *             nodeIds[i] = self.mut.nodeId[i]
+ *         return nodeIds
+ */
+  __pyx_t_6 = __pyx_v_self->mut->nodeId.size();
+  __pyx_t_7 = __pyx_t_6;
+  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+    __pyx_v_i = __pyx_t_8;
+
+    /* "VGsim/_BirthDeath.pyx":884
+ *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
+ *         for i in range(self.mut.nodeId.size()):
+ *             nodeIds[i] = self.mut.nodeId[i]             # <<<<<<<<<<<<<<
+ *         return nodeIds
+ * 
+ */
+    __pyx_t_9 = __pyx_v_i;
+    __pyx_t_10 = -1;
+    if (unlikely(__pyx_t_9 >= (size_t)__pyx_v_nodeIds.shape[0])) __pyx_t_10 = 0;
+    if (unlikely(__pyx_t_10 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_10);
+      __PYX_ERR(1, 884, __pyx_L1_error)
+    }
+    *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_nodeIds.data) + __pyx_t_9)) )) = (__pyx_v_self->mut->nodeId[__pyx_v_i]);
+  }
+
+  /* "VGsim/_BirthDeath.pyx":885
+ *         for i in range(self.mut.nodeId.size()):
+ *             nodeIds[i] = self.mut.nodeId[i]
+ *         return nodeIds             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsASs(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_nodeIds, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 885, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":879
+ *         return mut
+ * 
+ *     def GetTreeMutsNodeIds(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] nodeIds
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsNodeIds", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_nodeIds, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":887
+ *         return nodeIds
+ * 
+ *     def GetTreeMutsASs(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] ASs
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsASs (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  __Pyx_memviewslice __pyx_v_ASs = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED PyObject *__pyx_v_nodeIds = NULL;
+  std::vector<Py_ssize_t> ::size_type __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_5;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_6;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_7;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_8;
+  int __pyx_t_9;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsASs", 0);
+
+  /* "VGsim/_BirthDeath.pyx":890
+ *         cdef:
+ *             Py_ssize_t[::1] ASs
+ *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)             # <<<<<<<<<<<<<<
+ *         for i in range(self.mut.AS.size()):
+ *             ASs[i] = self.mut.AS[i]
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->AS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 890, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_nodeIds = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":891
+ *             Py_ssize_t[::1] ASs
+ *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)
+ *         for i in range(self.mut.AS.size()):             # <<<<<<<<<<<<<<
+ *             ASs[i] = self.mut.AS[i]
+ *         return ASs
+ */
+  __pyx_t_5 = __pyx_v_self->mut->AS.size();
+  __pyx_t_6 = __pyx_t_5;
+  for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
+
+    /* "VGsim/_BirthDeath.pyx":892
+ *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)
+ *         for i in range(self.mut.AS.size()):
+ *             ASs[i] = self.mut.AS[i]             # <<<<<<<<<<<<<<
+ *         return ASs
+ * 
+ */
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_9 = -1;
+    if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_ASs.shape[0])) __pyx_t_9 = 0;
+    if (unlikely(__pyx_t_9 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_9);
+      __PYX_ERR(1, 892, __pyx_L1_error)
+    }
+    *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_ASs.data) + __pyx_t_8)) )) = (__pyx_v_self->mut->AS[__pyx_v_i]);
+  }
+
+  /* "VGsim/_BirthDeath.pyx":893
+ *         for i in range(self.mut.AS.size()):
+ *             ASs[i] = self.mut.AS[i]
+ *         return ASs             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsSites(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_ASs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 893, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":887
+ *         return nodeIds
+ * 
+ *     def GetTreeMutsASs(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] ASs
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsASs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_ASs, 1);
+  __Pyx_XDECREF(__pyx_v_nodeIds);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":895
+ *         return ASs
+ * 
+ *     def GetTreeMutsSites(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] sites
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsSites (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  __Pyx_memviewslice __pyx_v_sites = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<Py_ssize_t> ::size_type __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<Py_ssize_t> ::size_type __pyx_t_6;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_7;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_8;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsSites", 0);
+
+  /* "VGsim/_BirthDeath.pyx":898
+ *         cdef:
+ *             Py_ssize_t[::1] sites
+ *         sites = np.zeros(self.mut.site.size(), dtype=int)             # <<<<<<<<<<<<<<
+ *         for i in range(self.mut.site.size()):
+ *             sites[i] = self.mut.site[i]
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->site.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_sites = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "VGsim/_BirthDeath.pyx":899
+ *             Py_ssize_t[::1] sites
+ *         sites = np.zeros(self.mut.site.size(), dtype=int)
+ *         for i in range(self.mut.site.size()):             # <<<<<<<<<<<<<<
+ *             sites[i] = self.mut.site[i]
+ *         return sites
+ */
+  __pyx_t_6 = __pyx_v_self->mut->site.size();
+  __pyx_t_7 = __pyx_t_6;
+  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+    __pyx_v_i = __pyx_t_8;
+
+    /* "VGsim/_BirthDeath.pyx":900
+ *         sites = np.zeros(self.mut.site.size(), dtype=int)
+ *         for i in range(self.mut.site.size()):
+ *             sites[i] = self.mut.site[i]             # <<<<<<<<<<<<<<
+ *         return sites
+ * 
+ */
+    __pyx_t_9 = __pyx_v_i;
+    __pyx_t_10 = -1;
+    if (unlikely(__pyx_t_9 >= (size_t)__pyx_v_sites.shape[0])) __pyx_t_10 = 0;
+    if (unlikely(__pyx_t_10 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_10);
+      __PYX_ERR(1, 900, __pyx_L1_error)
+    }
+    *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_sites.data) + __pyx_t_9)) )) = (__pyx_v_self->mut->site[__pyx_v_i]);
+  }
+
+  /* "VGsim/_BirthDeath.pyx":901
+ *         for i in range(self.mut.site.size()):
+ *             sites[i] = self.mut.site[i]
+ *         return sites             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsDSs(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_sites, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 901, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":895
+ *         return ASs
+ * 
+ *     def GetTreeMutsSites(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] sites
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsSites", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_sites, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":903
+ *         return sites
+ * 
+ *     def GetTreeMutsDSs(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] DSs
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsDSs (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  __Pyx_memviewslice __pyx_v_DSs = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED PyObject *__pyx_v_nodeIds = NULL;
+  std::vector<Py_ssize_t> ::size_type __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_5;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_6;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_7;
+  std::vector<Py_ssize_t> ::size_type __pyx_t_8;
+  int __pyx_t_9;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsDSs", 0);
+
+  /* "VGsim/_BirthDeath.pyx":906
+ *         cdef:
+ *             Py_ssize_t[::1] DSs
+ *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)             # <<<<<<<<<<<<<<
+ *         for i in range(self.mut.DS.size()):
+ *             DSs[i] = self.mut.DS[i]
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->DS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_nodeIds = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "VGsim/_BirthDeath.pyx":907
+ *             Py_ssize_t[::1] DSs
+ *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)
+ *         for i in range(self.mut.DS.size()):             # <<<<<<<<<<<<<<
+ *             DSs[i] = self.mut.DS[i]
+ *         return DSs
+ */
+  __pyx_t_5 = __pyx_v_self->mut->DS.size();
+  __pyx_t_6 = __pyx_t_5;
+  for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
+
+    /* "VGsim/_BirthDeath.pyx":908
+ *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)
+ *         for i in range(self.mut.DS.size()):
+ *             DSs[i] = self.mut.DS[i]             # <<<<<<<<<<<<<<
+ *         return DSs
+ * 
+ */
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_9 = -1;
+    if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_DSs.shape[0])) __pyx_t_9 = 0;
+    if (unlikely(__pyx_t_9 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_9);
+      __PYX_ERR(1, 908, __pyx_L1_error)
+    }
+    *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_DSs.data) + __pyx_t_8)) )) = (__pyx_v_self->mut->DS[__pyx_v_i]);
+  }
+
+  /* "VGsim/_BirthDeath.pyx":909
+ *         for i in range(self.mut.DS.size()):
+ *             DSs[i] = self.mut.DS[i]
+ *         return DSs             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_DSs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 909, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":903
+ *         return sites
+ * 
+ *     def GetTreeMutsDSs(self):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             Py_ssize_t[::1] DSs
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsDSs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_DSs, 1);
+  __Pyx_XDECREF(__pyx_v_nodeIds);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":913
+ * 
  * 
  *     def GetCurrentTime(self):             # <<<<<<<<<<<<<<
  *         return self.currentTime
@@ -19357,19 +20130,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetCurrentTime (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTime(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -19378,7 +20151,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetCurrentTime", 0);
 
-  /* "VGsim/_BirthDeath.pyx":866
+  /* "VGsim/_BirthDeath.pyx":914
  * 
  *     def GetCurrentTime(self):
  *         return self.currentTime             # <<<<<<<<<<<<<<
@@ -19386,14 +20159,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTim
  *     def GetAllTimes(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 866, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 914, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":865
- *         return mut
+  /* "VGsim/_BirthDeath.pyx":913
+ * 
  * 
  *     def GetCurrentTime(self):             # <<<<<<<<<<<<<<
  *         return self.currentTime
@@ -19411,109 +20184,56 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetCurrentTim
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":868
+/* "VGsim/_BirthDeath.pyx":916
  *         return self.currentTime
  * 
  *     def GetAllTimes(self):             # <<<<<<<<<<<<<<
- *         alltimes = []
- *         for i in range(len(self.events.times)):
+ *         #alltimes = []
+ *         #for i in range(len(self.events.times)):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetAllTimes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetAllTimes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
-  PyObject *__pyx_v_alltimes = NULL;
-  Py_ssize_t __pyx_v_i;
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
-  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetAllTimes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":869
- * 
- *     def GetAllTimes(self):
- *         alltimes = []             # <<<<<<<<<<<<<<
- *         for i in range(len(self.events.times)):
- *             alltimes.append(self.events.times[i])
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 869, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_alltimes = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":870
- *     def GetAllTimes(self):
- *         alltimes = []
- *         for i in range(len(self.events.times)):             # <<<<<<<<<<<<<<
- *             alltimes.append(self.events.times[i])
- *         return alltimes
- */
-  __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->events->times); 
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "VGsim/_BirthDeath.pyx":871
- *         alltimes = []
- *         for i in range(len(self.events.times)):
- *             alltimes.append(self.events.times[i])             # <<<<<<<<<<<<<<
- *         return alltimes
- * 
- */
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->events->times.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->events->times.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 871, __pyx_L1_error)
-    }
-    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->events->times.data) + __pyx_t_5)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 871, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_alltimes, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(1, 871, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-
-  /* "VGsim/_BirthDeath.pyx":872
- *         for i in range(len(self.events.times)):
- *             alltimes.append(self.events.times[i])
- *         return alltimes             # <<<<<<<<<<<<<<
+  /* "VGsim/_BirthDeath.pyx":920
+ *         #for i in range(len(self.events.times)):
+ *         #    alltimes.append(self.events.times[i])
+ *         return self.events.times             # <<<<<<<<<<<<<<
  * 
  *     def GetNumberOfEvents(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_alltimes);
-  __pyx_r = __pyx_v_alltimes;
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 920, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":868
+  /* "VGsim/_BirthDeath.pyx":916
  *         return self.currentTime
  * 
  *     def GetAllTimes(self):             # <<<<<<<<<<<<<<
- *         alltimes = []
- *         for i in range(len(self.events.times)):
+ *         #alltimes = []
+ *         #for i in range(len(self.events.times)):
  */
 
   /* function exit code */
@@ -19522,91 +20242,68 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetAllTimes(s
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetAllTimes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_alltimes);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":874
- *         return alltimes
+/* "VGsim/_BirthDeath.pyx":922
+ *         return self.events.times
  * 
  *     def GetNumberOfEvents(self):             # <<<<<<<<<<<<<<
- *         return len(self.GetAllTimes())
+ *         return len(self.events.times)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetNumberOfEvents (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetNumberOfEvents(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetNumberOfEvents", 0);
 
-  /* "VGsim/_BirthDeath.pyx":875
+  /* "VGsim/_BirthDeath.pyx":923
  * 
  *     def GetNumberOfEvents(self):
- *         return len(self.GetAllTimes())             # <<<<<<<<<<<<<<
+ *         return len(self.events.times)             # <<<<<<<<<<<<<<
  * 
  *     def GetEventTypes(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_GetAllTimes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 875, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_self->events->times); 
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 923, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 875, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 875, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 875, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":874
- *         return alltimes
+  /* "VGsim/_BirthDeath.pyx":922
+ *         return self.events.times
  * 
  *     def GetNumberOfEvents(self):             # <<<<<<<<<<<<<<
- *         return len(self.GetAllTimes())
+ *         return len(self.events.times)
  * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetNumberOfEvents", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -19615,381 +20312,253 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetNumberOfEv
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":877
- *         return len(self.GetAllTimes())
+/* "VGsim/_BirthDeath.pyx":925
+ *         return len(self.events.times)
  * 
  *     def GetEventTypes(self):             # <<<<<<<<<<<<<<
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetEventTypes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetEventTypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
-  PyObject *__pyx_v_result = NULL;
-  PyObject *__pyx_v_i = NULL;
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  int __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetEventTypes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":878
- * 
- *     def GetEventTypes(self):
- *         result = []             # <<<<<<<<<<<<<<
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.types[i])
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 878, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_result = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":879
- *     def GetEventTypes(self):
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):             # <<<<<<<<<<<<<<
- *             result.append(self.events.types[i])
- *         return result
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_GetNumberOfEvents); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 879, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 879, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 879, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
-    __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 879, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 879, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 879, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 879, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 879, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 879, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      }
-    } else {
-      __pyx_t_2 = __pyx_t_5(__pyx_t_1);
-      if (unlikely(!__pyx_t_2)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 879, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":880
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.types[i])             # <<<<<<<<<<<<<<
- *         return result
- * 
- */
-    __pyx_t_6 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_6 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 880, __pyx_L1_error)
-    __pyx_t_7 = __pyx_t_6;
-    __pyx_t_8 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_self->events->types.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->types.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 880, __pyx_L1_error)
-    }
-    __pyx_t_2 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->types.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 880, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_2); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 880, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":879
- *     def GetEventTypes(self):
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):             # <<<<<<<<<<<<<<
- *             result.append(self.events.types[i])
- *         return result
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":881
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.types[i])
- *         return result             # <<<<<<<<<<<<<<
+  /* "VGsim/_BirthDeath.pyx":929
+ *         #for i in range(self.GetNumberOfEvents()):
+ *         #    result.append(self.events.types[i])
+ *         return self.events.types             # <<<<<<<<<<<<<<
  * 
  *     def GetHaplotypes(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_result);
-  __pyx_r = __pyx_v_result;
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->types, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 929, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":877
- *         return len(self.GetAllTimes())
+  /* "VGsim/_BirthDeath.pyx":925
+ *         return len(self.events.times)
  * 
  *     def GetEventTypes(self):             # <<<<<<<<<<<<<<
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetEventTypes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_result);
-  __Pyx_XDECREF(__pyx_v_i);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":883
- *         return result
+/* "VGsim/_BirthDeath.pyx":931
+ *         return self.events.types
  * 
  *     def GetHaplotypes(self):             # <<<<<<<<<<<<<<
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetHaplotypes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetHaplotypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
-  PyObject *__pyx_v_result = NULL;
-  PyObject *__pyx_v_i = NULL;
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  int __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetHaplotypes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":884
+  /* "VGsim/_BirthDeath.pyx":935
+ *         #for i in range(self.GetNumberOfEvents()):
+ *         #    result.append(self.events.haplotypes[i])
+ *         return self.events.haplotypes             # <<<<<<<<<<<<<<
  * 
- *     def GetHaplotypes(self):
- *         result = []             # <<<<<<<<<<<<<<
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.haplotypes[i])
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 884, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_result = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":885
- *     def GetHaplotypes(self):
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):             # <<<<<<<<<<<<<<
- *             result.append(self.events.haplotypes[i])
- *         return result
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_GetNumberOfEvents); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 885, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 885, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 885, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
-    __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 885, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 885, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 885, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 885, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 885, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 885, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      }
-    } else {
-      __pyx_t_2 = __pyx_t_5(__pyx_t_1);
-      if (unlikely(!__pyx_t_2)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 885, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":886
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.haplotypes[i])             # <<<<<<<<<<<<<<
- *         return result
- * 
- */
-    __pyx_t_6 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_6 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 886, __pyx_L1_error)
-    __pyx_t_7 = __pyx_t_6;
-    __pyx_t_8 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_self->events->haplotypes.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_self->events->haplotypes.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 886, __pyx_L1_error)
-    }
-    __pyx_t_2 = PyInt_FromSsize_t((*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_self->events->haplotypes.data) + __pyx_t_7)) )))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 886, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_2); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 886, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":885
- *     def GetHaplotypes(self):
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):             # <<<<<<<<<<<<<<
- *             result.append(self.events.haplotypes[i])
- *         return result
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":887
- *         for i in range(self.GetNumberOfEvents()):
- *             result.append(self.events.haplotypes[i])
- *         return result             # <<<<<<<<<<<<<<
- * 
- * 
+ *     def GetSucseptibles(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_result);
-  __pyx_r = __pyx_v_result;
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->haplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 935, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":883
- *         return result
+  /* "VGsim/_BirthDeath.pyx":931
+ *         return self.events.types
  * 
  *     def GetHaplotypes(self):             # <<<<<<<<<<<<<<
- *         result = []
- *         for i in range(self.GetNumberOfEvents()):
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetHaplotypes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_result);
-  __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":937
+ *         return self.events.haplotypes
+ * 
+ *     def GetSucseptibles(self):             # <<<<<<<<<<<<<<
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetSucseptibles (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetSucseptibles", 0);
+
+  /* "VGsim/_BirthDeath.pyx":941
+ *         #for i in range(self.GetNumberOfEvents()):
+ *         #    result.append(self.events.currentSucseptibles[i])
+ *         return self.events.currentSucseptibles             # <<<<<<<<<<<<<<
+ * 
+ *     def GetInfectious(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentSucseptibles, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 941, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":937
+ *         return self.events.haplotypes
+ * 
+ *     def GetSucseptibles(self):             # <<<<<<<<<<<<<<
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetSucseptibles", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":943
+ *         return self.events.currentSucseptibles
+ * 
+ *     def GetInfectious(self):             # <<<<<<<<<<<<<<
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetInfectious (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetInfectious", 0);
+
+  /* "VGsim/_BirthDeath.pyx":947
+ *         #for i in range(self.GetNumberOfEvents()):
+ *         #    result.append(self.events.currentInfectious[i])
+ *         return self.events.currentInfectious             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 947, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":943
+ *         return self.events.currentSucseptibles
+ * 
+ *     def GetInfectious(self):             # <<<<<<<<<<<<<<
+ *         #result = []
+ *         #for i in range(self.GetNumberOfEvents()):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetInfectious", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -20002,19 +20571,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetHaplotypes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28__reduce_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -20596,19 +21165,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28__reduce_cyth
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30__setstate_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -22130,18 +22699,18 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd05d992:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x57f01e2:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xd05d992) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x57f01e2) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd05d992:
+ *     if __pyx_checksum != 0x57f01e2:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  *     __pyx_result = Events.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 5, __pyx_L1_error)
@@ -22160,15 +22729,15 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0xd05d992:
+ *     if __pyx_checksum != 0x57f01e2:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = Events.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xd0, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x57, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -22195,15 +22764,15 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd05d992:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x57f01e2:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  *     __pyx_result = Events.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
@@ -22229,7 +22798,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  *     __pyx_result = Events.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
@@ -22252,7 +22821,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd05d992 = (haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x57f01e2 = (currentInfectious, currentSucseptibles, haplotypes, newHaplotypes, newPopulations, populations, ptr, size, times, types))" % __pyx_checksum)
  *     __pyx_result = Events.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
@@ -22265,7 +22834,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -22298,8 +22867,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_8__pyx_unpickle_Events(CYTHON_UNU
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(struct __pyx_obj_5VGsim_11_BirthDeath_Events *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
@@ -22323,15 +22892,39 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[8])
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[10])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->currentInfectious, 0);
+  __pyx_v___pyx_result->currentInfectious = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(3, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->currentSucseptibles, 0);
+  __pyx_v___pyx_result->currentSucseptibles = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(3, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22343,7 +22936,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22355,7 +22948,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22367,7 +22960,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22379,7 +22972,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22388,7 +22981,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22397,7 +22990,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22409,7 +23002,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22420,16 +23013,16 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[8])
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[10])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(3, 13, __pyx_L1_error)
   }
   __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(3, 13, __pyx_L1_error)
-  __pyx_t_6 = ((__pyx_t_3 > 8) != 0);
+  __pyx_t_6 = ((__pyx_t_3 > 10) != 0);
   if (__pyx_t_6) {
   } else {
     __pyx_t_5 = __pyx_t_6;
@@ -22442,9 +23035,9 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
   if (__pyx_t_5) {
 
     /* "(tree fragment)":14
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[8])             # <<<<<<<<<<<<<<
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[10])             # <<<<<<<<<<<<<<
  */
     __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
@@ -22455,7 +23048,7 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(3, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 14, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_10 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
@@ -22477,9 +23070,9 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[8])
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[10])
  */
   }
 
@@ -22487,8 +23080,8 @@ static PyObject *__pyx_f_5VGsim_11_BirthDeath___pyx_unpickle_Events__set_state(s
  *         __pyx_unpickle_Events__set_state(<Events> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_Events__set_state(Events __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.haplotypes = __pyx_state[0]; __pyx_result.newHaplotypes = __pyx_state[1]; __pyx_result.newPopulations = __pyx_state[2]; __pyx_result.populations = __pyx_state[3]; __pyx_result.ptr = __pyx_state[4]; __pyx_result.size = __pyx_state[5]; __pyx_result.times = __pyx_state[6]; __pyx_result.types = __pyx_state[7]
- *     if len(__pyx_state) > 8 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.currentInfectious = __pyx_state[0]; __pyx_result.currentSucseptibles = __pyx_state[1]; __pyx_result.haplotypes = __pyx_state[2]; __pyx_result.newHaplotypes = __pyx_state[3]; __pyx_result.newPopulations = __pyx_state[4]; __pyx_result.populations = __pyx_state[5]; __pyx_result.ptr = __pyx_state[6]; __pyx_result.size = __pyx_state[7]; __pyx_result.times = __pyx_state[8]; __pyx_result.types = __pyx_state[9]
+ *     if len(__pyx_state) > 10 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -37869,6 +38462,10 @@ static PyObject *__pyx_tp_new_5VGsim_11_BirthDeath_Events(PyTypeObject *t, CYTHO
   p->newHaplotypes.memview = NULL;
   p->newPopulations.data = NULL;
   p->newPopulations.memview = NULL;
+  p->currentSucseptibles.data = NULL;
+  p->currentSucseptibles.memview = NULL;
+  p->currentInfectious.data = NULL;
+  p->currentInfectious.memview = NULL;
   return o;
 }
 
@@ -37885,6 +38482,8 @@ static void __pyx_tp_dealloc_5VGsim_11_BirthDeath_Events(PyObject *o) {
   __PYX_XDEC_MEMVIEW(&p->haplotypes, 1);
   __PYX_XDEC_MEMVIEW(&p->newHaplotypes, 1);
   __PYX_XDEC_MEMVIEW(&p->newPopulations, 1);
+  __PYX_XDEC_MEMVIEW(&p->currentSucseptibles, 1);
+  __PYX_XDEC_MEMVIEW(&p->currentInfectious, 1);
   (*Py_TYPE(o)->tp_free)(o);
 }
 
@@ -38132,13 +38731,19 @@ static PyMethodDef __pyx_methods_5VGsim_11_BirthDeath_BirthDeathModel[] = {
   {"GetTree", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_13GetTree, METH_NOARGS, 0},
   {"GetTreeTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_15GetTreeTimes, METH_NOARGS, 0},
   {"GetTreeMuts", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMuts, METH_NOARGS, 0},
-  {"GetCurrentTime", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetCurrentTime, METH_NOARGS, 0},
-  {"GetAllTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetAllTimes, METH_NOARGS, 0},
-  {"GetNumberOfEvents", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetNumberOfEvents, METH_NOARGS, 0},
-  {"GetEventTypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetEventTypes, METH_NOARGS, 0},
-  {"GetHaplotypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetHaplotypes, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31__setstate_cython__, METH_O, 0},
+  {"GetTreeMutsNodeIds", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds, METH_NOARGS, 0},
+  {"GetTreeMutsASs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs, METH_NOARGS, 0},
+  {"GetTreeMutsSites", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites, METH_NOARGS, 0},
+  {"GetTreeMutsDSs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs, METH_NOARGS, 0},
+  {"GetCurrentTime", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime, METH_NOARGS, 0},
+  {"GetAllTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes, METH_NOARGS, 0},
+  {"GetNumberOfEvents", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents, METH_NOARGS, 0},
+  {"GetEventTypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes, METH_NOARGS, 0},
+  {"GetHaplotypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes, METH_NOARGS, 0},
+  {"GetSucseptibles", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles, METH_NOARGS, 0},
+  {"GetInfectious", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -38995,18 +39600,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Event, __pyx_k_Event, sizeof(__pyx_k_Event), 0, 0, 1, 1},
   {&__pyx_kp_u_Event_haplotypes_populations_rat, __pyx_k_Event_haplotypes_populations_rat, sizeof(__pyx_k_Event_haplotypes_populations_rat), 0, 1, 0, 0},
   {&__pyx_n_s_Events, __pyx_k_Events, sizeof(__pyx_k_Events), 0, 0, 1, 1},
-  {&__pyx_n_s_GetAllTimes, __pyx_k_GetAllTimes, sizeof(__pyx_k_GetAllTimes), 0, 0, 1, 1},
   {&__pyx_n_s_GetGenealogy, __pyx_k_GetGenealogy, sizeof(__pyx_k_GetGenealogy), 0, 0, 1, 1},
-  {&__pyx_n_s_GetNumberOfEvents, __pyx_k_GetNumberOfEvents, sizeof(__pyx_k_GetNumberOfEvents), 0, 0, 1, 1},
   {&__pyx_kp_u_Haplotypes_number_const, __pyx_k_Haplotypes_number_const, sizeof(__pyx_k_Haplotypes_number_const), 0, 1, 0, 0},
   {&__pyx_kp_u_Haplotypes_populations_rates_mut, __pyx_k_Haplotypes_populations_rates_mut, sizeof(__pyx_k_Haplotypes_populations_rates_mut), 0, 1, 0, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x06, __pyx_k_Incompatible_checksums_s_vs_0x06, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x06), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x1c, __pyx_k_Incompatible_checksums_s_vs_0x1c, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x1c), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x57, __pyx_k_Incompatible_checksums_s_vs_0x57, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x57), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x66, __pyx_k_Incompatible_checksums_s_vs_0x66, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x66), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x8e, __pyx_k_Incompatible_checksums_s_vs_0x8e, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x8e), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xd0, __pyx_k_Incompatible_checksums_s_vs_0xd0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xd0), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
@@ -39183,6 +39786,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_strided_and_indirect, __pyx_k_strided_and_indirect, sizeof(__pyx_k_strided_and_indirect), 0, 0, 1, 0},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
+  {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_suscepTransition, __pyx_k_suscepTransition, sizeof(__pyx_k_suscepTransition), 0, 0, 1, 1},
   {&__pyx_n_s_susceptible, __pyx_k_susceptible, sizeof(__pyx_k_susceptible), 0, 0, 1, 1},
   {&__pyx_n_s_susceptible_num, __pyx_k_susceptible_num, sizeof(__pyx_k_susceptible_num), 0, 0, 1, 1},
@@ -39201,6 +39805,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(1, 174, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(4, 884, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(3, 148, __pyx_L1_error)
@@ -39218,391 +39823,391 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "VGsim/_BirthDeath.pyx":118
+  /* "VGsim/_BirthDeath.pyx":126
  *         if populationModel is None:
  *             self.pm = PopulationModel( [ Population() ], self.susceptible_num)
  *             self.pm_migrationRates = np.asarray((0, 0), dtype=float)             # <<<<<<<<<<<<<<
  *         else:
  *             self.pm = PopulationModel( populationModel[0] , self.susceptible_num, lockdownModel)
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 118, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_tuple__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 118, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_tuple__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "VGsim/_BirthDeath.pyx":136
+  /* "VGsim/_BirthDeath.pyx":144
  *         self.InitLiveBranches()
  * 
  *         self.elementsArr2 = np.zeros(2, dtype=float)             # <<<<<<<<<<<<<<
  * 
  *         if susceptible is None:
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "VGsim/_BirthDeath.pyx":505
+  /* "VGsim/_BirthDeath.pyx":519
  *         print("Total number of iterations: ", self.events.ptr)
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle
  *             print("Less than two cases were sampled...")             # <<<<<<<<<<<<<<
  *             print("_________________________________")
  *             sys.exit(0)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Less_than_two_cases_were_sampled); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 505, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Less_than_two_cases_were_sampled); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "VGsim/_BirthDeath.pyx":506
+  /* "VGsim/_BirthDeath.pyx":520
  *         if self.sCounter < 2: #TODO if number of sampled leaves is 0 (probably 1 as well), then GetGenealogy seems to go to an infinite cycle
  *             print("Less than two cases were sampled...")
  *             print("_________________________________")             # <<<<<<<<<<<<<<
  *             sys.exit(0)
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 506, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u__6); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "VGsim/_BirthDeath.pyx":640
+  /* "VGsim/_BirthDeath.pyx":654
  *         for i in range(self.sCounter * 2 - 1):
  *             if self.tree[i] == 0:
  *                 print("Error 1")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Error_1); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 640, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Error_1); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 654, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "VGsim/_BirthDeath.pyx":646
+  /* "VGsim/_BirthDeath.pyx":660
  *                 counter += 1
  *             if counter >= 2:
  *                 print("Error 2")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Error_2); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 646, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Error_2); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 660, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "VGsim/_BirthDeath.pyx":650
+  /* "VGsim/_BirthDeath.pyx":664
  *                 sys.exit(0)
  *             if self.tree[i] == i:
  *                 print("Error 3")             # <<<<<<<<<<<<<<
  *                 print("_________________________________")
  *                 sys.exit(0)
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Error_3); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 650, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_Error_3); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 664, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "VGsim/_BirthDeath.pyx":688
+  /* "VGsim/_BirthDeath.pyx":702
  * 
  *     def Debug(self):
  *         print("Parameters")             # <<<<<<<<<<<<<<
  *         print("swapLockdown: ", self.swapLockdown)
  *         print("Migration plus: ", self.migPlus)
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_Parameters); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 688, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_Parameters); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 702, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "VGsim/_BirthDeath.pyx":707
+  /* "VGsim/_BirthDeath.pyx":721
  *         print("Susceptible number(const): ", self.susceptible_num)
  *         print("Population model - globalInfectious(mutable): ", self.pm.globalInfectious)
  *         print("Susceptible type(): ", sep=" ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.suscType.shape[0]):
  *             print(self.suscType[i], end=" ")
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Susceptible_type); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 707, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Susceptible_type); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "VGsim/_BirthDeath.pyx":711
+  /* "VGsim/_BirthDeath.pyx":725
  *             print(self.suscType[i], end=" ")
  *         print()
  *         print("Birth rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.bRate[i], end=" ")
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Birth_rate_const); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 711, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Birth_rate_const); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
 
-  /* "VGsim/_BirthDeath.pyx":715
+  /* "VGsim/_BirthDeath.pyx":729
  *             print(self.bRate[i], end=" ")
  *         print()
  *         print("Death rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.dRate[i], end=" ")
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Death_rate_const); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 715, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Death_rate_const); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
 
-  /* "VGsim/_BirthDeath.pyx":719
+  /* "VGsim/_BirthDeath.pyx":733
  *             print(self.dRate[i], end=" ")
  *         print()
  *         print("Sampling rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.sRate[i], end=" ")
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Sampling_rate_const); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 719, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_Sampling_rate_const); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 733, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "VGsim/_BirthDeath.pyx":723
+  /* "VGsim/_BirthDeath.pyx":737
  *             print(self.sRate[i], end=" ")
  *         print()
  *         print("Total mutation rate(const): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             print(self.tmRate[i], end=" ")
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Total_mutation_rate_const); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 723, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_Total_mutation_rate_const); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "VGsim/_BirthDeath.pyx":727
+  /* "VGsim/_BirthDeath.pyx":741
  *             print(self.tmRate[i], end=" ")
  *         print()
  *         print("Migration population rate(mutable): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             print(self.migPopRate[i], end=" ")
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_Migration_population_rate_mutabl); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 727, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_Migration_population_rate_mutabl); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "VGsim/_BirthDeath.pyx":731
+  /* "VGsim/_BirthDeath.pyx":745
  *             print(self.migPopRate[i], end=" ")
  *         print()
  *         print("Population rate(mutable): ", sep="", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             print(self.popRate[i], end=" ")
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_u_Population_rate_mutable); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 731, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_u_Population_rate_mutable); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 745, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "VGsim/_BirthDeath.pyx":735
+  /* "VGsim/_BirthDeath.pyx":749
  *             print(self.popRate[i], end=" ")
  *         print()
  *         print("Population model - sizes(const): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.sizes[i], end=" ")
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_Population_model_sizes_const); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 735, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_Population_model_sizes_const); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 749, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
-  /* "VGsim/_BirthDeath.pyx":739
+  /* "VGsim/_BirthDeath.pyx":753
  *             print(self.pm.sizes[i], end=" ")
  *         print()
  *         print("Population model - totalSusceptible(mutable): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.totalSusceptible.shape[0]):
  *             print(self.pm.totalSusceptible[i], end=" ")
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_Population_model_totalSusceptibl); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 739, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_Population_model_totalSusceptibl); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 753, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
-  /* "VGsim/_BirthDeath.pyx":743
+  /* "VGsim/_BirthDeath.pyx":757
  *             print(self.pm.totalSusceptible[i], end=" ")
  *         print()
  *         print("Population model - totalInfectious(mutable): ", end="")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.totalInfectious.shape[0]):
  *             print(self.pm.totalInfectious[i], end=" ")
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Population_model_totalInfectious); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 743, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Population_model_totalInfectious); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 757, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "VGsim/_BirthDeath.pyx":747
+  /* "VGsim/_BirthDeath.pyx":761
  *             print(self.pm.totalInfectious[i], end=" ")
  *         print()
  *         print("Population model - contac density(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             print(self.pm.contactDensity[i], end=" ")
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_Population_model_contac_density); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 747, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_Population_model_contac_density); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 761, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
 
-  /* "VGsim/_BirthDeath.pyx":751
+  /* "VGsim/_BirthDeath.pyx":765
  *             print(self.pm.contactDensity[i], end=" ")
  *         print()
  *         print("Population model - max effective migration(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_maxEffectiveMigration.shape[0]):
  *             print(self.pm_maxEffectiveMigration[i], end=" ")
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Population_model_max_effective_m); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 751, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Population_model_max_effective_m); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
 
-  /* "VGsim/_BirthDeath.pyx":755
+  /* "VGsim/_BirthDeath.pyx":769
  *             print(self.pm_maxEffectiveMigration[i], end=" ")
  *         print()
  *         print("Population model - max susceptibility(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.maxSusceptibility.shape[0]):
  *             print(self.maxSusceptibility[i], end=" ")
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Population_model_max_susceptibil); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 755, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Population_model_max_susceptibil); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 769, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
 
-  /* "VGsim/_BirthDeath.pyx":760
+  /* "VGsim/_BirthDeath.pyx":774
  *         print()
  * 
  *         print("Population model - contactDensityAfterLockdown(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.contactDensityAfterLockdown.shape[0]):
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Population_model_contactDensityA); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 760, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Population_model_contactDensityA); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 774, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
-  /* "VGsim/_BirthDeath.pyx":764
+  /* "VGsim/_BirthDeath.pyx":778
  *             print(self.pm.contactDensityAfterLockdown[i], end=" ")
  *         print()
  *         print("Population model - startLD(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.startLD.shape[0]):
  *             print(self.pm.startLD[i], end=" ")
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Population_model_startLD_const); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 764, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Population_model_startLD_const); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 778, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
-  /* "VGsim/_BirthDeath.pyx":768
+  /* "VGsim/_BirthDeath.pyx":782
  *             print(self.pm.startLD[i], end=" ")
  *         print()
  *         print("Population model - endLD(const): ", end=" ")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.endLD.shape[0]):
  *             print(self.pm.endLD[i], end=" ")
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Population_model_endLD_const); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 768, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Population_model_endLD_const); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
-  /* "VGsim/_BirthDeath.pyx":772
+  /* "VGsim/_BirthDeath.pyx":786
  *             print(self.pm.endLD[i], end=" ")
  *         print()
  *         print("Population model - susceptible(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm.sizes.shape[0]):
  *             for j in range(self.susceptible_num):
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u_Population_model_susceptible_mut); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 772, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_u_Population_model_susceptible_mut); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 786, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "VGsim/_BirthDeath.pyx":778
+  /* "VGsim/_BirthDeath.pyx":792
  *             print()
  *         print()
  *         print("Population model - migration rates(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_migrationRates.shape[0]):
  *             for j in range(self.pm_migrationRates.shape[1]):
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_u_Population_model_migration_rates); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 778, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_u_Population_model_migration_rates); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 792, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
 
-  /* "VGsim/_BirthDeath.pyx":784
+  /* "VGsim/_BirthDeath.pyx":798
  *             print()
  *         print()
  *         print("Population model - effective migration(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.pm_effectiveMigration.shape[0]):
  *             for j in range(self.pm_effectiveMigration.shape[1]):
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_u_Population_model_effective_migra); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 784, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_u_Population_model_effective_migra); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 798, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
 
-  /* "VGsim/_BirthDeath.pyx":790
+  /* "VGsim/_BirthDeath.pyx":804
  *             print()
  *         print()
  *         print("Total event haplotype population rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u_Total_event_haplotype_population); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 790, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_u_Total_event_haplotype_population); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 804, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
 
-  /* "VGsim/_BirthDeath.pyx":796
+  /* "VGsim/_BirthDeath.pyx":810
  *             print()
  *         print()
  *         print("Haplotypes populations rates(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_u_Haplotypes_populations_rates_mut); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 796, __pyx_L1_error)
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_u_Haplotypes_populations_rates_mut); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
 
-  /* "VGsim/_BirthDeath.pyx":802
+  /* "VGsim/_BirthDeath.pyx":816
  *             print()
  *         print()
  *         print("Mutation rate(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapNum):
  *             for j in range(self.dim):
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_u_Mutation_rate_const); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 802, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_u_Mutation_rate_const); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 816, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
 
-  /* "VGsim/_BirthDeath.pyx":808
+  /* "VGsim/_BirthDeath.pyx":822
  *             print()
  *         print()
  *         print("Susceptibility(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.susceptibility.shape[0]):
  *             for j in range(self.susceptibility.shape[1]):
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_u_Susceptibility_const); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 808, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_u_Susceptibility_const); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 822, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
 
-  /* "VGsim/_BirthDeath.pyx":814
+  /* "VGsim/_BirthDeath.pyx":828
  *             print()
  *         print()
  *         print("Birth haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_u_Birth_haplotypes_populations_rat); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 814, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_u_Birth_haplotypes_populations_rat); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 828, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
-  /* "VGsim/_BirthDeath.pyx":819
+  /* "VGsim/_BirthDeath.pyx":833
  *                 print(self.birthHapPopRate[i, j], end=" ")
  *             print()
  *         print("Event haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_u_Event_haplotypes_populations_rat); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 819, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_u_Event_haplotypes_populations_rat); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
-  /* "VGsim/_BirthDeath.pyx":827
+  /* "VGsim/_BirthDeath.pyx":841
  *             print()
  *         print()
  *         print("Susceptible haplotypes populations rate(mutable)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.popNum):
  *             for j in range(self.hapNum):
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_u_Susceptible_haplotypes_populatio); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 827, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_u_Susceptible_haplotypes_populatio); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 841, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "VGsim/_BirthDeath.pyx":835
+  /* "VGsim/_BirthDeath.pyx":849
  *             print()
  *         print()
  *         print("Probabilities of mutations(const)----")             # <<<<<<<<<<<<<<
  *         for i in range(self.hapMutType.shape[0]):
  *             for j in range(self.hapMutType.shape[1]):
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_u_Probabilities_of_mutations_const); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 835, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_u_Probabilities_of_mutations_const); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
@@ -39976,10 +40581,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_1000000 = PyInt_FromLong(1000000L); if (unlikely(!__pyx_int_1000000)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_7192623 = PyInt_FromLong(7192623L); if (unlikely(!__pyx_int_7192623)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_29494224 = PyInt_FromLong(29494224L); if (unlikely(!__pyx_int_29494224)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_int_92209634 = PyInt_FromLong(92209634L); if (unlikely(!__pyx_int_92209634)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_107369765 = PyInt_FromLong(107369765L); if (unlikely(!__pyx_int_107369765)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_149160556 = PyInt_FromLong(149160556L); if (unlikely(!__pyx_int_149160556)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_int_218487186 = PyInt_FromLong(218487186L); if (unlikely(!__pyx_int_218487186)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -40068,7 +40673,7 @@ static int __Pyx_modinit_type_init_code(void) {
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5VGsim_11_BirthDeath_Event) < 0) __PYX_ERR(1, 31, __pyx_L1_error)
   __pyx_ptype_5VGsim_11_BirthDeath_Event = &__pyx_type_5VGsim_11_BirthDeath_Event;
   __pyx_vtabptr_5VGsim_11_BirthDeath_Events = &__pyx_vtable_5VGsim_11_BirthDeath_Events;
-  __pyx_vtable_5VGsim_11_BirthDeath_Events.AddEvent = (void (*)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, double, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t))__pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent;
+  __pyx_vtable_5VGsim_11_BirthDeath_Events.AddEvent = (void (*)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, double, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t, Py_ssize_t))__pyx_f_5VGsim_11_BirthDeath_6Events_AddEvent;
   __pyx_vtable_5VGsim_11_BirthDeath_Events.GetEvent = (struct __pyx_obj_5VGsim_11_BirthDeath_Event *(*)(struct __pyx_obj_5VGsim_11_BirthDeath_Events *, Py_ssize_t))__pyx_f_5VGsim_11_BirthDeath_6Events_GetEvent;
   if (PyType_Ready(&__pyx_type_5VGsim_11_BirthDeath_Events) < 0) __PYX_ERR(1, 45, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -40103,16 +40708,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_5VGsim_11_BirthDeath_BirthDeathModel.CheckLockdown = (void (*)(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *, Py_ssize_t))__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckLockdown;
   __pyx_vtable_5VGsim_11_BirthDeath_BirthDeathModel.GetGenealogy = (PyObject *(*)(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *, int __pyx_skip_dispatch))__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_GetGenealogy;
   __pyx_vtable_5VGsim_11_BirthDeath_BirthDeathModel.CheckTree = (void (*)(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *))__pyx_f_5VGsim_11_BirthDeath_15BirthDeathModel_CheckTree;
-  if (PyType_Ready(&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 80, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 88, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_dictoffset && __pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_dict, __pyx_vtabptr_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 80, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_BirthDeathModel, (PyObject *)&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 80, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 80, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel.tp_dict, __pyx_vtabptr_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 88, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_BirthDeathModel, (PyObject *)&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 88, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel) < 0) __PYX_ERR(1, 88, __pyx_L1_error)
   __pyx_ptype_5VGsim_11_BirthDeath_BirthDeathModel = &__pyx_type_5VGsim_11_BirthDeath_BirthDeathModel;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
