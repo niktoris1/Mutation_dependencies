@@ -842,15 +842,18 @@ cdef class BirthDeathModel:
         print()
 
     def GetTree(self):
-        return self.tree
+        result = []
+        for i in range(len(self.tree)):
+            result.append(self.tree[i])
+        return result
 
-    def GetTimes(self):
-        times = []
-        for i in range(self.tree.shape[0]):
-            times.append(self.times[i])
-        return times
+    def GetTreeTimes(self):
+        result = []
+        for i in range(len(self.times)):
+            result.append(self.tree[i])
+        return result
 
-    def GetMut(self):
+    def GetTreeMuts(self):
         mut = [[], [], [], []]
         for i in range(self.mut.nodeId.size()):
             mut[0].append(self.mut.nodeId[i])
@@ -862,5 +865,25 @@ cdef class BirthDeathModel:
     def GetCurrentTime(self):
         return self.currentTime
 
-    def GetEvents(self):
-        return self.events
+    def GetAllTimes(self):
+        alltimes = []
+        for i in range(len(self.events.times)):
+            alltimes.append(self.events.times[i])
+        return alltimes
+
+    def GetNumberOfEvents(self):
+        return len(self.GetAllTimes())
+
+    def GetEventTypes(self):
+        result = []
+        for i in range(self.GetNumberOfEvents()):
+            result.append(self.events.types[i])
+        return result
+
+    def GetHaplotypes(self):
+        result = []
+        for i in range(self.GetNumberOfEvents()):
+            result.append(self.events.haplotypes[i])
+        return result
+
+

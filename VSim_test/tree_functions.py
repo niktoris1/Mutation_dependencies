@@ -67,23 +67,27 @@ class EventSequence:
 def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
     es = EventSequence(sequence = [])
 
-    events = simulation.GetEvents()
-
     def GetNodeIdByEventIteration(iteration):
-        time = events.times[len(events.times) - 1 - iteration]
-        tree_times= simulation.GetTimes()
-        node_id = tree_times.index(time)
-        return node_id
+        time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - iteration]
+        tree_times= simulation.GetTreeTimes()
+        if time in tree_times:
+            node_id = tree_times.index(time)
+            return node_id
+        else:
+            return None
 
     def IsThereAMutationOnNodeId(node_id):
-        if node_id in simulation.GetMut[0]:
+        if node_id in simulation.GetTreeMuts[0]:
             return True
         else:
             return False
 
     def NumberOfChildrenFromNodeId(node_id):
-        number_of_children = simulation.GetTree().count(node_id)
-        return number_of_children
+        if node_id in simulation.GetTree():
+            number_of_children = simulation.GetTree().count(node_id)
+            return number_of_children
+        else:
+            return None
 
     def GetCite(mutation_name):  # gets a cite name from the name of mutation
         return int(re.findall('\d+', mutation_name)[0])
@@ -98,20 +102,19 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
         if number == 3:
             return 'G'
 
-    for i in range(len(events)):
-
-        type = events.types[len(events.times) - 1 - i] # here we have a 5 types of events
-        time = events.times[len(events.times) - 1 - i] # might be incorrenct, since times are
+    for i in range(simulation.GetNumberOfEvents()):
+        type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
+        time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
         iteration = i # the number of event in a sequence
-        haplotype = events.haplotypes[len(events.times) - 1 - i] # which haplotype was in place, when event occured
+        haplotype = simulation.GetHaplotypes()[len(simulation.GetHaplotypes()) - 1 - i] # which haplotype was in place, when event occured
         node_id = GetNodeIdByEventIteration(iteration)
         number_of_children = NumberOfChildrenFromNodeId(node_id)
         current_sucseptible = events.newSucseptibles[i] # it's worrying, that this array is forward-time, while others are backward-time
         current_infectious = events.newInfectious[i] # same goes here
         is_a_mutation = IsThereAMutationOnNodeId(node_id)
-        old_nucleotyde = NumberToLetter(simulation.GetMut[1][node_id])
-        new_nucleotyde = NumberToLetter(simulation.GetMut[3][node_id])
-        mutation_cite = simulation.GetMut[2][node_id]
+        old_nucleotyde = NumberToLetter(simulation.GetTreeMuts[1][node_id])
+        new_nucleotyde = NumberToLetter(simulation.GetTreeMuts[3][node_id])
+        mutation_cite = simulation.GetTreeMuts[2][node_id]
         mutation_name = GetCite(mutation_cite)
 
         event = Event(type = type, time = time, iteration = iteration,
