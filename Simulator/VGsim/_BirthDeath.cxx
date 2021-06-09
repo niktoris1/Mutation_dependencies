@@ -2164,12 +2164,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* PyObjectCallMethod1.proto */
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
-
-/* append.proto */
-static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
-
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
@@ -2935,7 +2929,6 @@ static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
 static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_Events[] = "Events";
-static const char __pyx_k_append[] = "append";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
@@ -3200,7 +3193,6 @@ static PyObject *__pyx_kp_u__13;
 static PyObject *__pyx_kp_u__14;
 static PyObject *__pyx_n_u__6;
 static PyObject *__pyx_n_s_allocate_buffer;
-static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asarray;
 static PyObject *__pyx_n_s_bRate;
@@ -3347,20 +3339,24 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_8Report(struct 
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsNodeId(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetTreeMutsAS(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetTreeMutsSite(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetTreeMutsDS(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_iteration); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_44GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_46GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_2__pyx_unpickle_Mutations(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_4__pyx_unpickle_PopulationModel(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_6__pyx_unpickle_Event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -19355,7 +19351,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
  *             result.append(self.times)
  *         return result             # <<<<<<<<<<<<<<
  * 
- *     def GetTreeMuts(self): #slow
+ *     def GetTreeMutsNodeIds(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
@@ -19385,206 +19381,25 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
 /* "VGsim/_BirthDeath.pyx":870
  *         return result
  * 
- *     def GetTreeMuts(self): #slow             # <<<<<<<<<<<<<<
- *         mut = [[], [], [], []]
- *         for i in range(self.mut.nodeId.size()):
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMuts(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMuts(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("GetTreeMuts (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMuts(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
-  PyObject *__pyx_v_mut = NULL;
-  std::vector<Py_ssize_t> ::size_type __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  std::vector<Py_ssize_t> ::size_type __pyx_t_6;
-  std::vector<Py_ssize_t> ::size_type __pyx_t_7;
-  std::vector<Py_ssize_t> ::size_type __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("GetTreeMuts", 0);
-
-  /* "VGsim/_BirthDeath.pyx":871
- * 
- *     def GetTreeMuts(self): #slow
- *         mut = [[], [], [], []]             # <<<<<<<<<<<<<<
- *         for i in range(self.mut.nodeId.size()):
- *             mut[0].append(self.mut.nodeId[i])
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 871, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 871, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 871, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 871, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyList_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 871, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyList_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyList_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyList_SET_ITEM(__pyx_t_5, 2, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_5, 3, __pyx_t_4);
-  __pyx_t_1 = 0;
-  __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  __pyx_t_4 = 0;
-  __pyx_v_mut = ((PyObject*)__pyx_t_5);
-  __pyx_t_5 = 0;
-
-  /* "VGsim/_BirthDeath.pyx":872
- *     def GetTreeMuts(self): #slow
- *         mut = [[], [], [], []]
- *         for i in range(self.mut.nodeId.size()):             # <<<<<<<<<<<<<<
- *             mut[0].append(self.mut.nodeId[i])
- *             mut[1].append(self.mut.AS[i])
- */
-  __pyx_t_6 = __pyx_v_self->mut->nodeId.size();
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
-
-    /* "VGsim/_BirthDeath.pyx":873
- *         mut = [[], [], [], []]
- *         for i in range(self.mut.nodeId.size()):
- *             mut[0].append(self.mut.nodeId[i])             # <<<<<<<<<<<<<<
- *             mut[1].append(self.mut.AS[i])
- *             mut[2].append(self.mut.site[i])
- */
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 873, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->nodeId[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 873, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 873, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":874
- *         for i in range(self.mut.nodeId.size()):
- *             mut[0].append(self.mut.nodeId[i])
- *             mut[1].append(self.mut.AS[i])             # <<<<<<<<<<<<<<
- *             mut[2].append(self.mut.site[i])
- *             mut[3].append(self.mut.DS[i])
- */
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 1, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 874, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->AS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 874, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 874, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":875
- *             mut[0].append(self.mut.nodeId[i])
- *             mut[1].append(self.mut.AS[i])
- *             mut[2].append(self.mut.site[i])             # <<<<<<<<<<<<<<
- *             mut[3].append(self.mut.DS[i])
- *         return mut
- */
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_mut, 2, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 875, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyInt_FromSsize_t((__pyx_v_self->mut->site[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 875, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 875, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-    /* "VGsim/_BirthDeath.pyx":876
- *             mut[1].append(self.mut.AS[i])
- *             mut[2].append(self.mut.site[i])
- *             mut[3].append(self.mut.DS[i])             # <<<<<<<<<<<<<<
- *         return mut
- * 
- */
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_mut, 3, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 876, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_self->mut->DS[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 876, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 876, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  }
-
-  /* "VGsim/_BirthDeath.pyx":877
- *             mut[2].append(self.mut.site[i])
- *             mut[3].append(self.mut.DS[i])
- *         return mut             # <<<<<<<<<<<<<<
- * 
- *     def GetTreeMutsNodeIds(self):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_mut);
-  __pyx_r = __pyx_v_mut;
-  goto __pyx_L0;
-
-  /* "VGsim/_BirthDeath.pyx":870
- *         return result
- * 
- *     def GetTreeMuts(self): #slow             # <<<<<<<<<<<<<<
- *         mut = [[], [], [], []]
- *         for i in range(self.mut.nodeId.size()):
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMuts", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_mut);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "VGsim/_BirthDeath.pyx":879
- *         return mut
- * 
  *     def GetTreeMutsNodeIds(self):             # <<<<<<<<<<<<<<
  *         cdef:
  *             Py_ssize_t[::1] nodeIds
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMutsNodeIds(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetTreeMutsNodeIds (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMutsNodeIds(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_16GetTreeMutsNodeIds(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_nodeIds = { 0, 0, { 0 }, { 0 }, { 0 } };
   std::vector<Py_ssize_t> ::size_type __pyx_v_i;
   PyObject *__pyx_r = NULL;
@@ -19604,40 +19419,40 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeMutsNodeIds", 0);
 
-  /* "VGsim/_BirthDeath.pyx":882
+  /* "VGsim/_BirthDeath.pyx":873
  *         cdef:
  *             Py_ssize_t[::1] nodeIds
  *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)             # <<<<<<<<<<<<<<
  *         for i in range(self.mut.nodeId.size()):
  *             nodeIds[i] = self.mut.nodeId[i]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->nodeId.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->nodeId.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 882, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 882, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 873, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 882, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 873, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_nodeIds = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":883
+  /* "VGsim/_BirthDeath.pyx":874
  *             Py_ssize_t[::1] nodeIds
  *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
  *         for i in range(self.mut.nodeId.size()):             # <<<<<<<<<<<<<<
@@ -19649,7 +19464,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "VGsim/_BirthDeath.pyx":884
+    /* "VGsim/_BirthDeath.pyx":875
  *         nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
  *         for i in range(self.mut.nodeId.size()):
  *             nodeIds[i] = self.mut.nodeId[i]             # <<<<<<<<<<<<<<
@@ -19661,12 +19476,12 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
     if (unlikely(__pyx_t_9 >= (size_t)__pyx_v_nodeIds.shape[0])) __pyx_t_10 = 0;
     if (unlikely(__pyx_t_10 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_10);
-      __PYX_ERR(1, 884, __pyx_L1_error)
+      __PYX_ERR(1, 875, __pyx_L1_error)
     }
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_nodeIds.data) + __pyx_t_9)) )) = (__pyx_v_self->mut->nodeId[__pyx_v_i]);
   }
 
-  /* "VGsim/_BirthDeath.pyx":885
+  /* "VGsim/_BirthDeath.pyx":876
  *         for i in range(self.mut.nodeId.size()):
  *             nodeIds[i] = self.mut.nodeId[i]
  *         return nodeIds             # <<<<<<<<<<<<<<
@@ -19674,14 +19489,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
  *     def GetTreeMutsASs(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_nodeIds, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 885, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_nodeIds, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 876, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":879
- *         return mut
+  /* "VGsim/_BirthDeath.pyx":870
+ *         return result
  * 
  *     def GetTreeMutsNodeIds(self):             # <<<<<<<<<<<<<<
  *         cdef:
@@ -19704,7 +19519,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":887
+/* "VGsim/_BirthDeath.pyx":878
  *         return nodeIds
  * 
  *     def GetTreeMutsASs(self):             # <<<<<<<<<<<<<<
@@ -19713,19 +19528,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsNo
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsASs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetTreeMutsASs (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsASs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_18GetTreeMutsASs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_ASs = { 0, 0, { 0 }, { 0 }, { 0 } };
   CYTHON_UNUSED PyObject *__pyx_v_nodeIds = NULL;
   std::vector<Py_ssize_t> ::size_type __pyx_v_i;
@@ -19745,29 +19560,29 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeMutsASs", 0);
 
-  /* "VGsim/_BirthDeath.pyx":890
+  /* "VGsim/_BirthDeath.pyx":881
  *         cdef:
  *             Py_ssize_t[::1] ASs
  *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)             # <<<<<<<<<<<<<<
  *         for i in range(self.mut.AS.size()):
  *             ASs[i] = self.mut.AS[i]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->AS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->AS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 890, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 890, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 890, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 881, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 881, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -19775,7 +19590,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
   __pyx_v_nodeIds = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":891
+  /* "VGsim/_BirthDeath.pyx":882
  *             Py_ssize_t[::1] ASs
  *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)
  *         for i in range(self.mut.AS.size()):             # <<<<<<<<<<<<<<
@@ -19787,7 +19602,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "VGsim/_BirthDeath.pyx":892
+    /* "VGsim/_BirthDeath.pyx":883
  *         nodeIds = np.zeros(self.mut.AS.size(), dtype=int)
  *         for i in range(self.mut.AS.size()):
  *             ASs[i] = self.mut.AS[i]             # <<<<<<<<<<<<<<
@@ -19799,12 +19614,12 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
     if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_ASs.shape[0])) __pyx_t_9 = 0;
     if (unlikely(__pyx_t_9 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_9);
-      __PYX_ERR(1, 892, __pyx_L1_error)
+      __PYX_ERR(1, 883, __pyx_L1_error)
     }
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_ASs.data) + __pyx_t_8)) )) = (__pyx_v_self->mut->AS[__pyx_v_i]);
   }
 
-  /* "VGsim/_BirthDeath.pyx":893
+  /* "VGsim/_BirthDeath.pyx":884
  *         for i in range(self.mut.AS.size()):
  *             ASs[i] = self.mut.AS[i]
  *         return ASs             # <<<<<<<<<<<<<<
@@ -19812,13 +19627,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
  *     def GetTreeMutsSites(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_ASs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 893, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_ASs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 884, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":887
+  /* "VGsim/_BirthDeath.pyx":878
  *         return nodeIds
  * 
  *     def GetTreeMutsASs(self):             # <<<<<<<<<<<<<<
@@ -19842,7 +19657,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":895
+/* "VGsim/_BirthDeath.pyx":886
  *         return ASs
  * 
  *     def GetTreeMutsSites(self):             # <<<<<<<<<<<<<<
@@ -19851,19 +19666,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsAS
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsSites(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetTreeMutsSites (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsSites(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_20GetTreeMutsSites(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_sites = { 0, 0, { 0 }, { 0 }, { 0 } };
   std::vector<Py_ssize_t> ::size_type __pyx_v_i;
   PyObject *__pyx_r = NULL;
@@ -19883,40 +19698,40 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeMutsSites", 0);
 
-  /* "VGsim/_BirthDeath.pyx":898
+  /* "VGsim/_BirthDeath.pyx":889
  *         cdef:
  *             Py_ssize_t[::1] sites
  *         sites = np.zeros(self.mut.site.size(), dtype=int)             # <<<<<<<<<<<<<<
  *         for i in range(self.mut.site.size()):
  *             sites[i] = self.mut.site[i]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->site.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->site.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 898, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 898, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 889, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 898, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 889, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_sites = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "VGsim/_BirthDeath.pyx":899
+  /* "VGsim/_BirthDeath.pyx":890
  *             Py_ssize_t[::1] sites
  *         sites = np.zeros(self.mut.site.size(), dtype=int)
  *         for i in range(self.mut.site.size()):             # <<<<<<<<<<<<<<
@@ -19928,7 +19743,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "VGsim/_BirthDeath.pyx":900
+    /* "VGsim/_BirthDeath.pyx":891
  *         sites = np.zeros(self.mut.site.size(), dtype=int)
  *         for i in range(self.mut.site.size()):
  *             sites[i] = self.mut.site[i]             # <<<<<<<<<<<<<<
@@ -19940,12 +19755,12 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
     if (unlikely(__pyx_t_9 >= (size_t)__pyx_v_sites.shape[0])) __pyx_t_10 = 0;
     if (unlikely(__pyx_t_10 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_10);
-      __PYX_ERR(1, 900, __pyx_L1_error)
+      __PYX_ERR(1, 891, __pyx_L1_error)
     }
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_sites.data) + __pyx_t_9)) )) = (__pyx_v_self->mut->site[__pyx_v_i]);
   }
 
-  /* "VGsim/_BirthDeath.pyx":901
+  /* "VGsim/_BirthDeath.pyx":892
  *         for i in range(self.mut.site.size()):
  *             sites[i] = self.mut.site[i]
  *         return sites             # <<<<<<<<<<<<<<
@@ -19953,13 +19768,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
  *     def GetTreeMutsDSs(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_sites, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 901, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_sites, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 892, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":895
+  /* "VGsim/_BirthDeath.pyx":886
  *         return ASs
  * 
  *     def GetTreeMutsSites(self):             # <<<<<<<<<<<<<<
@@ -19983,7 +19798,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":903
+/* "VGsim/_BirthDeath.pyx":894
  *         return sites
  * 
  *     def GetTreeMutsDSs(self):             # <<<<<<<<<<<<<<
@@ -19992,19 +19807,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsSi
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsDSs(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetTreeMutsDSs (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsDSs(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_22GetTreeMutsDSs(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_DSs = { 0, 0, { 0 }, { 0 }, { 0 } };
   CYTHON_UNUSED PyObject *__pyx_v_nodeIds = NULL;
   std::vector<Py_ssize_t> ::size_type __pyx_v_i;
@@ -20024,29 +19839,29 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetTreeMutsDSs", 0);
 
-  /* "VGsim/_BirthDeath.pyx":906
+  /* "VGsim/_BirthDeath.pyx":897
  *         cdef:
  *             Py_ssize_t[::1] DSs
  *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)             # <<<<<<<<<<<<<<
  *         for i in range(self.mut.DS.size()):
  *             DSs[i] = self.mut.DS[i]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->DS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mut->DS.size()); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 906, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 906, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(1, 897, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 897, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -20054,7 +19869,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
   __pyx_v_nodeIds = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":907
+  /* "VGsim/_BirthDeath.pyx":898
  *             Py_ssize_t[::1] DSs
  *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)
  *         for i in range(self.mut.DS.size()):             # <<<<<<<<<<<<<<
@@ -20066,7 +19881,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "VGsim/_BirthDeath.pyx":908
+    /* "VGsim/_BirthDeath.pyx":899
  *         nodeIds = np.zeros(self.mut.DS.size(), dtype=int)
  *         for i in range(self.mut.DS.size()):
  *             DSs[i] = self.mut.DS[i]             # <<<<<<<<<<<<<<
@@ -20078,26 +19893,26 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
     if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_DSs.shape[0])) __pyx_t_9 = 0;
     if (unlikely(__pyx_t_9 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_9);
-      __PYX_ERR(1, 908, __pyx_L1_error)
+      __PYX_ERR(1, 899, __pyx_L1_error)
     }
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_DSs.data) + __pyx_t_8)) )) = (__pyx_v_self->mut->DS[__pyx_v_i]);
   }
 
-  /* "VGsim/_BirthDeath.pyx":909
+  /* "VGsim/_BirthDeath.pyx":900
  *         for i in range(self.mut.DS.size()):
  *             DSs[i] = self.mut.DS[i]
  *         return DSs             # <<<<<<<<<<<<<<
  * 
- * 
+ *     def GetTreeMutsNodeId(self, id):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_DSs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 909, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_DSs, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 900, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":903
+  /* "VGsim/_BirthDeath.pyx":894
  *         return sites
  * 
  *     def GetTreeMutsDSs(self):             # <<<<<<<<<<<<<<
@@ -20121,8 +19936,268 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":913
+/* "VGsim/_BirthDeath.pyx":902
+ *         return DSs
  * 
+ *     def GetTreeMutsNodeId(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.nodeId[id]
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsNodeId(PyObject *__pyx_v_self, PyObject *__pyx_v_id); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsNodeId(PyObject *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsNodeId (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsNodeId(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v_id));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsNodeId(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  std::vector<Py_ssize_t> ::size_type __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsNodeId", 0);
+
+  /* "VGsim/_BirthDeath.pyx":903
+ * 
+ *     def GetTreeMutsNodeId(self, id):
+ *         return self.mut.nodeId[id]             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsAS(self, id):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_id); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 903, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_self->mut->nodeId[__pyx_t_1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 903, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":902
+ *         return DSs
+ * 
+ *     def GetTreeMutsNodeId(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.nodeId[id]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsNodeId", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":905
+ *         return self.mut.nodeId[id]
+ * 
+ *     def GetTreeMutsAS(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.AS[id]
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetTreeMutsAS(PyObject *__pyx_v_self, PyObject *__pyx_v_id); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetTreeMutsAS(PyObject *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsAS (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetTreeMutsAS(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v_id));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetTreeMutsAS(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  std::vector<Py_ssize_t> ::size_type __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsAS", 0);
+
+  /* "VGsim/_BirthDeath.pyx":906
+ * 
+ *     def GetTreeMutsAS(self, id):
+ *         return self.mut.AS[id]             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsSite(self, id):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_id); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 906, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_self->mut->AS[__pyx_t_1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 906, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":905
+ *         return self.mut.nodeId[id]
+ * 
+ *     def GetTreeMutsAS(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.AS[id]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsAS", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":908
+ *         return self.mut.AS[id]
+ * 
+ *     def GetTreeMutsSite(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.site[id]
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetTreeMutsSite(PyObject *__pyx_v_self, PyObject *__pyx_v_id); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetTreeMutsSite(PyObject *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsSite (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetTreeMutsSite(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v_id));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetTreeMutsSite(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  std::vector<Py_ssize_t> ::size_type __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsSite", 0);
+
+  /* "VGsim/_BirthDeath.pyx":909
+ * 
+ *     def GetTreeMutsSite(self, id):
+ *         return self.mut.site[id]             # <<<<<<<<<<<<<<
+ * 
+ *     def GetTreeMutsDS(self, id):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_id); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 909, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_self->mut->site[__pyx_t_1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 909, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":908
+ *         return self.mut.AS[id]
+ * 
+ *     def GetTreeMutsSite(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.site[id]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsSite", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":911
+ *         return self.mut.site[id]
+ * 
+ *     def GetTreeMutsDS(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.DS[id]
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetTreeMutsDS(PyObject *__pyx_v_self, PyObject *__pyx_v_id); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetTreeMutsDS(PyObject *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTreeMutsDS (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetTreeMutsDS(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v_id));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetTreeMutsDS(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_id) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  std::vector<Py_ssize_t> ::size_type __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTreeMutsDS", 0);
+
+  /* "VGsim/_BirthDeath.pyx":912
+ * 
+ *     def GetTreeMutsDS(self, id):
+ *         return self.mut.DS[id]             # <<<<<<<<<<<<<<
+ * 
+ *     def GetCurrentTime(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_As_size_t(__pyx_v_id); if (unlikely((__pyx_t_1 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 912, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_self->mut->DS[__pyx_t_1])); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 912, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":911
+ *         return self.mut.site[id]
+ * 
+ *     def GetTreeMutsDS(self, id):             # <<<<<<<<<<<<<<
+ *         return self.mut.DS[id]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTreeMutsDS", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":914
+ *         return self.mut.DS[id]
  * 
  *     def GetCurrentTime(self):             # <<<<<<<<<<<<<<
  *         return self.currentTime
@@ -20130,19 +20205,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_24GetTreeMutsDS
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetCurrentTime(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetCurrentTime (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetCurrentTime(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetCurrentTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20151,7 +20226,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetCurrentTime", 0);
 
-  /* "VGsim/_BirthDeath.pyx":914
+  /* "VGsim/_BirthDeath.pyx":915
  * 
  *     def GetCurrentTime(self):
  *         return self.currentTime             # <<<<<<<<<<<<<<
@@ -20159,14 +20234,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTim
  *     def GetAllTimes(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 914, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->currentTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 915, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":913
- * 
+  /* "VGsim/_BirthDeath.pyx":914
+ *         return self.mut.DS[id]
  * 
  *     def GetCurrentTime(self):             # <<<<<<<<<<<<<<
  *         return self.currentTime
@@ -20184,7 +20259,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTim
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":916
+/* "VGsim/_BirthDeath.pyx":917
  *         return self.currentTime
  * 
  *     def GetAllTimes(self):             # <<<<<<<<<<<<<<
@@ -20193,19 +20268,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_26GetCurrentTim
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetAllTimes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetAllTimes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetAllTimes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetAllTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20214,21 +20289,21 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetAllTimes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":920
+  /* "VGsim/_BirthDeath.pyx":921
  *         #for i in range(len(self.events.times)):
  *         #    alltimes.append(self.events.times[i])
  *         return self.events.times             # <<<<<<<<<<<<<<
  * 
- *     def GetNumberOfEvents(self):
+ *     def GetTime(self, iteration):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 920, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":916
+  /* "VGsim/_BirthDeath.pyx":917
  *         return self.currentTime
  * 
  *     def GetAllTimes(self):             # <<<<<<<<<<<<<<
@@ -20247,8 +20322,85 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(s
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":922
+/* "VGsim/_BirthDeath.pyx":923
  *         return self.events.times
+ * 
+ *     def GetTime(self, iteration):             # <<<<<<<<<<<<<<
+ *         return self.events.times[iteration]
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetTime(PyObject *__pyx_v_self, PyObject *__pyx_v_iteration); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetTime(PyObject *__pyx_v_self, PyObject *__pyx_v_iteration) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("GetTime (wrapper)", 0);
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetTime(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v_iteration));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetTime(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v_iteration) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("GetTime", 0);
+
+  /* "VGsim/_BirthDeath.pyx":924
+ * 
+ *     def GetTime(self, iteration):
+ *         return self.events.times[iteration]             # <<<<<<<<<<<<<<
+ * 
+ *     def GetNumberOfEvents(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_iteration); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 924, __pyx_L1_error)
+  __pyx_t_2 = __pyx_t_1;
+  __pyx_t_3 = -1;
+  if (__pyx_t_2 < 0) {
+    __pyx_t_2 += __pyx_v_self->events->times.shape[0];
+    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
+  } else if (unlikely(__pyx_t_2 >= __pyx_v_self->events->times.shape[0])) __pyx_t_3 = 0;
+  if (unlikely(__pyx_t_3 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_3);
+    __PYX_ERR(1, 924, __pyx_L1_error)
+  }
+  __pyx_t_4 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->events->times.data) + __pyx_t_2)) )))); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 924, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
+
+  /* "VGsim/_BirthDeath.pyx":923
+ *         return self.events.times
+ * 
+ *     def GetTime(self, iteration):             # <<<<<<<<<<<<<<
+ *         return self.events.times[iteration]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetTime", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "VGsim/_BirthDeath.pyx":926
+ *         return self.events.times[iteration]
  * 
  *     def GetNumberOfEvents(self):             # <<<<<<<<<<<<<<
  *         return len(self.events.times)
@@ -20256,19 +20408,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_28GetAllTimes(s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetNumberOfEvents(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetNumberOfEvents (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetNumberOfEvents(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetNumberOfEvents(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
@@ -20278,7 +20430,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEv
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetNumberOfEvents", 0);
 
-  /* "VGsim/_BirthDeath.pyx":923
+  /* "VGsim/_BirthDeath.pyx":927
  * 
  *     def GetNumberOfEvents(self):
  *         return len(self.events.times)             # <<<<<<<<<<<<<<
@@ -20287,14 +20439,14 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEv
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_self->events->times); 
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 923, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 927, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":922
- *         return self.events.times
+  /* "VGsim/_BirthDeath.pyx":926
+ *         return self.events.times[iteration]
  * 
  *     def GetNumberOfEvents(self):             # <<<<<<<<<<<<<<
  *         return len(self.events.times)
@@ -20312,7 +20464,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEv
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":925
+/* "VGsim/_BirthDeath.pyx":929
  *         return len(self.events.times)
  * 
  *     def GetEventTypes(self):             # <<<<<<<<<<<<<<
@@ -20321,19 +20473,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_30GetNumberOfEv
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41GetEventTypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetEventTypes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40GetEventTypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40GetEventTypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20342,7 +20494,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetEventTypes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":929
+  /* "VGsim/_BirthDeath.pyx":933
  *         #for i in range(self.GetNumberOfEvents()):
  *         #    result.append(self.events.types[i])
  *         return self.events.types             # <<<<<<<<<<<<<<
@@ -20350,13 +20502,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes
  *     def GetHaplotypes(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->types, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 929, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->types, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 933, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":925
+  /* "VGsim/_BirthDeath.pyx":929
  *         return len(self.events.times)
  * 
  *     def GetEventTypes(self):             # <<<<<<<<<<<<<<
@@ -20375,7 +20527,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":931
+/* "VGsim/_BirthDeath.pyx":935
  *         return self.events.types
  * 
  *     def GetHaplotypes(self):             # <<<<<<<<<<<<<<
@@ -20384,19 +20536,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_32GetEventTypes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43GetHaplotypes(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetHaplotypes (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42GetHaplotypes(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42GetHaplotypes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20405,7 +20557,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetHaplotypes", 0);
 
-  /* "VGsim/_BirthDeath.pyx":935
+  /* "VGsim/_BirthDeath.pyx":939
  *         #for i in range(self.GetNumberOfEvents()):
  *         #    result.append(self.events.haplotypes[i])
  *         return self.events.haplotypes             # <<<<<<<<<<<<<<
@@ -20413,13 +20565,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes
  *     def GetSucseptibles(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->haplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 935, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->haplotypes, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 939, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":931
+  /* "VGsim/_BirthDeath.pyx":935
  *         return self.events.types
  * 
  *     def GetHaplotypes(self):             # <<<<<<<<<<<<<<
@@ -20438,7 +20590,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":937
+/* "VGsim/_BirthDeath.pyx":941
  *         return self.events.haplotypes
  * 
  *     def GetSucseptibles(self):             # <<<<<<<<<<<<<<
@@ -20447,19 +20599,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_34GetHaplotypes
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_45GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_45GetSucseptibles(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetSucseptibles (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_44GetSucseptibles(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_44GetSucseptibles(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20468,7 +20620,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibl
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetSucseptibles", 0);
 
-  /* "VGsim/_BirthDeath.pyx":941
+  /* "VGsim/_BirthDeath.pyx":945
  *         #for i in range(self.GetNumberOfEvents()):
  *         #    result.append(self.events.currentSucseptibles[i])
  *         return self.events.currentSucseptibles             # <<<<<<<<<<<<<<
@@ -20476,13 +20628,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibl
  *     def GetInfectious(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentSucseptibles, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 941, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentSucseptibles, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 945, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":937
+  /* "VGsim/_BirthDeath.pyx":941
  *         return self.events.haplotypes
  * 
  *     def GetSucseptibles(self):             # <<<<<<<<<<<<<<
@@ -20501,7 +20653,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibl
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":943
+/* "VGsim/_BirthDeath.pyx":947
  *         return self.events.currentSucseptibles
  * 
  *     def GetInfectious(self):             # <<<<<<<<<<<<<<
@@ -20510,19 +20662,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_36GetSucseptibl
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_47GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_47GetInfectious(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("GetInfectious (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_46GetInfectious(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_46GetInfectious(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20531,7 +20683,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetInfectious", 0);
 
-  /* "VGsim/_BirthDeath.pyx":947
+  /* "VGsim/_BirthDeath.pyx":951
  *         #for i in range(self.GetNumberOfEvents()):
  *         #    result.append(self.events.currentInfectious[i])
  *         return self.events.currentInfectious             # <<<<<<<<<<<<<<
@@ -20539,13 +20691,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 947, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 951, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":943
+  /* "VGsim/_BirthDeath.pyx":947
  *         return self.events.currentSucseptibles
  * 
  *     def GetInfectious(self):             # <<<<<<<<<<<<<<
@@ -20571,19 +20723,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_38GetInfectious
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_49__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_49__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48__reduce_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48__reduce_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -21165,19 +21317,19 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_40__reduce_cyth
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_51__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_51__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50__setstate_cython__(((struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_42__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50__setstate_cython__(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -38730,20 +38882,24 @@ static PyMethodDef __pyx_methods_5VGsim_11_BirthDeath_BirthDeathModel[] = {
   {"Debug", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_11Debug, METH_NOARGS, 0},
   {"GetTree", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_13GetTree, METH_NOARGS, 0},
   {"GetTreeTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_15GetTreeTimes, METH_NOARGS, 0},
-  {"GetTreeMuts", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMuts, METH_NOARGS, 0},
-  {"GetTreeMutsNodeIds", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsNodeIds, METH_NOARGS, 0},
-  {"GetTreeMutsASs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsASs, METH_NOARGS, 0},
-  {"GetTreeMutsSites", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsSites, METH_NOARGS, 0},
-  {"GetTreeMutsDSs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsDSs, METH_NOARGS, 0},
-  {"GetCurrentTime", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetCurrentTime, METH_NOARGS, 0},
-  {"GetAllTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetAllTimes, METH_NOARGS, 0},
-  {"GetNumberOfEvents", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetNumberOfEvents, METH_NOARGS, 0},
-  {"GetEventTypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetEventTypes, METH_NOARGS, 0},
-  {"GetHaplotypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetHaplotypes, METH_NOARGS, 0},
-  {"GetSucseptibles", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetSucseptibles, METH_NOARGS, 0},
-  {"GetInfectious", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetInfectious, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43__setstate_cython__, METH_O, 0},
+  {"GetTreeMutsNodeIds", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_17GetTreeMutsNodeIds, METH_NOARGS, 0},
+  {"GetTreeMutsASs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_19GetTreeMutsASs, METH_NOARGS, 0},
+  {"GetTreeMutsSites", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_21GetTreeMutsSites, METH_NOARGS, 0},
+  {"GetTreeMutsDSs", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_23GetTreeMutsDSs, METH_NOARGS, 0},
+  {"GetTreeMutsNodeId", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_25GetTreeMutsNodeId, METH_O, 0},
+  {"GetTreeMutsAS", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_27GetTreeMutsAS, METH_O, 0},
+  {"GetTreeMutsSite", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_29GetTreeMutsSite, METH_O, 0},
+  {"GetTreeMutsDS", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_31GetTreeMutsDS, METH_O, 0},
+  {"GetCurrentTime", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_33GetCurrentTime, METH_NOARGS, 0},
+  {"GetAllTimes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_35GetAllTimes, METH_NOARGS, 0},
+  {"GetTime", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_37GetTime, METH_O, 0},
+  {"GetNumberOfEvents", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_39GetNumberOfEvents, METH_NOARGS, 0},
+  {"GetEventTypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_41GetEventTypes, METH_NOARGS, 0},
+  {"GetHaplotypes", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_43GetHaplotypes, METH_NOARGS, 0},
+  {"GetSucseptibles", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_45GetSucseptibles, METH_NOARGS, 0},
+  {"GetInfectious", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_47GetInfectious, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_49__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_51__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -39676,7 +39832,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 1, 0, 0},
   {&__pyx_n_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
-  {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asarray, __pyx_k_asarray, sizeof(__pyx_k_asarray), 0, 0, 1, 1},
   {&__pyx_n_s_bRate, __pyx_k_bRate, sizeof(__pyx_k_bRate), 0, 0, 1, 1},
@@ -43158,37 +43313,6 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_U
     return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
 }
 #endif
-
-/* PyObjectCallMethod1 */
-  static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg) {
-    PyObject *result = __Pyx_PyObject_CallOneArg(method, arg);
-    Py_DECREF(method);
-    return result;
-}
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg) {
-    PyObject *method = NULL, *result;
-    int is_method = __Pyx_PyObject_GetMethod(obj, method_name, &method);
-    if (likely(is_method)) {
-        result = __Pyx_PyObject_Call2Args(method, obj, arg);
-        Py_DECREF(method);
-        return result;
-    }
-    if (unlikely(!method)) return NULL;
-    return __Pyx__PyObject_CallMethod1(method, arg);
-}
-
-/* append */
-  static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
-    if (likely(PyList_CheckExact(L))) {
-        if (unlikely(__Pyx_PyList_Append(L, x) < 0)) return -1;
-    } else {
-        PyObject* retval = __Pyx_PyObject_CallMethod1(L, __pyx_n_s_append, x);
-        if (unlikely(!retval))
-            return -1;
-        Py_DECREF(retval);
-    }
-    return 0;
-}
 
 /* Import */
   static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {

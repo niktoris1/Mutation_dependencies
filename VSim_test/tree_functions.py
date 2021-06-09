@@ -69,13 +69,8 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
     es = EventSequence(sequence = [])
 
     def GetNodeIdByEventIteration(iteration):
-        time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - iteration]
-        tree_times= simulation.GetTreeTimes()
-        if time in tree_times:
-            node_id = tree_times.index(time)
-            return node_id
-        else:
-            return None
+
+        return None
 
     def IsThereAMutationOnNodeId(node_id):
         if node_id in simulation.GetTreeMutsNodeIds():
@@ -104,21 +99,29 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
             return 'G'
 
     for i in range(simulation.GetNumberOfEvents()):
-        t1 = time.time()
 
         event_type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
+
         event_time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
+
         iteration = i # the number of event in a sequence
+
         haplotype = simulation.GetHaplotypes()[len(simulation.GetHaplotypes()) - 1 - i] # which haplotype was in place, when event occured
+        #t1 = time.time()
         node_id = GetNodeIdByEventIteration(iteration)
+        #t2 = time.time()
         number_of_children = NumberOfChildrenFromNodeId(node_id)
+
         current_sucseptible = simulation.GetSucseptibles()[i] # it's worrying, that this array is forward-time, while others are backward-time
+
         current_infectious = simulation.GetInfectious()[i] # same goes here
+
         is_a_mutation = IsThereAMutationOnNodeId(node_id)
+
         if is_a_mutation == True:
-            old_nucleotyde = NumberToLetter(simulation.GetTreeMutsASs[node_id])
-            new_nucleotyde = NumberToLetter(simulation.GetTreeMutsDSs[node_id])
-            mitation_site = simulation.GetTreeMutsSites[node_id]
+            old_nucleotyde = NumberToLetter(simulation.GetTreeMutsAS(node_id))
+            new_nucleotyde = NumberToLetter(simulation.GetTreeMutsDS(node_id))
+            mitation_site = simulation.GetTreeMutsSite(node_id)
             mutation_name = GetSite(mitation_site)
         else:
             old_nucleotyde = None
@@ -132,12 +135,11 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
                  current_infectious = current_infectious, is_a_mutation = is_a_mutation, old_nucleotyde = old_nucleotyde,
                  new_nucleotyde = new_nucleotyde, mutation_cite = mitation_site, mutation_name = mutation_name)
 
-        t2 = time.time()
 
         es.sequence.append(event)
 
 
-        print(t2-t1)
+        #print(t2-t1)
 
     if is_AA_mutation_in_root_node == True:
         es.sequence[0].is_a_mutation = True

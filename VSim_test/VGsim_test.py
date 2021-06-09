@@ -128,9 +128,9 @@ if len(result) > 0:
         if ls.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
             time_start = event.event_time
 
-    print('Current time ', currentTime)
+    print('Current time ', simulation.GetCurrentTime())
     print('Time start: ', time_start)
-    time_passed = currentTime - time_start
+    time_passed = simulation.GetCurrentTime() - time_start
     if time_passed < 0:
         print('Never was 10 simulatanious linages')
     else:

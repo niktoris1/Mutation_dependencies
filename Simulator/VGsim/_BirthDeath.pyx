@@ -899,7 +899,17 @@ cdef class BirthDeathModel:
             DSs[i] = self.mut.DS[i]
         return DSs
 
+    def GetTreeMutsNodeId(self, id):
+        return self.mut.nodeId[id]
 
+    def GetTreeMutsAS(self, id):
+        return self.mut.AS[id]
+
+    def GetTreeMutsSite(self, id):
+        return self.mut.site[id]
+
+    def GetTreeMutsDS(self, id):
+        return self.mut.DS[id]
 
     def GetCurrentTime(self):
         return self.currentTime
@@ -909,6 +919,9 @@ cdef class BirthDeathModel:
         #for i in range(len(self.events.times)):
         #    alltimes.append(self.events.times[i])
         return self.events.times
+
+    def GetTime(self, iteration):
+        return self.events.times[iteration]
 
     def GetNumberOfEvents(self):
         return len(self.events.times)
@@ -936,5 +949,8 @@ cdef class BirthDeathModel:
         #for i in range(self.GetNumberOfEvents()):
         #    result.append(self.events.currentInfectious[i])
         return self.events.currentInfectious
+
+    def GetNodesByEventIteration(self, iteration):
+        events = self.events
 
 
