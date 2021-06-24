@@ -14,10 +14,10 @@ class Event:
         self.current_infectious = current_infectious
 
 
-class NodeEvent:
+class TreeEvent:
     def __init__(self, node_id = None, tree_type = None, tree_time = None,
                  is_a_mutation = None, number_of_children = None, old_nucleotyde = None,
-                 new_nucleotyde = None, mutation_cite = None, mutation_name = None):
+                 new_nucleotyde = None, mutation_cite = None):
 
         self.node_id = node_id
         self.tree_type = tree_type
@@ -28,12 +28,10 @@ class NodeEvent:
             self.old_nucleotyde = old_nucleotyde
             self.new_nucleotyde = new_nucleotyde
             self.mutation_cite = mutation_cite
-            self.mutation_name = mutation_name
         else:
             self.old_nucleotyde = None
             self.new_nucleotyde = None
             self.mutation_cite = None
-            self.mutation_name = None
 
 
 class EventSequence:
@@ -108,7 +106,25 @@ class TreeEventSequence:
 
 
 def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
-    es = TreeEventSequence(sequence = [])
+    es = EventSequence(event_sequence = [])
+
+    for i in range(simulation.GetNumberOfEvents()):
+        event_type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
+        event_time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
+        iteration = i # the number of event in a sequence
+        haplotype = simulation.GetHaplotypes()[len(simulation.GetHaplotypes()) - 1 - i] # which haplotype was in place, when event occured
+        current_sucseptible = simulation.GetSucseptibles()[i] # it's worrying, that this array is forward-time, while others are backward-time
+        current_infectious = simulation.GetInfectious()[i] # same goes here
+        event = Event(event_type= event_type, event_time= event_time, iteration = iteration,
+                      haplotype = haplotype, current_sucseptible = current_sucseptible,
+                      current_infectious = current_infectious)
+        es.event_sequence.append(event)
+    return es
+
+
+def TreeEventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
+
+    tes = TreeEventSequence(tree_sequence = [])
 
     def GetNodeIdByEventIteration(iteration):
         t1 = time.time()
@@ -147,49 +163,83 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
         if number == 3:
             return 'G'
 
-    for i in range(simulation.GetNumberOfEvents()):
-        event_type = simulation.GetEventTypes()[len(simulation.GetEventTypes()) - 1 - i] # here we have a 5 types of events
-        event_time = simulation.GetAllTimes()[len(simulation.GetAllTimes()) - 1 - i] # might be incorrenct, since times are backwards
-        iteration = i # the number of event in a sequence
-        haplotype = simulation.GetHaplotypes()[len(simulation.GetHaplotypes()) - 1 - i] # which haplotype was in place, when event occured
-        current_sucseptible = simulation.GetSucseptibles()[i] # it's worrying, that this array is forward-time, while others are backward-time
-        current_infectious = simulation.GetInfectious()[i] # same goes here
-        event = Event(event_type= event_type, event_time= event_time, iteration = iteration,
-                      haplotype = haplotype, current_sucseptible = current_sucseptible,
-                      current_infectious = current_infectious)
-        es.sequence.append(event)
-    return es
+    a = 0
+    print(simulation.F())
 
-def TreeSequenceToTreeClass(simulation, tree_sequence):
+    len_tree = len(simulation.GetTree())
+    number_of_children_array = [0 for _ in range(len_tree)]
+    tree_muts_ASs = simulation.GetTreeMutsASs()
+    tree_muts_DSs = simulation.GetTreeMutsDSs()
+    tree_muts_sites = simulation.GetTreeMutsSites()
+
+
+
+
+    for i in range(len_tree):
+        whose_child = simulation.GetTree()[i]
+        number_of_children_array[whose_child] = number_of_children_array[whose_child] + 1
+
+    for i in range(len_tree):
+        node_id = i
+        tree_time = simulation.GetTreeTimes()[i]
+        number_of_children = number_of_children_array[i]
+        if number_of_children == 0:
+            tree_type = 'adding lineage'
+        else:
+            tree_type = 'coalescence'
+
+        if node_id in simulation.GetTreeMutsNodeIds():
+            is_a_mutation = True
+            old_nucleotyde = tree_muts_ASs[node_id]
+            new_nucleotyde = tree_muts_DSs[node_id]
+            mutation_cite = tree_muts_sites[node_id]
+        else:
+            is_a_mutation = False
+            old_nucleotyde = None
+            new_nucleotyde = None
+            mutation_cite = None
+
+        tree_event = TreeEvent(node_id = node_id, tree_type = tree_type, tree_time = tree_time,
+                 is_a_mutation = is_a_mutation, number_of_children = number_of_children, old_nucleotyde = old_nucleotyde,
+                 new_nucleotyde = new_nucleotyde, mutation_cite = mutation_cite) # we do not initialize children here
+        a = a+1
+        print(a)
+        tes.tree_sequence.append(tree_event)
+
+    return tes
+
+
+def TreeSequenceToTreeClass(simulation, tree_event_sequence):
+
+    tree_size = len(tree_event_sequence.tree_sequence)
 
     tree = Tree()
     root_id = 'Unknown'
-    for i in range(len(tree_sequence.sequence)):
-        if simulation.GetTree[i] == -1:
+    for i in range(tree_size):
+        if simulation.GetTree()[i] == -1:
             root_id = i
-            tree.create_node(root_id, root_id, data=NodeEvent(is_a_mutation = None, number_of_children = None, old_nucleotyde = None,
-                                                              new_nucleotyde = None, mutation_cite = None, mutation_name = None)) # placeholder on root
+            tree.create_node(root_id, root_id, data=None) # placeholder on root
             break  # there can be only one root
 
     if root_id == 'Unknown':
         raise ValueError("There is no root in this tree")
 
-    for i in range(len(tree_sequence.sequence)):
+    for i in range(tree_size):
         if i != root_id:
-            tree.create_node(i, i, parent=root_id, data=NodeEvent(is_a_mutation = None, number_of_children = None, old_nucleotyde = None,
-                                                                  new_nucleotyde = None, mutation_cite = None, mutation_name = None)) # placeholder on other places
+            tree.create_node(i, i, parent=root_id, data=None) # placeholder on other places
 
-    for i in range(len(tree_sequence.sequence)):
+    for i in range(tree_size):
         if i != root_id:
-            tree.move_node(i, simulation.GetTree[i])
+            tree.move_node(i, simulation.GetTree()[i])
 
-    for i in range(len(tree_sequence.sequence)):
+    for i in range(tree_size):
+        noc = len(tree.get_node(i).fpointer) # number of children
         if i == root_id:
-            tree.update_node(i, i, data=NodeEvent(is_a_mutation = None, number_of_children = None, old_nucleotyde = None,
-                                                  new_nucleotyde = None, mutation_cite = None, mutation_name = None)) # TODO - change to the new data
+            tree.update_node(i, data=TreeEvent(is_a_mutation = True, number_of_children = noc, old_nucleotyde = 'A',
+                                                  new_nucleotyde = 'A', mutation_cite = 0))
         else:
-            tree.update_node(i, i, data=NodeEvent(is_a_mutation = None, number_of_children = None, old_nucleotyde = None,
-                                                  new_nucleotyde = None, mutation_cite = None, mutation_name = None))
+            tree.update_node(i, data=TreeEvent(is_a_mutation = None, number_of_children = noc, old_nucleotyde = None,
+                                                  new_nucleotyde = None, mutation_cite = None))
     return tree
 
 

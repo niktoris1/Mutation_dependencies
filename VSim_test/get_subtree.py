@@ -15,7 +15,7 @@ class SubtreeCreation:
         AB_roots = []
 
         def CheckNode(node):
-            if node.data.is_mutation == False:
+            if node.data.is_a_mutation == False:
                 return 'Nothing'
             elif node.data.mutation_cite == self.A_cite and node.data.new_nucleotyde == self.A_nucleotyde:
                 return 'A'

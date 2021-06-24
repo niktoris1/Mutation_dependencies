@@ -8,7 +8,7 @@ from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, R
 from random import randrange
 from get_subtree import SubtreeCreation
 
-from tree_functions import EventsFromSimulation, TreeSequenceToTreeClass
+from tree_functions import EventsFromSimulation, TreeSequenceToTreeClass, TreeEventsFromSimulation
 from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 300000
+iterations = 100000
 susceptibility = None
 seed = 5750693369156385614
 populationModel = ['test/test.pp', 'test/test.mg']
@@ -92,8 +92,10 @@ print(t2 - t1)
 print(t3 - t2)
 print("_________________________________")
 
-events = EventsFromSimulation(simulation = simulation, is_AA_mutation_in_root_node = False)
-treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_sequence=events)
+treeevents = TreeEventsFromSimulation(simulation = simulation, is_AA_mutation_in_root_node = False)
+print('got events')
+treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_event_sequence=treeevents)
+print('converted tree')
 
 
 #newtree.show()

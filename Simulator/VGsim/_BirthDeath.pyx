@@ -878,7 +878,7 @@ cdef class BirthDeathModel:
     def GetTreeMutsASs(self):
         cdef:
             Py_ssize_t[::1] ASs
-        nodeIds = np.zeros(self.mut.AS.size(), dtype=int)
+        ASs = np.zeros(self.mut.AS.size(), dtype=int)
         for i in range(self.mut.AS.size()):
             ASs[i] = self.mut.AS[i]
         return ASs
@@ -894,7 +894,7 @@ cdef class BirthDeathModel:
     def GetTreeMutsDSs(self):
         cdef:
             Py_ssize_t[::1] DSs
-        nodeIds = np.zeros(self.mut.DS.size(), dtype=int)
+        DSs = np.zeros(self.mut.DS.size(), dtype=int)
         for i in range(self.mut.DS.size()):
             DSs[i] = self.mut.DS[i]
         return DSs
@@ -902,14 +902,17 @@ cdef class BirthDeathModel:
     def GetTreeMutsNodeId(self, id):
         return self.mut.nodeId[id]
 
-    def GetTreeMutsAS(self, id):
-        return self.mut.AS[id]
+    def GetTreeMutsAS(self, id): # TODO - slow function
+        ind = GetTreeMutsNodeIds().index(id)
+        return GetTreeMutsASs()[ind]
 
     def GetTreeMutsSite(self, id):
-        return self.mut.site[id]
+        ind = GetTreeMutsNodeIds().index(id)
+        return GetTreeMutsSites()[ind]
 
     def GetTreeMutsDS(self, id):
-        return self.mut.DS[id]
+        ind = GetTreeMutsNodeIds().index(id)
+        return GetTreeMutsDSs()[ind]
 
     def GetCurrentTime(self):
         return self.currentTime
@@ -952,5 +955,8 @@ cdef class BirthDeathModel:
 
     def GetNodesByEventIteration(self, iteration):
         events = self.events
+
+    def F(self):
+        return 4
 
 
