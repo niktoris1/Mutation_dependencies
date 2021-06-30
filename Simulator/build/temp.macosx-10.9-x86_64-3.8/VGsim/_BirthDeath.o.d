@@ -1,4 +1,5 @@
-build/temp.macosx-10.9-x86_64-3.8/_BirthDeath.o: _BirthDeath.cxx \
+build/temp.macosx-10.9-x86_64-3.8/VGsim/_BirthDeath.o: \
+  VGsim/_BirthDeath.cxx \
   /usr/local/anaconda3/envs/MD/include/python3.8/Python.h \
   /usr/local/anaconda3/envs/MD/include/python3.8/patchlevel.h \
   /usr/local/anaconda3/envs/MD/include/python3.8/pyconfig.h \
@@ -100,6 +101,7 @@ build/temp.macosx-10.9-x86_64-3.8/_BirthDeath.o: _BirthDeath.cxx \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/old_defines.h \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/__multiarray_api.h \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/npy_interrupt.h \
+  /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/arrayscalars.h \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/ufuncobject.h \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/npy_math.h \
   /usr/local/anaconda3/envs/MD/lib/python3.8/site-packages/numpy/core/include/numpy/__ufunc_api.h \

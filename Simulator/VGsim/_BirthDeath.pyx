@@ -85,6 +85,7 @@ cdef class Events:
         return( ev )
 
 
+
 cdef class BirthDeathModel:
     cdef:
         RndmWrapper rndm
@@ -95,8 +96,8 @@ cdef class BirthDeathModel:
         PopulationModel pm
         Mutations mut
 
-        int[::1] tree, suscType
-        int[:,::1] liveBranches
+        long[::1] tree, suscType
+        long[:,::1] liveBranches
 
         double[::1] bRate, dRate, sRate, tmRate, migPopRate, popRate, times, pm_maxEffectiveMigration, maxSusceptibility, elementsArr2, immunePopRate, infectPopRate, sourceSuscepTransition, suscepCumulTransition
         double[:,::1] pm_migrationRates, pm_effectiveMigration, birthHapPopRate, tEventHapPopRate, hapPopRate, mRate, susceptibility, totalHapMutType, suscepTransition, immuneSourcePopRate
@@ -145,10 +146,10 @@ cdef class BirthDeathModel:
 
         if susceptible is None:
             self.susceptibility = np.asarray( [ [1.0, 0.0] for _ in range(self.hapNum) ] )
-            self.suscType = np.ones(int(self.hapNum), dtype=np.int32)
+            self.suscType = np.ones(int(self.hapNum), dtype=np.int64)
         else:
             self.susceptibility = np.asarray( susceptible[0], dtype=float)
-            self.suscType = np.asarray( susceptible[1], dtype=np.int32 )
+            self.suscType = np.asarray( susceptible[1], dtype=np.int64 )
 
         self.susceptHapPopRate = np.zeros((self.popNum, self.hapNum, self.susceptible_num), dtype=float)
 
@@ -170,7 +171,7 @@ cdef class BirthDeathModel:
     @cython.boundscheck(False)
     @cython.wraparound(False)
     cdef void InitLiveBranches(self):
-        self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int32)
+        self.liveBranches = np.zeros((self.popNum, self.hapNum), dtype=np.int64)
         self.events.AddEvent(self.currentTime, 0, 0, 0, 0, 0, sum(self.pm.sizes), 1)
         self.liveBranches[0, 0] += 2
         self.pm.NewInfection(0, 0)
@@ -340,7 +341,8 @@ cdef class BirthDeathModel:
             Py_ssize_t sourceImmune, targetImmune
         sourceImmune, self.rn = fastChoose1( self.immuneSourcePopRate[popId], self.immunePopRate[popId], self.rn)
         targetImmune, self.rn = fastChoose1( self.suscepTransition[sourceImmune], self.suscepCumulTransition[sourceImmune], self.rn)
-        self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+        self.events.AddEvent(self.currentTime, SUSCCHANGE, popId, sourceImmune, targetImmune, 0,
+                             self.events.currentSucseptibles[self.events.ptr - 1],
                              self.events.currentInfectious[self.events.ptr - 1])
         self.pm.susceptible[popId, sourceImmune] -= 1
         self.pm.susceptible[popId, targetImmune] += 1
@@ -375,8 +377,9 @@ cdef class BirthDeathModel:
 
             self.UpdateRates(targetPopId)
             self.MigrationRates()
-            self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,  self.events.currentSucseptibles[self.events.ptr - 1],
-                             self.events.currentInfectious[self.events.ptr - 1])
+            self.events.AddEvent(self.currentTime, MIGRATION, sourcePopId, haplotype, 0, targetPopId,
+                                 self.events.currentSucseptibles[self.events.ptr - 1],
+                                 self.events.currentInfectious[self.events.ptr - 1])
             self.migPlus += 1
             self.migCounter += 1
         else:
@@ -403,7 +406,8 @@ cdef class BirthDeathModel:
         self.liveBranches[popId, newHaplotype] += 1
         self.liveBranches[popId, haplotype] -= 1
 
-        self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+        self.events.AddEvent(self.currentTime, MUTATION, popId, haplotype, newHaplotype, 0,
+                             self.events.currentSucseptibles[self.events.ptr - 1],
                              self.events.currentInfectious[self.events.ptr - 1])
 
         self.HapPopRate(popId, haplotype)
@@ -439,7 +443,8 @@ cdef class BirthDeathModel:
 
         self.pm.NewInfection(popId, st)
 
-        self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] - 1,
+        self.events.AddEvent(self.currentTime, BIRTH, popId, haplotype, 0, 0,
+                             self.events.currentSucseptibles[self.events.ptr - 1] - 1,
                              self.events.currentInfectious[self.events.ptr - 1] + 1)
         self.immuneSourcePopRate[popId, st] = self.pm.susceptible[popId, st]*self.suscepCumulTransition[st]
         self.immunePopRate[popId] = 0.0
@@ -487,8 +492,9 @@ cdef class BirthDeathModel:
 
         if add_event:
             self.dCounter += 1
-            self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1] + 1,
-                             self.events.currentInfectious[self.events.ptr - 1] - 1)
+            self.events.AddEvent(self.currentTime, DEATH, popId, haplotype, 0, 0,
+                                 self.events.currentSucseptibles[self.events.ptr - 1] + 1,
+                                 self.events.currentInfectious[self.events.ptr - 1] - 1)
 
         self.UpdateRates(popId)
         self.MigrationRates()
@@ -496,7 +502,8 @@ cdef class BirthDeathModel:
     @cython.boundscheck(False)
     @cython.wraparound(False)
     cdef void Sampling(self, Py_ssize_t popId, Py_ssize_t haplotype):
-        self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0, self.events.currentSucseptibles[self.events.ptr - 1],
+        self.events.AddEvent(self.currentTime, SAMPLING, popId, haplotype, 0, 0,
+                             self.events.currentSucseptibles[self.events.ptr - 1],
                              self.events.currentInfectious[self.events.ptr - 1])
 
         self.Death(popId, haplotype, False)
@@ -556,7 +563,7 @@ cdef class BirthDeathModel:
             Py_ssize_t e_type_, e_population, e_haplotype, e_newHaplotype, e_newPopulation
 
         ptrTreeAndTime = 0
-        self.tree = np.zeros(2 * self.sCounter - 1, dtype=np.int32)
+        self.tree = np.zeros(2 * self.sCounter - 1, dtype=np.int64)
         self.times = np.zeros(2 * self.sCounter - 1, dtype=float)
 
         for i in range( self.popNum ):
@@ -856,107 +863,107 @@ cdef class BirthDeathModel:
         print()
 
     def GetTree(self): #slow
-        result = []
-        for i in range(len(self.tree)):
-            result.append(self.tree[i])
-        return result
+       result = []
+       for i in range(len(self.tree)):
+           result.append(self.tree[i])
+       return result
 
     def GetTreeTimes(self): #slow
-        result = []
-        for i in range(len(self.times)):
-            result.append(self.times)
-        return result
+       result = []
+       for i in range(len(self.times)):
+           result.append(self.times)
+       return result
 
     def GetTreeMutsNodeIds(self):
-        cdef:
-            Py_ssize_t[::1] nodeIds
-        nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
-        for i in range(self.mut.nodeId.size()):
-            nodeIds[i] = self.mut.nodeId[i]
-        return nodeIds
+       cdef:
+           Py_ssize_t[::1] nodeIds
+       nodeIds = np.zeros(self.mut.nodeId.size(), dtype=int)
+       for i in range(self.mut.nodeId.size()):
+           nodeIds[i] = self.mut.nodeId[i]
+       return nodeIds
 
     def GetTreeMutsASs(self):
-        cdef:
-            Py_ssize_t[::1] ASs
-        ASs = np.zeros(self.mut.AS.size(), dtype=int)
-        for i in range(self.mut.AS.size()):
-            ASs[i] = self.mut.AS[i]
-        return ASs
+       cdef:
+           Py_ssize_t[::1] ASs
+       ASs = np.zeros(self.mut.AS.size(), dtype=int)
+       for i in range(self.mut.AS.size()):
+           ASs[i] = self.mut.AS[i]
+       return ASs
 
     def GetTreeMutsSites(self):
-        cdef:
-            Py_ssize_t[::1] sites
-        sites = np.zeros(self.mut.site.size(), dtype=int)
-        for i in range(self.mut.site.size()):
-            sites[i] = self.mut.site[i]
-        return sites
+       cdef:
+           Py_ssize_t[::1] sites
+       sites = np.zeros(self.mut.site.size(), dtype=int)
+       for i in range(self.mut.site.size()):
+           sites[i] = self.mut.site[i]
+       return sites
 
     def GetTreeMutsDSs(self):
-        cdef:
-            Py_ssize_t[::1] DSs
-        DSs = np.zeros(self.mut.DS.size(), dtype=int)
-        for i in range(self.mut.DS.size()):
-            DSs[i] = self.mut.DS[i]
-        return DSs
+       cdef:
+           Py_ssize_t[::1] DSs
+       DSs = np.zeros(self.mut.DS.size(), dtype=int)
+       for i in range(self.mut.DS.size()):
+           DSs[i] = self.mut.DS[i]
+       return DSs
 
     def GetTreeMutsNodeId(self, id):
-        return self.mut.nodeId[id]
+       return self.mut.nodeId[id]
 
-    def GetTreeMutsAS(self, id): # TODO - slow function
-        ind = GetTreeMutsNodeIds().index(id)
-        return GetTreeMutsASs()[ind]
+    #def GetTreeMutsAS(self, id): # TODO - slow function
+    #   ind = GetTreeMutsNodeIds().index(id)
+    #   return GetTreeMutsASs()[ind]
 
-    def GetTreeMutsSite(self, id):
-        ind = GetTreeMutsNodeIds().index(id)
-        return GetTreeMutsSites()[ind]
+    #def GetTreeMutsSite(self, id):
+    #   ind = GetTreeMutsNodeIds().index(id)
+    #   return GetTreeMutsSites()[ind]
 
-    def GetTreeMutsDS(self, id):
-        ind = GetTreeMutsNodeIds().index(id)
-        return GetTreeMutsDSs()[ind]
+    #def GetTreeMutsDS(self, id):
+    #   ind = GetTreeMutsNodeIds().index(id)
+    #   return GetTreeMutsDSs()[ind]
 
     def GetCurrentTime(self):
-        return self.currentTime
+       return self.currentTime
 
     def GetAllTimes(self):
-        #alltimes = []
-        #for i in range(len(self.events.times)):
-        #    alltimes.append(self.events.times[i])
-        return self.events.times
+       #alltimes = []
+       #for i in range(len(self.events.times)):
+       #    alltimes.append(self.events.times[i])
+       return self.events.times
 
     def GetTime(self, iteration):
-        return self.events.times[iteration]
+       return self.events.times[iteration]
 
     def GetNumberOfEvents(self):
-        return len(self.events.times)
+       return len(self.events.times)
 
     def GetEventTypes(self):
-        #result = []
-        #for i in range(self.GetNumberOfEvents()):
-        #    result.append(self.events.types[i])
-        return self.events.types
+       #result = []
+       #for i in range(self.GetNumberOfEvents()):
+       #    result.append(self.events.types[i])
+       return self.events.types
 
     def GetHaplotypes(self):
-        #result = []
-        #for i in range(self.GetNumberOfEvents()):
-        #    result.append(self.events.haplotypes[i])
-        return self.events.haplotypes
+       #result = []
+       #for i in range(self.GetNumberOfEvents()):
+       #    result.append(self.events.haplotypes[i])
+       return self.events.haplotypes
 
     def GetSucseptibles(self):
-        #result = []
-        #for i in range(self.GetNumberOfEvents()):
-        #    result.append(self.events.currentSucseptibles[i])
-        return self.events.currentSucseptibles
+       #result = []
+       #for i in range(self.GetNumberOfEvents()):
+       #    result.append(self.events.currentSucseptibles[i])
+       return self.events.currentSucseptibles
 
     def GetInfectious(self):
-        #result = []
-        #for i in range(self.GetNumberOfEvents()):
-        #    result.append(self.events.currentInfectious[i])
-        return self.events.currentInfectious
+       #result = []
+       #for i in range(self.GetNumberOfEvents()):
+       #    result.append(self.events.currentInfectious[i])
+       return self.events.currentInfectious
 
     def GetNodesByEventIteration(self, iteration):
-        events = self.events
+       events = self.events
 
     def GetI(self):
-        return self.events.currentInfectious
+       return self.events.currentInfectious
 
 

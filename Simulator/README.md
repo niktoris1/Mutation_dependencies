@@ -12,7 +12,8 @@ Building the package
 For performance reasons, the package includes C extensions, which need to be
 built. In the future, we plan to provide prebuilt packages, but for now you need
 to build them yourself. For this, you need a working toolchain for building C++
-code (gcc and clang are known to work). 
+code (gcc and clang are known to work). Since you are going to build Python extensions,
+you will need python development headers (e.g. on ubuntu linux the package name is `python-dev`).
 
 You can use either `pip` or `conda`. With `pip`, proceed as follows
 (with `conda`, the process should be similar):
@@ -20,7 +21,7 @@ First, install the dependencies
 
 ```
 $ python -m pip install numpy>=1.19.5 cython
-$ python -m pip install git+https://github.com/ev-br/mc_lib.git@v0.1
+$ python -m pip install git+https://github.com/ev-br/mc_lib.git@v0.2
 ```
 
 Then, build the C extensions (note that we are doing an inplace, editable build
@@ -42,11 +43,18 @@ If you encounter problems with either of these steps, please file an issue at
 `https://github.com/Genomics-HSE/VGsim` and include the build log.
 
 
-We tested this procedure on python 3.7-3.9 on Ubuntu linux and MacOS. Whether
-it works on Apple Silicon hardware, we do not know (most likely, it should
-as soon as there is a NumPy version which supports this hardware).
+We tested this procedure on python 3.7-3.9 on Ubuntu linux and MacOS. 
+On Apple Silicon, you need to have `numpy >= 1.21` (which is the first NumPy
+version to support this hardware).
 
 
+Troubleshooting
+---------------
+
+In some setups, the following was needed to install `mc_lib`
+```
+$ python -m pip install -t ./ git+https://github.com/ev-br/mc_lib.git@v0.1
+```
 
 Setting haplotype (strain) model
 --------------------------------
