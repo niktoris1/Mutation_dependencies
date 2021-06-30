@@ -956,7 +956,7 @@ cdef class BirthDeathModel:
     def GetNodesByEventIteration(self, iteration):
         events = self.events
 
-    def F(self):
-        return 4
+    def GetI(self):
+        return self.events.currentInfectious
 
 

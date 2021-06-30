@@ -164,7 +164,7 @@ def TreeEventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
             return 'G'
 
     a = 0
-    print(simulation.F())
+    print(simulation.GetI())
 
     len_tree = len(simulation.GetTree())
     number_of_children_array = [0 for _ in range(len_tree)]
