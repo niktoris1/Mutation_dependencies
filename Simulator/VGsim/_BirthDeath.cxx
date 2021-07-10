@@ -19416,7 +19416,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
  * 
  *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.times) - 1, 0, -1):
+ *        for i in range(len(self.times) - 1, -1, -1):
  */
 
 /* Python wrapper */
@@ -19452,7 +19452,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
  * 
  *     def GetTreeTimes(self): #slow
  *        result = []             # <<<<<<<<<<<<<<
- *        for i in range(len(self.times) - 1, 0, -1):
+ *        for i in range(len(self.times) - 1, -1, -1):
  *            result.append(self.times[i])
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 872, __pyx_L1_error)
@@ -19463,17 +19463,17 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   /* "VGsim/_BirthDeath.pyx":873
  *     def GetTreeTimes(self): #slow
  *        result = []
- *        for i in range(len(self.times) - 1, 0, -1):             # <<<<<<<<<<<<<<
+ *        for i in range(len(self.times) - 1, -1, -1):             # <<<<<<<<<<<<<<
  *            result.append(self.times[i])
  *        return result
  */
   __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->times); 
-  for (__pyx_t_3 = (__pyx_t_2 - 1); __pyx_t_3 > 0; __pyx_t_3-=1) {
+  for (__pyx_t_3 = (__pyx_t_2 - 1); __pyx_t_3 > -1L; __pyx_t_3-=1) {
     __pyx_v_i = __pyx_t_3;
 
     /* "VGsim/_BirthDeath.pyx":874
  *        result = []
- *        for i in range(len(self.times) - 1, 0, -1):
+ *        for i in range(len(self.times) - 1, -1, -1):
  *            result.append(self.times[i])             # <<<<<<<<<<<<<<
  *        return result
  * 
@@ -19495,7 +19495,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   }
 
   /* "VGsim/_BirthDeath.pyx":875
- *        for i in range(len(self.times) - 1, 0, -1):
+ *        for i in range(len(self.times) - 1, -1, -1):
  *            result.append(self.times[i])
  *        return result             # <<<<<<<<<<<<<<
  * 
@@ -19511,7 +19511,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
  * 
  *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.times) - 1, 0, -1):
+ *        for i in range(len(self.times) - 1, -1, -1):
  */
 
   /* function exit code */

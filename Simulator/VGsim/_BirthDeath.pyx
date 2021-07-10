@@ -870,7 +870,7 @@ cdef class BirthDeathModel:
 
     def GetTreeTimes(self): #slow
        result = []
-       for i in range(len(self.times) - 1, 0, -1):
+       for i in range(len(self.times) - 1, -1, -1):
            result.append(self.times[i])
        return result
 
