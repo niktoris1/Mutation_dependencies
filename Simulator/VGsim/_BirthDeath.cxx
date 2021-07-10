@@ -19416,7 +19416,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
  * 
  *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.times)):
+ *        for i in range(len(self.times) - 1, 0, -1):
  */
 
 /* Python wrapper */
@@ -19434,7 +19434,7 @@ static PyObject *__pyx_pw_5VGsim_11_BirthDeath_15BirthDeathModel_15GetTreeTimes(
 
 static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(struct __pyx_obj_5VGsim_11_BirthDeath_BirthDeathModel *__pyx_v_self) {
   PyObject *__pyx_v_result = NULL;
-  CYTHON_UNUSED Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -19442,6 +19442,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
+  int __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19451,8 +19452,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
  * 
  *     def GetTreeTimes(self): #slow
  *        result = []             # <<<<<<<<<<<<<<
- *        for i in range(len(self.times)):
- *            result.append(self.times)
+ *        for i in range(len(self.times) - 1, 0, -1):
+ *            result.append(self.times[i])
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 872, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -19462,31 +19463,40 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
   /* "VGsim/_BirthDeath.pyx":873
  *     def GetTreeTimes(self): #slow
  *        result = []
- *        for i in range(len(self.times)):             # <<<<<<<<<<<<<<
- *            result.append(self.times)
+ *        for i in range(len(self.times) - 1, 0, -1):             # <<<<<<<<<<<<<<
+ *            result.append(self.times[i])
  *        return result
  */
   __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->times); 
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
+  for (__pyx_t_3 = (__pyx_t_2 - 1); __pyx_t_3 > 0; __pyx_t_3-=1) {
+    __pyx_v_i = __pyx_t_3;
 
     /* "VGsim/_BirthDeath.pyx":874
  *        result = []
- *        for i in range(len(self.times)):
- *            result.append(self.times)             # <<<<<<<<<<<<<<
+ *        for i in range(len(self.times) - 1, 0, -1):
+ *            result.append(self.times[i])             # <<<<<<<<<<<<<<
  *        return result
  * 
  */
-    __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 874, __pyx_L1_error)
+    __pyx_t_4 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_self->times.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_self->times.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_5);
+      __PYX_ERR(1, 874, __pyx_L1_error)
+    }
+    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->times.data) + __pyx_t_4)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 874, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 874, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 874, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
   /* "VGsim/_BirthDeath.pyx":875
- *        for i in range(len(self.times)):
- *            result.append(self.times)
+ *        for i in range(len(self.times) - 1, 0, -1):
+ *            result.append(self.times[i])
  *        return result             # <<<<<<<<<<<<<<
  * 
  *     def GetTreeMutsNodeIds(self):
@@ -19501,7 +19511,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_14GetTreeTimes(
  * 
  *     def GetTreeTimes(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.times)):
+ *        for i in range(len(self.times) - 1, 0, -1):
  */
 
   /* function exit code */

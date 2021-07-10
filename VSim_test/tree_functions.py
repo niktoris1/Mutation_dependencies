@@ -122,19 +122,16 @@ def EventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
     return es
 
 
-def TreeEventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
+def TreeEventsFromSimulation(simulation):
 
-    tes = TreeEventSequence(tree_sequence = [])
+
 
     def GetNodeIdByEventIteration(iteration):
-        t1 = time.time()
         curtime = simulation.GetAllTimes()[iteration]
         if curtime in simulation.GetTreeTimes():
-            t2 = time.time()
             i = simulation.GetTreeTimes().index()
             return i
         else:
-            t2 = time.time()
             return None
 
     def IsThereAMutationOnNodeId(node_id):
@@ -163,62 +160,71 @@ def TreeEventsFromSimulation(simulation, is_AA_mutation_in_root_node = False):
         if number == 3:
             return 'G'
 
-    a = 0
-    print(simulation.GetI())
-
     len_tree = len(simulation.GetTree())
     number_of_children_array = [0 for _ in range(len_tree)]
     tree_muts_ASs = simulation.GetTreeMutsASs()
     tree_muts_DSs = simulation.GetTreeMutsDSs()
     tree_muts_sites = simulation.GetTreeMutsSites()
+    tree_muts_nodes_IDs = simulation.GetTreeMutsNodeIds()
+    tree_times = [0] + simulation.GetTreeTimes()
+    # tree_times is 1 smaller than a tree
+    tree = simulation.GetTree()
 
+    tes = TreeEventSequence(tree_sequence = [])
+
+    for i in range(len_tree):
+        whose_child = tree[i]
+        number_of_children_root = 1
+        if whose_child != -1:
+            number_of_children_array[whose_child] = number_of_children_array[whose_child] + 1
+        else:
+            number_of_children_root = number_of_children_root + 1
 
 
 
     for i in range(len_tree):
-        whose_child = simulation.GetTree()[i]
-        number_of_children_array[whose_child] = number_of_children_array[whose_child] + 1
-
-    for i in range(len_tree):
-        node_id = i
-        tree_time = simulation.GetTreeTimes()[i]
+        tree_time = tree_times[i]
         number_of_children = number_of_children_array[i]
+
         if number_of_children == 0:
             tree_type = 'adding lineage'
         else:
             tree_type = 'coalescence'
 
-        if node_id in simulation.GetTreeMutsNodeIds():
-            is_a_mutation = True
-            old_nucleotyde = tree_muts_ASs[node_id]
-            new_nucleotyde = tree_muts_DSs[node_id]
-            mutation_cite = tree_muts_sites[node_id]
-        else:
-            is_a_mutation = False
-            old_nucleotyde = None
-            new_nucleotyde = None
-            mutation_cite = None
+        is_a_mutation = False
+        old_nucleotyde = None
+        new_nucleotyde = None
+        mutation_cite = None
 
-        tree_event = TreeEvent(node_id = node_id, tree_type = tree_type, tree_time = tree_time,
+        for j in range(len(tree_muts_nodes_IDs)):
+            if i == tree_muts_nodes_IDs[j]:
+                mut_index = j
+                is_a_mutation = True
+                old_nucleotyde = tree_muts_ASs[mut_index]
+                new_nucleotyde = tree_muts_DSs[mut_index]
+                mutation_cite = tree_muts_sites[mut_index]
+                break
+
+        tree_event = TreeEvent(node_id = i, tree_type = tree_type, tree_time = tree_time,
                  is_a_mutation = is_a_mutation, number_of_children = number_of_children, old_nucleotyde = old_nucleotyde,
                  new_nucleotyde = new_nucleotyde, mutation_cite = mutation_cite) # we do not initialize children here
-        a = a+1
-        print(a)
+
         tes.tree_sequence.append(tree_event)
 
     return tes
 
 
-def TreeSequenceToTreeClass(simulation, tree_event_sequence):
+def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_root_node = False):
 
     tree_size = len(tree_event_sequence.tree_sequence)
 
-    tree = Tree()
+    tree_class_tree = Tree()
     root_id = 'Unknown'
+    array_tree = simulation.GetTree()
     for i in range(tree_size):
-        if simulation.GetTree()[i] == -1:
+        if array_tree[i] == -1:
             root_id = i
-            tree.create_node(root_id, root_id, data=None) # placeholder on root
+            tree_class_tree.create_node(root_id, root_id, data=None) # placeholder on root
             break  # there can be only one root
 
     if root_id == 'Unknown':
@@ -226,21 +232,41 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence):
 
     for i in range(tree_size):
         if i != root_id:
-            tree.create_node(i, i, parent=root_id, data=None) # placeholder on other places
+            tree_class_tree.create_node(i, i, parent=root_id, data=None) # placeholder on other places
 
     for i in range(tree_size):
         if i != root_id:
-            tree.move_node(i, simulation.GetTree()[i])
+            tree_class_tree.move_node(i, array_tree[i])
 
     for i in range(tree_size):
-        noc = len(tree.get_node(i).fpointer) # number of children
+        noc = len(tree_class_tree.get_node(i).fpointer) # number of children
         if i == root_id:
-            tree.update_node(i, data=TreeEvent(is_a_mutation = True, number_of_children = noc, old_nucleotyde = 'A',
+            tree_class_tree.update_node(i, data=TreeEvent(is_a_mutation = True, number_of_children = noc, old_nucleotyde = 'A',
                                                   new_nucleotyde = 'A', mutation_cite = 0))
         else:
-            tree.update_node(i, data=TreeEvent(is_a_mutation = None, number_of_children = noc, old_nucleotyde = None,
-                                                  new_nucleotyde = None, mutation_cite = None))
-    return tree
+            iam = tree_event_sequence.tree_sequence[i].is_a_mutation
+            noc = tree_event_sequence.tree_sequence[i].number_of_children
+            on = tree_event_sequence.tree_sequence[i].old_nucleotyde
+            nn = tree_event_sequence.tree_sequence[i].new_nucleotyde
+            mc = tree_event_sequence.tree_sequence[i].mutation_cite
+
+            tree_event = TreeEvent(is_a_mutation=iam, number_of_children=noc, old_nucleotyde=on, new_nucleotyde=nn, mutation_cite=mc)
+
+            tree_class_tree.update_node(i, data=tree_event)
+
+
+    if is_AA_mutation_in_root_node == True:
+        if array_tree[root_id] == -1:
+            noc = tree_event_sequence.tree_sequence[root_id].number_of_children
+            tree_event = TreeEvent(node_id=i, tree_type='coalescence', tree_time=0,
+                                       is_a_mutation=True, number_of_children=noc,
+                                       old_nucleotyde='A',
+                                       new_nucleotyde='A', mutation_cite=0)
+
+            tree_class_tree.update_node(root_id, data=tree_event)
+
+
+    return tree_class_tree
 
 
 def IterationFromTime(time, es):

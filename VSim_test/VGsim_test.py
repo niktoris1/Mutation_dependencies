@@ -92,9 +92,9 @@ print(t2 - t1)
 print(t3 - t2)
 print("_________________________________")
 
-treeevents = TreeEventsFromSimulation(simulation = simulation, is_AA_mutation_in_root_node = False)
+treeevents = TreeEventsFromSimulation(simulation = simulation)
 print('got events')
-treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_event_sequence=treeevents)
+treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_event_sequence=treeevents, is_AA_mutation_in_root_node = True)
 print('converted tree')
 
 
@@ -105,7 +105,7 @@ B_nucleotyde = 'A'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = treeclasstree)
 
-result = SubtreeCreation.GetABsubtrees(sc)
+result = SubtreeCreation.GetABsubtrees(sc) # tree node data is empty
 
 
 if len(result) > 0:
