@@ -39,6 +39,9 @@ parser.add_argument("--createNewick", '-nwk',
 parser.add_argument("--writeMutations", '-tsv',
                     help="Create a mutation file *.tsv ",
                     action="store_true")
+parser.add_argument("--createTables", '-ctb',
+                    help="Create event count and sample fraction tables",
+                    action="store_true")
 
 clargs = parser.parse_args()
 
@@ -304,3 +307,15 @@ if clargs.createNewick:
     writeGenomeNewick(tree, times)
 if clargs.writeMutations:
     writeMutations(mut)
+if clargs.createTables:
+    print('tdm')
+    tdm = simulation.gettdm() #get tdm object
+    t5 = time.time()
+    trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
+    #получение таблиц
+    event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
+    sample_fraction_table = tdm.getSampleFracTable([0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7]) # {time_bin: fraction}; fraction = -1 if I1 / 0
+    t6 = time.time()
+    #print(event_table_funct[0])
+    tdm.debug()
+    print('tdm done for', t6-t5)
