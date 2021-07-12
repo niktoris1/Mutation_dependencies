@@ -864,7 +864,7 @@ cdef class BirthDeathModel:
 
     def GetTree(self): #slow
        result = []
-       for i in range(len(self.tree)):
+       for i in range(len(self.tree) - 1, -1, -1):
            result.append(self.tree[i])
        return result
 

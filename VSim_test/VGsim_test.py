@@ -101,7 +101,7 @@ print('converted tree')
 #newtree.show()
 #print("Time is", currentTime)
 A_nucleotyde = 'G'
-B_nucleotyde = 'A'
+B_nucleotyde = 'T'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = treeclasstree)
 

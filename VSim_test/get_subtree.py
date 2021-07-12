@@ -1,11 +1,25 @@
 class SubtreeCreation:
 
+
     def __init__(self, A_nucleotyde, A_cite, B_nucleotyde, B_cite, tree):
-        self.A_nucleotyde = A_nucleotyde
+        # problem is clear. We have nucleotyde as number in code and as letter here
+        def LetterToNumber(number):
+            if number == 'A':
+                return 0
+            if number == 'T':
+                return 1
+            if number == 'C':
+                return 3
+            if number == 'G':
+                return 4
+
+        self.A_nucleotyde = LetterToNumber(A_nucleotyde)
         self.A_cite = A_cite
-        self.B_nucleotyde = B_nucleotyde
+        self.B_nucleotyde = LetterToNumber(B_nucleotyde)
         self.B_cite = B_cite
         self.tree = tree
+
+
 
 
     def GetABsubtrees(self):
@@ -48,6 +62,8 @@ class SubtreeCreation:
             elif CheckNode(node) == 'not B':
                 not_AB_roots.append(node)
 
+            #A, B and AB roots are empty, while not AB roots are huge
+
         for A_root in A_roots:
             parent_AB_root = CheckAncestors('B', A_root)
             if parent_AB_root != False:
@@ -70,9 +86,6 @@ class SubtreeCreation:
                 if subtree.contains(bad_root.identifier):
                     subtree.remove_node(bad_root.identifier)
 
-        #for subtree in subtrees:
-        #    for node in subtrees.all_nodes():
-        #        node.data.DataOnNode.haplotype = [self.A_cite, self.B_cite]
 
         return subtrees
 

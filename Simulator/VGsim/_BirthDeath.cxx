@@ -19299,7 +19299,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_10Debug(struct 
  * 
  *     def GetTree(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.tree)):
+ *        for i in range(len(self.tree) - 1, -1, -1):
  */
 
 /* Python wrapper */
@@ -19324,9 +19324,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
   size_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
+  int __pyx_t_5;
   int __pyx_t_6;
-  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19336,7 +19335,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
  * 
  *     def GetTree(self): #slow
  *        result = []             # <<<<<<<<<<<<<<
- *        for i in range(len(self.tree)):
+ *        for i in range(len(self.tree) - 1, -1, -1):
  *            result.append(self.tree[i])
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 866, __pyx_L1_error)
@@ -19347,40 +19346,39 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
   /* "VGsim/_BirthDeath.pyx":867
  *     def GetTree(self): #slow
  *        result = []
- *        for i in range(len(self.tree)):             # <<<<<<<<<<<<<<
+ *        for i in range(len(self.tree) - 1, -1, -1):             # <<<<<<<<<<<<<<
  *            result.append(self.tree[i])
  *        return result
  */
   __pyx_t_2 = __Pyx_MemoryView_Len(__pyx_v_self->tree); 
-  __pyx_t_3 = __pyx_t_2;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
+  for (__pyx_t_3 = (__pyx_t_2 - 1); __pyx_t_3 > -1L; __pyx_t_3-=1) {
+    __pyx_v_i = __pyx_t_3;
 
     /* "VGsim/_BirthDeath.pyx":868
  *        result = []
- *        for i in range(len(self.tree)):
+ *        for i in range(len(self.tree) - 1, -1, -1):
  *            result.append(self.tree[i])             # <<<<<<<<<<<<<<
  *        return result
  * 
  */
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->tree.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->tree.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+    __pyx_t_4 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_self->tree.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_self->tree.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(1, 868, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyInt_From_long((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->tree.data) + __pyx_t_5)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 868, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_long((*((long *) ( /* dim=0 */ ((char *) (((long *) __pyx_v_self->tree.data) + __pyx_t_4)) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 868, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(1, 868, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_result, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 868, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
   /* "VGsim/_BirthDeath.pyx":869
- *        for i in range(len(self.tree)):
+ *        for i in range(len(self.tree) - 1, -1, -1):
  *            result.append(self.tree[i])
  *        return result             # <<<<<<<<<<<<<<
  * 
@@ -19396,7 +19394,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_12GetTree(struc
  * 
  *     def GetTree(self): #slow             # <<<<<<<<<<<<<<
  *        result = []
- *        for i in range(len(self.tree)):
+ *        for i in range(len(self.tree) - 1, -1, -1):
  */
 
   /* function exit code */
