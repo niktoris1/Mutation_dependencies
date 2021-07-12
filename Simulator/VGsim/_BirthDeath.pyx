@@ -11,6 +11,8 @@ from mc_lib.rndm cimport RndmWrapper
 import numpy as np
 import sys
 
+from TreeDismember import TreeDismemberIO
+
 include "fast_choose.pxi"
 include "models.pxi"
 
@@ -966,4 +968,7 @@ cdef class BirthDeathModel:
     def GetI(self):
        return self.events.currentInfectious
 
-
+    def gettdm(self):
+        tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS])
+        tdm = tdmio.gettdm()
+        return tdm
