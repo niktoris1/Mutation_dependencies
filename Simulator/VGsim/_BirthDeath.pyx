@@ -75,10 +75,11 @@ cdef class Events:
         self.haplotypes[ self.ptr ] = haplotype
         self.newHaplotypes[ self.ptr ] = newHaplotype
         self.newPopulations[ self.ptr ] = newPopulation
-        self.ptr += 1
-
         self.currentSucseptibles[ self.ptr ] = currentSucseptibles
         self.currentInfectious[ self.ptr ] = currentInfectious
+        self.ptr += 1
+
+
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -866,13 +867,13 @@ cdef class BirthDeathModel:
 
     def GetTree(self): #slow
        result = []
-       for i in range(len(self.tree) - 1, -1, -1):
+       for i in range(len(self.tree)):
            result.append(self.tree[i])
        return result
 
     def GetTreeTimes(self): #slow
        result = []
-       for i in range(len(self.times) - 1, -1, -1):
+       for i in range(len(self.times)):
            result.append(self.times[i])
        return result
 
@@ -951,16 +952,16 @@ cdef class BirthDeathModel:
        return self.events.haplotypes
 
     def GetSucseptibles(self):
-       #result = []
-       #for i in range(self.GetNumberOfEvents()):
-       #    result.append(self.events.currentSucseptibles[i])
-       return self.events.currentSucseptibles
+       result = []
+       for i in range(self.GetNumberOfEvents()):
+           result.append(self.events.currentSucseptibles[i])
+       return result
 
     def GetInfectious(self):
-       #result = []
-       #for i in range(self.GetNumberOfEvents()):
-       #    result.append(self.events.currentInfectious[i])
-       return self.events.currentInfectious
+       result = []
+       for i in range(self.GetNumberOfEvents()):
+           result.append(self.events.currentInfectious[i])
+       return result
 
     def GetNodesByEventIteration(self, iteration):
        events = self.events

@@ -133,9 +133,6 @@ def TreeEventsFromSimulation(simulation):
     tree_muts_nodes_IDs = simulation.GetTreeMutsNodeIds()
     tree_times = simulation.GetTreeTimes()
 
-
-    #here tree is just a numbering of vertices, not parents
-
     tes = TreeEventSequence(tree_sequence = [])
 
     for i in range(len_tree):
@@ -147,7 +144,7 @@ def TreeEventsFromSimulation(simulation):
             number_of_children_root = number_of_children_root + 1
 
     for i in range(len_tree):
-        node_id = tree[i]
+        node_id = i
         tree_time = tree_times[i]
         number_of_children = number_of_children_array[i]
 
@@ -176,6 +173,12 @@ def TreeEventsFromSimulation(simulation):
 
         tes.tree_sequence.append(tree_event)
 
+        #for i in range(len(tes.tree_sequence)):
+        #    if tes.tree_sequence[i].is_a_mutation == True:
+        #        print(tes.tree_sequence[i].number_of_children, tes.tree_sequence[i].old_nucleotyde,
+        #              tes.tree_sequence[i].new_nucleotyde)
+
+
     return tes
 
 
@@ -203,6 +206,7 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_r
         if i != root_id:
             tree_class_tree.move_node(i, array_tree[i])
 
+
     for i in range(tree_size):
         noc = len(tree_class_tree.get_node(i).fpointer) # number of children
         ni = tree_event_sequence.tree_sequence[i].node_id
@@ -213,15 +217,21 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_r
         tti = tree_event_sequence.tree_sequence[i].tree_time
         tty = tree_event_sequence.tree_sequence[i].tree_type
 
-        if i == root_id and is_AA_mutation_in_root_node == True:
-            tree_class_tree.update_node(i, data=TreeEvent(is_a_mutation = True, number_of_children = noc, old_nucleotyde = 'A',
-                                                  new_nucleotyde = 'A', mutation_cite = 0, tree_time=0, tree_type='coalescence',
+        if (i == root_id) and (is_AA_mutation_in_root_node == True):
+            tree_class_tree.update_node(i, data=TreeEvent(is_a_mutation = True, number_of_children = noc, old_nucleotyde = 0,
+                                                  new_nucleotyde = 0, mutation_cite = 0, tree_time=0, tree_type='coalescence',
                                                           node_id=ni))
         else:
             tree_event = TreeEvent(is_a_mutation=iam, number_of_children=noc, old_nucleotyde=on, new_nucleotyde=nn,
                                    mutation_cite=mc, tree_time=tti, tree_type=tty, node_id=ni)
-
             tree_class_tree.update_node(i, data=tree_event)
+
+    #for node in tree_class_tree.all_nodes():
+    #    if node.data.is_a_mutation == True:
+    #        print(node.data.node_id, node.data.old_nucleotyde, node.data.new_nucleotyde, node.data.mutation_cite)
+
+
+
 
     return tree_class_tree
 
@@ -230,19 +240,19 @@ def IterationFromTime(time, es):
     def IterationFromTimeStartFinish(time, start, finish):
         middle = (start + finish) // 2
 
-        if time <= es.sequence[start].event_time:
+        if time <= es.tree_sequence[start].tree_time:
             return start
-        if time >= es.sequence[finish].event_time:
+        if time >= es.tree_sequence[finish].tree_time:
             return finish
 
-        if time == es.sequence[middle].event_time:
+        if time == es.tree_sequence[middle].tree_time:
             return middle
-        if time > es.sequence[middle].event_time:
+        if time > es.tree_sequence[middle].tree_time:
             return IterationFromTimeStartFinish(time, middle + 1, finish)
         else:
             return IterationFromTimeStartFinish(time, start, middle - 1)
 
-    return IterationFromTimeStartFinish(time, 0, len(es.sequence) - 1)
+    return IterationFromTimeStartFinish(time, 0, len(es.tree_sequence) - 1)
 
 
 def GetEventsFromTree(tree_list):
@@ -252,15 +262,15 @@ def GetEventsFromTree(tree_list):
     for tree in tree_list:
         nodes_array = nodes_array + tree.all_nodes()
 
-    es = TreeEventSequence(sequence=[])
+    es = TreeEventSequence(tree_sequence=[])
 
     for node in nodes_array:
-        es.sequence.append(node.data)
+        es.tree_sequence.append(node.data)
 
     def takeBirth(elem):
-        return elem.time
+        return elem.tree_time
 
-    es.sequence.sort(key=takeBirth)
+    es.tree_sequence.sort(key=takeBirth)
 
     return es
 

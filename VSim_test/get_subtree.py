@@ -9,17 +9,15 @@ class SubtreeCreation:
             if number == 'T':
                 return 1
             if number == 'C':
-                return 3
+                return 2
             if number == 'G':
-                return 4
+                return 3
 
         self.A_nucleotyde = LetterToNumber(A_nucleotyde)
         self.A_cite = A_cite
         self.B_nucleotyde = LetterToNumber(B_nucleotyde)
         self.B_cite = B_cite
         self.tree = tree
-
-
 
 
     def GetABsubtrees(self):
@@ -53,6 +51,8 @@ class SubtreeCreation:
 
 
         for node in self.tree.all_nodes():
+            if node.data.mutation_cite == 0 and node.data.new_nucleotyde == 1:
+                continue
             if CheckNode(node) == 'A':
                 A_roots.append(node)
             elif CheckNode(node) == 'B':
