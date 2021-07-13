@@ -274,3 +274,14 @@ def GetEventsFromTree(tree_list):
 
     return es
 
+def GetStartAndFinishtTimeFromTrees(trees):
+    start_time = 999
+    finish_time = -1
+    for tree in trees:
+        for node in tree.all_nodes():
+            if node.data.tree_time < start_time:
+                start_time = node.data.tree_time
+            if node.data.tree_time > finish_time:
+                finish_time = node.data.tree_time
+    return start_time, finish_time
+

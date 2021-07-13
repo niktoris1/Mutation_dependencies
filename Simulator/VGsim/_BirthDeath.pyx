@@ -963,6 +963,27 @@ cdef class BirthDeathModel:
            result.append(self.events.currentInfectious[i])
        return result
 
+    def GetAverageSucseptiblesOnTimeframe(self, time_start, time_finish):
+        total_sucs = 0
+        total_events = 0
+        for i in range(self.GetNumberOfEvents()):
+            if (self.events.times[i] >= time_start) and (self.events.times[i] <= time_finish):
+                total_sucs = total_sucs + self.events.currentSucseptibles[i]
+                total_events = total_events + 1
+        result = total_sucs / total_events
+        return result
+
+    def GetAverageInfectiousOnTimeframe(self, time_start, time_finish):
+        total_infs = 0
+        total_events = 0
+        for i in range(self.GetNumberOfEvents()):
+            if (self.events.times[i] >= time_start) and (self.events.times[i] <= time_finish):
+                total_infs = total_infs + self.events.currentInfectious[i]
+                total_events = total_events + 1
+        result = total_infs / total_events
+        return result
+
+
     def GetNodesByEventIteration(self, iteration):
        events = self.events
 
