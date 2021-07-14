@@ -16,7 +16,6 @@ tdm = simulation.gettdm() #get tdm object
 trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
 #получение таблиц
 event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-
 sample_fraction_table = tdm.getSampleFracTable([0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7])
 
 

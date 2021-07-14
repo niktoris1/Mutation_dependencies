@@ -166,7 +166,7 @@ class TreeDismember:
                 if Mtor_times[node][1]:
                     I1[tb[time_bin]] += 1
                 else:
-                    I2[tb[time_bin]] += 1
+                    I2[b[time_bin]] += 1
         I1 = np.array(list(I1.items()))
         I2 = np.array(list(I2.items()))
 
