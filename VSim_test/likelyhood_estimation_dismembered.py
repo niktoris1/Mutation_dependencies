@@ -52,7 +52,6 @@ class LikelyhoodEstimationDismembered:
                     self.bracket_data[i][1].append(event[1][0])
                     self.bracket_data[i][2].append(event[1][1])
 
-        x = 5
         # bracket_data is a list of brackets Each correspons to a timeframe
         # each bracket is a list of 4 values
         # 1) list of times
