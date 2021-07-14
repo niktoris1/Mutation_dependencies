@@ -51,8 +51,6 @@ class SubtreeCreation:
 
 
         for node in self.tree.all_nodes():
-            if node.data.mutation_cite == 0 and node.data.new_nucleotyde == 1:
-                continue
             if CheckNode(node) == 'A':
                 A_roots.append(node)
             elif CheckNode(node) == 'B':
@@ -73,7 +71,7 @@ class SubtreeCreation:
         for B_root in B_roots:
             parent_AB_root = CheckAncestors('A', B_root)
             if parent_AB_root != False:
-                AB_roots.append(parent_AB_root)
+                AB_roots.append(B_root)
 
         AB_roots = list(set(AB_roots))
         not_AB_roots = list(set(not_AB_roots))
@@ -86,7 +84,6 @@ class SubtreeCreation:
             for subtree in subtrees:
                 if subtree.contains(bad_root.identifier):
                     subtree.remove_node(bad_root.identifier)
-
 
         return subtrees
 

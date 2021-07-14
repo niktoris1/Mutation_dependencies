@@ -74,17 +74,12 @@ class LikelyhoodEstimationDismembered:
 
         self.number_of_events = len(self.event_array)
 
-
-
-
-
     def LLH_function(self, coal_rate, needed_timestamp): # this must be rewritten from the tables perspective
 
-        all_events = [self.Event(0, 0, 0, 0, 0)] * self.number_of_events
         # Event(time, is_sample, is_coal, timestamp, fraction)
 
         events = []
-        for i in range(len(all_events)):
+        for i in range(self.number_of_events):
             if self.event_array[i].timestamp == needed_timestamp:
                 events.append(self.event_array[i])
 
@@ -98,25 +93,17 @@ class LikelyhoodEstimationDismembered:
         event_probability_array = [0] * len(events)
         addition = [0] * len(events)
 
-        for i in range(len(events)):
+        for i in range(len(events)): # TODO - check if colescent event is correct and sampling event is correct
             if i > 0:
                 distinct_lineages_array[i] = distinct_lineages_array[i - 1]
             if events[i].is_coal == 1:
-                if distinct_lineages_array[i] == 0:
-                    distinct_lineages_array[i] = distinct_lineages_array[i] + 2
-                else:
-                    distinct_lineages_array[i] = distinct_lineages_array[i] + 1
-
-
-
-
-
+                distinct_lineages_array[i] = distinct_lineages_array[i] + 1
 
         for i in range(len(events)):
             event_probability_array[i] = LikelyhoodEstimationDismembered.EventProbability(self, coal_rate, i, distinct_lineages_array)
 
         for i in range(1, len(events)):
-            addition[i] = (- coal_rate * (events[i].time - events[i].time) *
+            addition[i] = (- coal_rate * (events[i].time - events[i-1].time) *
                math.comb(distinct_lineages_array[i], 2)) + \
                           math.log(event_probability_array[i])
 
@@ -124,50 +111,17 @@ class LikelyhoodEstimationDismembered:
 
         return LLH_values[-1]
 
-
-    def BuildDistinctLineages(self, event_sequence): # same here, must go from tables
-        # returns number of distinct lineages which corresponds to the times at the event sequence
-
-        distinct_lineages = [0] * len(event_sequence)
-
-        for iteration in range(len(event_sequence)):
-            if iteration > 0:
-                distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
-            else:
-                distinct_lineages[iteration] = -1
-
-            for individual_tree in self.estimated_tree:
-                if individual_tree.contains(event_sequence[iteration].node_id):
-                    if event_sequence[iteration].tree_type == "coalescence":
-                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].node_id).fpointer)
-                        distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
-                            #print('Added ', number_of_children, 'children')
-                    if individual_tree.root == event_sequence[iteration].node_id:
-                        distinct_lineages[iteration] = distinct_lineages[iteration] + 1
-                            #print('Added ', 1, 'for root')
-                    break
-
-            if distinct_lineages[iteration] < 0:
-                raise Exception('Error, less than zero lineages!')
-
-                #print('Currently', dl, 'distinct lineages')
-
-        return distinct_lineages
-
     def DistinctLineages(self, time):
         iteration = IterationFromTime(time, es=self.es)
         return self.distinct_lineages[iteration]
 
-    def EventFromIteration(self, iteration):
-        return self.es.tree_sequence[iteration]
-
     def EventProbability(self, coal_rate, iteration, distinct_lineages):
 
-        if self.event_array[iteration].is_sample == 1:
+        if self.event_array[iteration].is_coal == 0:
             return 1
         else:
             probability = 1
-            for i in range(0, 2): # Need to have a number of children
+            for i in range(0, 1): # TODO - update for a bigger number of children
                 probability = probability * coal_rate * math.comb(distinct_lineages[iteration] - i + 1, 2)
             return probability
 
@@ -183,7 +137,7 @@ class LikelyhoodEstimationDismembered:
 
         # plotting
 
-        x = [x /1000.0 for x in range(1, 1000, 1)]
+        x = [x /10.0 for x in range(1, 1000, 1)]
         y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i, needed_timestamp=needed_timestamp) for i in x]
 
         plt.plot(x, y)
@@ -200,7 +154,7 @@ class LikelyhoodEstimationDismembered:
 
 
 LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-a = LED.GetEstimation(1.2)
+a = LED.GetEstimation(1.5)
 print(a)
 
 
