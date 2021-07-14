@@ -1,10 +1,14 @@
 import numpy as np
 
+
+
 class TreeDismemberIO:
     def gettdm(self):
         return TreeDismember(self)
 
     def getmut(self, topo, mut): #no site
+        # returns array of 1 and -1
+        # 1 if DS = 3, -1 - if AS = 3
         nod = mut[0]
         AS = mut[1]
         DS = mut[3]
@@ -40,6 +44,7 @@ class TreeDismember:
         self.Mtor = np.zeros(len(self.topo))
         self.rtopo = TreeIO.rtopo
         self.times = TreeIO.times
+
 
     def debug(self):
         mcount = 0

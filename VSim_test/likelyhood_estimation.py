@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
+
+
 class LikelyhoodEstimation:
 
     def __init__(self, estimated_tree=None, es=None):
@@ -132,10 +134,6 @@ class LikelyhoodEstimation:
 
 
 
-#le = LikelyhoodEstimation(test_tree)
-#test_tree.show()
-
-#le.GetEstimation()
 
 
 

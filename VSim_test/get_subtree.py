@@ -62,12 +62,13 @@ class SubtreeCreation:
             elif CheckNode(node) == 'not B':
                 not_AB_roots.append(node)
 
-            #A, B and AB roots are empty, while not AB roots are huge
+
+        #need to make a change and identify A_roots, B_roots and AB_roots correctly
 
         for A_root in A_roots:
             parent_AB_root = CheckAncestors('B', A_root)
             if parent_AB_root != False:
-                AB_roots.append(parent_AB_root)
+                AB_roots.append(A_root)
 
         for B_root in B_roots:
             parent_AB_root = CheckAncestors('A', B_root)
