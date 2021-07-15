@@ -149,7 +149,6 @@ class TreeDismember:
     def getSampleFracTable(self, tb):   #нужно предоставить массив моментов времени, которыми разбиваем время на интервалы
         tb.insert(0, 0)
         sample_fraction_table = [[bracket, 0] for bracket in tb]    #tb = ([моменты времени, которые разбивают время])
-        #time brackets improve !!!
         Mtor_times = np.array([self.times, self.Mtor])
         Mtor_times = np.array([self.times, self.Mtor]).transpose()
         Mtor_times = sorted(Mtor_times, key=lambda x: x[0])
