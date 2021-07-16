@@ -115,56 +115,65 @@ class TreeDismember:
         event_table_funct = []
         for tree_i in range(len(self.trees_funct)):
             if len(self.trees_funct[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
-                TreeTable = {}
+                TreeTable = []
+                times_ind = {}
                 for node in self.trees_funct[tree_i]:
-                    n_sample = 0
-                    n_coal = 0
+                    time_i = times_ind.get(self.times[node], -1)
+                    if  time_i == -1:
+                        times_ind[self.times[node]] = len(TreeTable)
+                        TreeTable.append([self.times[node], 0, 0])
+                        time_i = times_ind[self.times[node]]
                     if self.rtopo[node][0] == -1 and self.rtopo[node][1] == -1:
-                        TreeTable.setdefault(self.times[node], [0, 0])[0] += 1
+                        TreeTable[time_i][1] += 1
                     else :
-                        TreeTable.setdefault(self.times[node], [0, 0])[1] += 1
+                        TreeTable[time_i][2] += 1
                 event_table_funct.append(TreeTable)
         event_table_neutral = []
         for tree_i in range(len(self.trees_neutral)):
             if len(self.trees_neutral[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
-                TreeTable = {}
+                TreeTable = []
+                times_ind = {}
                 for node in self.trees_neutral[tree_i]:
+                    time_i = times_ind.get(self.times[node], -1)
+                    if time_i == -1:
+                        times_ind[self.times[node]] = len(TreeTable)
+                        TreeTable.append([self.times[node], 0, 0])
+                        time_i = times_ind[self.times[node]]
                     if self.rtopo[node][0] == -1 and self.rtopo[node][1] == -1:
-                        TreeTable.setdefault(self.times[node], [0, 0])[0] += 1
+                        TreeTable[time_i][1] += 1
                     else :
-                        TreeTable.setdefault(self.times[node], [0, 0])[1] += 1
+                        TreeTable[time_i][2] += 1
                 event_table_neutral.append(TreeTable)
         self.event_table_funct = event_table_funct
         self.event_table_neutral = event_table_neutral
         return event_table_funct, event_table_neutral
         #event_table_funct (массив) - таблицы для каждого поддерева с мутацией
         #event_table_neutral (массив) - таблицы для каждого поддерева без мутации
-        #вид таблицы: {время: [кол-во семплов, кол-во коал.]}
+        #вид таблицы: [[время, кол-во семплов, кол-во коал.], ...]
 
     def getSampleFracTable(self, tb):   #нужно предоставить массив моментов времени, которыми разбиваем время на интервалы
-        sample_fraction_table = {}      #tb = ([моменты времени, которые разбивают время])
-        I1 = {} #functional variant
-        I2 = {} #neutral variant
-
+        tb.insert(0, 0)
+        sample_fraction_table = [[bracket, 0] for bracket in tb]    #tb = ([моменты времени, которые разбивают время])
         Mtor_times = np.array([self.times, self.Mtor])
         Mtor_times = np.array([self.times, self.Mtor]).transpose()
         Mtor_times = sorted(Mtor_times, key=lambda x: x[0])
 
 
         tb.append(max(self.times))
-        tb.insert(0, 0)
 
         time_bin = 0
-
+        I1 = 0
+        I2 = 0
         for node in range(len(self.topo)):
             while Mtor_times[node][0] > tb[time_bin + 1]: #(classic)
                 time_bin += 1
+                I1 = 0
+                I2 = 0
 
-            I1.setdefault(tb[time_bin], 0)
-            I2.setdefault(tb[time_bin], 0)
+
             if self.rtopo[node][0]==self.rtopo[node][1]:
                 if Mtor_times[node][1]:
-                    I1[tb[time_bin]] += 1
+                    I1 += 1
                 else:
                     I2[b[time_bin]] += 1
         I1 = np.array(list(I1.items()))
