@@ -1,9 +1,21 @@
 class SubtreeCreation:
 
+
     def __init__(self, A_nucleotyde, A_cite, B_nucleotyde, B_cite, tree):
-        self.A_nucleotyde = A_nucleotyde
+        # problem is clear. We have nucleotyde as number in code and as letter here
+        def LetterToNumber(number):
+            if number == 'A':
+                return 0
+            if number == 'T':
+                return 1
+            if number == 'C':
+                return 2
+            if number == 'G':
+                return 3
+
+        self.A_nucleotyde = LetterToNumber(A_nucleotyde)
         self.A_cite = A_cite
-        self.B_nucleotyde = B_nucleotyde
+        self.B_nucleotyde = LetterToNumber(B_nucleotyde)
         self.B_cite = B_cite
         self.tree = tree
 
@@ -48,15 +60,18 @@ class SubtreeCreation:
             elif CheckNode(node) == 'not B':
                 not_AB_roots.append(node)
 
+
+        #need to make a change and identify A_roots, B_roots and AB_roots correctly
+
         for A_root in A_roots:
             parent_AB_root = CheckAncestors('B', A_root)
             if parent_AB_root != False:
-                AB_roots.append(parent_AB_root)
+                AB_roots.append(A_root)
 
         for B_root in B_roots:
             parent_AB_root = CheckAncestors('A', B_root)
             if parent_AB_root != False:
-                AB_roots.append(parent_AB_root)
+                AB_roots.append(B_root)
 
         AB_roots = list(set(AB_roots))
         not_AB_roots = list(set(not_AB_roots))
@@ -69,10 +84,6 @@ class SubtreeCreation:
             for subtree in subtrees:
                 if subtree.contains(bad_root.identifier):
                     subtree.remove_node(bad_root.identifier)
-
-        #for subtree in subtrees:
-        #    for node in subtrees.all_nodes():
-        #        node.data.DataOnNode.haplotype = [self.A_cite, self.B_cite]
 
         return subtrees
 

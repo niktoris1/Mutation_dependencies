@@ -8,7 +8,7 @@ from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, R
 from random import randrange
 from get_subtree import SubtreeCreation
 
-from tree_functions import EventsFromSimulation, TreeSequenceToTreeClass, TreeEventsFromSimulation
+from tree_functions import EventsFromSimulation, TreeSequenceToTreeClass, TreeEventsFromSimulation, GetStartAndFinishtTimeFromTrees
 from likelyhood_estimation import LikelyhoodEstimation
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 100000
+iterations = 2000
 susceptibility = None
 seed = 5750693369156385614
 populationModel = ['test/test.pp', 'test/test.mg']
@@ -103,8 +103,8 @@ print('converted tree')
 
 #newtree.show()
 #print("Time is", currentTime)
-A_nucleotyde = 'G'
-B_nucleotyde = 'A'
+A_nucleotyde = 'A'
+B_nucleotyde = 'T'
 
 sc = SubtreeCreation(A_nucleotyde = A_nucleotyde, A_cite = 0, B_nucleotyde = B_nucleotyde, B_cite = 1, tree = treeclasstree)
 
@@ -129,9 +129,9 @@ if len(result) > 0:
 
     time_start = 999
 
-    for event in ls.es.sequence:
-        if ls.DistinctLineages(event.event_time) == 10 and event.event_time < time_start:
-            time_start = event.event_time
+    for event in ls.es.tree_sequence:
+        if ls.DistinctLineages(event.tree_time) == 10 and event.tree_time < time_start:
+            time_start = event.tree_time
 
     print('Current time ', simulation.GetCurrentTime())
     print('Time start: ', time_start)
@@ -143,14 +143,22 @@ if len(result) > 0:
 
     tree_size, coal_rate, program_time, time_passed = tree_size, es_ls[1], t2 - t1, time_passed
 
+    #sucs = simulation.GetSucseptibles()
+    #infs = simulation.GetInfectious()
+
+    #plt.plot(sucs)
+    #plt.plot(infs)
+
+    #plt.show()
     total_sucs = 0
-    total_inf = 0
+    total_infs = 0
+    start_time, finish_time = GetStartAndFinishtTimeFromTrees(result)
 
-    for tree in result:
-        total_sucs = total_sucs + GetTotalSucseptibleByTree(tree)
-        total_inf = total_inf + GetTotalInfectiousByTree(tree)
 
-    coal_rate_change = total_sucs / total_inf
+    total_sucs = total_sucs + simulation.GetAverageSucseptiblesOnTimeframe(start_time, finish_time)
+    total_infs = total_infs + simulation.GetAverageInfectiousOnTimeframe(start_time, finish_time)
+
+    coal_rate_change = total_sucs / total_infs
     coal_rate = coal_rate * coal_rate_change
 
     print("Coal rate change is", coal_rate_change)

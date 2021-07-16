@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
+
+
 class LikelyhoodEstimation:
 
     def __init__(self, estimated_tree=None, es=None):
@@ -24,8 +26,8 @@ class LikelyhoodEstimation:
             self.es = GetEventsFromTree(self.estimated_tree)
         else:
             self.es = es
-        self.number_of_events = len(self.es.sequence)
-        self.distinct_lineages = self.BuildDistinctLineages(self.es.sequence)
+        self.number_of_events = len(self.es.tree_sequence)
+        self.distinct_lineages = self.BuildDistinctLineages(self.es.tree_sequence)
 
 
 
@@ -42,7 +44,7 @@ class LikelyhoodEstimation:
 
         for iteration in range(self.number_of_events):
             events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
-            event_type_array[iteration] = events[iteration].event_type
+            event_type_array[iteration] = events[iteration].tree_type
             current_time_array[iteration] = self.es.TimeFromIteration(iteration)
             distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
             event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
@@ -68,12 +70,12 @@ class LikelyhoodEstimation:
                 distinct_lineages[iteration] = -1
 
             for individual_tree in self.estimated_tree:
-                if individual_tree.contains(event_sequence[iteration].vertex_id):
-                    if event_sequence[iteration].event_type == "coalescence":
-                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].vertex_id).fpointer)
+                if individual_tree.contains(event_sequence[iteration].node_id):
+                    if event_sequence[iteration].tree_type == "coalescence":
+                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].node_id).fpointer)
                         distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
                             #print('Added ', number_of_children, 'children')
-                    if individual_tree.root == event_sequence[iteration].vertex_id:
+                    if individual_tree.root == event_sequence[iteration].node_id:
                         distinct_lineages[iteration] = distinct_lineages[iteration] + 1
                             #print('Added ', 1, 'for root')
                     break
@@ -90,13 +92,13 @@ class LikelyhoodEstimation:
         return self.distinct_lineages[iteration]
 
     def EventFromIteration(self, iteration):
-        return self.es.sequence[iteration]
+        return self.es.tree_sequence[iteration]
 
     def EventProbability(self, time, event, coal_rate):
 
         distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time)
 
-        if event.event_type == "adding_lineage":
+        if event.tree_type == "adding_lineage":
             return 1
         else:
             probability = 1
@@ -132,10 +134,6 @@ class LikelyhoodEstimation:
 
 
 
-#le = LikelyhoodEstimation(test_tree)
-#test_tree.show()
-
-#le.GetEstimation()
 
 
 

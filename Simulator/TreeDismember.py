@@ -1,10 +1,14 @@
 import numpy as np
 
+
+
 class TreeDismemberIO:
     def gettdm(self):
         return TreeDismember(self)
 
     def getmut(self, topo, mut): #no site
+        # returns array of 1 and -1
+        # 1 if DS = 3, -1 - if AS = 3
         nod = mut[0]
         AS = mut[1]
         DS = mut[3]
@@ -40,6 +44,7 @@ class TreeDismember:
         self.Mtor = np.zeros(len(self.topo))
         self.rtopo = TreeIO.rtopo
         self.times = TreeIO.times
+
 
     def debug(self):
         mcount = 0
@@ -170,14 +175,20 @@ class TreeDismember:
                 if Mtor_times[node][1]:
                     I1 += 1
                 else:
-                    I2 += 1
-            if I2 == 0:
-                I1 = -1
-                I2 = 1
-            sample_fraction_table[time_bin][1] = I1/I2
+                    I2[b[time_bin]] += 1
+        I1 = np.array(list(I1.items()))
+        I2 = np.array(list(I2.items()))
 
+        for i in range(len(I1)):
+            if I2[i,1] == 0:
+                I1[i, 1] = -1
+                I2[i,1] = 1
+
+        I1I2 = I1[:,1]/I2[:,1]
+        for i in range(len(I1)):
+            sample_fraction_table[I1[i][0]] = I1I2[i]
         self.sample_fraction_table = sample_fraction_table
         return sample_fraction_table
         #sample_fraction_table - таблица с отношениями количеств семплов
-        #вид таблицы: [[time_bin, fraction], ...]; fraction = -1 если I1 / 0;
+        #вид таблицы: {time_bin: fraction}; fraction = -1 если I1 / 0;
         #time_bin -  левая граница временного интервала
