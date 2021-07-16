@@ -40,7 +40,7 @@ class LikelyhoodEstimationDismembered:
             self.bracket_data.append([[], [], [], bracket[0], bracket[1]])
 
 
-        self.timestamps = [self.bracket_data[i][4] for i in range(len(self.bracket_data))]
+        self.timestamps = [self.bracket_data[i][3] for i in range(len(self.bracket_data))]
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
@@ -92,11 +92,15 @@ class LikelyhoodEstimationDismembered:
 
         distinct_lineages_array = [[] for _ in range(len(self.event_array)) ]
         event_probability_array = [[] for _ in range(len(self.event_array)) ]
+        LLH_values_array = [[] for _ in range(len(self.event_array)) ]
+        additions_array = [[] for _ in range(len(self.event_array)) ]
 
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
                 distinct_lineages_array[i].append(0)
                 event_probability_array[i].append(0)
+                LLH_values_array[i].append(0)
+                additions_array[i].append(0)
 
 
 
@@ -124,50 +128,42 @@ class LikelyhoodEstimationDismembered:
                         probability = probability * coal_rate * math.comb(distinct_lineages_array[i][j] - iter + 1, 2)
                     event_probability_array[i][j] = probability
 
+        for i in range(len(self.event_array)):
+            for j in range(len(self.event_array[i])):
+                if j == 0:
+                    additions_array[i][j] = 0
+                    LLH_values_array[i][j] = 0
+                else:
+                    additions_array[i][j] = (- coal_rate * (self.event_array[i][j].time - self.event_array[i][j-1].time) *
+                    math.comb(distinct_lineages_array[i][j], 2)) + \
+                              math.log(event_probability_array[i][j])
 
-        for i in range(self.number_of_events):
-            event_probability_array[i] = LikelyhoodEstimationDismembered.EventProbability(self, coal_rate, i, distinct_lineages_array)
-
-        for timestamp_number in range(len(self.timestamps)):
-            LLH_value_by_timestamp = [[0] for _ in range(len(self.timestamps))]
+                    LLH_values_array[i][j] = LLH_values_array[i][j-1] + additions_array[i][j]
 
 
-        LLH_values = [[0] for _ in range(self.number_of_events)]
-        addition = [[0] for _ in range(self.number_of_events)]
+        result = []
+        for i in range(len(LLH_values_array)):
+            if LLH_values_array[i] == []:
+                result.append(0)
+            else:
+                result.append(LLH_values_array[i][-1])
 
-        for i in range(1, self.number_of_events):
-            addition[i] = (- coal_rate * (self.event_array[i].time - self.event_array[i-1].time) *
-               math.comb(distinct_lineages_array[i], 2)) + \
-                          math.log(event_probability_array[i])
+        return result
 
-            LLH_values[i] = LLH_values[i - 1] + addition[i]
-
-        return LLH_values[-1]
-
-    def EventProbability(self, coal_rate, iteration, distinct_lineages_array):
-
-        if self.event_array[iteration].is_coal == 0:
-            return 1
-        else:
-            probability = 1
-            for i in range(0, 1): # TODO - update for a bigger number of children
-                probability = probability * coal_rate * math.comb(distinct_lineages_array[iteration] - i + 1, 2)
-            return probability
 
 
     def GetEstimation(self, needed_timestamp): # this needs no real change, just redo the funcction
 
         print("GETTING ESTIMATION")
-        #start_coal_rate=20 # will have to estimate
-        wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
+        wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)[3]
 
         LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.0001, 1000), bracket = (0.0001, 10), method='Bounded', tol=1e-5)
         #LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
 
         # plotting
 
-        x = [x /10.0 for x in range(1, 1000, 1)]
-        y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i, needed_timestamp=needed_timestamp) for i in x]
+        x = [x /1000.0 for x in range(1, 1000, 1)]
+        y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i) for i in x]
 
         plt.plot(x, y)
         plt.show()
