@@ -108,6 +108,21 @@ class LikelyhoodEstimationDismembered:
                 if self.event_array[i][j].is_sample == 1:
                     self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i][j] - 1
 
+    # we do a preprocessing of values for LLH
+    # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
+
+
+        self.coal_rate_multipliers = [[] for _ in range(len(self.timestamps))]
+        self.sums_of_logs = [[] for _ in range(len(self.timestamps))]
+
+        for i in range(len(self.coal_rate_multipliers)):
+            self.coal_rate_multipliers[i].append(-1)
+        for i in range(len(self.sums_of_logs)):
+            self.sums_of_logs[i].append(0)
+
+
+
+
 
 
 
@@ -121,14 +136,11 @@ class LikelyhoodEstimationDismembered:
 
         event_probability_array = [[] for _ in range(len(self.event_array)) ]
         LLH_values_array = [[] for _ in range(len(self.event_array)) ]
-        additions_array = [[] for _ in range(len(self.event_array)) ]
 
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
                 event_probability_array[i].append(0)
-                LLH_values_array[i].append(0)
-                additions_array[i].append(0)
-
+            LLH_values_array[i].append(0)
 
 
         for i in range(len(self.event_array)):
@@ -137,21 +149,19 @@ class LikelyhoodEstimationDismembered:
                     event_probability_array[i][j] = 1
                 else:
                     probability = 1
-                    for iter in range(0, 1): # TODO - update for a bigger number of children
+                    for iter in range(0, 1):
                         probability = probability * coal_rate * math.comb(self.distinct_lineages_array[i][j] - iter + 1, 2)
                     event_probability_array[i][j] = probability
 
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
                 if j == 0:
-                    additions_array[i][j] = 0
                     LLH_values_array[i][j] = 0
                 else:
-                    additions_array[i][j] = (- coal_rate * (self.event_array[i][j].time - self.event_array[i][j-1].time) *
+                    LLH_values_array[i][j] = LLH_values_array[i][j-1] + (- coal_rate * (self.event_array[i][j].time - self.event_array[i][j-1].time) *
                     math.comb(self.distinct_lineages_array[i][j], 2)) + \
                               math.log(event_probability_array[i][j])
 
-                    LLH_values_array[i][j] = LLH_values_array[i][j-1] + additions_array[i][j]
 
 
         results = []
@@ -161,9 +171,6 @@ class LikelyhoodEstimationDismembered:
             else:
                 results.append(LLH_values_array[i][-1])
 
-        for result_num in range(len(results)):
-            fraction = self.bracket_data[result_num][4]
-            results[result_num] = results[result_num]
 
         return results
 
