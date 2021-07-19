@@ -16,7 +16,7 @@ tdm = simulation.gettdm() #get tdm object
 trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
 #получение таблиц
 event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-brackets = [0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7]
+brackets = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0]
 sample_fraction_table = tdm.getSampleFracTable(brackets)
 
 
@@ -112,14 +112,14 @@ class LikelyhoodEstimationDismembered:
     # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
 
 
-        self.coal_rate_multipliers = [-1 for _ in range(len(self.bracket_data))]
+        self.coal_rate_multipliers = [0 for _ in range(len(self.bracket_data))]
         self.sums_of_logs = [0 for _ in range(len(self.bracket_data))]
 
 
         for i in range(len(self.coal_rate_multipliers)):
-            for j in range(len(self.event_array[i])):
-                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] * \
-                (self.event_array[i][j].time - self.event_array[i][j-1].time) * \
+            for j in range(1, len(self.event_array[i])):
+                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] + \
+                - (self.event_array[i][j].time - self.event_array[i][j-1].time) * \
                     math.comb(self.distinct_lineages_array[i][j], 2)
 
         # sums_of_logs equals number of coalescent events
@@ -187,11 +187,11 @@ class LikelyhoodEstimationDismembered:
             fraction = self.bracket_data[timestamp_num][4]
             results[timestamp_num] = results[timestamp_num] * fraction
 
-        x = [x /1000.0 for x in range(1, 100, 1)]
-        y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i) for i in x]
+        #x = [x /1000.0 for x in range(1, 100, 1)]
+        #y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i) for i in x]
 
-        plt.plot(x, y)
-        plt.show()
+        #plt.plot(x, y)
+        #plt.show()
 
         return results
 
@@ -199,7 +199,10 @@ class LikelyhoodEstimationDismembered:
         print("GETTING ESTIMATION")
         results = []
         for timestamp_num in range(len(self.timestamps)):
-            result = (-1) * self.sums_of_logs[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
+            if self.coal_rate_multipliers[timestamp_num] == 0:
+                result = 0
+            else:
+                result = (-1) * self.sums_of_logs[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
             results.append(result)
 
         return results
@@ -209,6 +212,8 @@ class LikelyhoodEstimationDismembered:
 LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
 a = LED.GetEstimationAnalytics()
 print(a)
+plt.plot(brackets[7:], a[6:])
+plt.show()
 
 
 
