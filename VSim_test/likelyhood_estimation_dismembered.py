@@ -16,7 +16,7 @@ tdm = simulation.gettdm() #get tdm object
 trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
 #получение таблиц
 event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-brackets = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0]
+brackets = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.4, 4.6, 4.8, 5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
 sample_fraction_table = tdm.getSampleFracTable(brackets)
 
 
@@ -212,7 +212,7 @@ class LikelyhoodEstimationDismembered:
 LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
 a = LED.GetEstimationAnalytics()
 print(a)
-plt.plot(brackets[7:], a[6:])
+plt.plot(brackets[len(brackets)//3:], a[len(brackets)//3-1:])
 plt.show()
 
 

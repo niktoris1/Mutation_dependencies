@@ -184,6 +184,8 @@ def TreeEventsFromSimulation(simulation):
 
 def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_root_node = False):
 
+    t1 = time.time()
+
     tree_size = len(tree_event_sequence.tree_sequence)
 
     tree_class_tree = Tree()
@@ -198,9 +200,11 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_r
     if root_id == 'Unknown':
         raise ValueError("There is no root in this tree")
 
+
     for i in range(tree_size):
         if i != root_id:
             tree_class_tree.create_node(i, i, parent=root_id, data=None) # placeholder on other places
+
 
     for i in range(tree_size):
         if i != root_id:
@@ -226,12 +230,9 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_r
                                    mutation_cite=mc, tree_time=tti, tree_type=tty, node_id=ni)
             tree_class_tree.update_node(i, data=tree_event)
 
-    #for node in tree_class_tree.all_nodes():
-    #    if node.data.is_a_mutation == True:
-    #        print(node.data.node_id, node.data.old_nucleotyde, node.data.new_nucleotyde, node.data.mutation_cite)
+    t2 = time.time()
 
-
-
+    print('Time spent on conversion to tree class = ', t2-t1)
 
     return tree_class_tree
 
