@@ -124,9 +124,13 @@ def EventsFromSimulation(simulation):
 
 def TreeEventsFromSimulation(simulation):
 
+    t1 = time.time()
+
     tree = simulation.GetTree()
     len_tree = len(tree)
     number_of_children_array = [0 for _ in range(len_tree)]
+    mut_index =  [False for _ in range(len_tree)]
+    # false if no mutation here. An identifier of mut in mut array if there is a mutation here
     tree_muts_ASs = simulation.GetTreeMutsASs()
     tree_muts_DSs = simulation.GetTreeMutsDSs()
     tree_muts_sites = simulation.GetTreeMutsSites()
@@ -137,14 +141,14 @@ def TreeEventsFromSimulation(simulation):
 
     for i in range(len_tree):
         whose_child = tree[i]
-        number_of_children_root = 0
         if whose_child != -1:
             number_of_children_array[whose_child] = number_of_children_array[whose_child] + 1
-        else:
-            number_of_children_root = number_of_children_root + 1
+
+    for j in range(len(tree_muts_nodes_IDs)):
+        mut_index[tree_muts_nodes_IDs[j]] = j
+
 
     for i in range(len_tree):
-        node_id = i
         tree_time = tree_times[i]
         number_of_children = number_of_children_array[i]
 
@@ -153,19 +157,17 @@ def TreeEventsFromSimulation(simulation):
         else:
             tree_type = 'coalescence'
 
-        is_a_mutation = False
-        old_nucleotyde = None
-        new_nucleotyde = None
-        mutation_cite = None
 
-        for j in range(len(tree_muts_nodes_IDs)):
-            if node_id == tree_muts_nodes_IDs[j]:
-                mut_index = j
-                is_a_mutation = True
-                old_nucleotyde = tree_muts_ASs[mut_index]
-                new_nucleotyde = tree_muts_DSs[mut_index]
-                mutation_cite = tree_muts_sites[mut_index]
-                break
+        if mut_index[i] == False:
+            is_a_mutation = False
+            old_nucleotyde = None
+            new_nucleotyde = None
+            mutation_cite = None
+        else:
+            is_a_mutation = True
+            old_nucleotyde = tree_muts_ASs[mut_index[i]]
+            new_nucleotyde = tree_muts_DSs[mut_index[i]]
+            mutation_cite = tree_muts_sites[mut_index[i]]
 
         tree_event = TreeEvent(node_id = i, tree_type = tree_type, tree_time = tree_time,
                  is_a_mutation = is_a_mutation, number_of_children = number_of_children, old_nucleotyde = old_nucleotyde,
@@ -173,11 +175,9 @@ def TreeEventsFromSimulation(simulation):
 
         tes.tree_sequence.append(tree_event)
 
-        #for i in range(len(tes.tree_sequence)):
-        #    if tes.tree_sequence[i].is_a_mutation == True:
-        #        print(tes.tree_sequence[i].number_of_children, tes.tree_sequence[i].old_nucleotyde,
-        #              tes.tree_sequence[i].new_nucleotyde)
 
+    t2 = time.time()
+    print('Time spent on events = ', t2-t1)
 
     return tes
 
