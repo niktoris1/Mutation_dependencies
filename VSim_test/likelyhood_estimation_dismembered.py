@@ -112,20 +112,20 @@ class LikelyhoodEstimationDismembered:
     # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
 
 
-        self.coal_rate_multipliers = [[] for _ in range(len(self.timestamps))]
-        self.sums_of_logs = [[] for _ in range(len(self.timestamps))]
+        self.coal_rate_multipliers = [-1 for _ in range(len(self.bracket_data))]
+        self.sums_of_logs = [0 for _ in range(len(self.bracket_data))]
+
 
         for i in range(len(self.coal_rate_multipliers)):
-            self.coal_rate_multipliers[i].append(-1)
+            for j in range(len(self.event_array[i])):
+                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] * \
+                (self.event_array[i][j].time - self.event_array[i][j-1].time) * \
+                    math.comb(self.distinct_lineages_array[i][j], 2)
+
+        # sums_of_logs equals number of coalescent events
+
         for i in range(len(self.sums_of_logs)):
-            self.sums_of_logs[i].append(0)
-
-
-
-
-
-
-
+            self.sums_of_logs[i] = sum(self.bracket_data[i][2])
 
 
     def LLH_function(self, coal_rate):
@@ -174,8 +174,6 @@ class LikelyhoodEstimationDismembered:
 
         return results
 
-
-
     def GetEstimation(self): # this needs no real change, just redo the funcction
 
         print("GETTING ESTIMATION")
@@ -197,9 +195,19 @@ class LikelyhoodEstimationDismembered:
 
         return results
 
+    def GetEstimationAnalytics(self):
+        print("GETTING ESTIMATION")
+        results = []
+        for timestamp_num in range(len(self.timestamps)):
+            result = (-1) * self.sums_of_logs[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
+            results.append(result)
+
+        return results
+
+
 
 LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-a = LED.GetEstimation()
+a = LED.GetEstimationAnalytics()
 print(a)
 
 
