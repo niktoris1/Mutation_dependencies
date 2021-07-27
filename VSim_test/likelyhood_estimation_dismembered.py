@@ -1,24 +1,13 @@
 import math
-from scipy import optimize
-from VSim_test.tree_functions import GetEventsFromTree, IterationFromTime
-from treelib import Tree
-from Simulator.TreeDismember import TreeDismemberIO, TreeDismember
-from VSim_test.simulation import simulation
+import statistics
 
+from scipy import optimize
+from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
+from simulation import iterations, bRate, dRate, sRate, mRate, popModel, susceptible, lockdownModel, rndseed
 
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
-
-
-
-tdm = simulation.gettdm() #get tdm object
-trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
-#получение таблиц
-event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-brackets = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.4, 4.6, 4.8, 5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
-sample_fraction_table = tdm.getSampleFracTable(brackets)
-
 
 class LikelyhoodEstimationDismembered:
     class Event:
@@ -51,11 +40,11 @@ class LikelyhoodEstimationDismembered:
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
-        # 1) list of times
-        # 2) list of indicators if the event is sample
-        # 3) list of indicators if the event is coalescence
-        # 4) bracket timstamp
-        # 5) bracket fraction
+        # 0) list of times
+        # 1) list of indicators if the event is sample
+        # 2) list of indicators if the event is coalescence
+        # 3) bracket timstamp
+        # 4) bracket fraction
 
 
         for i in range(len(self.bracket_data)):
@@ -97,9 +86,12 @@ class LikelyhoodEstimationDismembered:
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
                 if i == 0 and j == 0:
-                    self.distinct_lineages_array[i][j] = 0
+                    self.distinct_lineages_array[i][j] = 1
                 elif i > 0 and j == 0:
-                    self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i - 1][len(self.distinct_lineages_array[i - 1]) - 1]
+                    if len(self.distinct_lineages_array[i - 1]) > 0 and self.distinct_lineages_array[i - 1][-1] > 0:
+                        self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i - 1][-1]
+                    else:
+                        self.distinct_lineages_array[i][j] = 1
                 elif j > 0:
                     self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i][j - 1]
 
@@ -113,7 +105,8 @@ class LikelyhoodEstimationDismembered:
 
 
         self.coal_rate_multipliers = [0 for _ in range(len(self.bracket_data))]
-        self.sums_of_logs = [0 for _ in range(len(self.bracket_data))]
+        self.number_of_coals = [0 for _ in range(len(self.bracket_data))]
+        self.number_of_samples = [0 for _ in range(len(self.bracket_data))]
 
 
         for i in range(len(self.coal_rate_multipliers)):
@@ -124,76 +117,11 @@ class LikelyhoodEstimationDismembered:
 
         # sums_of_logs equals number of coalescent events
 
-        for i in range(len(self.sums_of_logs)):
-            self.sums_of_logs[i] = sum(self.bracket_data[i][2])
+        for i in range(len(self.number_of_coals)):
+            self.number_of_coals[i] = sum(self.bracket_data[i][2])
+        for i in range(len(self.number_of_samples)):
+            self.number_of_samples[i] = sum(self.bracket_data[i][1])
 
-
-    def LLH_function(self, coal_rate):
-
-        # returns LLH function for all time brackets
-
-        # Event(time, is_sample, is_coal, timestamp, fraction)
-
-        event_probability_array = [[] for _ in range(len(self.event_array)) ]
-        LLH_values_array = [[] for _ in range(len(self.event_array)) ]
-
-        for i in range(len(self.event_array)):
-            for j in range(len(self.event_array[i])):
-                event_probability_array[i].append(0)
-            LLH_values_array[i].append(0)
-
-
-        for i in range(len(self.event_array)):
-            for j in range(len(self.event_array[i])):
-                if self.event_array[i][j].is_sample == 1:
-                    event_probability_array[i][j] = 1
-                else:
-                    probability = 1
-                    for iter in range(0, 1):
-                        probability = probability * coal_rate * math.comb(self.distinct_lineages_array[i][j] - iter + 1, 2)
-                    event_probability_array[i][j] = probability
-
-        for i in range(len(self.event_array)):
-            for j in range(len(self.event_array[i])):
-                if j == 0:
-                    LLH_values_array[i][j] = 0
-                else:
-                    LLH_values_array[i][j] = LLH_values_array[i][j-1] + (- coal_rate * (self.event_array[i][j].time - self.event_array[i][j-1].time) *
-                    math.comb(self.distinct_lineages_array[i][j], 2)) + \
-                              math.log(event_probability_array[i][j])
-
-
-
-        results = []
-        for i in range(len(LLH_values_array)):
-            if LLH_values_array[i] == []:
-                results.append(0)
-            else:
-                results.append(LLH_values_array[i][-1])
-
-
-        return results
-
-    def GetEstimation(self): # this needs no real change, just redo the funcction
-
-        print("GETTING ESTIMATION")
-        results = []
-        for timestamp_num in range(len(self.timestamps)):
-            wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)[timestamp_num]
-
-            LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.0001, 1000), bracket = (0.0001, 10), method='Bounded', tol=1e-5)
-            results.append(LLH_optimised.x)
-
-            fraction = self.bracket_data[timestamp_num][4]
-            results[timestamp_num] = results[timestamp_num] * fraction
-
-        #x = [x /1000.0 for x in range(1, 100, 1)]
-        #y = [LikelyhoodEstimationDismembered.LLH_function(self, coal_rate=i) for i in x]
-
-        #plt.plot(x, y)
-        #plt.show()
-
-        return results
 
     def GetEstimationAnalytics(self):
         print("GETTING ESTIMATION")
@@ -202,18 +130,18 @@ class LikelyhoodEstimationDismembered:
             if self.coal_rate_multipliers[timestamp_num] == 0:
                 result = 0
             else:
-                result = (-1) * self.sums_of_logs[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
+                result = (-1) * self.number_of_coals[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
             results.append(result)
+        print("ESTIMATED")
 
         return results
 
 
 
-LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-a = LED.GetEstimationAnalytics()
-print(a)
-plt.plot(brackets[len(brackets)//3:], a[len(brackets)//3-1:])
-plt.show()
+
+
+
+
 
 
 

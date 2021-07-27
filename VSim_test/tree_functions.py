@@ -200,7 +200,6 @@ def TreeSequenceToTreeClass(simulation, tree_event_sequence, is_AA_mutation_in_r
     if root_id == 'Unknown':
         raise ValueError("There is no root in this tree")
 
-
     for i in range(tree_size):
         if i != root_id:
             tree_class_tree.create_node(i, i, parent=root_id, data=None) # placeholder on other places

@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 
 iterations = 100000
 susceptibility = None
-seed = 5750693369156385614
+seed = None
 populationModel = ['test/test.pp', 'test/test.mg']
 frate = 'test/test.rt'
 
@@ -80,7 +80,7 @@ print("Seed: ", rndseed)
 
 #lockdownModel = None # artificially switching off lockdown
 
-#Beware,
+
 simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
 # simulation.Debug()
 t1 = time.time()
@@ -95,7 +95,7 @@ print(t2 - t1)
 print(t3 - t2)
 print("_________________________________")
 
-treeevents = TreeEventsFromSimulation(simulation = simulation)
-print('got events')
-treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_event_sequence=treeevents, is_AA_mutation_in_root_node = True)
-print('converted tree')
+#treeevents = TreeEventsFromSimulation(simulation = simulation)
+#print('got events')
+#treeclasstree = TreeSequenceToTreeClass(simulation=simulation, tree_event_sequence=treeevents, is_AA_mutation_in_root_node = True)
+#print('converted tree')
