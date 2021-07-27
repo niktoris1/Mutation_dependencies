@@ -174,9 +174,9 @@ class TreeDismember:
                 else:
                     I2 += 1
             if I2 == 0:
-                I1 = -1
-                I2 = 1
-            sample_fraction_table[time_bin][1] = I1/I2
+                sample_fraction_table[time_bin][1] = -1
+            else:
+                sample_fraction_table[time_bin][1] = I1/I2
 
         self.sample_fraction_table = sample_fraction_table
         return sample_fraction_table
