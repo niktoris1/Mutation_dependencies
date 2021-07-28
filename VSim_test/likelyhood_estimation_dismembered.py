@@ -87,8 +87,11 @@ class LikelyhoodEstimationDismembered:
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
                 if self.event_array[i][j].is_coal == 1:
-                    self.distinct_lineages_array[i][j] = current_lineages + 1
-                    current_lineages =  self.distinct_lineages_array[i][j]
+                    if current_lineages == 0:
+                        self.distinct_lineages_array[i][j] = current_lineages + 2
+                    else:
+                        self.distinct_lineages_array[i][j] = current_lineages + 1
+                    current_lineages = self.distinct_lineages_array[i][j]
                 if self.event_array[i][j].is_sample == 1:
                     self.distinct_lineages_array[i][j] = current_lineages - 1
                     current_lineages = self.distinct_lineages_array[i][j]

@@ -30,11 +30,11 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
 result1, sampled1 = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, randrange(sys.maxsize))
-result2, sampled2 = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
+result2, sampled2 = Simulate(iterations, 2*bRate, 2*dRate, 2*sRate, mRate, popModel,
                                  susceptible, lockdownModel, randrange(sys.maxsize))
 
 results.append(result1)
-results.apend(result2)
+results.append(result2)
 sampled.append(sampled1)
 sampled.append(sampled2)
 
