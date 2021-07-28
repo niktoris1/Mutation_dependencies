@@ -83,22 +83,15 @@ class LikelyhoodEstimationDismembered:
             for j in range(len(self.event_array[i])):
                 self.distinct_lineages_array[i].append(0)
 
+        current_lineages = 1
         for i in range(len(self.event_array)):
             for j in range(len(self.event_array[i])):
-                if i == 0 and j == 0:
-                    self.distinct_lineages_array[i][j] = 1
-                elif i > 0 and j == 0:
-                    if len(self.distinct_lineages_array[i - 1]) > 0 and self.distinct_lineages_array[i - 1][-1] > 0:
-                        self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i - 1][-1]
-                    else:
-                        self.distinct_lineages_array[i][j] = 1
-                elif j > 0:
-                    self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i][j - 1]
-
                 if self.event_array[i][j].is_coal == 1:
-                    self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i][j] + 1
+                    self.distinct_lineages_array[i][j] = current_lineages + 1
+                    current_lineages =  self.distinct_lineages_array[i][j]
                 if self.event_array[i][j].is_sample == 1:
-                    self.distinct_lineages_array[i][j] = self.distinct_lineages_array[i][j] - 1
+                    self.distinct_lineages_array[i][j] = current_lineages - 1
+                    current_lineages = self.distinct_lineages_array[i][j]
 
     # we do a preprocessing of values for LLH
     # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
