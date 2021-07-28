@@ -29,14 +29,14 @@ class LikelyhoodEstimationDismembered:
             event_table = event_table_funct[0]
 
 
-
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
         self.bracket_data = []
         for bracket in sample_fraction_table:
             self.bracket_data.append([[], [], [], bracket[0], bracket[1]])
 
 
-        self.timestamps = [self.bracket_data[i][3] for i in range(len(self.bracket_data))]
+
+        self.timestamps = [sample_fraction_table[i][0] for i in range(len(sample_fraction_table))]
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
