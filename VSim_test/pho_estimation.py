@@ -9,7 +9,7 @@ import sys
 
 results = []
 sampled = []
-brackets = [_ for _ in range(1, 101, 1)]
+brackets = [_ for _ in range(100)]
 
 def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, rndseed):
@@ -37,6 +37,8 @@ results.append(result1)
 results.append(result2)
 sampled.append(sampled1)
 sampled.append(sampled2)
+
+# TODO - why results are of different length
 
 fractions = []
 for result_num in range(len(results[0])):
