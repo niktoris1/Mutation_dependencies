@@ -121,16 +121,20 @@ class LikelyhoodEstimationDismembered:
 
     def GetEstimationAnalytics(self):
         print("GETTING ESTIMATION")
-        results = []
+        thetas = []
+        LLHs = []
         for timestamp_num in range(len(self.timestamps)):
             if self.coal_rate_multipliers[timestamp_num] == 0:
-                result = 0
+                theta = 0
+                LLH = 0
             else:
-                result = (-1) * self.number_of_coals[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
-            results.append(result)
+                theta = (-1) * self.number_of_coals[timestamp_num] / self.coal_rate_multipliers[timestamp_num]
+                LLH = -theta * self.coal_rate_multipliers[timestamp_num] + self.number_of_coals[timestamp_num] * math.log(theta)
+            LLHs.append(LLH)
+            thetas.append(theta)
         print("ESTIMATED")
 
-        return results
+        return thetas, LLHs
 
 
 

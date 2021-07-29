@@ -9,7 +9,8 @@ import sys
 
 results = []
 sampled = []
-brackets = [_ for _ in range(100)]
+LLHs = []
+brackets = [_*2 for _ in range(50)]
 
 def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, rndseed):
@@ -24,21 +25,22 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
     sample_fraction_table = tdm.getSampleFracTable(brackets)
     LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-    result = LED.GetEstimationAnalytics()
+    theta, LLHs = LED.GetEstimationAnalytics()
 
-    return result, LED.number_of_samples
+    return theta, LED.number_of_samples, LLHs
 
-result1, sampled1 = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
+result1, sampled1, LLHs1 = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, randrange(sys.maxsize))
-result2, sampled2 = Simulate(iterations, 2*bRate, 2*dRate, 2*sRate, mRate, popModel,
+result2, sampled2, LLHs2 = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, randrange(sys.maxsize))
 
 results.append(result1)
 results.append(result2)
 sampled.append(sampled1)
 sampled.append(sampled2)
+LLHs.append(LLHs1)
+LLHs.append(LLHs2)
 
-# TODO - why results are of different length
 
 fractions = []
 for result_num in range(len(results[0])):
@@ -56,5 +58,3 @@ fractions = fractions[: len(fractions) // 2]
 
 print(statistics.mean(fractions))
 
-def EstimateRho(simulation, hap1, hap2):
-    return 0
