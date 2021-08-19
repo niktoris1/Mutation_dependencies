@@ -28,13 +28,10 @@ class LikelyhoodEstimationDismembered:
         if event_table_neutral == []:
             event_table = event_table_funct[0]
 
-
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
         self.bracket_data = []
         for bracket in sample_fraction_table:
             self.bracket_data.append([[], [], [], bracket[0], bracket[1]])
-
-
 
         self.timestamps = [sample_fraction_table[i][0] for i in range(len(sample_fraction_table))]
 
@@ -45,7 +42,6 @@ class LikelyhoodEstimationDismembered:
         # 2) list of indicators if the event is coalescence
         # 3) bracket timstamp
         # 4) bracket fraction
-
 
         for i in range(len(self.bracket_data)):
             if i < len(self.bracket_data) - 1:
@@ -59,7 +55,6 @@ class LikelyhoodEstimationDismembered:
                     self.bracket_data[i][0].append(event[0])
                     self.bracket_data[i][1].append(event[1])
                     self.bracket_data[i][2].append(event[2])
-
 
         self.event_array = [[] for _ in range(len(self.bracket_data))]
         for bracket_num in range(len(self.bracket_data)):
@@ -96,27 +91,46 @@ class LikelyhoodEstimationDismembered:
                     self.distinct_lineages_array[i][j] = current_lineages - 1
                     current_lineages = self.distinct_lineages_array[i][j]
 
-    # we do a preprocessing of values for LLH
-    # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
-
-
-        self.coal_rate_multipliers = [0 for _ in range(len(self.bracket_data))]
-        self.number_of_coals = [0 for _ in range(len(self.bracket_data))]
-        self.number_of_samples = [0 for _ in range(len(self.bracket_data))]
-
-
-        for i in range(len(self.coal_rate_multipliers)):
-            for j in range(1, len(self.event_array[i])):
-                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] + \
-                - (self.event_array[i][j].time - self.event_array[i][j-1].time) * \
-                    math.comb(self.distinct_lineages_array[i][j], 2)
+        # we do a preprocessing of values for LLH
+        # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
 
         # sums_of_logs equals number of coalescent events
+
+        self.number_of_coals = [0 for _ in range(len(self.bracket_data))]
+        self.number_of_samples = [0 for _ in range(len(self.bracket_data))]
 
         for i in range(len(self.number_of_coals)):
             self.number_of_coals[i] = sum(self.bracket_data[i][2])
         for i in range(len(self.number_of_samples)):
             self.number_of_samples[i] = sum(self.bracket_data[i][1])
+
+        self.coal_rate_multipliers = [0 for _ in range(len(self.bracket_data))]
+
+        for i in range(len(self.coal_rate_multipliers)):
+            for j in range(1, len(self.event_array[i])):
+                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] + \
+                                                - (self.event_array[i][j].time - self.event_array[i][j - 1].time) * \
+                                                math.comb(self.distinct_lineages_array[i][j], 2)
+
+    def GetEstimationAnalyticsGivenRho(self, rho): # returns an estimation of the s_i with respect to rho
+
+        number_of_coals_neutral = [0 for _ in range(len(self.bracket_data))]
+        number_of_samples_neutral = [0 for _ in range(len(self.bracket_data))]
+        number_of_coals_funct = [0 for _ in range(len(self.bracket_data))]
+        number_of_samples_funct = [0 for _ in range(len(self.bracket_data))]
+
+        coal_rate_multipliers_netral = [0 for _ in range(len(self.bracket_data))]
+        coal_rate_multipliers_funct = [0 for _ in range(len(self.bracket_data))]
+
+        for i in range(len(self.coal_rate_multipliers)):
+            for j in range(1, len(self.event_array[i])):
+                self.coal_rate_multipliers[i] = self.coal_rate_multipliers[i] + \
+                                                - (self.event_array[i][j].time - self.event_array[i][j - 1].time) * \
+                                                math.comb(self.distinct_lineages_array[i][j], 2)
+
+
+
+        return 0
 
 
     def GetEstimationAnalytics(self):
@@ -135,6 +149,8 @@ class LikelyhoodEstimationDismembered:
         print("ESTIMATED")
 
         return thetas, LLHs
+
+
 
 
 

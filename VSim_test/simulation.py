@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 #parser.add_argument('frate',
 #                    help='file with rates')
 
-iterations = 1000000
+iterations = 100000
 susceptibility = None
 seed = None
 populationModel = ['test/test.pp', 'test/test.mg']
