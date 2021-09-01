@@ -7,6 +7,7 @@ from scipy.optimize import Bounds
 from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, susceptible, lockdownModel, rndseed
+from scipy.optimize import fsolve
 
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
@@ -143,6 +144,7 @@ class LikelyhoodEstimationDismembered:
                 self.number_of_samples_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
 
 
+
     def GetEstimationConstantsGivenRho(self, rho): # returns an estimation of the s_i with respect to rho
 
         # here we define constants in the LLH_1 and LLH_2 as follows
@@ -219,41 +221,45 @@ class LikelyhoodEstimationDismembered:
             LLHs[timestamp_num] = first_multiplier * second_multiplier
         return LLHs
 
+    def GetLHHDerivativesOnSamples(self, rho, thelambda):
+
+        if thelambda == 0:
+            raise (ValueError)
+
+        c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
+
+        LLHDerivatives = [0 for _ in range(self.number_of_timestamps)]
+
+        for timestamp_num in range(self.number_of_timestamps):
+            first_multiplier = c1s[timestamp_num] * thelambda + self.number_of_coals_neutral[timestamp_num] * \
+                math.log(thelambda) + c2s[timestamp_num]
+            second_multiplier = c3s[timestamp_num] * thelambda + self.number_of_coals_funct[timestamp_num] * \
+                             math.log(thelambda) + c4s[timestamp_num]
+
+            first_multiplier_derivative = c1s[timestamp_num] + self.number_of_coals_neutral[timestamp_num] / thelambda
+            second_multiplier_derivative = c3s[timestamp_num] + self.number_of_coals_funct[timestamp_num] / thelambda
+
+            LLHDerivatives[timestamp_num] = first_multiplier_derivative * second_multiplier + first_multiplier * second_multiplier_derivative
+        return LLHDerivatives, [c1s, c2s, c3s, c4s]
+
     def GetLHHOptimumsOnSamples(self, rho):
         optimums = [0 for _ in range(self.number_of_timestamps)]
+        result = 1
+
+        funct_derivative =  lambda thelambda: self.GetLHHDerivativesOnSamples(rho, thelambda)[LLH_num]
+
+        [c1s, c2s, c3s, c4s] = lambda thelambda: self.GetLHHDerivativesOnSamples(rho, thelambda)[LLH_num]
 
         for LLH_num in range(self.number_of_timestamps):
-            optimizer = lambda thelambda: self.GetLHHOnSamples(rho, thelambda)[LLH_num]
-            optimums[LLH_num] = scipy.optimize.minimize(fun=optimizer, x0 = 10,
-                                                 method='trust-constr', bounds=Bounds([0], [10000], keep_feasible=True)).x
-
-
-        result = 1
-        for i in range(len(optimums)):
-            result = result * optimums[i]
+            x0 = (c2s[LLH_num]*c3s[LLH_num] + c1s[LLH_num]*c4s[LLH_num]) / 2 * c1s[LLH_num] * c3s[LLH_num]
+            optimums[LLH_num] = scipy.optimize.fsolve(func = funct_derivative[0][LLH_num], x0 = x0)[0]
+            result = result * optimums[LLH_num]
 
         return result
 
-    def GetLLHOptimumsOnSamples(self):
+    def GetLLHOptimumsTotal(self):
         overall_optimizer = lambda rho: self.GetLHHOptimumsOnSamples(rho)
         overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0 = 10,
                                                  method='trust-constr', bounds=Bounds([0], [10000], keep_feasible=True)).x
 
         return overall_result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

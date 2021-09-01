@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, susceptible, lockdownModel, rndseed
 import statistics
 from random import randrange
+
 from likelyhood_estimation_dismembered_new import LikelyhoodEstimationDismembered
 
 import sys
@@ -25,7 +26,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
     sample_fraction_table = tdm.getSampleFracTable(brackets)
     LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-    rho = LED.GetLLHOptimumsOnSamples()
+    rho = LED.GetLLHOptimumsTotal()
 
     return rho
 
