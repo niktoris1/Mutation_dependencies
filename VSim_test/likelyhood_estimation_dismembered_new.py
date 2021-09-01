@@ -18,9 +18,6 @@ class LikelyhoodEstimationDismembered:
         def takeTime(event):
             return event[0]
 
-        # TODO - after Shishkin fixes remove this string
-        sample_fraction_table = sample_fraction_table[1:]
-
         self.roots_times = []
         for event_tree in event_table_funct:
             event_tree.sort(key=takeTime)
@@ -34,7 +31,7 @@ class LikelyhoodEstimationDismembered:
             event_table_neutral = event_table_neutral[0]
 
 
-        self.timestamps = [sample_fraction_table[i][0] for i in range(len(sample_fraction_table))]
+        self.timestamps = [sample_fraction_table[i][0] for i in range(1, len(sample_fraction_table))]
         self.number_of_timestamps = len(self.timestamps)
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
@@ -204,62 +201,43 @@ class LikelyhoodEstimationDismembered:
         return c1s, c2s, c3s, c4s
 
 
-    def GetLHHOnSamples(self, rho, thelambda):
-
-        if thelambda == 0:
-            raise (ValueError)
-
-        c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
-
-        LLHs = [0 for _ in range(self.number_of_timestamps)]
-
-        for timestamp_num in range(self.number_of_timestamps):
-            first_multiplier = c1s[timestamp_num] * thelambda + self.number_of_coals_neutral[timestamp_num] * \
-                math.log(thelambda) + c2s[timestamp_num]
-            second_multiplier = c3s[timestamp_num] * thelambda + self.number_of_coals_neutral[timestamp_num] * \
-                             math.log(thelambda) + c4s[timestamp_num]
-            LLHs[timestamp_num] = first_multiplier * second_multiplier
-        return LLHs
-
-    def GetLHHDerivativesOnSamples(self, rho, thelambda):
-
-        if thelambda == 0:
-            raise (ValueError)
-
-        c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
-
-        LLHDerivatives = [0 for _ in range(self.number_of_timestamps)]
-
-        for timestamp_num in range(self.number_of_timestamps):
-            first_multiplier = c1s[timestamp_num] * thelambda + self.number_of_coals_neutral[timestamp_num] * \
-                math.log(thelambda) + c2s[timestamp_num]
-            second_multiplier = c3s[timestamp_num] * thelambda + self.number_of_coals_funct[timestamp_num] * \
-                             math.log(thelambda) + c4s[timestamp_num]
-
-            first_multiplier_derivative = c1s[timestamp_num] + self.number_of_coals_neutral[timestamp_num] / thelambda
-            second_multiplier_derivative = c3s[timestamp_num] + self.number_of_coals_funct[timestamp_num] / thelambda
-
-            LLHDerivatives[timestamp_num] = first_multiplier_derivative * second_multiplier + first_multiplier * second_multiplier_derivative
-        return LLHDerivatives, [c1s, c2s, c3s, c4s]
-
     def GetLHHOptimumsOnSamples(self, rho):
-        optimums = [0 for _ in range(self.number_of_timestamps)]
-        result = 1
 
-        funct_derivative =  lambda thelambda: self.GetLHHDerivativesOnSamples(rho, thelambda)[LLH_num]
+        #returns estimations for lambdas
 
-        [c1s, c2s, c3s, c4s] = lambda thelambda: self.GetLHHDerivativesOnSamples(rho, thelambda)[LLH_num]
 
-        for LLH_num in range(self.number_of_timestamps):
-            x0 = (c2s[LLH_num]*c3s[LLH_num] + c1s[LLH_num]*c4s[LLH_num]) / 2 * c1s[LLH_num] * c3s[LLH_num]
-            optimums[LLH_num] = scipy.optimize.fsolve(func = funct_derivative[0][LLH_num], x0 = x0)[0]
-            result = result * optimums[LLH_num]
+        c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
+
+        LLHOptimums = [0 for _ in range(self.number_of_timestamps)]
+
+        for timestamp_num in range(self.number_of_timestamps):
+            if self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num] == 0:
+                LLHOptimums[timestamp_num] = 0
+            else:
+                LLHOptimums[timestamp_num] = (c1s[timestamp_num] + c3s[timestamp_num]) / (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num])
+
+
+        return LLHOptimums
+
+
+    def GetLLHOptimumTotal(self, rho):
+        LLHOptimums = self.GetLHHOptimumsOnSamples(rho)
+        result = sum(LLHOptimums)
+        # we use an addition, since we work with the logarythms
 
         return result
 
-    def GetLLHOptimumsTotal(self):
-        overall_optimizer = lambda rho: self.GetLHHOptimumsOnSamples(rho)
-        overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0 = 10,
-                                                 method='trust-constr', bounds=Bounds([0], [10000], keep_feasible=True)).x
+    def OptimiseLLH(self):
+        results = [0 for _ in range(0, 10)]
 
-        return overall_result
+        for i in range(len(results)):
+            results[i] = self.GetLLHOptimumTotal(1000*i+10)
+
+        plt.plot(results)
+        plt.show()
+
+        #overall_optimizer = lambda rho: - self.GetLLHOptimumTotal(rho)
+        #overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=100).x
+        return 0
+
+
