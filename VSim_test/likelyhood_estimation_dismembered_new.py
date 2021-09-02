@@ -70,22 +70,21 @@ class LikelyhoodEstimationDismembered:
         for timestamp_num in range(self.number_of_timestamps):
             for j in range(len(self.bracket_data_neutral[timestamp_num])):
                 self.distinct_lineages_array_neutral[timestamp_num].append(0)
-            for j in range(len(self.bracket_data_neutral[timestamp_num])):
+            for j in range(len(self.bracket_data_funct[timestamp_num])):
                 self.distinct_lineages_array_funct[timestamp_num].append(0)
 
-        roots_used = 0
-        #lineages for neutral
+
         current_lineages_neutral = 0
         current_lineages_funct = 0
         for timestamp_num in range(self.number_of_timestamps):
             for j in range(len(self.bracket_data_neutral[timestamp_num])):
-                if self.bracket_data_neutral[timestamp_num][j][2] == 1:
+                if self.bracket_data_neutral[timestamp_num][j][2] == 1: # is coal
                     if current_lineages_neutral == 0:
                         self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral + 2
                     else:
                         self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral + 1
 
-                if self.bracket_data_neutral[timestamp_num][j][1] == 1:
+                if self.bracket_data_neutral[timestamp_num][j][1] == 1: # is sample
                     self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral - 1
 
                 current_lineages_neutral = self.distinct_lineages_array_neutral[timestamp_num][j]
@@ -216,7 +215,6 @@ class LikelyhoodEstimationDismembered:
 
         #returns estimations for lambdas
 
-
         c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
 
         LLHOptimums = [0 for _ in range(self.number_of_timestamps)]
@@ -224,6 +222,7 @@ class LikelyhoodEstimationDismembered:
         for timestamp_num in range(self.number_of_timestamps):
             if self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num] == 0:
                 LLHOptimums[timestamp_num] = 0
+                # since we know nothing, it doesn't influence the LLH
             else:
                 LLHOptimums[timestamp_num] = (c1s[timestamp_num] + c3s[timestamp_num]) / (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num])
 
@@ -242,7 +241,7 @@ class LikelyhoodEstimationDismembered:
         results = [0 for _ in range(0, 20)]
 
         for i in range(len(results)):
-            results[i] = self.GetLLHOptimumTotal(1*i+1)
+            results[i] = self.GetLLHOptimumTotal(0.01*i+0.01)
 
         plt.plot(results)
         plt.show()

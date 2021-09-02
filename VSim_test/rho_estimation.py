@@ -46,7 +46,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     return rho
 
 rho = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, 7343485302206012352)
+                                 susceptible, lockdownModel, 4842107271136280135)
 #for randomiztion use randrange(sys.maxsize)
 
 print(rho)
