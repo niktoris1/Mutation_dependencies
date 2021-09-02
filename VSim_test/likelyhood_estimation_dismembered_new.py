@@ -44,8 +44,6 @@ class LikelyhoodEstimationDismembered:
         # 0) list of times
         # 1) list of indicators if the event is sample
         # 2) list of indicators if the event is coalescence
-        # 3) bracket timstamp
-        # 4) bracket fraction
 
         for timestamp_num in range(self.number_of_timestamps):
             if timestamp_num < self.number_of_timestamps - 1:
@@ -107,6 +105,19 @@ class LikelyhoodEstimationDismembered:
 
 
                 current_lineages_funct = self.distinct_lineages_array_funct[timestamp_num][j]
+
+        for timestamp_num in range(self.number_of_timestamps):
+            for j in range(len(self.bracket_data_neutral[timestamp_num])):
+                if self.distinct_lineages_array_neutral[timestamp_num][j] < 0:
+                    a=0 # for distinct lineages debugging
+                    # TODO - check a problem of negative distinct lineages
+                    raise(ValueError)
+        for timestamp_num in range(self.number_of_timestamps):
+            for j in range(len(self.bracket_data_funct[timestamp_num])):
+                if self.distinct_lineages_array_funct[timestamp_num][j] < 0:
+                    a=0 # for distinct lineages debugging
+                    raise(ValueError)
+
 
         # we do a preprocessing of values for LLH
         # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
@@ -197,7 +208,7 @@ class LikelyhoodEstimationDismembered:
                     # a workaround since log of zero is not defined
                     continue
 
-
+        # TODO - check if c3s changes with different rhos
         return c1s, c2s, c3s, c4s
 
 
@@ -223,15 +234,15 @@ class LikelyhoodEstimationDismembered:
     def GetLLHOptimumTotal(self, rho):
         LLHOptimums = self.GetLHHOptimumsOnSamples(rho)
         result = sum(LLHOptimums)
-        # we use an addition, since we work with the logarythms
+        # we use an addition, since we work with the logarithms
 
         return result
 
     def OptimiseLLH(self):
-        results = [0 for _ in range(0, 10)]
+        results = [0 for _ in range(0, 20)]
 
         for i in range(len(results)):
-            results[i] = self.GetLLHOptimumTotal(1000*i+10)
+            results[i] = self.GetLLHOptimumTotal(1*i+1)
 
         plt.plot(results)
         plt.show()
