@@ -224,9 +224,9 @@ class LikelyhoodEstimationDismembered:
         return c1s, c2s, c3s, c4s
 
 
-    def GetLHHOptimumsOnSamples(self, rho):
+    def GetLLHOptimumTotal(self, rho):
 
-        #returns estimations for lambdas
+        #returns estimations for lambdas and for the sum
 
         c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
 
@@ -245,11 +245,6 @@ class LikelyhoodEstimationDismembered:
                                                                  (self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num])*math.log(lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num]*rho
 
-        return LLHOptimumResultsNoConstantTerm
-
-
-    def GetLLHOptimumTotal(self, rho):
-        LLHOptimumResultsNoConstantTerm = self.GetLHHOptimumsOnSamples(rho)
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
@@ -257,14 +252,15 @@ class LikelyhoodEstimationDismembered:
 
     def OptimiseLLH(self):
         overall_optimizer = lambda rho: - self.GetLLHOptimumTotal(rho)
-        overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([3]), bounds=Bounds(0.001, 1000, keep_feasible=True)).x
+        overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([3]), bounds=Bounds(0.0000000001, 1000, keep_feasible=True)).x
         return overall_result
 
     def PlotLLH(self):
         results = [0 for _ in range(0, 10)]
+        # we need a minimum gere
 
         for i in range(len(results)):
-            results[i] = self.GetLLHOptimumTotal(0.2*i+0.2)
+            results[i] = - self.GetLLHOptimumTotal(0.2*i+0.2)
 
         plt.plot(results)
         plt.show()
