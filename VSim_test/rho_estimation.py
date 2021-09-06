@@ -42,6 +42,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     sample_fraction_table = tdm.getSampleFracTable(brackets)
     LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
     rho = LED.OptimiseLLH()
+    LED.PlotLLH()
 
     return rho
 

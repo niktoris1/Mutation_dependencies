@@ -1,5 +1,8 @@
 import math
+import sys
+
 import scipy
+import numpy as np
 import statistics
 
 from scipy import optimize
@@ -18,21 +21,27 @@ class LikelyhoodEstimationDismembered:
         def takeTime(event):
             return event[0]
 
-        self.roots_times = []
+        self.roots_neutral = []
+        for event_tree in event_table_neutral:
+            event_tree.sort(key=takeTime)
+            self.roots_neutral.append(event_tree[0])
+
+        self.roots_funct = []
         for event_tree in event_table_funct:
             event_tree.sort(key=takeTime)
-            self.roots_times.append(event_tree[0][0])
+            self.roots_funct.append(event_tree[0])
 
-        if event_table_funct != []:
-            for timestamp_num in range(1, len(event_table_funct)):
-                event_table_funct[0] = event_table_funct[0] + event_table_funct[timestamp_num]
-            event_table_funct = event_table_funct[0]
-        if event_table_neutral != []:
-            event_table_neutral = event_table_neutral[0]
+        #if event_table_funct != []:
+        #    for timestamp_num in range(1, len(event_table_funct)):
+        #        event_table_funct[0] = event_table_funct[0] + event_table_funct[timestamp_num]
+        #   event_table_funct = event_table_funct[0]
+        #if event_table_neutral != []
+        #    event_table_neutral = event_table_neutral[0]
 
 
-        self.timestamps = [sample_fraction_table[i][0] for i in range(1, len(sample_fraction_table))]
-        self.number_of_timestamps = len(self.timestamps)
+        self.timestamps = [0.0] + [sample_fraction_table[i][0] for i in range(1, len(sample_fraction_table))]
+        # TODO - after Shishkin makes a fix - delete 0.0
+        self.number_of_timestamps = len(self.timestamps) - 1
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
 
@@ -51,13 +60,18 @@ class LikelyhoodEstimationDismembered:
                 time_finish = self.timestamps[timestamp_num + 1]
             else:
                 time_start = self.timestamps[timestamp_num]
-                time_finish = 999
-            for event in event_table_funct:
-                if event[0] >= time_start and event[0] < time_finish:
-                    self.bracket_data_funct[timestamp_num].append(event)
-            for event in event_table_neutral:
-                if event[0] >= time_start and event[0] < time_finish:
-                    self.bracket_data_neutral[timestamp_num].append(event)
+                time_finish = sys.maxsize
+            for event_tree_neutral in event_table_neutral:
+                for event_neutral in event_tree_neutral:
+                    if event_neutral[0] >= time_start and event_neutral[0] < time_finish:
+                        self.bracket_data_neutral[timestamp_num].append(event_neutral)
+            for event_tree_funct in event_table_funct:
+                for event_funct in event_tree_funct:
+                    if event_funct[0] >= time_start and event_funct[0] < time_finish:
+                        self.bracket_data_funct[timestamp_num].append(event_funct)
+
+
+
 
         for bracket in self.bracket_data_neutral:
             bracket.sort(key=takeTime)
@@ -68,53 +82,51 @@ class LikelyhoodEstimationDismembered:
         self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_timestamps)]
 
         for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_neutral[timestamp_num])):
+            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
                 self.distinct_lineages_array_neutral[timestamp_num].append(0)
-            for j in range(len(self.bracket_data_funct[timestamp_num])):
+            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
                 self.distinct_lineages_array_funct[timestamp_num].append(0)
 
 
         current_lineages_neutral = 0
         current_lineages_funct = 0
         for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_neutral[timestamp_num])):
-                if self.bracket_data_neutral[timestamp_num][j][2] == 1: # is coal
-                    if current_lineages_neutral == 0:
-                        self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral + 2
-                    else:
-                        self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral + 1
+            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
+                if self.bracket_data_neutral[timestamp_num][sample_num] in self.roots_neutral:
+                    if self.bracket_data_neutral[timestamp_num][sample_num][2] == 1: # is coal
+                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral + 2
+                    else: # is sample
+                        continue
+                else:
+                    if self.bracket_data_neutral[timestamp_num][sample_num][2] == 1: # is coal
+                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral + 1
+                    else: # is sample
+                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral - 1
 
-                if self.bracket_data_neutral[timestamp_num][j][1] == 1: # is sample
-                    self.distinct_lineages_array_neutral[timestamp_num][j] = current_lineages_neutral - 1
+                current_lineages_neutral = self.distinct_lineages_array_neutral[timestamp_num][sample_num]
 
-                current_lineages_neutral = self.distinct_lineages_array_neutral[timestamp_num][j]
+            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
+                if self.bracket_data_funct[timestamp_num][sample_num] in self.roots_funct:
+                    if self.bracket_data_funct[timestamp_num][sample_num][2] == 1:  # is coal
+                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct + 2
+                    else:  # is sample
+                        continue
+                else:
+                    if self.bracket_data_funct[timestamp_num][sample_num][2] == 1:  # is coal
+                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct + 1
+                    else:  # is sample
+                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct - 1
 
+                current_lineages_funct = self.distinct_lineages_array_funct[timestamp_num][sample_num]
 
-
-            for j in range(len(self.bracket_data_funct[timestamp_num])):
-                if self.bracket_data_funct[timestamp_num][j][2] == 1:
-                    # add extra lineage if it is a root of mutated subtree
-                    if current_lineages_funct == 0 or (self.bracket_data_funct[timestamp_num][j][0] in self.roots_times):
-                        self.distinct_lineages_array_funct[timestamp_num][j] = current_lineages_funct + 2
-                    else:
-                        self.distinct_lineages_array_funct[timestamp_num][j] = current_lineages_funct + 1
-
-                if self.bracket_data_funct[timestamp_num][j][1] == 1:
-                    self.distinct_lineages_array_funct[timestamp_num][j] = current_lineages_funct - 1
-
-
-                current_lineages_funct = self.distinct_lineages_array_funct[timestamp_num][j]
 
         for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_neutral[timestamp_num])):
-                if self.distinct_lineages_array_neutral[timestamp_num][j] < 0:
-                    a=0 # for distinct lineages debugging
-                    # TODO - check a problem of negative distinct lineages
+            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
+                if self.distinct_lineages_array_neutral[timestamp_num][sample_num] < 0:
                     raise(ValueError)
         for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_funct[timestamp_num])):
-                if self.distinct_lineages_array_funct[timestamp_num][j] < 0:
-                    a=0 # for distinct lineages debugging
+            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
+                if self.distinct_lineages_array_funct[timestamp_num][sample_num] < 0:
                     raise(ValueError)
 
 
@@ -131,8 +143,14 @@ class LikelyhoodEstimationDismembered:
         def SumCoals(dataEvents):
             number_of_coals = 0
             for i in range(len(dataEvents)):
-                number_of_coals = number_of_coals + dataEvents[i][1]
+                number_of_coals = number_of_coals + dataEvents[i][2]
             return number_of_coals
+
+        def SumSamples(dataEvents):
+            number_of_samples = 0
+            for i in range(len(dataEvents)):
+                number_of_samples = number_of_samples + dataEvents[i][1]
+            return number_of_samples
 
 
         for timestamp_num in range(self.number_of_timestamps):
@@ -141,14 +159,14 @@ class LikelyhoodEstimationDismembered:
                 self.number_of_samples_neutral[timestamp_num] = 0
             else:
                 self.number_of_coals_neutral[timestamp_num] = SumCoals(self.bracket_data_neutral[timestamp_num])
-                self.number_of_samples_neutral[timestamp_num] = SumCoals(self.bracket_data_neutral[timestamp_num])
+                self.number_of_samples_neutral[timestamp_num] = SumSamples(self.bracket_data_neutral[timestamp_num])
 
             if self.bracket_data_funct[timestamp_num] == []:
                 self.number_of_coals_funct[timestamp_num] = 0
                 self.number_of_samples_funct[timestamp_num] = 0
             else:
                 self.number_of_coals_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
-                self.number_of_samples_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
+                self.number_of_samples_funct[timestamp_num] = SumSamples(self.bracket_data_funct[timestamp_num])
 
 
 
@@ -156,11 +174,8 @@ class LikelyhoodEstimationDismembered:
 
         # here we define constants in the LLH_1 and LLH_2 as follows
         # the LLH results in the formula for neutral and funct cases
-        # c_1 * \lambda + number_of_coals_neutral * log \lambda + c_2
-        # c_3 * (\rho * \lambda) + number_of_coals_funct * log (\lambda * \rho) + c_4
-        #
-        # after the simplification we can rewrite at as
-        # c_3 * \lambda + number_of_coals_funct * log \lambda + c_4 where c_3 and c_4 redefines
+        # c_1 * \lambda - number_of_coals_neutral * log \lambda + c_2
+        # c_3 * (\rho * \lambda) - number_of_coals_funct * log (\lambda * \rho) + c_4
 
         c1s = [0 for _ in range(self.number_of_timestamps)]
         c2s = [0 for _ in range(self.number_of_timestamps)]
@@ -188,12 +203,11 @@ class LikelyhoodEstimationDismembered:
         for timestamp_num in range(self.number_of_timestamps):
             for j in range(len(self.bracket_data_funct[timestamp_num]) - 1):
                 c3s[timestamp_num] = c3s[timestamp_num] + \
-                                          rho * (self.bracket_data_funct[timestamp_num][j+1][0] -
+                                          (self.bracket_data_funct[timestamp_num][j+1][0] -
                                            self.bracket_data_funct[timestamp_num][j][0]) * \
                                           math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2)
 
         for timestamp_num in range(self.number_of_timestamps):
-            c4s[timestamp_num] = c4s[timestamp_num] + self.number_of_coals_funct[timestamp_num] * math.log(rho)
             for j in range(len(self.bracket_data_funct[timestamp_num]) - 1):
                 c4s[timestamp_num] = c4s[timestamp_num] +\
                                           (self.bracket_data_funct[timestamp_num][j+1][0] -
@@ -207,7 +221,6 @@ class LikelyhoodEstimationDismembered:
                     # a workaround since log of zero is not defined
                     continue
 
-        # TODO - check if c3s changes with different rhos
         return c1s, c2s, c3s, c4s
 
 
@@ -217,37 +230,44 @@ class LikelyhoodEstimationDismembered:
 
         c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
 
-        LLHOptimums = [0 for _ in range(self.number_of_timestamps)]
+        lambdas = [0 for _ in range(self.number_of_timestamps)]
+        LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_timestamps)]
 
         for timestamp_num in range(self.number_of_timestamps):
-            if self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num] == 0:
-                LLHOptimums[timestamp_num] = 0
+            if (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num] == 0) or \
+                (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+                lambdas[timestamp_num] = 0
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
-                LLHOptimums[timestamp_num] = (c1s[timestamp_num] + c3s[timestamp_num]) / (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num])
+                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / (c1s[timestamp_num] + rho * c3s[timestamp_num])
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = (c1s[timestamp_num] + rho * c3s[timestamp_num]) * lambdas[timestamp_num] - \
+                                                                 (self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num])*math.log(lambdas[timestamp_num]) - \
+                    self.number_of_coals_funct[timestamp_num]*rho
 
-
-        return LLHOptimums
+        return LLHOptimumResultsNoConstantTerm
 
 
     def GetLLHOptimumTotal(self, rho):
-        LLHOptimums = self.GetLHHOptimumsOnSamples(rho)
-        result = sum(LLHOptimums)
+        LLHOptimumResultsNoConstantTerm = self.GetLHHOptimumsOnSamples(rho)
+        result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
         return result
 
     def OptimiseLLH(self):
-        results = [0 for _ in range(0, 20)]
+        overall_optimizer = lambda rho: - self.GetLLHOptimumTotal(rho)
+        overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([3]), bounds=Bounds(0.001, 1000, keep_feasible=True)).x
+        return overall_result
+
+    def PlotLLH(self):
+        results = [0 for _ in range(0, 10)]
 
         for i in range(len(results)):
-            results[i] = self.GetLLHOptimumTotal(0.01*i+0.01)
+            results[i] = self.GetLLHOptimumTotal(0.2*i+0.2)
 
         plt.plot(results)
         plt.show()
-
-        #overall_optimizer = lambda rho: - self.GetLLHOptimumTotal(rho)
-        #overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=100).x
         return 0
 
 
