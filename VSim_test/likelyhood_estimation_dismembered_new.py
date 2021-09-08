@@ -3,6 +3,7 @@ import sys
 
 import scipy
 import numpy as np
+import scipy.stats
 import statistics
 
 from scipy import optimize
@@ -39,8 +40,7 @@ class LikelyhoodEstimationDismembered:
         #    event_table_neutral = event_table_neutral[0]
 
 
-        self.timestamps = [0.0] + [sample_fraction_table[i][0] for i in range(1, len(sample_fraction_table))]
-        # TODO - after Shishkin makes a fix - delete 0.0
+        self.timestamps = [sample_fraction_table[i][0] for i in range(0, len(sample_fraction_table))]
         self.number_of_timestamps = len(self.timestamps) - 1
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
@@ -71,15 +71,13 @@ class LikelyhoodEstimationDismembered:
                         self.bracket_data_funct[timestamp_num].append(event_funct)
 
 
-
-
         for bracket in self.bracket_data_neutral:
             bracket.sort(key=takeTime)
         for bracket in self.bracket_data_funct:
             bracket.sort(key=takeTime)
 
-        self.distinct_lineages_array_neutral = [[] for _ in range(self.number_of_timestamps)]
-        self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_timestamps)]
+        self.distinct_lineages_array_neutral = [[0] for _ in range(self.number_of_timestamps)]
+        self.distinct_lineages_array_funct = [[0] for _ in range(self.number_of_timestamps)]
 
         for timestamp_num in range(self.number_of_timestamps):
             for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
@@ -168,6 +166,8 @@ class LikelyhoodEstimationDismembered:
                 self.number_of_coals_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
                 self.number_of_samples_funct[timestamp_num] = SumSamples(self.bracket_data_funct[timestamp_num])
 
+        self.overall_vertices = sum(self.number_of_coals_neutral)+ sum(self.number_of_samples_neutral) + sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+
 
 
     def GetEstimationConstantsGivenRho(self, rho): # returns an estimation of the s_i with respect to rho
@@ -189,15 +189,16 @@ class LikelyhoodEstimationDismembered:
                                            self.bracket_data_neutral[timestamp_num][j][0]) * \
                                           math.comb(self.distinct_lineages_array_neutral[timestamp_num][j], 2)
 
+        #c2s are basically unneeded
 
-        for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_neutral[timestamp_num]) - 1):
-                if (self.distinct_lineages_array_neutral[timestamp_num][j] >= 2):
-                    c2s[timestamp_num] = c2s[timestamp_num] + self.number_of_coals_neutral[timestamp_num]* \
-                                           math.log(math.comb(self.distinct_lineages_array_neutral[timestamp_num][j], 2))
-                else:
-                    # a workaround since log of zero is not defined
-                    continue
+        #for timestamp_num in range(self.number_of_timestamps):
+        #    for j in range(len(self.bracket_data_neutral[timestamp_num]) - 1):
+        #        if (self.bracket_data_neutral[timestamp_num][j][2] == 1):
+        #            c2s[timestamp_num] = c2s[timestamp_num] + self.number_of_coals_neutral[timestamp_num]* \
+        #                                   math.log(math.comb(self.distinct_lineages_array_neutral[timestamp_num][j], 2))
+        #        else:
+        #            continue
+
 
 
         for timestamp_num in range(self.number_of_timestamps):
@@ -207,19 +208,17 @@ class LikelyhoodEstimationDismembered:
                                            self.bracket_data_funct[timestamp_num][j][0]) * \
                                           math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2)
 
-        for timestamp_num in range(self.number_of_timestamps):
-            for j in range(len(self.bracket_data_funct[timestamp_num]) - 1):
-                c4s[timestamp_num] = c4s[timestamp_num] +\
-                                          (self.bracket_data_funct[timestamp_num][j+1][0] -
-                                           self.bracket_data_funct[timestamp_num][j][0]) * \
-                                          math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2)
+        # c4s are basically unneeded
 
-                if (self.distinct_lineages_array_funct[timestamp_num][j] >= 2):
-                    c4s[timestamp_num] = c4s[timestamp_num] + \
-                                     math.log(math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2))
-                else:
-                    # a workaround since log of zero is not defined
-                    continue
+        #for timestamp_num in range(self.number_of_timestamps):
+        #    for j in range(len(self.bracket_data_funct[timestamp_num]) - 1):
+        #        if (self.bracket_data_funct[timestamp_num][j][2] == 1):
+        #            c4s[timestamp_num] = c4s[timestamp_num] +\
+        #                                  (self.bracket_data_funct[timestamp_num][j+1][0] -
+        #                                   self.bracket_data_funct[timestamp_num][j][0]) * \
+        #                                  math.log(math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2))
+        #        else:
+        #            continue
 
         return c1s, c2s, c3s, c4s
 
@@ -232,18 +231,21 @@ class LikelyhoodEstimationDismembered:
 
         lambdas = [0 for _ in range(self.number_of_timestamps)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_timestamps)]
+        infected_ratio = [0 for _ in range(self.number_of_timestamps)]
 
         for timestamp_num in range(self.number_of_timestamps):
-            if (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num] == 0) or \
-                (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+            if (self.number_of_coals_neutral[timestamp_num] == 0 and self.number_of_coals_funct[timestamp_num] == 0) or \
+                (c1s[timestamp_num] + c3s[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0):
                 lambdas[timestamp_num] = 0
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
-                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / (c1s[timestamp_num] + rho * c3s[timestamp_num])
-                LLHOptimumResultsNoConstantTerm[timestamp_num] = (c1s[timestamp_num] + rho * c3s[timestamp_num]) * lambdas[timestamp_num] - \
-                                                                 (self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num])*math.log(lambdas[timestamp_num]) - \
-                    self.number_of_coals_funct[timestamp_num]*rho
+                infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
+                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / (c1s[timestamp_num] + c3s[timestamp_num] * infected_ratio[timestamp_num] * rho)
+                #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = (c1s[timestamp_num] + c3s[timestamp_num] * infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]\
+                                                                 -(self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
+                    self.number_of_coals_funct[timestamp_num]*math.log(rho)
 
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
@@ -251,12 +253,13 @@ class LikelyhoodEstimationDismembered:
         return result
 
     def OptimiseLLH(self):
-        overall_optimizer = lambda rho: - self.GetLLHOptimumTotal(rho)
-        overall_result = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([3]), bounds=Bounds(0.0000000001, 1000, keep_feasible=True)).x
-        return overall_result
+        overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
+        optimum = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([1.5]), bounds=Bounds(0.0000000001, 1000000, keep_feasible=True))
+
+        return optimum
 
     def PlotLLH(self):
-        results = [0 for _ in range(0, 10)]
+        results = [0 for _ in range(0, 20)]
         # we need a minimum gere
 
         for i in range(len(results)):
@@ -265,5 +268,17 @@ class LikelyhoodEstimationDismembered:
         plt.plot(results)
         plt.show()
         return 0
+
+    def ConductLikelyhoodRatioTest(self, resulting_LLH, hypothesis_value):
+
+        lr = -2 * (hypothesis_value - resulting_LLH)
+
+        chi2 = scipy.stats.chisquare(f_obs=[lr], f_exp=[0])
+        if chi2.statistic < 1 - 0.9772:
+            print("Likelyhood ratio test has passed")
+        else:
+            print("WARNING, likelyhood ratio test has failed")
+
+        return chi2
 
 

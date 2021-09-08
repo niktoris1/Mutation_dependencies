@@ -16,7 +16,7 @@ import sys
 def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                                  susceptible, lockdownModel, rndseed):
 
-
+    print("Random seed is: ", rndseed)
 
     simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
                                      susceptible=susceptible, lockdownModel=lockdownModel, rndseed=rndseed)
@@ -38,18 +38,23 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                 max_time = funct_event[0]
 
     freq = 50 # how frequent brackets are
-    brackets = [_ for _ in np.linspace(max_time/freq, max_time, freq, endpoint=True)]
-    sample_fraction_table = tdm.getSampleFracTable(brackets)
+    bracket_borders = [_ for _ in np.linspace(0, max_time, freq + 1, endpoint=True)]
+    sample_fraction_table = tdm.getSampleFracTable(bracket_borders)
     LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, sample_fraction_table)
-    rho = LED.OptimiseLLH()
-    LED.PlotLLH()
+    optimum = LED.OptimiseLLH()
+    rho = optimum.x[0]
+    LLH_observed = optimum.fun
+    LLH_hypothesis = LED.GetLLHOptimumTotal(1)
+    LED.ConductLikelyhoodRatioTest(LLH_observed, LLH_hypothesis)
+    print("Rho equals:", rho)
 
-    return rho
+    return rho, LLH_observed
 
-rho = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, 4842107271136280135)
 #for randomiztion use randrange(sys.maxsize)
 
-print(rho)
+rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
+                                 susceptible, lockdownModel, 478556798856839515)
+
+
 
 
