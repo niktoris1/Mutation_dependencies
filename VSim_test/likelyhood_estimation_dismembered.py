@@ -4,6 +4,7 @@ import sys
 import scipy
 import numpy as np
 import scipy.stats
+from scipy.stats.distributions import chi2
 import statistics
 
 from scipy import optimize
@@ -275,16 +276,15 @@ class LikelyhoodEstimationDismembered:
 
     def OptimiseLLH(self):
         overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
-        optimum = scipy.optimize.minimize(fun=overall_optimizer, x0=np.array([1.5]), bounds=Bounds(0.0000000001, 1000000, keep_feasible=True))
-
+        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.001, 2), bounds=(0.001, 100000), method='Bounded')
         return optimum
 
     def PlotLLH(self):
-        results = [0 for _ in range(0, 20)]
+        results = [0 for _ in range(0, 40)]
         # we need a minimum gere
 
         for i in range(len(results)):
-            results[i] = - self.GetLLHOptimumTotal(0.2*i+0.2)
+            results[i] = - self.GetLLHOptimumTotal(0.01*i+0.9)
 
         plt.plot(results)
         plt.show()
@@ -292,10 +292,11 @@ class LikelyhoodEstimationDismembered:
 
     def ConductLikelyhoodRatioTest(self, resulting_LLH, hypothesis_value):
 
-        lr = -2 * (hypothesis_value - resulting_LLH)
+        lr = 2 * (hypothesis_value - resulting_LLH)
 
-        chi2 = scipy.stats.chisquare(f_obs=[lr], f_exp=[0])
-        if chi2.statistic < 1 - 0.9772:
+        p = chi2.sf(lr, 0)
+
+        if p < 1 - 0.9772:
             print("Likelyhood ratio test has passed")
         else:
             print("WARNING, likelyhood ratio test has failed")
