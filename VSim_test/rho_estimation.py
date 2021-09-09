@@ -7,7 +7,7 @@ import statistics
 from random import randrange
 import numpy as np
 
-from likelyhood_estimation_dismembered_new import LikelyhoodEstimationDismembered
+from likelyhood_estimation_dismembered import LikelyhoodEstimationDismembered
 
 import sys
 
@@ -53,7 +53,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 #for randomiztion use randrange(sys.maxsize)
 
 rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, 9169110365377383516)
+                                 susceptible, lockdownModel, randrange(sys.maxsize))
 
 
 
