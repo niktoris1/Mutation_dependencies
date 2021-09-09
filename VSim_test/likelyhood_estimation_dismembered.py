@@ -65,9 +65,9 @@ class LikelyhoodEstimationDismembered:
 
 
         starts_and_finishes = []
-        for timestamp_num in range(self.number_of_brackets):
-            time_start = self.timestamps[timestamp_num]
-            time_finish = self.timestamps[timestamp_num + 1]
+        for bracket_num in range(self.number_of_brackets):
+            time_start = self.timestamps[bracket_num]
+            time_finish = self.timestamps[bracket_num + 1]
             starts_and_finishes.append([time_start, time_finish])
 
         starts_and_finishes.append([time_start, time_finish])
@@ -75,67 +75,73 @@ class LikelyhoodEstimationDismembered:
 
         for event_tree_neutral in event_table_neutral:
             for event_neutral in event_tree_neutral:
-                timestamp_num = MapTimeToBracket(event_neutral[0], starts_and_finishes, 0, self.number_of_brackets)
-                self.bracket_data_neutral[timestamp_num].append(event_neutral)
+                bracket_num = MapTimeToBracket(event_neutral[0], starts_and_finishes, 0, self.number_of_brackets)
+                self.bracket_data_neutral[bracket_num].append(event_neutral)
         for event_tree_funct in event_table_funct:
             for event_funct in event_tree_funct:
-                timestamp_num = MapTimeToBracket(event_funct[0], starts_and_finishes, 0, self.number_of_brackets)
-                self.bracket_data_funct[timestamp_num].append(event_funct)
+                bracket_num = MapTimeToBracket(event_funct[0], starts_and_finishes, 0, self.number_of_brackets)
+                self.bracket_data_funct[bracket_num].append(event_funct)
 
         for bracket in self.bracket_data_neutral:
             bracket.sort(key=TakeEventTime)
         for bracket in self.bracket_data_funct:
             bracket.sort(key=TakeEventTime)
 
-        self.distinct_lineages_array_neutral = [[0] for _ in range(self.number_of_brackets)]
-        self.distinct_lineages_array_funct = [[0] for _ in range(self.number_of_brackets)]
+        self.distinct_lineages_array_neutral = [[] for _ in range(self.number_of_brackets)]
+        self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_brackets)]
 
-        for timestamp_num in range(self.number_of_brackets):
-            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
-                self.distinct_lineages_array_neutral[timestamp_num].append(0)
-            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
-                self.distinct_lineages_array_funct[timestamp_num].append(0)
+        #for timestamp_num in range(self.number_of_brackets):
+        #    for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
+        #        self.distinct_lineages_array_neutral[timestamp_num].append(0)
+        #    for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
+        #        self.distinct_lineages_array_funct[timestamp_num].append(0)
 
 
         current_lineages_neutral = 0
         current_lineages_funct = 0
-        for timestamp_num in range(self.number_of_brackets):
-            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
-                if self.bracket_data_neutral[timestamp_num][sample_num] in self.roots_neutral: # is root
-                    if self.bracket_data_neutral[timestamp_num][sample_num][2] == 1: # is coal
-                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral + 2
+        for bracket_num in range(self.number_of_brackets):
+            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
+                if self.bracket_data_neutral[bracket_num][sample_num] in self.roots_neutral: # is root
+                    if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 2)
                     else: # is sample
-                        continue
+                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral)
                 else: # is not root
-                    if self.bracket_data_neutral[timestamp_num][sample_num][2] == 1: # is coal
-                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral + 1
+                    if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 1)
                     else: # is sample
-                        self.distinct_lineages_array_neutral[timestamp_num][sample_num] = current_lineages_neutral - 1
+                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral - 1)
 
-                current_lineages_neutral = self.distinct_lineages_array_neutral[timestamp_num][sample_num]
+                if len(self.distinct_lineages_array_neutral[bracket_num]) > 0:
+                    current_lineages_neutral = self.distinct_lineages_array_neutral[bracket_num][-1]
+                else:
+                    continue
 
-            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
-                if self.bracket_data_funct[timestamp_num][sample_num] in self.roots_funct: # is root
-                    if self.bracket_data_funct[timestamp_num][sample_num][2] == 1:  # is coal
-                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct + 2
+            for sample_num in range(len(self.bracket_data_funct[bracket_num])):
+                if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
+                    if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 2)
                     else:  # is sample
-                        continue
+                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct)
                 else: # is not root
-                    if self.bracket_data_funct[timestamp_num][sample_num][2] == 1:  # is coal
-                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct + 1
+                    if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 1)
                     else:  # is sample
-                        self.distinct_lineages_array_funct[timestamp_num][sample_num] = current_lineages_funct - 1
+                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct - 1)
 
-                current_lineages_funct = self.distinct_lineages_array_funct[timestamp_num][sample_num]
+                if len(self.distinct_lineages_array_funct[bracket_num]) > 0:
+                    current_lineages_funct = self.distinct_lineages_array_funct[bracket_num][-1]
+                else:
+                    continue
 
 
-        for timestamp_num in range(self.number_of_brackets):
-            for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
-                if self.distinct_lineages_array_neutral[timestamp_num][sample_num] < 0:
+        for bracket_num in range(self.number_of_brackets):
+            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
+                if self.distinct_lineages_array_neutral[bracket_num][sample_num] < 0:
                     raise(ValueError)
-        for timestamp_num in range(self.number_of_brackets):
-            for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
-                if self.distinct_lineages_array_funct[timestamp_num][sample_num] < 0:
+        for bracket_num in range(self.number_of_brackets):
+            for sample_num in range(len(self.bracket_data_funct[bracket_num])):
+                if self.distinct_lineages_array_funct[bracket_num][sample_num] < 0:
                     raise(ValueError)
 
 
@@ -162,20 +168,20 @@ class LikelyhoodEstimationDismembered:
             return number_of_samples
 
 
-        for timestamp_num in range(self.number_of_brackets):
-            if self.bracket_data_neutral[timestamp_num] == []:
-                self.number_of_coals_neutral[timestamp_num] = 0
-                self.number_of_samples_neutral[timestamp_num] = 0
+        for bracket_num in range(self.number_of_brackets):
+            if self.bracket_data_neutral[bracket_num] == []:
+                self.number_of_coals_neutral[bracket_num] = 0
+                self.number_of_samples_neutral[bracket_num] = 0
             else:
-                self.number_of_coals_neutral[timestamp_num] = SumCoals(self.bracket_data_neutral[timestamp_num])
-                self.number_of_samples_neutral[timestamp_num] = SumSamples(self.bracket_data_neutral[timestamp_num])
+                self.number_of_coals_neutral[bracket_num] = SumCoals(self.bracket_data_neutral[bracket_num])
+                self.number_of_samples_neutral[bracket_num] = SumSamples(self.bracket_data_neutral[bracket_num])
 
-            if self.bracket_data_funct[timestamp_num] == []:
-                self.number_of_coals_funct[timestamp_num] = 0
-                self.number_of_samples_funct[timestamp_num] = 0
+            if self.bracket_data_funct[bracket_num] == []:
+                self.number_of_coals_funct[bracket_num] = 0
+                self.number_of_samples_funct[bracket_num] = 0
             else:
-                self.number_of_coals_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
-                self.number_of_samples_funct[timestamp_num] = SumSamples(self.bracket_data_funct[timestamp_num])
+                self.number_of_coals_funct[bracket_num] = SumCoals(self.bracket_data_funct[bracket_num])
+                self.number_of_samples_funct[bracket_num] = SumSamples(self.bracket_data_funct[bracket_num])
 
         self.number_of_neutral_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral)
         self.number_of_funct_vertices = sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
