@@ -4,20 +4,6 @@ class TreeDismemberIO:
     def gettdm(self):
         return TreeDismember(self)
 
-    def getmut(self, topo, mut): #no site
-        # returns array of 1 and -1
-        # 1 if DS = 3, -1 - if AS = 3
-        nod = mut[0]
-        AS = mut[1]
-        DS = mut[3]
-        M = np.zeros(len(topo), dtype=int)
-        for i in range(len(nod)):
-            if DS[i] == 3:
-                M[nod[i]] = 1
-            elif AS[i] == 3:
-                M[nod[i]] = -1
-        return M
-
     def getrtopo(self, topo):
         rtopo = -np.ones((len(topo),2), dtype=int)
         for i in range(len(topo)-1):
@@ -30,7 +16,7 @@ class TreeDismemberIO:
     def __init__(self, genealogy, times, mutations, **kwargs):
         self.topo = genealogy
         self.rtopo = self.getrtopo(genealogy)
-        self.M = self.getmut(genealogy, mutations)
+        self.mutations_raw = mutations
         self.times = times
         self.Tm = []
         self.T = []
@@ -38,10 +24,25 @@ class TreeDismemberIO:
 class TreeDismember:
     def __init__(self, TreeIO):
         self.topo = TreeIO.topo
-        self.M = TreeIO.M
+        self.mutations_raw = TreeIO.mutations_raw
         self.Mtor = np.zeros(len(self.topo))
         self.rtopo = TreeIO.rtopo
         self.times = TreeIO.times
+
+    def getmut(self, topo, mut, allele): #no site
+        # returns array of 1 and -1
+        # 1 if DS = 3, -1 - if AS = 3
+        al = {'A' : 0, 'T' : 1, 'C' : 2, 'G' : 3}
+        nod = mut[0]
+        AS = mut[1]
+        DS = mut[3]
+        M = np.zeros(len(topo), dtype=int)
+        for i in range(len(nod)):
+            if DS[i] == al[allele]:
+                M[nod[i]] = 1
+            elif AS[i] == al[allele]:
+                M[nod[i]] = -1
+        return M
 
     def debug(self):
         mcount = 0
@@ -55,14 +56,16 @@ class TreeDismember:
         print('Mutated trees (all):', len(self.trees_funct))
         print('Simple trees (all):', len(self.trees_neutral))
         print('Tree len (num of vertexes):', len(self.topo))
-        print('number of start mutations:', mcount)
-        print('number of back mutations:', bmcount)
+        print('number of start mutations (any>'+self.allele+'):', mcount)
+        print('number of back mutations ('+self.allele+'>any):', bmcount)
         print('number of mutated tables: ', len(self.event_table_funct))
         print('number of simple tables: ', len(self.event_table_neutral))
         print('sample fraction table:', self.sample_fraction_table)
 
-    def Dismember(self):
+    def Dismember(self, allele='G'):
         rtopo = self.rtopo
+        self.M = self.getmut(self.topo, self.mutations_raw, allele)
+        self.allele = allele
         mut = self.M
         trees_funct = []
         trees_neutral = []
@@ -106,7 +109,7 @@ class TreeDismember:
                 trees_neutral.append(Subtree)
         self.trees_funct = trees_funct
         self.trees_neutral = trees_neutral
-        return trees_funct, trees_neutral # [наборы вершин поддеревьев], [наборы вершин поддеревьев]
+        return trees_funct, trees_neutral # [наборы вершин поддеревьев], [наборы вершин поддеревьев]
 
     def getEventTable(self):
         event_table_funct = []
@@ -148,35 +151,36 @@ class TreeDismember:
         #event_table_neutral (массив) - таблицы для каждого поддерева без мутации
         #вид таблицы: [[время, кол-во семплов, кол-во коал.], ...]
 
+
     def getSampleFracTable(self, tb):   #нужно предоставить массив моментов времени, которыми разбиваем время на интервалы
-        tb.insert(0, 0)
-        sample_fraction_table = [[bracket, 0] for bracket in tb]    #tb = ([моменты времени, которые разбивают время])
+        sample_fraction_table = [[bracket, 0] for bracket in tb[:-1]]    #tb = ([моменты времени (левая и правая границы - явно), которые разбивают время])
         Mtor_times = np.array([self.times, self.Mtor])
         Mtor_times = np.array([self.times, self.Mtor]).transpose()
         Mtor_times = sorted(Mtor_times, key=lambda x: x[0])
 
 
-        tb.append(max(self.times))
-
         time_bin = 0
         I1 = 0
         I2 = 0
         for node in range(len(self.topo)):
-            while Mtor_times[node][0] > tb[time_bin + 1]: #(classic)
+            while time_bin < len(tb) - 1 and Mtor_times[node][0] > tb[time_bin + 1]: #(classic)
                 time_bin += 1
                 I1 = 0
                 I2 = 0
 
+            if Mtor_times[node][0] < tb[time_bin] or (Mtor_times[node][0] > tb[time_bin] and time_bin == len(tb) - 1):
+                pass
 
-            if self.rtopo[node][0]==self.rtopo[node][1]:
-                if Mtor_times[node][1]:
-                    I1 += 1
-                else:
-                    I2 += 1
-            if I2 == 0:
-                sample_fraction_table[time_bin][1] = -1
             else:
-                sample_fraction_table[time_bin][1] = I1/I2
+                if self.rtopo[node][0]==self.rtopo[node][1]:
+                    if Mtor_times[node][1]:
+                        I1 += 1
+                    else:
+                        I2 += 1
+                if I2 == 0:
+                    sample_fraction_table[time_bin][1] = -1
+                else:
+                    sample_fraction_table[time_bin][1] = I1/I2
 
         self.sample_fraction_table = sample_fraction_table
         return sample_fraction_table
