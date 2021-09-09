@@ -53,7 +53,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 #for randomiztion use randrange(sys.maxsize)
 
 rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, randrange(sys.maxsize))
+                                 susceptible, lockdownModel, 3701416760511437292)
 
 
 
