@@ -17,7 +17,7 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, sample_fraction_table=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, timestamps=None): # here we have not tree, but tables
 
         def takeTime(event):
             return event[0]
@@ -40,7 +40,7 @@ class LikelyhoodEstimationDismembered:
         #    event_table_neutral = event_table_neutral[0]
 
 
-        self.timestamps = [sample_fraction_table[i][0] for i in range(0, len(sample_fraction_table))]
+        self.timestamps = timestamps
         self.number_of_timestamps = len(self.timestamps) - 1
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
@@ -166,7 +166,13 @@ class LikelyhoodEstimationDismembered:
                 self.number_of_coals_funct[timestamp_num] = SumCoals(self.bracket_data_funct[timestamp_num])
                 self.number_of_samples_funct[timestamp_num] = SumSamples(self.bracket_data_funct[timestamp_num])
 
-        self.overall_vertices = sum(self.number_of_coals_neutral)+ sum(self.number_of_samples_neutral) + sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+        self.number_of_neutral_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral)
+        self.number_of_funct_vertices = sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+        self.number_of_overall_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral) + \
+                                          sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+
+        print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of", self.number_of_overall_vertices)
+
 
 
 
