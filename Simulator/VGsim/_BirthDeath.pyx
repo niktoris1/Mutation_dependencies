@@ -988,7 +988,26 @@ cdef class BirthDeathModel:
         hap2_infs = 0
         return 0
 
-    def GetLiveBranches(self):
+    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq+1 timestamp
+        ld = self.LogDynamics(step_num=freq+1) # LogDynamics returns ratios on timestamps, not brackets
+        hd = [0 for _ in range(freq+1)]
+
+        for timestamp_num in range(freq+1):
+            A_hap = 0
+            C_hap = 0
+            T_hap = 0
+            G_hap = 0
+            for pop_id in range(len(ld[1][timestamp_num])):
+                A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
+                C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
+                T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
+                G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
+        hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
+
+        return hd[1:]
+
+
+
         return self.liveBranches
 
     def GetLiveBranchesByHap(self, haplotype):
