@@ -62,7 +62,7 @@ class TreeDismember:
         print('number of simple tables: ', len(self.event_table_neutral))
         print('sample fraction table:', self.sample_fraction_table)
 
-    def Dismember(self, allele='G'):
+    def Dismember_old(self, allele='G'):
         rtopo = self.rtopo
         self.M = self.getmut(self.topo, self.mutations_raw, allele)
         self.allele = allele
@@ -75,9 +75,9 @@ class TreeDismember:
         NewRoots.append(node)
 
         while NewRoots != []:   #для каждого корня ищем то, что отрезать
-            Subtree = []
+            Subtree = [] #для формирования поддерева
             InStack = [0]*len(rtopo)
-            S = []
+            S = [] # для обхода
             S.append(NewRoots[0])
             while S != []:   #ищем корни для деревьев, которые отрежем
                 node = S.pop(-1)
@@ -94,7 +94,7 @@ class TreeDismember:
                         if rtopo[node][0] != -1 and not InStack[rtopo[node][0]]:
                             S.append(rtopo[node][0])
                             InStack[rtopo[node][0]] = 1
-                    if f==0: # добавляем вершину от которой не больше ответвляемся
+                    if f==0: # добавляем вершину от которой больше не ответвляемся
                         Subtree.append(node)
                         if mut[NewRoots[0]] == 1:  # если мутация функциональная, то пометим вершину как мут
                             self.Mtor[node] = 1
@@ -111,19 +111,71 @@ class TreeDismember:
         self.trees_neutral = trees_neutral
         return trees_funct, trees_neutral # [наборы вершин поддеревьев], [наборы вершин поддеревьев]
 
+
+    def Dismember(self, allele='G'):
+        rtopo = self.rtopo
+        self.M = self.getmut(self.topo, self.mutations_raw, allele)
+        self.allele = allele
+        mut = self.M
+        trees_funct = []
+        trees_neutral = []
+        node = len(rtopo)-1
+
+        NewRoots = [] # корни поддеревьев
+        NewRoots.append(node)
+
+        while NewRoots != []:   #для каждого корня ищем то, что отрезать
+            Subtree = [] #для формирования поддерева
+            Subtree_is_sample = []
+            S = [] # для обхода
+            S.append(NewRoots[0])
+            while S != []:   #ищем корни для деревьев, которые отрежем
+                node = S.pop(-1)
+                if mut[node] == 0 or node == NewRoots[0]: #если не нашли мутацию или оказались в рассматриваемом корне
+                    Subtree.append(node) #добавляем вершину
+                    Subtree_is_sample.append(1) #превентивно - семплирование
+                    if mut[NewRoots[0]] == 1:  # если мутация функциональная, то пометим вершину как мут
+                        self.Mtor[node] = 1
+                    else:
+                        self.Mtor[node] = 0
+
+                    if (rtopo[node][1] != -1 or rtopo[node][0] != -1):
+                        if rtopo[node][1] != -1:
+                            S.append(rtopo[node][1])  #идем дальше
+
+                        if rtopo[node][0] != -1:
+                            S.append(rtopo[node][0])
+                        Subtree_is_sample[-1] = 0 #меняем семплирование на коал. так как есть ветвление
+                else:   # иначе добавляем вершину к новым корням
+                    NewRoots.append(node)
+                    Subtree.append(node) # добавить вершину-обрезок
+                    Subtree_is_sample.append(1) #обрезок = семплирование
+            if mut[NewRoots.pop(0)] == 1:  # если мутация функциональная, то добавляем поддерево к мутировавшим
+                Subtree_zip = [Subtree, Subtree_is_sample]
+                trees_funct.append([Subtree, Subtree_is_sample])
+            else:    # если мутация - откат, или ее нет (главный корень), то добавляем поддерево к обычным
+                Subtree_zip = [Subtree, Subtree_is_sample]
+                trees_neutral.append([Subtree, Subtree_is_sample])
+        self.trees_funct = trees_funct
+        self.trees_neutral = trees_neutral
+        return trees_funct, trees_neutral # [наборы вершин поддеревьев], [наборы вершин поддеревьев]
+
+
     def getEventTable(self):
         event_table_funct = []
         for tree_i in range(len(self.trees_funct)):
             if len(self.trees_funct[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
                 TreeTable = []
                 times_ind = {}
-                for node in self.trees_funct[tree_i]:
+                funct_subtree = self.trees_funct[tree_i][0]
+                funct_subtree_is_sample = self.trees_funct[tree_i][1]
+                for node, is_sample in zip(funct_subtree, funct_subtree_is_sample):
                     time_i = times_ind.get(self.times[node], -1)
                     if  time_i == -1:
                         times_ind[self.times[node]] = len(TreeTable)
                         TreeTable.append([self.times[node], 0, 0])
                         time_i = times_ind[self.times[node]]
-                    if self.rtopo[node][0] == -1 and self.rtopo[node][1] == -1:
+                    if is_sample:
                         TreeTable[time_i][1] += 1
                     else :
                         TreeTable[time_i][2] += 1
@@ -133,13 +185,15 @@ class TreeDismember:
             if len(self.trees_neutral[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
                 TreeTable = []
                 times_ind = {}
-                for node in self.trees_neutral[tree_i]:
+                neutral_subtree = self.trees_neutral[tree_i][0]
+                neutral_subtree_is_sample = self.trees_neutral[tree_i][1]
+                for node, is_sample in zip(neutral_subtree, neutral_subtree_is_sample):
                     time_i = times_ind.get(self.times[node], -1)
                     if time_i == -1:
                         times_ind[self.times[node]] = len(TreeTable)
                         TreeTable.append([self.times[node], 0, 0])
                         time_i = times_ind[self.times[node]]
-                    if self.rtopo[node][0] == -1 and self.rtopo[node][1] == -1:
+                    if is_sample:
                         TreeTable[time_i][1] += 1
                     else :
                         TreeTable[time_i][2] += 1
