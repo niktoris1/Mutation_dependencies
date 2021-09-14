@@ -108,36 +108,35 @@ class LikelyhoodEstimationDismembered:
         current_lineages_neutral = 0
         current_lineages_funct = 0
         for bracket_num in range(self.number_of_brackets):
-            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
-                if self.bracket_data_neutral[bracket_num][sample_num] in self.roots_neutral: # is root
-                    if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
-                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 2)
-                    else: # is sample
-                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral)
-                else: # is not root
-                    if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
-                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 1)
-                    else: # is sample
-                        self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral - 1)
 
-                if len(self.distinct_lineages_array_neutral[bracket_num]) > 0:
+            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
+                if len(self.bracket_data_neutral[bracket_num]) > 0:
+                    if self.bracket_data_neutral[bracket_num][sample_num] in self.roots_neutral: # is root
+                        if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 2)
+                        else: # is sample
+                            self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral)
+                    else: # is not root
+                        if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 1)
+                        else: # is sample
+                            self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral - 1)
                     current_lineages_neutral = self.distinct_lineages_array_neutral[bracket_num][-1]
                 else:
                     continue
 
             for sample_num in range(len(self.bracket_data_funct[bracket_num])):
-                if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
-                    if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
-                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 2)
-                    else:  # is sample
-                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct)
-                else: # is not root
-                    if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
-                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 1)
-                    else:  # is sample
-                        self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct - 1)
-
-                if len(self.distinct_lineages_array_funct[bracket_num]) > 0:
+                if len(self.bracket_data_funct[bracket_num]) > 0:
+                    if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                            self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 2)
+                        else:  # is sample
+                            self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct)
+                    else: # is not root
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                            self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 1)
+                        else:  # is sample
+                            self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct - 1)
                     current_lineages_funct = self.distinct_lineages_array_funct[bracket_num][-1]
                 else:
                     continue
