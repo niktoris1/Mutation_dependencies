@@ -988,8 +988,9 @@ cdef class BirthDeathModel:
         hap2_infs = 0
         return 0
 
-    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq+1 timestamp
-        ld = self.LogDynamics(step_num=freq+1) # LogDynamics returns ratios on timestamps, not brackets
+    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp
+        ld = self.LogDynamics(step_num=freq)
+        # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
         hd = [0 for _ in range(freq+1)]
 
         for timestamp_num in range(freq+1):
@@ -1002,23 +1003,12 @@ cdef class BirthDeathModel:
                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
-        hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
 
-        return hd[1:]
+            A_hap -= 1
+            # TODO - for some reason here ld is different from the ld in the outer file
+            hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
 
-
-
-        return self.liveBranches
-
-    def GetLiveBranchesByHap(self, haplotype):
-        if haplotype == 0:
-            return sum(self.liveBranches[0:4])
-        if haplotype == 1:
-            return sum(self.liveBranches[4:8])
-        if haplotype == 2:
-            return sum(self.liveBranches[8:12])
-        if haplotype == 3:
-            return sum(self.liveBranches[12:16])
+        return hd
 
 
     def GetNodesByEventIteration(self, iteration):

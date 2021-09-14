@@ -18,7 +18,7 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, timestamps=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, timestamps=None, simulation=None): # here we have not tree, but tables
 
         def TakeEventTime(event):
             return event[0]
@@ -48,6 +48,7 @@ class LikelyhoodEstimationDismembered:
 
         self.bracket_data_neutral = [[] for _ in range(self.number_of_brackets)]
         self.bracket_data_funct = [[] for _ in range(self.number_of_brackets)]
+        self.simulation = simulation
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
@@ -190,6 +191,7 @@ class LikelyhoodEstimationDismembered:
                                           sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
 
         print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of", self.number_of_overall_vertices)
+        print("Overall", sum(self.number_of_samples_neutral) + sum(self.number_of_samples_funct), "vertices were sampled out of", self.number_of_overall_vertices)
 
 
 
@@ -255,20 +257,32 @@ class LikelyhoodEstimationDismembered:
 
         lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
-        infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+
+        for bracket_num in range(self.number_of_brackets):
+            if hd[bracket_num][3] != 0:
+                true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
+
+
 
         for timestamp_num in range(self.number_of_brackets):
             if (self.number_of_coals_neutral[timestamp_num] == 0) or (self.number_of_coals_funct[timestamp_num] == 0) or \
-                (self.number_of_samples_neutral[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0) or (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+                (self.number_of_samples_neutral[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0)\
+                    or (c1s[timestamp_num] + c3s[timestamp_num] == 0):
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
-                infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
-                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / (c1s[timestamp_num] + c3s[timestamp_num] * infected_ratio[timestamp_num] * rho)
-                #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
+                estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
+                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
+                                         (c1s[timestamp_num] + c3s[timestamp_num] * true_infected_ratio[timestamp_num] * rho)
+                #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = -(self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num]*math.log(rho)
 
+        print("Estimated:", estimated_infected_ratio)
+        print("True:", true_infected_ratio)
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
