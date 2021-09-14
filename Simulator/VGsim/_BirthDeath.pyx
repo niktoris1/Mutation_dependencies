@@ -983,6 +983,24 @@ cdef class BirthDeathModel:
         result = total_infs / total_events
         return result
 
+    def GetRealInfectiousRatio(self, time_start, time_finish, hap1, hap2):
+        hap1_infs = 0
+        hap2_infs = 0
+        return 0
+
+    def GetLiveBranches(self):
+        return self.liveBranches
+
+    def GetLiveBranchesByHap(self, haplotype):
+        if haplotype == 0:
+            return sum(self.liveBranches[0:4])
+        if haplotype == 1:
+            return sum(self.liveBranches[4:8])
+        if haplotype == 2:
+            return sum(self.liveBranches[8:12])
+        if haplotype == 3:
+            return sum(self.liveBranches[12:16])
+
 
     def GetNodesByEventIteration(self, iteration):
        events = self.events

@@ -45,9 +45,12 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     LED.PlotLLH()
     rho = optimum.x
     LLH_observed = optimum.fun
-    LLH_hypothesis = LED.GetLLHOptimumTotal(1)
-    LED.ConductLikelyhoodRatioTest(LLH_observed, LLH_hypothesis)
-    print("Rho equals:", rho)
+    lb = simulation.GetLiveBranches()
+    print(lb)
+    a=3
+    #LLH_hypothesis = LED.GetLLHOptimumTotal(1)
+    #LED.ConductLikelyhoodRatioTest(LLH_observed, LLH_hypothesis)
+    #print("Rho equals:", rho)
 
     return rho, LLH_observed
 

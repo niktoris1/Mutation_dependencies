@@ -296,7 +296,7 @@ class LikelyhoodEstimationDismembered:
 
         p = chi2.sf(lr, 0)
 
-        if p < 1 - 0.9772:
+        if p > 0.9772:
             print("Likelyhood ratio test has passed")
         else:
             print("WARNING, likelyhood ratio test has failed")
