@@ -988,7 +988,7 @@ cdef class BirthDeathModel:
         hap2_infs = 0
         return 0
 
-    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp
+    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets
         ld = self.LogDynamics(step_num=freq)
         # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
         hd = [0 for _ in range(freq+1)]

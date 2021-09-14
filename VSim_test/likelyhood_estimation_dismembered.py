@@ -18,7 +18,9 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, timestamps=None, simulation=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_timestamps=None, simulation=None): # here we have not tree, but tables
+
+        self.simulation = simulation
 
         def TakeEventTime(event):
             return event[0]
@@ -40,15 +42,25 @@ class LikelyhoodEstimationDismembered:
         #if event_table_neutral != []
         #    event_table_neutral = event_table_neutral[0]
 
+        max_time = 0
+        for neutral_tree in event_table_neutral:
+            for neutral_event in neutral_tree:
+                if neutral_event[0] > max_time:
+                    max_time = neutral_event[0]
+        for funct_tree in event_table_funct:
+            for funct_event in funct_tree:
+                if funct_event[0] > max_time:
+                    max_time = funct_event[0]
 
-        self.timestamps = timestamps
+
+        self.timestamps = [_ for _ in np.linspace(0, max_time, number_of_timestamps + 1, endpoint=True)]
         self.number_of_brackets = len(self.timestamps) - 1
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
 
         self.bracket_data_neutral = [[] for _ in range(self.number_of_brackets)]
         self.bracket_data_funct = [[] for _ in range(self.number_of_brackets)]
-        self.simulation = simulation
+
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
@@ -89,15 +101,9 @@ class LikelyhoodEstimationDismembered:
         for bracket in self.bracket_data_funct:
             bracket.sort(key=TakeEventTime)
 
+
         self.distinct_lineages_array_neutral = [[] for _ in range(self.number_of_brackets)]
         self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_brackets)]
-
-        #for timestamp_num in range(self.number_of_brackets):
-        #    for sample_num in range(len(self.bracket_data_neutral[timestamp_num])):
-        #        self.distinct_lineages_array_neutral[timestamp_num].append(0)
-        #    for sample_num in range(len(self.bracket_data_funct[timestamp_num])):
-        #        self.distinct_lineages_array_funct[timestamp_num].append(0)
-
 
         current_lineages_neutral = 0
         current_lineages_funct = 0
@@ -204,18 +210,33 @@ class LikelyhoodEstimationDismembered:
         # c_3 * (\rho * \lambda) - number_of_coals_funct * log (\lambda * \rho) + c_4
 
         c1s = [0 for _ in range(self.number_of_brackets)]
-        c2s = [0 for _ in range(self.number_of_brackets)]
+        #c2s = [0 for _ in range(self.number_of_brackets)]
         c3s = [0 for _ in range(self.number_of_brackets)]
-        c4s = [0 for _ in range(self.number_of_brackets)]
+        #c4s = [0 for _ in range(self.number_of_brackets)]
 
+        current_neutral_lineages = 0
+        current_neutral_time = 0
         for timestamp_num in range(self.number_of_brackets):
-            for j in range(len(self.bracket_data_neutral[timestamp_num]) - 1):
-                c1s[timestamp_num] = c1s[timestamp_num] + \
-                                          (self.bracket_data_neutral[timestamp_num][j+1][0] -
-                                           self.bracket_data_neutral[timestamp_num][j][0]) * \
-                                          math.comb(self.distinct_lineages_array_neutral[timestamp_num][j], 2)
+            if len(self.bracket_data_neutral[timestamp_num]) > 0:
+                if timestamp_num == 0:
+                    for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
+                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                                               self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
+                else:
+                    c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][0][0] -
+                                               current_neutral_time) * \
+                                              math.comb(current_neutral_lineages, 2)
+                    for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
+                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                                               self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
 
-        #c2s are basically unneeded
+                current_neutral_time = self.bracket_data_neutral[timestamp_num][-1][0]
+                current_neutral_lineages = self.distinct_lineages_array_neutral[timestamp_num][-1]
+            else:
+                continue
+                #c2s are basically unneeded
 
         #for timestamp_num in range(self.number_of_timestamps):
         #    for j in range(len(self.bracket_data_neutral[timestamp_num]) - 1):
@@ -225,14 +246,28 @@ class LikelyhoodEstimationDismembered:
         #        else:
         #            continue
 
-
-
+        current_funct_lineages = 0
+        current_funct_time = 0
         for timestamp_num in range(self.number_of_brackets):
-            for j in range(len(self.bracket_data_funct[timestamp_num]) - 1):
-                c3s[timestamp_num] = c3s[timestamp_num] + \
-                                          (self.bracket_data_funct[timestamp_num][j+1][0] -
-                                           self.bracket_data_funct[timestamp_num][j][0]) * \
-                                          math.comb(self.distinct_lineages_array_funct[timestamp_num][j], 2)
+            if len(self.bracket_data_funct[timestamp_num]) > 0:
+                if timestamp_num == 0:
+                    for j in range(1, len(self.bracket_data_funct[timestamp_num])):
+                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                                               self.bracket_data_funct[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
+                else:
+                    c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][0][0] -
+                                               current_funct_time) * \
+                                              math.comb(current_funct_lineages, 2)
+                    for j in range(1, len(self.bracket_data_funct[timestamp_num])):
+                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                                               self.bracket_data_funct[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
+
+                current_funct_time = self.bracket_data_funct[timestamp_num][-1][0]
+                current_funct_lineages = self.distinct_lineages_array_funct[timestamp_num][-1]
+            else:
+                continue
 
         # c4s are basically unneeded
 
@@ -246,14 +281,14 @@ class LikelyhoodEstimationDismembered:
         #        else:
         #            continue
 
-        return c1s, c2s, c3s, c4s
+        return c1s, c3s
 
 
     def GetLLHOptimumTotal(self, rho):
 
         #returns estimations for lambdas and for the sum
 
-        c1s, c2s, c3s, c4s = self.GetEstimationConstantsGivenRho(rho)
+        c1s, c3s = self.GetEstimationConstantsGivenRho(rho)
 
         lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
@@ -264,8 +299,7 @@ class LikelyhoodEstimationDismembered:
         for bracket_num in range(self.number_of_brackets):
             if hd[bracket_num][3] != 0:
                 true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
-
-
+        # here 0 means that we cannot get any info
 
         for timestamp_num in range(self.number_of_brackets):
             if (self.number_of_coals_neutral[timestamp_num] == 0) or (self.number_of_coals_funct[timestamp_num] == 0) or \
@@ -278,11 +312,11 @@ class LikelyhoodEstimationDismembered:
                 lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
                                          (c1s[timestamp_num] + c3s[timestamp_num] * true_infected_ratio[timestamp_num] * rho)
                 #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
-                LLHOptimumResultsNoConstantTerm[timestamp_num] = -(self.number_of_coals_neutral[timestamp_num]+self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
-                    self.number_of_coals_funct[timestamp_num]*math.log(rho)
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
+                    self.number_of_coals_funct[timestamp_num] * math.log(rho)
 
-        print("Estimated:", estimated_infected_ratio)
-        print("True:", true_infected_ratio)
+        #print("Estimated:", estimated_infected_ratio)
+        #print("True:", true_infected_ratio)
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 

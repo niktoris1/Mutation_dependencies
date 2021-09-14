@@ -27,25 +27,14 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
                 #получение таблиц
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
 
-    max_time = 0
-    for neutral_tree in event_table_neutral:
-        for neutral_event in neutral_tree:
-            if neutral_event[0] > max_time:
-                max_time = neutral_event[0]
-    for funct_tree in event_table_funct:
-        for funct_event in funct_tree:
-            if funct_event[0] > max_time:
-                max_time = funct_event[0]
-
-    freq = 50 # how frequent brackets are
-    timestamps = [_ for _ in np.linspace(0, max_time, freq + 1, endpoint=True)]
+    number_of_timestamps = 50 # how frequent brackets are
     #sample_fraction_table = tdm.getSampleFracTable(timestamps)
-    LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, timestamps, simulation)
+    LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, number_of_timestamps, simulation)
     optimum = LED.OptimiseLLH()
     LED.PlotLLH()
     rho = optimum.x
     LLH_observed = optimum.fun
-    #hd = simulation.GetHaplotypeDynamics(freq)
+    #hd = simulation.GetHaplotypeDynamics(number_of_timestamps)
     #LLH_hypothesis = LED.GetLLHOptimumTotal(1)
     #LED.ConductLikelyhoodRatioTest(LLH_observed, LLH_hypothesis)
     print("Rho equals:", rho)

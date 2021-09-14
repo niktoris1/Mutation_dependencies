@@ -21771,7 +21771,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_46GetRealInfect
  *         hap2_infs = 0
  *         return 0             # <<<<<<<<<<<<<<
  * 
- *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp
+ *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_int_0);
@@ -21796,7 +21796,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_46GetRealInfect
 /* "VGsim/_BirthDeath.pyx":991
  *         return 0
  * 
- *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp             # <<<<<<<<<<<<<<
+ *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets             # <<<<<<<<<<<<<<
  *         ld = self.LogDynamics(step_num=freq)
  *         # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
  */
@@ -21841,7 +21841,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
 
   /* "VGsim/_BirthDeath.pyx":992
  * 
- *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp
+ *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets
  *         ld = self.LogDynamics(step_num=freq)             # <<<<<<<<<<<<<<
  *         # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
  *         hd = [0 for _ in range(freq+1)]
@@ -22211,7 +22211,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
   /* "VGsim/_BirthDeath.pyx":991
  *         return 0
  * 
- *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq timestamp             # <<<<<<<<<<<<<<
+ *     def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets             # <<<<<<<<<<<<<<
  *         ld = self.LogDynamics(step_num=freq)
  *         # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
  */
