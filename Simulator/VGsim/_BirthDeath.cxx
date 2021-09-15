@@ -21831,9 +21831,11 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
   PyObject *__pyx_t_3 = NULL;
   Py_ssize_t __pyx_t_4;
   PyObject *(*__pyx_t_5)(PyObject *);
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -21932,8 +21934,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
  *         hd = [0 for _ in range(freq+1)]
  * 
  *         for timestamp_num in range(freq+1):             # <<<<<<<<<<<<<<
- *             A_hap = 0
- *             C_hap = 0
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
+ *             for pop_id in range(len(ld[1][timestamp_num])):
  */
   __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_freq, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 996, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -21986,217 +21988,201 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
     /* "VGsim/_BirthDeath.pyx":997
  * 
  *         for timestamp_num in range(freq+1):
- *             A_hap = 0             # <<<<<<<<<<<<<<
- *             C_hap = 0
- *             T_hap = 0
- */
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_XDECREF_SET(__pyx_v_A_hap, __pyx_int_0);
-
-    /* "VGsim/_BirthDeath.pyx":998
- *         for timestamp_num in range(freq+1):
- *             A_hap = 0
- *             C_hap = 0             # <<<<<<<<<<<<<<
- *             T_hap = 0
- *             G_hap = 0
- */
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_XDECREF_SET(__pyx_v_C_hap, __pyx_int_0);
-
-    /* "VGsim/_BirthDeath.pyx":999
- *             A_hap = 0
- *             C_hap = 0
- *             T_hap = 0             # <<<<<<<<<<<<<<
- *             G_hap = 0
- *             for pop_id in range(len(ld[1][timestamp_num])):
- */
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_XDECREF_SET(__pyx_v_T_hap, __pyx_int_0);
-
-    /* "VGsim/_BirthDeath.pyx":1000
- *             C_hap = 0
- *             T_hap = 0
- *             G_hap = 0             # <<<<<<<<<<<<<<
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0             # <<<<<<<<<<<<<<
  *             for pop_id in range(len(ld[1][timestamp_num])):
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  */
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_XDECREF_SET(__pyx_v_G_hap, __pyx_int_0);
+    __pyx_t_2 = __pyx_int_0;
+    __Pyx_INCREF(__pyx_t_2);
+    __pyx_t_1 = __pyx_int_0;
+    __Pyx_INCREF(__pyx_t_1);
+    __pyx_t_6 = __pyx_int_0;
+    __Pyx_INCREF(__pyx_t_6);
+    __pyx_t_7 = __pyx_int_0;
+    __Pyx_INCREF(__pyx_t_7);
+    __Pyx_XDECREF_SET(__pyx_v_A_hap, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_C_hap, __pyx_t_1);
+    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_T_hap, __pyx_t_6);
+    __pyx_t_6 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_G_hap, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":1001
- *             T_hap = 0
- *             G_hap = 0
+    /* "VGsim/_BirthDeath.pyx":998
+ *         for timestamp_num in range(freq+1):
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
  *             for pop_id in range(len(ld[1][timestamp_num])):             # <<<<<<<<<<<<<<
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1001, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1001, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1001, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_7 = __pyx_t_6;
-    for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-      __pyx_v_pop_id = __pyx_t_8;
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 998, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 998, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_8 = PyObject_Length(__pyx_t_6); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(1, 998, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_9 = __pyx_t_8;
+    for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+      __pyx_v_pop_id = __pyx_t_10;
 
-      /* "VGsim/_BirthDeath.pyx":1002
- *             G_hap = 0
+      /* "VGsim/_BirthDeath.pyx":999
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
  *             for pop_id in range(len(ld[1][timestamp_num])):
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])             # <<<<<<<<<<<<<<
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 4, NULL, NULL, &__pyx_slice__41, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_A_hap, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1002, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_A_hap, __pyx_t_2);
-      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_GetSlice(__pyx_t_6, 0, 4, NULL, NULL, &__pyx_slice__41, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_A_hap, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 999, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF_SET(__pyx_v_A_hap, __pyx_t_7);
+      __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":1003
+      /* "VGsim/_BirthDeath.pyx":1000
  *             for pop_id in range(len(ld[1][timestamp_num])):
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])             # <<<<<<<<<<<<<<
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_2, 4, 8, NULL, NULL, &__pyx_slice__42, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_C_hap, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1003, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF_SET(__pyx_v_C_hap, __pyx_t_1);
-      __pyx_t_1 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_t_7, 4, 8, NULL, NULL, &__pyx_slice__42, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_C_hap, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1000, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF_SET(__pyx_v_C_hap, __pyx_t_6);
+      __pyx_t_6 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":1004
+      /* "VGsim/_BirthDeath.pyx":1001
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])             # <<<<<<<<<<<<<<
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
  * 
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_t_1, 8, 12, NULL, NULL, &__pyx_slice__43, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_T_hap, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1004, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_T_hap, __pyx_t_2);
-      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_GetSlice(__pyx_t_6, 8, 12, NULL, NULL, &__pyx_slice__43, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_T_hap, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1001, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF_SET(__pyx_v_T_hap, __pyx_t_7);
+      __pyx_t_7 = 0;
 
-      /* "VGsim/_BirthDeath.pyx":1005
+      /* "VGsim/_BirthDeath.pyx":1002
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])             # <<<<<<<<<<<<<<
  * 
  *             A_hap -= 1
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_t_2, 12, 16, NULL, NULL, &__pyx_slice__44, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_G_hap, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1005, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF_SET(__pyx_v_G_hap, __pyx_t_1);
-      __pyx_t_1 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_ld, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_timestamp_num); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_pop_id, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_t_7, 12, 16, NULL, NULL, &__pyx_slice__44, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_G_hap, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1002, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF_SET(__pyx_v_G_hap, __pyx_t_6);
+      __pyx_t_6 = 0;
     }
 
-    /* "VGsim/_BirthDeath.pyx":1007
+    /* "VGsim/_BirthDeath.pyx":1004
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
  * 
  *             A_hap -= 1             # <<<<<<<<<<<<<<
  *             # TODO - for some reason here ld is different from the ld in the outer file
  *             hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
  */
-    __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_v_A_hap, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1007, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF_SET(__pyx_v_A_hap, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_v_A_hap, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1004, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF_SET(__pyx_v_A_hap, __pyx_t_6);
+    __pyx_t_6 = 0;
 
-    /* "VGsim/_BirthDeath.pyx":1009
+    /* "VGsim/_BirthDeath.pyx":1006
  *             A_hap -= 1
  *             # TODO - for some reason here ld is different from the ld in the outer file
  *             hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]             # <<<<<<<<<<<<<<
  * 
  *         return hd
  */
-    __pyx_t_1 = PyList_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1009, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = PyList_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1006, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_v_A_hap);
     __Pyx_GIVEREF(__pyx_v_A_hap);
-    PyList_SET_ITEM(__pyx_t_1, 0, __pyx_v_A_hap);
+    PyList_SET_ITEM(__pyx_t_6, 0, __pyx_v_A_hap);
     __Pyx_INCREF(__pyx_v_C_hap);
     __Pyx_GIVEREF(__pyx_v_C_hap);
-    PyList_SET_ITEM(__pyx_t_1, 1, __pyx_v_C_hap);
+    PyList_SET_ITEM(__pyx_t_6, 1, __pyx_v_C_hap);
     __Pyx_INCREF(__pyx_v_T_hap);
     __Pyx_GIVEREF(__pyx_v_T_hap);
-    PyList_SET_ITEM(__pyx_t_1, 2, __pyx_v_T_hap);
+    PyList_SET_ITEM(__pyx_t_6, 2, __pyx_v_T_hap);
     __Pyx_INCREF(__pyx_v_G_hap);
     __Pyx_GIVEREF(__pyx_v_G_hap);
-    PyList_SET_ITEM(__pyx_t_1, 3, __pyx_v_G_hap);
-    if (unlikely(PyObject_SetItem(__pyx_v_hd, __pyx_v_timestamp_num, __pyx_t_1) < 0)) __PYX_ERR(1, 1009, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    PyList_SET_ITEM(__pyx_t_6, 3, __pyx_v_G_hap);
+    if (unlikely(PyObject_SetItem(__pyx_v_hd, __pyx_v_timestamp_num, __pyx_t_6) < 0)) __PYX_ERR(1, 1006, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "VGsim/_BirthDeath.pyx":996
  *         hd = [0 for _ in range(freq+1)]
  * 
  *         for timestamp_num in range(freq+1):             # <<<<<<<<<<<<<<
- *             A_hap = 0
- *             C_hap = 0
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
+ *             for pop_id in range(len(ld[1][timestamp_num])):
  */
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":1011
+  /* "VGsim/_BirthDeath.pyx":1008
  *             hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
  * 
  *         return hd             # <<<<<<<<<<<<<<
@@ -22221,6 +22207,8 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("VGsim._BirthDeath.BirthDeathModel.GetHaplotypeDynamics", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -22237,7 +22225,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_48GetHaplotypeD
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":1014
+/* "VGsim/_BirthDeath.pyx":1011
  * 
  * 
  *     def GetNodesByEventIteration(self, iteration):             # <<<<<<<<<<<<<<
@@ -22265,7 +22253,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50GetNodesByEve
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("GetNodesByEventIteration", 0);
 
-  /* "VGsim/_BirthDeath.pyx":1015
+  /* "VGsim/_BirthDeath.pyx":1012
  * 
  *     def GetNodesByEventIteration(self, iteration):
  *        events = self.events             # <<<<<<<<<<<<<<
@@ -22277,7 +22265,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50GetNodesByEve
   __pyx_v_events = ((struct __pyx_obj_5VGsim_11_BirthDeath_Events *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":1014
+  /* "VGsim/_BirthDeath.pyx":1011
  * 
  * 
  *     def GetNodesByEventIteration(self, iteration):             # <<<<<<<<<<<<<<
@@ -22293,7 +22281,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_50GetNodesByEve
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":1017
+/* "VGsim/_BirthDeath.pyx":1014
  *        events = self.events
  * 
  *     def GetI(self):             # <<<<<<<<<<<<<<
@@ -22323,7 +22311,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_52GetI(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("GetI", 0);
 
-  /* "VGsim/_BirthDeath.pyx":1018
+  /* "VGsim/_BirthDeath.pyx":1015
  * 
  *     def GetI(self):
  *        return self.events.currentInfectious             # <<<<<<<<<<<<<<
@@ -22331,13 +22319,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_52GetI(struct _
  *     def gettdm(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1018, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->events->currentInfectious, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1015, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":1017
+  /* "VGsim/_BirthDeath.pyx":1014
  *        events = self.events
  * 
  *     def GetI(self):             # <<<<<<<<<<<<<<
@@ -22356,7 +22344,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_52GetI(struct _
   return __pyx_r;
 }
 
-/* "VGsim/_BirthDeath.pyx":1020
+/* "VGsim/_BirthDeath.pyx":1017
  *        return self.events.currentInfectious
  * 
  *     def gettdm(self):             # <<<<<<<<<<<<<<
@@ -22397,28 +22385,28 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gettdm", 0);
 
-  /* "VGsim/_BirthDeath.pyx":1021
+  /* "VGsim/_BirthDeath.pyx":1018
  * 
  *     def gettdm(self):
  *         tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS])             # <<<<<<<<<<<<<<
  *         tdm = tdmio.gettdm()
  *         return tdm
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_TreeDismemberIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_TreeDismemberIO); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->tree, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->tree, 1, (PyObject *(*)(char *)) __pyx_memview_get_long, (int (*)(char *, PyObject *)) __pyx_memview_set_long, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->times, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->nodeId); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_5 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->nodeId); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->AS); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->AS); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->site); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_7 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->site); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->DS); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_8 = __pyx_convert_vector_to_py_Py_ssize_t(__pyx_v_self->mut->DS); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1021, __pyx_L1_error)
+  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1018, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_5);
   PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_5);
@@ -22447,7 +22435,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1021, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1018, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -22458,7 +22446,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[4] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1021, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1018, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -22467,7 +22455,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1021, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1018, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_8) {
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -22481,7 +22469,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
     __pyx_t_9 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1021, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1018, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -22489,13 +22477,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   __pyx_v_tdmio = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":1022
+  /* "VGsim/_BirthDeath.pyx":1019
  *     def gettdm(self):
  *         tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS])
  *         tdm = tdmio.gettdm()             # <<<<<<<<<<<<<<
  *         return tdm
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_tdmio, __pyx_n_s_gettdm); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1022, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_tdmio, __pyx_n_s_gettdm); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1019, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -22509,13 +22497,13 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   }
   __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1022, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1019, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_tdm = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "VGsim/_BirthDeath.pyx":1023
+  /* "VGsim/_BirthDeath.pyx":1020
  *         tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS])
  *         tdm = tdmio.gettdm()
  *         return tdm             # <<<<<<<<<<<<<<
@@ -22525,7 +22513,7 @@ static PyObject *__pyx_pf_5VGsim_11_BirthDeath_15BirthDeathModel_54gettdm(struct
   __pyx_r = __pyx_v_tdm;
   goto __pyx_L0;
 
-  /* "VGsim/_BirthDeath.pyx":1020
+  /* "VGsim/_BirthDeath.pyx":1017
  *        return self.events.currentInfectious
  * 
  *     def gettdm(self):             # <<<<<<<<<<<<<<
@@ -42391,47 +42379,47 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
-  /* "VGsim/_BirthDeath.pyx":1002
- *             G_hap = 0
+  /* "VGsim/_BirthDeath.pyx":999
+ *             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
  *             for pop_id in range(len(ld[1][timestamp_num])):
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])             # <<<<<<<<<<<<<<
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  */
-  __pyx_slice__41 = PySlice_New(__pyx_int_0, __pyx_int_4, Py_None); if (unlikely(!__pyx_slice__41)) __PYX_ERR(1, 1002, __pyx_L1_error)
+  __pyx_slice__41 = PySlice_New(__pyx_int_0, __pyx_int_4, Py_None); if (unlikely(!__pyx_slice__41)) __PYX_ERR(1, 999, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__41);
   __Pyx_GIVEREF(__pyx_slice__41);
 
-  /* "VGsim/_BirthDeath.pyx":1003
+  /* "VGsim/_BirthDeath.pyx":1000
  *             for pop_id in range(len(ld[1][timestamp_num])):
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])             # <<<<<<<<<<<<<<
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
  */
-  __pyx_slice__42 = PySlice_New(__pyx_int_4, __pyx_int_8, Py_None); if (unlikely(!__pyx_slice__42)) __PYX_ERR(1, 1003, __pyx_L1_error)
+  __pyx_slice__42 = PySlice_New(__pyx_int_4, __pyx_int_8, Py_None); if (unlikely(!__pyx_slice__42)) __PYX_ERR(1, 1000, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__42);
   __Pyx_GIVEREF(__pyx_slice__42);
 
-  /* "VGsim/_BirthDeath.pyx":1004
+  /* "VGsim/_BirthDeath.pyx":1001
  *                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])             # <<<<<<<<<<<<<<
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
  * 
  */
-  __pyx_slice__43 = PySlice_New(__pyx_int_8, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__43)) __PYX_ERR(1, 1004, __pyx_L1_error)
+  __pyx_slice__43 = PySlice_New(__pyx_int_8, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__43)) __PYX_ERR(1, 1001, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__43);
   __Pyx_GIVEREF(__pyx_slice__43);
 
-  /* "VGsim/_BirthDeath.pyx":1005
+  /* "VGsim/_BirthDeath.pyx":1002
  *                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
  *                 T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
  *                 G_hap += sum(ld[1][timestamp_num][pop_id][12:16])             # <<<<<<<<<<<<<<
  * 
  *             A_hap -= 1
  */
-  __pyx_slice__44 = PySlice_New(__pyx_int_12, __pyx_int_16, Py_None); if (unlikely(!__pyx_slice__44)) __PYX_ERR(1, 1005, __pyx_L1_error)
+  __pyx_slice__44 = PySlice_New(__pyx_int_12, __pyx_int_16, Py_None); if (unlikely(!__pyx_slice__44)) __PYX_ERR(1, 1002, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__44);
   __Pyx_GIVEREF(__pyx_slice__44);
 

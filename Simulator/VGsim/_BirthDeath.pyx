@@ -994,10 +994,7 @@ cdef class BirthDeathModel:
         hd = [0 for _ in range(freq+1)]
 
         for timestamp_num in range(freq+1):
-            A_hap = 0
-            C_hap = 0
-            T_hap = 0
-            G_hap = 0
+            A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
             for pop_id in range(len(ld[1][timestamp_num])):
                 A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
                 C_hap += sum(ld[1][timestamp_num][pop_id][4:8])

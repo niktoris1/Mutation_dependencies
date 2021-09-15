@@ -101,12 +101,27 @@ class LikelyhoodEstimationDismembered:
         for bracket in self.bracket_data_funct:
             bracket.sort(key=TakeEventTime)
 
+        all_events = []
+        for event_tree in event_table_funct:
+            for event in event_tree:
+                all_events.append(event[0])
+
+        print(len(all_events), 'overall events')
+        print(len(set(all_events)), 'unique events')
+
+
 
         self.distinct_lineages_array_neutral = [[] for _ in range(self.number_of_brackets)]
         self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_brackets)]
 
         current_lineages_neutral = 0
         current_lineages_funct = 0
+
+        root_coals = 0
+        non_root_coals = 0
+        root_samples = 0
+        non_root_samples = 0
+
         for bracket_num in range(self.number_of_brackets):
 
             for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
@@ -128,18 +143,27 @@ class LikelyhoodEstimationDismembered:
             for sample_num in range(len(self.bracket_data_funct[bracket_num])):
                 if len(self.bracket_data_funct[bracket_num]) > 0:
                     if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
-                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
                             self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 2)
-                        else:  # is sample
+                            root_coals +=1
+                        else: # is sample
                             self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct)
+                            root_samples +=1
                     else: # is not root
-                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1:  # is coal
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
                             self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct + 1)
-                        else:  # is sample
+                            non_root_coals +=1
+                        else: # is sample
                             self.distinct_lineages_array_funct[bracket_num].append(current_lineages_funct - 1)
+                            non_root_samples +=1
                     current_lineages_funct = self.distinct_lineages_array_funct[bracket_num][-1]
                 else:
                     continue
+
+        print("Root coals", root_coals)
+        print("Root samples", root_samples)
+        print("Non Root coals", non_root_coals)
+        print("Non Root samples", non_root_samples)
 
 
         for bracket_num in range(self.number_of_brackets):
@@ -165,13 +189,13 @@ class LikelyhoodEstimationDismembered:
         def SumCoals(dataEvents):
             number_of_coals = 0
             for i in range(len(dataEvents)):
-                number_of_coals = number_of_coals + dataEvents[i][2]
+                number_of_coals += dataEvents[i][2]
             return number_of_coals
 
         def SumSamples(dataEvents):
             number_of_samples = 0
             for i in range(len(dataEvents)):
-                number_of_samples = number_of_samples + dataEvents[i][1]
+                number_of_samples += dataEvents[i][1]
             return number_of_samples
 
 
@@ -294,6 +318,7 @@ class LikelyhoodEstimationDismembered:
         estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
         true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
         hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+        ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
 
         for bracket_num in range(self.number_of_brackets):
             if hd[bracket_num][3] != 0:
@@ -309,7 +334,7 @@ class LikelyhoodEstimationDismembered:
             else:
                 estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
                 lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
-                                         (c1s[timestamp_num] + c3s[timestamp_num] * true_infected_ratio[timestamp_num] * rho)
+                                         (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho)
                 #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
@@ -323,7 +348,7 @@ class LikelyhoodEstimationDismembered:
 
     def OptimiseLLH(self):
         overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
-        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.001, 2), bounds=(0.001, 100000), method='Bounded')
+        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.001, 10), bounds=(0.001, 100000), method='Bounded')
         return optimum
 
     def PlotLLH(self):
