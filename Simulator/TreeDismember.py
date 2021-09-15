@@ -37,12 +37,15 @@ class TreeDismember:
         AS = mut[1]
         DS = mut[3]
         M = np.zeros(len(topo), dtype=int)
+        M_count = np.zeros(len(topo), dtype=int)
         for i in range(len(nod)):
             if DS[i] == al[allele]:
                 M[nod[i]] = 1
+                M_count[nod[i]] += 1
             elif AS[i] == al[allele]:
                 M[nod[i]] = -1
-        return M
+                M_count[nod[i]] += 1
+        return M, M_count
 
     def debug(self):
         mcount = 0
@@ -111,10 +114,45 @@ class TreeDismember:
         self.trees_neutral = trees_neutral
         return trees_funct, trees_neutral # [наборы вершин поддеревьев], [наборы вершин поддеревьев]
 
+    def what_type(self, root):
+        mut_type = 0
+        if self.M_count[root] == 1:
+            if self.M[root] == 1:
+                mut_type = 1
+            else:
+                mut_type = -1
+        else:
+            cur_node = self.topo[root]
+            while mut_type == 0 and cur_node != -1:
+                if self.M_count[cur_node] == 1:
+                    #print('anc')
+                    mut_type = -self.M[cur_node]
+                cur_node = self.topo[cur_node]
+
+            cur_node = self.rtopo[root][0]
+            stack = [root]
+            while mut_type == 0 and stack != []:
+                cur_node = stack.pop(-1)
+                if self.M_count[cur_node] == 1:
+                    #print('off')
+                    mut_type = -self.M[cur_node]
+                if self.rtopo[cur_node][0] != -1:
+                    stack.append(self.rtopo[cur_node][0])
+                if self.rtopo[cur_node][1] != -1:
+                    stack.append(self.rtopo[cur_node][1])
+
+            if mut_type == 0:
+                if self.M[root] == 1:
+                    mut_type = 1
+                else:
+                    mut_type = -1
+        self.M[root] = mut_type
+        return mut_type
+
 
     def Dismember(self, allele='G'):
         rtopo = self.rtopo
-        self.M = self.getmut(self.topo, self.mutations_raw, allele)
+        self.M, self.M_count = self.getmut(self.topo, self.mutations_raw, allele)
         self.allele = allele
         mut = self.M
         trees_funct = []
@@ -129,12 +167,14 @@ class TreeDismember:
             Subtree_is_sample = []
             S = [] # для обхода
             S.append(NewRoots[0])
+            mut_type = self.what_type(NewRoots[0])
             while S != []:   #ищем корни для деревьев, которые отрежем
                 node = S.pop(-1)
                 if mut[node] == 0 or node == NewRoots[0]: #если не нашли мутацию или оказались в рассматриваемом корне
                     Subtree.append(node) #добавляем вершину
                     Subtree_is_sample.append(1) #превентивно - семплирование
-                    if mut[NewRoots[0]] == 1:  # если мутация функциональная, то пометим вершину как мут
+
+                    if mut_type == 1:  # если мутация функциональная, то пометим вершину как мут
                         self.Mtor[node] = 1
                     else:
                         self.Mtor[node] = 0
@@ -150,7 +190,9 @@ class TreeDismember:
                     NewRoots.append(node)
                     Subtree.append(node) # добавить вершину-обрезок
                     Subtree_is_sample.append(1) #обрезок = семплирование
-            if mut[NewRoots.pop(0)] == 1:  # если мутация функциональная, то добавляем поддерево к мутировавшим
+
+            NewRoots.pop(0)
+            if mut_type == 1:  # если мутация функциональная, то добавляем поддерево к мутировавшим
                 Subtree_zip = [Subtree, Subtree_is_sample]
                 trees_funct.append([Subtree, Subtree_is_sample])
             else:    # если мутация - откат, или ее нет (главный корень), то добавляем поддерево к обычным
@@ -164,7 +206,7 @@ class TreeDismember:
     def getEventTable(self):
         event_table_funct = []
         for tree_i in range(len(self.trees_funct)):
-            if len(self.trees_funct[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
+            if len(self.trees_funct[tree_i][0]) != 1: #костыль, отметаем деревья из 1 вершины
                 TreeTable = []
                 times_ind = {}
                 funct_subtree = self.trees_funct[tree_i][0]
@@ -182,7 +224,7 @@ class TreeDismember:
                 event_table_funct.append(TreeTable)
         event_table_neutral = []
         for tree_i in range(len(self.trees_neutral)):
-            if len(self.trees_neutral[tree_i]) != 1: #костыль, отметаем деревья из 1 вершины
+            if len(self.trees_neutral[tree_i][0]) != 1: #костыль, отметаем деревья из 1 вершины
                 TreeTable = []
                 times_ind = {}
                 neutral_subtree = self.trees_neutral[tree_i][0]
