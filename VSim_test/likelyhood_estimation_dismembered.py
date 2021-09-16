@@ -126,6 +126,7 @@ class LikelyhoodEstimationDismembered:
 
             for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
                 if len(self.bracket_data_neutral[bracket_num]) > 0:
+                    # if there are many roots - next line adds much running time
                     if self.bracket_data_neutral[bracket_num][sample_num] in self.roots_neutral: # is root
                         if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
                             self.distinct_lineages_array_neutral[bracket_num].append(current_lineages_neutral + 2)
@@ -176,6 +177,7 @@ class LikelyhoodEstimationDismembered:
                     raise(ValueError)
 
 
+
         # we do a preprocessing of values for LLH
         # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
 
@@ -220,6 +222,8 @@ class LikelyhoodEstimationDismembered:
                                           sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
 
         print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of", self.number_of_overall_vertices)
+        print("There are", self.number_of_neutral_vertices, "vertices with a neutral haplotype out of",
+              self.number_of_overall_vertices)
         print("Overall", sum(self.number_of_samples_neutral) + sum(self.number_of_samples_funct), "vertices were sampled out of", self.number_of_overall_vertices)
 
 

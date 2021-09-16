@@ -48,7 +48,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
 
 
-    number_of_timestamps = 50 # how frequent brackets are
+    number_of_timestamps = 20 # how frequent brackets are
     #sample_fraction_table = tdm.getSampleFracTable(timestamps)
     LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, number_of_timestamps, simulation)
     optimum = LED.OptimiseLLH()
@@ -66,7 +66,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 #for randomiztion use randrange(sys.maxsize)
 
 rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, 1834944703824815026)
+                                 susceptible, lockdownModel, randrange(sys.maxsize) )
 
 
 
