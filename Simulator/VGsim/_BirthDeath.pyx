@@ -620,7 +620,7 @@ cdef class BirthDeathModel:
                     liveBranchesS[e_population][e_newHaplotype][n1] = liveBranchesS[e_population][e_newHaplotype][lbs-1]
                     liveBranchesS[e_population][e_newHaplotype].pop_back()
                     liveBranchesS[e_population][e_haplotype].push_back(id1)
-                    self.mut.AddMutation(id1, e_haplotype, e_newHaplotype)
+                    self.mut.AddMutation(id1, e_haplotype, e_newHaplotype, e_time)
                 self.liveBranches[e_population][e_newHaplotype] -= 1
                 self.liveBranches[e_population][e_haplotype] += 1
             elif e_type_ == SUSCCHANGE:
@@ -991,6 +991,6 @@ cdef class BirthDeathModel:
        return self.events.currentInfectious
 
     def gettdm(self):
-        tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS])
+        tdmio = TreeDismemberIO(self.tree, self.times, [self.mut.nodeId, self.mut.AS, self.mut.site, self.mut.DS, self.mut.time])
         tdm = tdmio.gettdm()
         return tdm
