@@ -42,7 +42,7 @@ class TreeDismember:
         nod = mut[0]
         AS = mut[1]
         DS = mut[3]
-        time = mut[4]
+        #time = mut[4]
 
         su_AS = -np.ones(len(topo), dtype=int)
         su_DS = -np.ones(len(topo), dtype=int)

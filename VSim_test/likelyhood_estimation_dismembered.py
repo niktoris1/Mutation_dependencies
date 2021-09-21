@@ -229,16 +229,16 @@ class LikelyhoodEstimationDismembered:
 
 
 
-    def GetEstimationConstantsGivenRho(self, rho): # returns an estimation of the s_i with respect to rho
+    def GetEstimationConstants(self): # returns an estimation of the s_i
 
         # here we define constants in the LLH_1 and LLH_2 as follows
         # the LLH results in the formula for neutral and funct cases
         # c_1 * \lambda - number_of_coals_neutral * log \lambda + c_2
         # c_3 * (\rho * \lambda) - number_of_coals_funct * log (\lambda * \rho) + c_4
 
-        c1s = [0 for _ in range(self.number_of_brackets)]
+        self.c1s = [0 for _ in range(self.number_of_brackets)]
         #c2s = [0 for _ in range(self.number_of_brackets)]
-        c3s = [0 for _ in range(self.number_of_brackets)]
+        self.c3s = [0 for _ in range(self.number_of_brackets)]
         #c4s = [0 for _ in range(self.number_of_brackets)]
 
         current_neutral_lineages = 0
@@ -247,15 +247,15 @@ class LikelyhoodEstimationDismembered:
             if len(self.bracket_data_neutral[timestamp_num]) > 0:
                 if timestamp_num == 0:
                     for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
-                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                        self.c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
                                                self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
                                               math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
                 else:
-                    c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][0][0] -
+                    self.c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][0][0] -
                                                current_neutral_time) * \
                                               math.comb(current_neutral_lineages, 2)
                     for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
-                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                        self.c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
                                                self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
                                               math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
 
@@ -279,15 +279,15 @@ class LikelyhoodEstimationDismembered:
             if len(self.bracket_data_funct[timestamp_num]) > 0:
                 if timestamp_num == 0:
                     for j in range(1, len(self.bracket_data_funct[timestamp_num])):
-                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                        self.c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
                                                self.bracket_data_funct[timestamp_num][j - 1][0]) * \
                                               math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
                 else:
-                    c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][0][0] -
+                    self.c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][0][0] -
                                                current_funct_time) * \
                                               math.comb(current_funct_lineages, 2)
                     for j in range(1, len(self.bracket_data_funct[timestamp_num])):
-                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                        self.c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
                                                self.bracket_data_funct[timestamp_num][j - 1][0]) * \
                                               math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
 
@@ -308,38 +308,38 @@ class LikelyhoodEstimationDismembered:
         #        else:
         #            continue
 
-        return c1s, c3s
+        return self.c1s, self.c3s
 
 
     def GetLLHOptimumTotal(self, rho):
 
         #returns estimations for lambdas and for the sum
 
-        c1s, c3s = self.GetEstimationConstantsGivenRho(rho)
+        self.c1s, self.c3s = self.GetEstimationConstants()
 
         lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
         estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
         true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
-        hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
-        ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
+        #hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+        #ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
 
-        for bracket_num in range(self.number_of_brackets):
-            if hd[bracket_num][3] != 0:
-                true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
+        #for bracket_num in range(self.number_of_brackets):
+        #    if hd[bracket_num][3] != 0:
+        #        true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
         # here 0 means that we cannot get any info
 
         for timestamp_num in range(self.number_of_brackets):
             if (self.number_of_coals_neutral[timestamp_num] == 0) or (self.number_of_coals_funct[timestamp_num] == 0) or \
                 (self.number_of_samples_neutral[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0)\
-                    or (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+                    or (self.c1s[timestamp_num] + self.c3s[timestamp_num] == 0):
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
                 estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
                 lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
-                                         (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho)
-                #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
+                                         (self.c1s[timestamp_num] + self.c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho)
+                #experimental - we eliminate a constant term (self.c1s[timestamp_num] + self.c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
 
