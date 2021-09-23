@@ -62,8 +62,8 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
             #[1.2, 1, 0], [1.2, 1, 0], [1.2, 1, 0], [1.2, 1, 0]
             #[1.8, 1, 0], [1.8, 1, 0], [1.8, 1, 0], [1.8, 1, 0], [1.8, 1, 0], [1.8, 1, 0], [1.8, 1, 0], [, 1, 0]]]
 
-    #LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, number_of_timestamps, simulation)
-    LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
+    LED = LikelyhoodEstimationDismembered(event_table_funct, event_table_neutral, number_of_timestamps, simulation)
+    #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
     optimum = LED.OptimiseLLH()
     LED.PlotLLH()
     rho = optimum.x
