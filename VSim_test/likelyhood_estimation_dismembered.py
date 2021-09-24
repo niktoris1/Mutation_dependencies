@@ -101,16 +101,6 @@ class LikelyhoodEstimationDismembered:
         for bracket in self.bracket_data_funct:
             bracket.sort(key=TakeEventTime)
 
-        all_events = []
-        for event_tree in event_table_funct:
-            for event in event_tree:
-                all_events.append(event[0])
-
-        print(len(all_events), 'overall events')
-        print(len(set(all_events)), 'unique events')
-
-
-
         self.distinct_lineages_array_neutral = [[] for _ in range(self.number_of_brackets)]
         self.distinct_lineages_array_funct = [[] for _ in range(self.number_of_brackets)]
 
@@ -221,12 +211,11 @@ class LikelyhoodEstimationDismembered:
         self.number_of_overall_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral) + \
                                           sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
 
-        print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of", self.number_of_overall_vertices)
         print("There are", self.number_of_neutral_vertices, "vertices with a neutral haplotype out of",
               self.number_of_overall_vertices)
+        print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of",
+              self.number_of_overall_vertices)
         print("Overall", sum(self.number_of_samples_neutral) + sum(self.number_of_samples_funct), "vertices were sampled out of", self.number_of_overall_vertices)
-
-
 
 
     def GetEstimationConstants(self): # returns an estimation of the s_i with respect to rho

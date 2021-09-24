@@ -22,8 +22,27 @@ cdef class Mutations:
         self.AS.push_back(int(floor(haplotype/digit4) % 4))
         self.site.push_back(int(site))
         self.time.push_back(time)
+
+    def GetData(self):
+        return {'node': self.nodeId, 'AS': self.AS, 'DS': self.DS, 'site': self.site, 'time': self.time}
         # print("MutType, AS, DS: ", site, self.AS[self.AS.size()-1], self.DS[self.DS.size()-1])
 
+cdef class Migrations:
+    cdef:
+        vector[Py_ssize_t] nodeId, oldPop, newPop
+        vector[double] time
+
+    def __init__(self):
+        pass
+
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    @cython.cdivision(True)
+    cdef void AddMigration(self, Py_ssize_t nodeId, double time, Py_ssize_t oldPop, Py_ssize_t newPop):
+        self.nodeId.push_back(nodeId)
+        self.time.push_back(time)
+        self.oldPop.push_back(oldPop)
+        self.newPop.push_back(newPop)
 
 class Population:
     def __init__(self, size=1000000, contactDensity=1.0):
@@ -40,12 +59,11 @@ class Lockdown:
 cdef class PopulationModel:
     cdef:
         Py_ssize_t globalInfectious
-        long[::1] sizes, totalSusceptible, totalInfectious
+        long[::1] sizes, totalSusceptible, totalInfectious, lockdownON
         long[:,::1] susceptible
-        double[::1] contactDensity, contactDensityBeforeLockdown, contactDensityAfterLockdown, startLD, endLD
-        bint lockdownON
+        double[::1] contactDensity, contactDensityBeforeLockdown, contactDensityAfterLockdown, startLD, endLD, samplingMultiplier
 
-    def __init__(self, populations, susceptible_num, lockdownModel=None):
+    def __init__(self, populations, susceptible_num, lockdownModel=None, samplingMultiplier=None):
         sizePop = len(populations)
 
         self.sizes = np.zeros(sizePop, dtype=np.int64)
@@ -75,14 +93,17 @@ cdef class PopulationModel:
                 self.contactDensityAfterLockdown[i] = lockdownModel[i].conDenAfterLD
                 self.startLD[i] = lockdownModel[i].startLD*self.sizes[i]/100.0
                 self.endLD[i] = lockdownModel[i].endLD*self.sizes[i]/100.0
-            self.lockdownON = False
         else:
             for i in range(sizePop):
                 self.contactDensityBeforeLockdown[i] = 0
                 self.contactDensityAfterLockdown[i] = 0
                 self.startLD[i] = 1.01*self.sizes[i]
                 self.endLD[i] = 1.0*self.sizes[i]
-            self.lockdownON = False
+        self.lockdownON = np.zeros(sizePop, dtype=np.int64)
+        if len(samplingMultiplier) != 0:
+            self.samplingMultiplier = np.asarray(samplingMultiplier)
+        else:
+            self.samplingMultiplier = np.ones(sizePop)
 
 
     @cython.boundscheck(False)
@@ -100,10 +121,3 @@ cdef class PopulationModel:
         self.totalSusceptible[popId] += 1
         self.totalInfectious[popId] -= 1
         self.globalInfectious -= 1
-
-# cdef class SusceptibleModel:
-#     cdef:
-
-
-# cdef class RateModel:
-#     cdef:

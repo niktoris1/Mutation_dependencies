@@ -77,15 +77,30 @@ def ReadPopulations(fn):
         line = line.split(" ")
         populations = []
         lockdown = []
+        samplingMultiplier = []
         for line in f:
             if line[0] == "#":
                 next
             line = line.rstrip()
             line = line.split(" ")
             populations.append( Population(int(line[1]), float(line[2])) )
-            if len(line) == 6:
-                lockdown.append( Lockdown(float(line[3]), float(line[4]), float(line[5])) )
-        return(populations, lockdown)
+            if len(line) == 4:
+                part_line = line[3].split(",")
+                if len(part_line) == 1:
+                    samplingMultiplier.append(float(part_line[0]))
+                elif len(part_line) == 3:
+                    lockdown.append( Lockdown(float(part_line[0]), float(part_line[1]), float(part_line[2])) )
+            elif len(line) == 5:
+                part_line1 = line[3].split(",")
+                part_line2 = line[4].split(",")
+                if len(part_line1) == 1:
+                    samplingMultiplier.append(float(part_line1[0]))
+                    lockdown.append( Lockdown(float(part_line2[0]), float(part_line2[1]), float(part_line2[2])) )
+                elif len(part_line1) == 3:
+                    samplingMultiplier.append(float(part_line2[0]))
+                    lockdown.append( Lockdown(float(part_line1[0]), float(part_line1[1]), float(part_line1[2])) )
+        print(samplingMultiplier)
+        return(populations, lockdown, samplingMultiplier)
 
 def ReadMigrationRates(fn):
     with open(fn) as f:
@@ -147,35 +162,43 @@ def writeMutations(mut, len_prufer):
     f_mut.close()
 
 class Vertex():
-    def __init__(self, root, root_time, children):
+    def __init__(self, root, root_time, children, populations):
         self.__children = children
         self.__root = root
         self.__root_time = root_time
+        self.__root_population_id = populations[self.__root_time]
         left_node = self.__children[root][0][0]
         left_time = self.__children[root][0][1]
         right_node = self.__children[root][1][0]
         right_time = self.__children[root][1][1]
 
         if left_node in self.__children:
-            self.__left_child = Vertex(left_node, left_time, self.__children)
+            self.__left_child = Vertex(left_node, left_time, self.__children, populations)
         else:
-            self.__left_child = Leaf(left_node, left_time)
+            self.__left_child = Leaf(left_node, left_time, populations)
             
         if right_node in self.__children:
-            self.__right_child = Vertex(right_node, right_time, self.__children)
+            self.__right_child = Vertex(right_node, right_time, self.__children, populations)
         else:
-            self.__right_child = Leaf(right_node, right_time)
+            self.__right_child = Leaf(right_node, right_time, populations)
 
-    def get_children(self):
-        return '({0},{1}){2}:{3}'.format(self.__left_child.get_children(), self.__right_child.get_children(), self.__root, self.__root_time)
+    def get_children(self, base_time):
+        return '({0},{1}){2}:{3}'.format(self.__left_child.get_children(self.__root_time), self.__right_child.get_children(self.__root_time), self.__root, self.__root_time - base_time)
+
+    def write_population(self):
+        return '{0}\t{1}\n'.format(self.__root, self.__root_population_id) + self.__left_child.write_population() + self.__right_child.write_population()
 
 class Leaf(Vertex):
-    def __init__(self, leaf, times):
+    def __init__(self, leaf, times, populations):
         self.__leaf = leaf
         self.__times = times
+        self.__leaf_population_id = populations[times]
 
-    def get_children(self):
-        return '{0}:{1}'.format(self.__leaf, self.__times)
+    def get_children(self, base_time):
+        return '{0}:{1}'.format(self.__leaf, self.__times - base_time)
+
+    def write_population(self):
+        return '{0}\t{1}\n'.format(self.__leaf, self.__leaf_population_id)
 
 #find list with childrens
 def find_children(pruferSeq, times):
@@ -196,14 +219,18 @@ def get_last(output_string):
     except:
         return "notDigit"
 
-def writeGenomeNewick(pruferSeq, times):
+def writeGenomeNewick(pruferSeq, times, populations):
     children = find_children(pruferSeq, times)
     root = children[-1][0][0]
     root_time = children[-1][0][1]
 
-    result = Vertex(root, root_time, children)
+    result = Vertex(root, root_time, children, populations)
 
     f_nwk = open('newick_output.nwk', 'w')
-    f_nwk.write(result.get_children())
+    f_nwk.write(result.get_children(root_time))
     f_nwk.write(';')
     f_nwk.close()
+
+    f_pop = open('tree_populations.txt', 'w')
+    f_pop.write(result.write_population())
+    f_pop.close()

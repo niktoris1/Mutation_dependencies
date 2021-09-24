@@ -2,8 +2,8 @@
 Fast simulator of viral genealogies in the world-scale pandemic scenarios.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![linux tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/ubuntu.yml/badge.svg)
-![macOS tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/macos.yml/badge.svg)
+[![linux tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/Genomics-HSE/VGsim/actions/workflows/ubuntu.yml/)
+[![macOS tests](https://github.com/Genomics-HSE/VGsim/actions/workflows/macos.yml/badge.svg)](https://github.com/Genomics-HSE/VGsim/actions/workflows/macos.yml/)
 
 
 Building the package
@@ -21,7 +21,7 @@ First, install the dependencies
 
 ```
 $ python -m pip install numpy>=1.19.5 cython
-$ python -m pip install git+https://github.com/ev-br/mc_lib.git@v0.2
+$ python -m pip install git+https://github.com/ev-br/mc_lib.git@v0.3
 ```
 
 Then, build the C extensions (note that we are doing an inplace, editable build
@@ -56,6 +56,14 @@ In some setups, the following was needed to install `mc_lib`
 $ python -m pip install -t ./ git+https://github.com/ev-br/mc_lib.git@v0.1
 ```
 
+
+Stopping criterion
+------------------
+
+Exists two variants to stop simulation.
+First `-it` or `--iterations` defined lenght of the chain of events. Second `-s` or `--sampleSize` additionally defined stopping criterion by the number of sample. If this parameter is not defined, then the default value is equal to the number of iterations.
+
+
 Setting haplotype (strain) model
 --------------------------------
 
@@ -88,16 +96,16 @@ In order to set population model use `--populationModel` or `-pm` flag followed 
 Here is an example of the file with populations.
 ```
 #Population_format_version 0.0.1
-id size contactDensity conDenAfterLD startLD endLD
-0 20000000 1.0 0.1 2 1
-1 10000000 1.0 0.1 2 1
+id size contactDensity conDenAfterLD startLD endLD samplingMultiplier
+0 20000000 1.0 0.1,2,1 5 
+1 10000000 1.0 0.1,2,1 1
 ...
 ```
-`id` is the population number (for convinience). `size` is the total number of individuals in the population. Contact density in the relative number of contacts per time unit. It can be used to model different social, cultural, economical and other aspects (e.g. population density in a city or a country side, holiday times etc.) Currently we provide only one out-of-the-box solution to change contact density during simulation. Those are optinal fields (included in the example) to tune lockdowns. `conDenAfterLD` is the contact density during lockdown, `startLD` and `endLD` are condition to impose and lift the lockdown. These two numerbs are the percentage of individuals which are simultaneously infected. If the percentage of simultanelously infected individuals in a population becomes larger than `startLD`, lockdown is imposed. As soon as the percentage of simultaneously infected individuals drops below `endLD` the lockdown is lifted.
+`id` is the population number (for convinience). `size` is the total number of individuals in the population. Contact density in the relative number of contacts per time unit. It can be used to model different social, cultural, economical and other aspects (e.g. population density in a city or a country side, holiday times etc.) Currently we provide only one out-of-the-box solution to change contact density during simulation. Those are optinal fields (included in the example) to tune lockdowns. `conDenAfterLD` is the contact density during lockdown, `startLD` and `endLD` are condition to impose and lift the lockdown. These two numbers are the percentage of individuals which are simultaneously infected. If the percentage of simultanelously infected individuals in a population becomes larger than `startLD`, lockdown is imposed. As soon as the percentage of simultaneously infected individuals drops below `endLD` the lockdown is lifted.
 
 ### Part 2 - setting migration matrix
 
-In the model we consider migration as some individuals spending some time in other population and then returning to their home population. This is modelled by "visit" rates. During such visits individuals are assumed to contact with individuals of another population according to contact density of the destination population (so lockdown in a destination country also changes the contact rate of a visitor). Example:
+In the model we consider migration as some individuals spending some time in other population and then returning to their home population. This is modelled by the probabilities that an individual from their home population is found in a destination population. During such visits individuals are assumed to contact with individuals of another population according to contact density of the destination population (so lockdown in a destination country also changes the contact rate of a visitor). Example:
 
 ```#Migration_format_version 0.0.1
 0.0 0.002 0.002 0.001
