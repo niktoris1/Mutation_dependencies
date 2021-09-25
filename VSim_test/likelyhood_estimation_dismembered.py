@@ -18,7 +18,7 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_timestamps=None, simulation=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None): # here we have not tree, but tables
 
         self.simulation = simulation
 
@@ -53,7 +53,7 @@ class LikelyhoodEstimationDismembered:
                     max_time = funct_event[0]
 
 
-        self.timestamps = [_ for _ in np.linspace(0, max_time, number_of_timestamps + 1, endpoint=True)]
+        self.timestamps = [_ for _ in np.linspace(0, max_time, number_of_brackets + 1, endpoint=True)]
         self.number_of_brackets = len(self.timestamps) - 1
 
         #format of data is [left timestamp, number of samples, number_of coals, fraction]
@@ -213,9 +213,9 @@ class LikelyhoodEstimationDismembered:
 
         print("There are", self.number_of_neutral_vertices, "vertices with a neutral haplotype out of",
               self.number_of_overall_vertices)
-        print("There are", self.number_of_funct_vertices, "vertices with a considered haplotype out of",
-              self.number_of_overall_vertices)
         print("Overall", sum(self.number_of_samples_neutral) + sum(self.number_of_samples_funct), "vertices were sampled out of", self.number_of_overall_vertices)
+
+
 
 
     def GetEstimationConstants(self): # returns an estimation of the s_i with respect to rho
@@ -337,11 +337,12 @@ class LikelyhoodEstimationDismembered:
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
+        #result = LLHOptimumResultsNoConstantTerm[0]
         return result
 
     def OptimiseLLH(self):
         overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
-        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.001, 10), bounds=(0.001, 100000), method='Bounded')
+        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.001, 10), bounds=(0.001, 1000000), method='Bounded')
         return optimum
 
     def PlotLLH(self):
