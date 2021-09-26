@@ -331,13 +331,14 @@ class LikelyhoodEstimationDismembered:
                 #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
+        #print("Estimated infected ratio", estimated_infected_ratio)
 
         #print("Estimated:", estimated_infected_ratio)
         #print("True:", true_infected_ratio)
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
-        #result = LLHOptimumResultsNoConstantTerm[0]
+        #result = LLHOptimumResultsNoConstantTerm[2]
         return result
 
     def OptimiseLLH(self):

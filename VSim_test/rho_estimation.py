@@ -4,6 +4,7 @@ from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, \
     susceptible, lockdownModel, suscepTransition, samplingMultiplier, sampleSize, rndseed
+from simulation import ReadRates
 import statistics
 from random import randrange
 import numpy as np
@@ -17,15 +18,15 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
     print("Random seed is: ", rndseed)
 
-    #simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
-    #                                 susceptible=susceptible, lockdownModel=lockdownModel,
-    #                             suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
-    #simulation.SimulatePopulation(iterations, sampleSize)
-    #simulation.GetGenealogy()
-    #tdm = simulation.gettdm() #get tdm object
-    #trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
+    simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
+                                     susceptible=susceptible, lockdownModel=lockdownModel,
+                                 suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
+    simulation.SimulatePopulation(iterations, sampleSize)
+    simulation.GetGenealogy()
+    tdm = simulation.gettdm() #get tdm object
+    trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
                 #получение таблиц
-    #event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
+    event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
 
     #nc, ns, fc, fs = 0, 0, 0, 0
     #for neutral_tree in event_table_neutral:
@@ -51,6 +52,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
     number_of_timestamps = 1 # how frequent brackets are
     #sample_fraction_table = tdm.getSampleFracTable(timestamps)
 
+
     def GenerateCoals(time, number_of_coals):
         return [[time, 0, 1] for _ in range(number_of_coals)]
 
@@ -73,26 +75,55 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
         return family
 
 
-    event_table_neutral_test=[
-        GenerateTreeFamily(1, 9)
-        #[[0, 0, 1],
-        #[1, 1, 0], [1, 1, 0]]
-        #[2, 1, 0], [2, 1, 0], [2, 1, 0], [2, 1, 0]]
-        #[3, 1, 0],  [3, 1, 0], [3, 1, 0], [3, 1, 0], [3, 1, 0], [3, 1, 0], [3, 1, 0], [3, 1, 0]]
-    ]
+    #event_table_neutral_test=[
+    #    GenerateTreeFamily(1, 12)
+    #]
 
 
-    event_table_funct_test=[
-        GenerateTreeFamily(0.5, 14)
-        #[[0, 0, 1],
-        #[1, 0, 1], [1, 0, 1],
-        #[2, 1, 0], [2, 1, 0], [2, 1, 0], [2, 1, 0]]
-        #[6, 1, 0],  [6, 1, 0], [6, 1, 0], [6, 1, 0], [6, 1, 0], [6, 1, 0], [6, 1, 0], [6, 1, 0]]
-    ]
+    #event_table_funct_test=[
+    #    GenerateTreeFamily(1, 18)
+    #]
 
 
-    LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct_test,
-                                          event_table_neutral=event_table_neutral_test,
+
+    #frate1 = 'test/test_tree_1.rt'
+    #bRate, dRate, sRate, mRate = ReadRates(frate1)
+    #simulation_1 = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
+    #                                 susceptible=susceptible, lockdownModel=lockdownModel,
+    #                             suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=randrange(sys.maxsize))
+    #simulation_1.SimulatePopulation(iterations, sampleSize)
+    #simulation_1.GetGenealogy()
+    #tdm = simulation_1.gettdm() #get tdm object
+    #trees_funct_1, trees_neutral_1 = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
+    # получение таблиц
+    #event_table_funct_1, event_table_neutral_1 = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
+
+
+
+    #frate2 = 'test/test_tree_2.rt'
+    #bRate, dRate, sRate, mRate = ReadRates(frate2)
+    #simulation_2 = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
+    #                                 susceptible=susceptible, lockdownModel=lockdownModel,
+    #                             suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=randrange(sys.maxsize))
+    #simulation_2.SimulatePopulation(iterations, sampleSize)
+    #simulation_2.GetGenealogy()
+    #tdm = simulation_2.gettdm() #get tdm object
+    #trees_funct_2, trees_neutral_2 = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
+    # получение таблиц
+    #event_table_funct_2, event_table_neutral_2 = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
+
+    #for event_tree_num in range(len(event_table_neutral_2)): # change of time
+    #    for event_num in range(len(event_table_neutral_2[event_tree_num])):
+    #        time =  event_table_neutral_2[event_tree_num][event_num][0]
+    #        sample = event_table_neutral_2[event_tree_num][event_num][1]
+    #        coal = event_table_neutral_2[event_tree_num][event_num][2]
+    #        event_table_neutral_2[event_tree_num][event_num] = [time/2+(random.random()-0.5)/1000, sample, coal]
+
+
+
+
+    LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct,
+                                          event_table_neutral=event_table_neutral,
                                           number_of_brackets=1,
                                           simulation=None)
     #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
