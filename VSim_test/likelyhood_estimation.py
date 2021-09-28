@@ -1,141 +1,352 @@
 import math
-from scipy import optimize
-from VSim_test.tree_functions import GetEventsFromTree, IterationFromTime
-from treelib import Tree
+import sys
 
+import scipy
+import numpy as np
+import scipy.stats
+from scipy.stats.distributions import chi2
+import statistics
+
+from scipy import optimize
+from scipy.optimize import Bounds
+from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
+from simulation import iterations, bRate, dRate, sRate, mRate, popModel, susceptible, lockdownModel, rndseed
+from scipy.optimize import fsolve
 
 import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
+class LikelyhoodEstimationDismembered:
+    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None): # here we have not tree, but tables
+
+        self.simulation = simulation
+
+        def TakeEventTime(event):
+            return event[0]
+
+        self.roots_neutral = []
+        for event_tree in event_table_neutral:
+            event_tree.sort(key=TakeEventTime)
+            self.roots_neutral.append(event_tree[0])
+
+        self.roots_funct = []
+        for event_tree in event_table_funct:
+            event_tree.sort(key=TakeEventTime)
+            self.roots_funct.append(event_tree[0])
+
+        #if event_table_funct != []:
+        #    for timestamp_num in range(1, len(event_table_funct)):
+        #        event_table_funct[0] = event_table_funct[0] + event_table_funct[timestamp_num]
+        #   event_table_funct = event_table_funct[0]
+        #if event_table_neutral != []
+        #    event_table_neutral = event_table_neutral[0]
+
+        max_time = 0
+        for neutral_tree in event_table_neutral:
+            for neutral_event in neutral_tree:
+                if neutral_event[0] > max_time:
+                    max_time = neutral_event[0]
+        for funct_tree in event_table_funct:
+            for funct_event in funct_tree:
+                if funct_event[0] > max_time:
+                    max_time = funct_event[0]
 
 
-class LikelyhoodEstimation:
+        self.timestamps = [_ for _ in np.linspace(0, max_time, number_of_brackets + 1, endpoint=True)]
+        self.number_of_brackets = len(self.timestamps) - 1
 
-    def __init__(self, estimated_tree=None, es=None):
-        if isinstance(estimated_tree, list):
-            if len(estimated_tree) == 0:
-                raise ('Trying to estimate empty subtree - undefined. Seems that this mutation simply does not exist.')
-            self.estimated_tree = estimated_tree
-        elif isinstance(estimated_tree, Tree):
-            self.estimated_tree = [estimated_tree] # making a single tree a list for the sake of consitency
-        else:
-            raise("Error - we have on the input neither tree or the list of trees. Check the input, please.")
+        #format of data is [left timestamp, number of samples, number_of coals, fraction]
 
-        if estimated_tree != None:
-            self.es = GetEventsFromTree(self.estimated_tree)
-        else:
-            self.es = es
-        self.number_of_events = len(self.es.tree_sequence)
-        self.distinct_lineages = self.BuildDistinctLineages(self.es.tree_sequence)
+        self.bracket_data_neutral = [[] for _ in range(self.number_of_brackets)]
+        self.bracket_data_funct = [[] for _ in range(self.number_of_brackets)]
 
 
+        # bracket_data is a list of brackets Each corresponds to a timeframe
+        # each bracket is a list of 4 values
+        # 0) list of times
+        # 1) list of indicators if the event is sample
+        # 2) list of indicators if the event is coalescence
 
-    def LLH_function(self, coal_rate):
-
-        LLH_values = [0] * self.number_of_events
-        events = [0] * self.number_of_events
-        event_type_array = [0] * self.number_of_events
-        current_time_array = [0] * self.number_of_events
-        distinct_lineages_array = [0] * self.number_of_events
-        event_probability_array = [0] * self.number_of_events
-        addition = [0] * self.number_of_events
-
-
-        for iteration in range(self.number_of_events):
-            events[iteration] = LikelyhoodEstimation.EventFromIteration(self, iteration)
-            event_type_array[iteration] = events[iteration].tree_type
-            current_time_array[iteration] = self.es.TimeFromIteration(iteration)
-            distinct_lineages_array[iteration] = LikelyhoodEstimation.DistinctLineages(self, current_time_array[iteration])
-            event_probability_array[iteration] = LikelyhoodEstimation.EventProbability(self, current_time_array[iteration], events[iteration], coal_rate)
-
-        for iteration in range(1, self.number_of_events):
-            addition[iteration] = (- coal_rate * (current_time_array[iteration] - current_time_array[iteration - 1]) *
-               math.comb(distinct_lineages_array[iteration], 2)) + math.log(event_probability_array[iteration])
-
-            LLH_values[iteration] = LLH_values[iteration - 1] + addition[iteration]
-
-        return LLH_values[-1]
-
-
-    def BuildDistinctLineages(self, event_sequence):
-        # returns number of distinct lineages which corresponds to the times at the event sequence
-
-        distinct_lineages = [0] * len(event_sequence)
-
-        for iteration in range(len(event_sequence)):
-            if iteration > 0:
-                distinct_lineages[iteration] = distinct_lineages[iteration-1] - 1
+        def MapTimeToBracket(time, brackets, bracket_start_num, bracket_finish_num):
+            test_bracket_num = (bracket_start_num + bracket_finish_num) // 2
+            if (time < brackets[test_bracket_num][0]):
+                return MapTimeToBracket(time, brackets, bracket_start_num, test_bracket_num - 1)
+            elif (time > brackets[test_bracket_num][1]):
+                return MapTimeToBracket(time, brackets, test_bracket_num + 1, bracket_finish_num)
             else:
-                distinct_lineages[iteration] = -1
-
-            for individual_tree in self.estimated_tree:
-                if individual_tree.contains(event_sequence[iteration].node_id):
-                    if event_sequence[iteration].tree_type == "coalescence":
-                        number_of_children = len(individual_tree.get_node(event_sequence[iteration].node_id).fpointer)
-                        distinct_lineages[iteration] = distinct_lineages[iteration] + number_of_children
-                            #print('Added ', number_of_children, 'children')
-                    if individual_tree.root == event_sequence[iteration].node_id:
-                        distinct_lineages[iteration] = distinct_lineages[iteration] + 1
-                            #print('Added ', 1, 'for root')
-                    break
-
-            if distinct_lineages[iteration] < 0:
-                raise Exception('Error, less than zero lineages!')
-
-                #print('Currently', dl, 'distinct lineages')
-
-        return distinct_lineages
-
-    def DistinctLineages(self, time):
-        iteration = IterationFromTime(time, es=self.es)
-        return self.distinct_lineages[iteration]
-
-    def EventFromIteration(self, iteration):
-        return self.es.tree_sequence[iteration]
-
-    def EventProbability(self, time, event, coal_rate):
-
-        distinct_lineages = LikelyhoodEstimation.DistinctLineages(self, time)
-
-        if event.tree_type == "adding_lineage":
-            return 1
-        else:
-            probability = 1
-            for i in range(0, event.number_of_children - 1): # ???
-                probability = probability * coal_rate * math.comb(distinct_lineages - i + 1, 2)
-            return probability
+                return test_bracket_num
 
 
-    def GetEstimation(self):
+        starts_and_finishes = []
+        for bracket_num in range(self.number_of_brackets):
+            time_start = self.timestamps[bracket_num]
+            time_finish = self.timestamps[bracket_num + 1]
+            starts_and_finishes.append([time_start, time_finish])
 
-        print("GETTING ESTIMATION")
-        #start_coal_rate=20 # will have to estimate
-        wrapper = lambda coal_rate: - self.LLH_function(coal_rate=coal_rate)
 
-        LLH_optimised = optimize.minimize_scalar(fun=wrapper, bounds = (0.0001, 1000), bracket = (0.0001, 10), method='Bounded', tol=1e-5)
-        #LLH_optimised = optimize.minimize(fun=wrapper, x0=20, method='Nelder-Mead', tol=1e-2)
+        for event_tree_neutral in event_table_neutral:
+            for event_neutral in event_tree_neutral:
+                bracket_num = MapTimeToBracket(event_neutral[0], starts_and_finishes, 0, self.number_of_brackets)
+                self.bracket_data_neutral[bracket_num].append(event_neutral)
+        for event_tree_funct in event_table_funct:
+            for event_funct in event_tree_funct:
+                bracket_num = MapTimeToBracket(event_funct[0], starts_and_finishes, 0, self.number_of_brackets)
+                self.bracket_data_funct[bracket_num].append(event_funct)
 
-        x = [x /1000.0 for x in range(1, 1000, 1)]
-        y = [LikelyhoodEstimation.LLH_function(self, coal_rate=i) for i in x]
+        for bracket in self.bracket_data_neutral:
+            bracket.sort(key=TakeEventTime)
+        for bracket in self.bracket_data_funct:
+            bracket.sort(key=TakeEventTime)
 
-        plt.plot(x, y)
+        self.distinct_lineages_array_neutral = [[0 for _ in range(len(self.bracket_data_neutral[timestamp_num]))]
+                                                for timestamp_num in range(self.number_of_brackets)]
+        self.distinct_lineages_array_funct = [[0 for _ in range(len(self.bracket_data_funct[timestamp_num]))]
+                                                for timestamp_num in range(self.number_of_brackets)]
+
+        current_lineages_neutral = 0
+        current_lineages_funct = 0
+
+        root_coals = 0
+        non_root_coals = 0
+        root_samples = 0
+        non_root_samples = 0
+
+        for bracket_num in range(self.number_of_brackets):
+
+            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
+                if len(self.bracket_data_neutral[bracket_num]) > 0:
+                    # if there are many roots - next line adds much running time
+                    if self.bracket_data_neutral[bracket_num][sample_num] in self.roots_neutral: # is root
+                        if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_neutral[bracket_num][sample_num] = current_lineages_neutral + 2
+                        else: # is sample
+                            self.distinct_lineages_array_neutral[bracket_num] [sample_num] = current_lineages_neutral
+                    else: # is not root
+                        if self.bracket_data_neutral[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_neutral[bracket_num][sample_num] = current_lineages_neutral + 1
+                        else: # is sample
+                            self.distinct_lineages_array_neutral[bracket_num][sample_num] = current_lineages_neutral - 1
+                    current_lineages_neutral = self.distinct_lineages_array_neutral[bracket_num][sample_num]
+                else:
+                    continue
+
+            for sample_num in range(len(self.bracket_data_funct[bracket_num])):
+                if len(self.bracket_data_funct[bracket_num]) > 0:
+                    if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_funct[bracket_num][sample_num] = current_lineages_funct + 2
+                            root_coals +=1
+                        else: # is sample
+                            self.distinct_lineages_array_funct[bracket_num][sample_num] = current_lineages_funct
+                            root_samples +=1
+                    else: # is not root
+                        if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
+                            self.distinct_lineages_array_funct[bracket_num][sample_num] =  current_lineages_funct + 1
+                            non_root_coals +=1
+                        else: # is sample
+                            self.distinct_lineages_array_funct[bracket_num] [sample_num] =  current_lineages_funct - 1
+                            non_root_samples += 1
+                    current_lineages_funct = self.distinct_lineages_array_funct[bracket_num][sample_num]
+                else:
+                    continue
+
+        print("Root coals", root_coals)
+        print("Root samples", root_samples)
+        print("Non Root coals", non_root_coals)
+        print("Non Root samples", non_root_samples)
+
+
+        for bracket_num in range(self.number_of_brackets):
+            for sample_num in range(len(self.bracket_data_neutral[bracket_num])):
+                if self.distinct_lineages_array_neutral[bracket_num][sample_num] < 0:
+                    raise(ValueError)
+        for bracket_num in range(self.number_of_brackets):
+            for sample_num in range(len(self.bracket_data_funct[bracket_num])):
+                if self.distinct_lineages_array_funct[bracket_num][sample_num] < 0:
+                    raise(ValueError)
+
+
+
+        # we do a preprocessing of values for LLH
+        # LLH = -coal_rate*coal_rate_multiplier + sum_of_logs
+
+        # sums_of_logs equals number of coalescent events
+
+        self.number_of_coals_neutral = [0 for _ in range(self.number_of_brackets)]
+        self.number_of_coals_funct = [0 for _ in range(self.number_of_brackets)]
+        self.number_of_samples_neutral = [0 for _ in range(self.number_of_brackets)]
+        self.number_of_samples_funct = [0 for _ in range(self.number_of_brackets)]
+
+        def SumCoals(dataEvents):
+            number_of_coals = 0
+            for i in range(len(dataEvents)):
+                number_of_coals += dataEvents[i][2]
+            return number_of_coals
+
+        def SumSamples(dataEvents):
+            number_of_samples = 0
+            for i in range(len(dataEvents)):
+                number_of_samples += dataEvents[i][1]
+            return number_of_samples
+
+
+        for bracket_num in range(self.number_of_brackets):
+            if self.bracket_data_neutral[bracket_num] == []:
+                self.number_of_coals_neutral[bracket_num] = 0
+                self.number_of_samples_neutral[bracket_num] = 0
+            else:
+                self.number_of_coals_neutral[bracket_num] = SumCoals(self.bracket_data_neutral[bracket_num])
+                self.number_of_samples_neutral[bracket_num] = SumSamples(self.bracket_data_neutral[bracket_num])
+
+            if self.bracket_data_funct[bracket_num] == []:
+                self.number_of_coals_funct[bracket_num] = 0
+                self.number_of_samples_funct[bracket_num] = 0
+            else:
+                self.number_of_coals_funct[bracket_num] = SumCoals(self.bracket_data_funct[bracket_num])
+                self.number_of_samples_funct[bracket_num] = SumSamples(self.bracket_data_funct[bracket_num])
+
+        self.number_of_neutral_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral)
+        self.number_of_funct_vertices = sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+        self.number_of_overall_vertices = sum(self.number_of_coals_neutral) + sum(self.number_of_samples_neutral) + \
+                                          sum(self.number_of_coals_funct) + sum(self.number_of_samples_funct)
+
+        print("There are", self.number_of_neutral_vertices, "vertices with a neutral haplotype out of",
+              self.number_of_overall_vertices)
+        print("Overall", sum(self.number_of_samples_neutral) + sum(self.number_of_samples_funct), "vertices were sampled out of", self.number_of_overall_vertices)
+
+
+
+
+    def GetEstimationConstants(self): # returns an estimation of the s_i with respect to rho
+
+        # here we define constants in the LLH_1 and LLH_2 as follows
+        # the LLH results in the formula for neutral and funct cases
+        # c_1 * \lambda - number_of_coals_neutral * log \lambda + c_2
+        # c_3 * (\rho * \lambda) - number_of_coals_funct * log (\lambda * \rho) + c_4
+
+        c1s = [0 for _ in range(self.number_of_brackets)]
+        c3s = [0 for _ in range(self.number_of_brackets)]
+
+        current_neutral_lineages = 0
+        current_neutral_time = 0
+        for timestamp_num in range(self.number_of_brackets):
+            if len(self.bracket_data_neutral[timestamp_num]) > 0:
+                if timestamp_num == 0:
+                    for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
+                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                                               self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
+                else:
+                    c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][0][0] -
+                                               current_neutral_time) * \
+                                              math.comb(current_neutral_lineages, 2)
+                    for j in range(1, len(self.bracket_data_neutral[timestamp_num])):
+                        c1s[timestamp_num] += (self.bracket_data_neutral[timestamp_num][j][0] -
+                                               self.bracket_data_neutral[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_neutral[timestamp_num][j - 1], 2)
+
+                current_neutral_time = self.bracket_data_neutral[timestamp_num][-1][0]
+                current_neutral_lineages = self.distinct_lineages_array_neutral[timestamp_num][-1]
+            else:
+                continue
+
+        current_funct_lineages = 0
+        current_funct_time = 0
+        for timestamp_num in range(self.number_of_brackets):
+            if len(self.bracket_data_funct[timestamp_num]) > 0:
+                if timestamp_num == 0:
+                    for j in range(1, len(self.bracket_data_funct[timestamp_num])):
+                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                                               self.bracket_data_funct[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
+                else:
+                    c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][0][0] -
+                                               current_funct_time) * \
+                                              math.comb(current_funct_lineages, 2)
+                    for j in range(1, len(self.bracket_data_funct[timestamp_num])):
+                        c3s[timestamp_num] += (self.bracket_data_funct[timestamp_num][j][0] -
+                                               self.bracket_data_funct[timestamp_num][j - 1][0]) * \
+                                              math.comb(self.distinct_lineages_array_funct[timestamp_num][j - 1], 2)
+
+                current_funct_time = self.bracket_data_funct[timestamp_num][-1][0]
+                current_funct_lineages = self.distinct_lineages_array_funct[timestamp_num][-1]
+            else:
+                continue
+
+        return c1s, c3s
+
+
+    def GetLLHOptimumTotal(self, rho):
+
+        #returns estimations for lambdas and for the sum
+
+        c1s, c3s = self.GetEstimationConstants()
+
+        lambdas = [0 for _ in range(self.number_of_brackets)]
+        LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
+        estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+        #ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
+
+        for bracket_num in range(self.number_of_brackets):
+            if hd[bracket_num][3] != 0:
+                true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
+        # here 0 means that we cannot get any info
+
+
+
+        for timestamp_num in range(self.number_of_brackets):
+            if (self.number_of_coals_neutral[timestamp_num] == 0) or (self.number_of_coals_funct[timestamp_num] == 0) or \
+                (self.number_of_samples_neutral[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0)\
+                    or (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
+                # since we know nothing, it doesn't influence the LLH
+            else:
+                estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
+                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
+                                         (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho)
+                #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
+                    self.number_of_coals_funct[timestamp_num] * math.log(rho)
+        #print("Estimated infected ratio", estimated_infected_ratio)
+
+        #print("Estimated:", estimated_infected_ratio)
+        #print("True:", true_infected_ratio)
+        result = sum(LLHOptimumResultsNoConstantTerm)
+        # we use an addition, since we work with the logarithms
+
+        #result = LLHOptimumResultsNoConstantTerm[2]
+        return result
+
+    def OptimiseLLH(self):
+        overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
+        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.01, 10), bounds=(0.001, 1000000), method='Bounded')
+        return optimum
+
+    def PlotLLH(self):
+        results = [0 for _ in range(0, 40)]
+        # we need a minimum gere
+
+        for i in range(len(results)):
+            results[i] = - self.GetLLHOptimumTotal(0.01*i+0.9)
+
+        plt.plot(results)
         plt.show()
+        return 0
 
+    def ConductLikelyhoodRatioTest(self, resulting_LLH, hypothesis_value):
 
+        lr = 2 * (hypothesis_value - resulting_LLH)
 
-        LLH_result = LLH_optimised.fun
-        LLH_point = LLH_optimised.x
+        p = chi2.sf(lr, 0)
 
-        print(LLH_result, LLH_point)
+        if p > 0.9772:
+            print("Likelyhood ratio test has passed")
+        else:
+            print("WARNING, likelyhood ratio test has failed")
 
-        return [LLH_result, LLH_point]
-
-
-
-
-
-
-
+        return chi2
 
 

@@ -4,12 +4,8 @@ from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, \
     susceptible, lockdownModel, suscepTransition, samplingMultiplier, sampleSize, rndseed
-from simulation import ReadRates
-import statistics
-from random import randrange
-import numpy as np
 
-from likelyhood_estimation_dismembered import LikelyhoodEstimationDismembered
+from likelyhood_estimation import LikelyhoodEstimationDismembered
 
 import sys
 
@@ -124,8 +120,8 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
     LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct,
                                           event_table_neutral=event_table_neutral,
-                                          number_of_brackets=1,
-                                          simulation=None)
+                                          number_of_brackets=10,
+                                          simulation=simulation)
     #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
     optimum = LED.OptimiseLLH()
     rho = optimum.x

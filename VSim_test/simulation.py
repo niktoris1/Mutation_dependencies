@@ -6,9 +6,7 @@ import time
 from VGsim import BirthDeathModel, PopulationModel, Population, Lockdown
 from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
 from random import randrange
-import numpy as np
-from tree_functions import EventsFromSimulation, TreeSequenceToTreeClass, TreeEventsFromSimulation, GetStartAndFinishtTimeFromTrees
-from likelyhood_estimation import LikelyhoodEstimation
+
 
 
 iterations = 10000000

@@ -1010,10 +1010,10 @@ cdef class BirthDeathModel:
         for timestamp_num in range(freq+1):
             A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
             for pop_id in range(len(ld[1][timestamp_num])):
-                A_hap += sum(ld[1][timestamp_num][pop_id][0:4])
-                C_hap += sum(ld[1][timestamp_num][pop_id][4:8])
-                T_hap += sum(ld[1][timestamp_num][pop_id][8:12])
-                G_hap += sum(ld[1][timestamp_num][pop_id][12:16])
+                A_hap += ld[1][timestamp_num][pop_id][0]
+                C_hap += ld[1][timestamp_num][pop_id][1]
+                T_hap += ld[1][timestamp_num][pop_id][2]
+                G_hap += ld[1][timestamp_num][pop_id][3]
 
             A_hap -= 1
             # TODO - for some reason here ld is different from the ld in the outer file
