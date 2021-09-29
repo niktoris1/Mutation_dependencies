@@ -107,10 +107,6 @@ class LikelyhoodEstimationDismembered:
         current_lineages_neutral = 0
         current_lineages_funct = 0
 
-        root_coals = 0
-        non_root_coals = 0
-        root_samples = 0
-        non_root_samples = 0
 
         for bracket_num in range(self.number_of_brackets):
 
@@ -136,25 +132,16 @@ class LikelyhoodEstimationDismembered:
                     if self.bracket_data_funct[bracket_num][sample_num] in self.roots_funct: # is root
                         if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
                             self.distinct_lineages_array_funct[bracket_num][sample_num] = current_lineages_funct + 2
-                            root_coals +=1
                         else: # is sample
                             self.distinct_lineages_array_funct[bracket_num][sample_num] = current_lineages_funct
-                            root_samples +=1
                     else: # is not root
                         if self.bracket_data_funct[bracket_num][sample_num][2] == 1: # is coal
                             self.distinct_lineages_array_funct[bracket_num][sample_num] =  current_lineages_funct + 1
-                            non_root_coals +=1
                         else: # is sample
                             self.distinct_lineages_array_funct[bracket_num] [sample_num] =  current_lineages_funct - 1
-                            non_root_samples += 1
                     current_lineages_funct = self.distinct_lineages_array_funct[bracket_num][sample_num]
                 else:
                     continue
-
-        print("Root coals", root_coals)
-        print("Root samples", root_samples)
-        print("Non Root coals", non_root_coals)
-        print("Non Root samples", non_root_samples)
 
 
         for bracket_num in range(self.number_of_brackets):

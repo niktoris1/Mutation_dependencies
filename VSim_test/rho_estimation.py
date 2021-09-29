@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, \
     susceptible, lockdownModel, suscepTransition, samplingMultiplier, sampleSize
 
+from Simulator.VGsim.interface import Simulator
+
 from likelyhood_estimation import LikelyhoodEstimationDismembered
+from random import randrange
 
 import sys
 
@@ -14,93 +17,42 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
     print("Random seed is: ", rndseed)
 
-    simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel,
-                                     susceptible=susceptible, lockdownModel=lockdownModel,
-                                 suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
-    simulation.SimulatePopulation(iterations, sampleSize, time=1)
-    simulation.GetGenealogy()
-    tdm = simulation.gettdm() #get tdm object
+    simulator = Simulator(infection=30, uninfection=15, Sr=1, Sp=1/3, num_sites=1, mut_rate=1, mut_target_rate=[0, 0, 0],
+                    num_pop=1, size_pop=10000000, contact_density=1.0, total_mig_rate=0.0, lockdown=[1, 100, 100],
+                    sampling_multiplier=1.0, susc_type=None, susceptible=None, susc_trans=None)
+
+    simulator.set_Infection(1, 0)
+    simulator.set_Infection(2, 0)
+    simulator.set_Uninfection(1, 0)
+    simulator.set_Uninfection(2, 0)
+    simulator.set_S(1, 0)
+    simulator.set_S(2, 0)
+
+    simulator.set_MutRate(0, 0, 1, 1)
+    simulator.set_MutRate(1, 0, 0, 0)
+    simulator.set_MutRate(2, 0, 0, 0)
+    simulator.set_MutRate(3, 0, 3, 1)
+
+    simulator.print_Rates()
+    simulator.create_class(rndseed)
+
+
+    #simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel,
+     #                                susceptible=susceptible, lockdownModel=lockdownModel,
+     #                            suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
+    simulator.simulation.SimulatePopulation(iterations, sampleSize, time=10)
+    simulator.simulation.GetGenealogy()
+    tdm = simulator.simulation.gettdm() #get tdm object
     trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
                 #получение таблиц
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-
-
-    number_of_timestamps = 1 # how frequent brackets are
-
-
-    def GenerateCoals(time, number_of_coals):
-        return [[time, 0, 1] for _ in range(number_of_coals)]
-
-    def GenerateSamples(time, number_of_coals):
-        return [[time, 1, 0] for _ in range(number_of_coals)]
-
-    def GenerateTree(step_time, number_of_levels):
-        tree=[]
-        for i in range(number_of_levels - 1):
-            tree += GenerateCoals(step_time*i, pow(2, i))
-        tree += GenerateSamples(step_time*number_of_levels, pow(2, number_of_levels-1))
-        return tree
-
-    def GenerateTreeFamily(step_time, number_of_levels):
-        family = []
-
-        for i in range(2, number_of_levels+1):
-            family += GenerateTree(step_time, i)
-
-        return family
-
-
-    #event_table_neutral_test=[
-    #    GenerateTreeFamily(1, 12)
-    #]
-
-
-    #event_table_funct_test=[
-    #    GenerateTreeFamily(1, 18)
-    #]
-
-
-
-    #frate1 = 'test/test_tree_1.rt'
-    #bRate, dRate, sRate, mRate = ReadRates(frate1)
-    #simulation_1 = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
-    #                                 susceptible=susceptible, lockdownModel=lockdownModel,
-    #                             suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=randrange(sys.maxsize))
-    #simulation_1.SimulatePopulation(iterations, sampleSize)
-    #simulation_1.GetGenealogy()
-    #tdm = simulation_1.gettdm() #get tdm object
-    #trees_funct_1, trees_neutral_1 = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
-    # получение таблиц
-    #event_table_funct_1, event_table_neutral_1 = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-
-
-
-    #frate2 = 'test/test_tree_2.rt'
-    #bRate, dRate, sRate, mRate = ReadRates(frate2)
-    #simulation_2 = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
-    #                                 susceptible=susceptible, lockdownModel=lockdownModel,
-    #                             suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=randrange(sys.maxsize))
-    #simulation_2.SimulatePopulation(iterations, sampleSize)
-    #simulation_2.GetGenealogy()
-    #tdm = simulation_2.gettdm() #get tdm object
-    #trees_funct_2, trees_neutral_2 = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
-    # получение таблиц
-    #event_table_funct_2, event_table_neutral_2 = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
-
-    #for event_tree_num in range(len(event_table_neutral_2)): # change of time
-    #    for event_num in range(len(event_table_neutral_2[event_tree_num])):
-    #        time =  event_table_neutral_2[event_tree_num][event_num][0]
-    #        sample = event_table_neutral_2[event_tree_num][event_num][1]
-    #        coal = event_table_neutral_2[event_tree_num][event_num][2]
-    #        event_table_neutral_2[event_tree_num][event_num] = [time/2+(random.random()-0.5)/1000, sample, coal]
-
 
 
 
     LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct,
                                           event_table_neutral=event_table_neutral,
                                           number_of_brackets=10,
-                                          simulation=simulation)
+                                          simulation=simulator.simulation)
     #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
     optimum = LED.OptimiseLLH()
     rho = optimum.x
@@ -116,7 +68,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 #for randomiztion use randrange(sys.maxsize)
 #793948375341945111 and 0.01 -
 rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, suscepTransition, samplingMultiplier, 793948375341945111)
+                                 susceptible, lockdownModel, suscepTransition, samplingMultiplier, randrange(sys.maxsize))
 
 
 

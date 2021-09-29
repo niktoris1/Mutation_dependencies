@@ -220,7 +220,7 @@ class Simulator:
 		print(hap)
 
 	def set_Infection(self, target, value):
-		if value <= 0:
+		if value < 0:
 			print("Birth rate less than 0!")
 			sys.exit(1)
 		if target < 0 and target >= len(self.B_rate):
@@ -229,7 +229,7 @@ class Simulator:
 		self.B_rate[target] = float(value)
 
 	def set_Uninfection(self, target, value):
-		if value <= 0:
+		if value < 0:
 			print("Death rate less than 0!")
 			sys.exit(1)
 		if target < 0 and target >= len(self.D_rate):
@@ -238,7 +238,7 @@ class Simulator:
 		self.D_rate[target] = float(value)
 
 	def set_S(self, target, value):
-		if value <= 0:
+		if value < 0:
 			print("Sampling rate less than 0!")
 			sys.exit(1)
 		if target < 0 and target >= len(self.S_rate):
