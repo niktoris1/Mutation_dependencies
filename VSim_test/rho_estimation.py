@@ -3,7 +3,7 @@ import random
 from Simulator.VGsim._BirthDeath import BirthDeathModel
 import matplotlib.pyplot as plt
 from simulation import iterations, bRate, dRate, sRate, mRate, popModel, \
-    susceptible, lockdownModel, suscepTransition, samplingMultiplier, sampleSize, rndseed
+    susceptible, lockdownModel, suscepTransition, samplingMultiplier, sampleSize
 
 from likelyhood_estimation import LikelyhoodEstimationDismembered
 
@@ -14,39 +14,18 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
     print("Random seed is: ", rndseed)
 
-    simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel,
+    simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel,
                                      susceptible=susceptible, lockdownModel=lockdownModel,
                                  suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
-    simulation.SimulatePopulation(iterations, sampleSize)
+    simulation.SimulatePopulation(iterations, sampleSize, time=1)
     simulation.GetGenealogy()
     tdm = simulation.gettdm() #get tdm object
     trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
                 #получение таблиц
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
 
-    #nc, ns, fc, fs = 0, 0, 0, 0
-    #for neutral_tree in event_table_neutral:
-    #    for neutral_event in neutral_tree:
-    #        if neutral_event[1] == 1:
-    #            ns+=1
-    #        if neutral_event[2] == 1:
-    #            nc+=1
-    #for funct_tree in event_table_funct:
-    #    for funct_event in funct_tree:
-    #        if funct_event[1] == 1:
-    #            fs+=1
-    #        if funct_event[2] == 1:
-    #            fc+=1
-
-    #print("Neutral coals:", nc)
-    #print("Neutral samples:", ns)
-    #print("Funct coals:", fc)
-    #print("Funct samples:", fs)
-    #print("Neutral trees", len(event_table_neutral))
-    #print("Funct trees", len(event_table_funct))
 
     number_of_timestamps = 1 # how frequent brackets are
-    #sample_fraction_table = tdm.getSampleFracTable(timestamps)
 
 
     def GenerateCoals(time, number_of_coals):

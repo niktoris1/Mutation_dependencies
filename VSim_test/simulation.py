@@ -57,21 +57,21 @@ if seed == None:
     rndseed = randrange(sys.maxsize)
 else:
     rndseed = seed
-print("Seed: ", rndseed)
+#print("Seed: ", rndseed)
 
-simulation = BirthDeathModel(iterations, bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible,
-                             suscepTransition=suscepTransition, lockdownModel=lockdownModel, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
+#simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel, susceptible=susceptible,
+#                             suscepTransition=suscepTransition, lockdownModel=lockdownModel, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
 # simulation.Debug()
 # t1 = time.time()
-simulation.SimulatePopulation(iterations, sampleSize)
+#simulation.SimulatePopulation(iterations, sampleSize, time=1)
 # simulation.Debug()
 # t2 = time.time()
-simulation.GetGenealogy()
+#simulation.GetGenealogy()
 # simulation.Debug()
 # t3 = time.time()
 # simulation.Report()
 # print(t2 - t1)
 # print(t3 - t2)
-print("_________________________________")
+#print("_________________________________")
 
-pruferSeq, times, mut, populations = simulation.Output_tree_mutations()
+#pruferSeq, times, mut, populations = simulation.Output_tree_mutations()

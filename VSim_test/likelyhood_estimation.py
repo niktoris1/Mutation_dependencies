@@ -286,13 +286,13 @@ class LikelyhoodEstimationDismembered:
         lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
         estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
-        true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
-        hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+        #true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        #hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
         #ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
 
-        for bracket_num in range(self.number_of_brackets):
-            if hd[bracket_num][3] != 0:
-                true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
+        #for bracket_num in range(self.number_of_brackets):
+        #    if hd[bracket_num][3] != 0:
+        #        true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
         # here 0 means that we cannot get any info
 
 

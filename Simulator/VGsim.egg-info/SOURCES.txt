@@ -5,6 +5,7 @@ VGsim/_BirthDeath.cxx
 VGsim/_BirthDeath.pyx
 VGsim/__init__.py
 VGsim/fast_choose.pxi
+VGsim/interface.py
 VGsim/models.pxi
 VGsim/setup.py
 VGsim.egg-info/PKG-INFO
