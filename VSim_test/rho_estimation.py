@@ -12,47 +12,54 @@ from random import randrange
 
 import sys
 
-def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, suscepTransition, samplingMultiplier, rndseed):
+def Simulate(iterations, rndseed, frequency):
 
     print("Random seed is: ", rndseed)
 
-    simulator = Simulator(infection=30, uninfection=15, Sr=1, Sp=1/3, num_sites=1, mut_rate=1, mut_target_rate=[0, 0, 0],
-                    num_pop=1, size_pop=1000000, contact_density=1.0, total_mig_rate=0.0, lockdown=[1, 100, 100],
-                    sampling_multiplier=1.0, susc_type=None, susceptible=None, susc_trans=None)
-
-    simulator.set_Infection(1, 0)
-    simulator.set_Infection(2, 0)
-    simulator.set_Uninfection(1, 0)
-    simulator.set_Uninfection(2, 0)
-    simulator.set_S(1, 0)
-    simulator.set_S(2, 0)
-
-    simulator.set_MutRate(0, 0, 3, 1)
-    simulator.set_MutRate(1, 0, 0, 0)
-    simulator.set_MutRate(2, 0, 0, 0)
-    simulator.set_MutRate(3, 0, 1, 1)
-
-    simulator.print_Rates()
-    simulator.create_class(rndseed)
+    #simulator = Simulator(infection=30, uninfection=15, Sr=1, Sp=1, num_sites=1, mut_rate=1, mut_target_rate=[0, 0, 0],
+    #                num_pop=1, size_pop=1000000, contact_density=1.0, total_mig_rate=0.0, lockdown=[1, 100, 100],
+    #                sampling_multiplier=1.0, susc_type=None, susceptible=None, susc_trans=None)
 
 
-    #simulation = BirthDeathModel(bRate, dRate, sRate, mRate, populationModel=popModel,
-     #                                susceptible=susceptible, lockdownModel=lockdownModel,
-     #                            suscepTransition=suscepTransition, samplingMultiplier=samplingMultiplier, rndseed=rndseed)
-    simulator.simulation.SimulatePopulation(iterations, sampleSize, time=10)
-    simulator.simulation.GetGenealogy()
+    simulator = Simulator(infectious_rate=30, uninfectious_rate=0, sampling_rate=15, sampling_probability=None,
+                 sites_number=1, mutation_rate=1, mutation_probabilities=[0, 0, 0], populations_number=1,
+                 population_size=1000000, contact_density=1.0, total_migration_probability=0.0, lockdown=[1, 100, 100],
+                 sampling_multiplier=1.0, immunity_type=None, susceptibility=None, total_immunity_transition=None)
+
+    #simulator.set_infectious_rate(1, 0)
+    #simulator.set_infectious_rate(2, 0)
+    simulator.set_uninfectious_rate(1, 0)
+    simulator.set_uninfectious_rate(2, 0)
+    simulator.set_sampling_rate(1, 0)
+    simulator.set_sampling_rate(2, 0)
+
+    simulator.set_mutation_rate(0, 0, rate=1, probabilities=[0, 0, 1])
+    simulator.set_mutation_rate(1, 0, rate=0, probabilities=[0, 0, 1])
+    simulator.set_mutation_rate(2, 0, rate=0, probabilities=[0, 0, 1])
+    simulator.set_mutation_rate(3, 0, rate=1, probabilities=[1, 0, 0])
+
+    simulator.set_infectious_rate(3, 60)
+
+    simulator.print_basic_rates()
+
+
+    simulator.initialize(_seed=rndseed)
+    simulator.simulate(_sampleSize=sampleSize, _iterations=1000000)
+    simulator.epidemiology_timeline()
     tdm = simulator.simulation.gettdm() #get tdm object
     trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
                 #получение таблиц
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
 
-
+    hap_dynamics = simulator.log_dynamics(output_file=False)
+    simulator.log_dynamics(output_file=True)
+    simulator.debug()
 
     LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct,
                                           event_table_neutral=event_table_neutral,
-                                          number_of_brackets=10,
-                                          simulation=simulator.simulation)
+                                          number_of_brackets=frequency,
+                                          simulation=simulator.simulation,
+                                          hap_dynamics=hap_dynamics)
     #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
     optimum = LED.OptimiseLLH()
     rho = optimum.x
@@ -67,8 +74,7 @@ def Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
 
 #for randomiztion use randrange(sys.maxsize)
 #793948375341945111 and 0.01 -
-rho, LLH_observed = Simulate(iterations, bRate, dRate, sRate, mRate, popModel,
-                                 susceptible, lockdownModel, suscepTransition, samplingMultiplier, randrange(sys.maxsize))
+rho, LLH_observed = Simulate(10000000, 5956145092605054515, frequency=10)
 
 
 

@@ -9,7 +9,7 @@ from random import randrange
 
 
 
-iterations = 10000000
+iterations = 1000000
 susceptibility = None
 seed = None
 sampleSize = None

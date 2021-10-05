@@ -18,9 +18,10 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None, hap_dynamics=None): # here we have not tree, but tables
 
         self.simulation = simulation
+        self.hap_dynamics = hap_dynamics
 
         def TakeEventTime(event):
             return event[0]
@@ -270,10 +271,11 @@ class LikelyhoodEstimationDismembered:
 
         c1s, c3s = self.GetEstimationConstants()
 
-        lambdas = [0 for _ in range(self.number_of_brackets)]
+        self.lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
-        estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
-        #true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        self.estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        self.true_infected_ratio = self.hap_dynamics
+        self.true_div_est = [0 for _ in range(self.number_of_brackets)]
         #hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
         #ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
 
@@ -291,14 +293,18 @@ class LikelyhoodEstimationDismembered:
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
-                estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
-                lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
-                                         (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho)
+                self.estimated_infected_ratio[timestamp_num] = self.number_of_samples_neutral[timestamp_num] / self.number_of_samples_funct[timestamp_num]
+                self.lambdas[timestamp_num] = (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) / \
+                                         (c1s[timestamp_num] + c3s[timestamp_num] * self.estimated_infected_ratio[timestamp_num] * rho)
                 #experimental - we eliminate a constant term (c1s[timestamp_num] + c3s[timestamp_num] * estimated_infected_ratio[timestamp_num] * rho) * lambdas[timestamp_num]
-                LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(lambdas[timestamp_num]) - \
+                LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(self.lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
-        #print("Estimated infected ratio", estimated_infected_ratio)
 
+                #self.true_div_est[timestamp_num] = self.true_infected_ratio[timestamp_num] / self.estimated_infected_ratio[timestamp_num]
+        #print("Estimated infected ratio", estimated_infected_ratio)
+        #list(filter(lambda a: a != 0, self.true_div_est))
+        #average = sum(self.true_div_est) / len(self.true_div_est)
+        #print('Average', average)
         #print("Estimated:", estimated_infected_ratio)
         #print("True:", true_infected_ratio)
         result = sum(LLHOptimumResultsNoConstantTerm)
