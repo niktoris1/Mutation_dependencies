@@ -756,6 +756,7 @@ cdef class BirthDeathModel:
                             log["P" + str(i)]["S" + str(j)].append(suscepDate[i, j])
                         for j  in range(self.hapNum):
                             log["P" + str(i)]["H" + str(j)].append(hapDate[i, j])
+                    point += 1
 
         if output_file == True:
             for i in range(self.popNum-1, -1, -1):
@@ -1105,31 +1106,6 @@ cdef class BirthDeathModel:
                 total_events = total_events + 1
         result = total_infs / total_events
         return result
-
-    def GetRealInfectiousRatio(self, time_start, time_finish, hap1, hap2):
-        hap1_infs = 0
-        hap2_infs = 0
-        return 0
-
-    def GetHaplotypeDynamics(self, freq): # returns haplotype dynamics for freq brackets
-        ld = self.LogDynamics(step_num=freq)
-        # LogDynamics returns ratios on timestamps, not brackets, so it returns value on 1 more
-        hd = [0 for _ in range(freq+1)]
-
-        for timestamp_num in range(freq+1):
-            A_hap, C_hap, T_hap, G_hap = 0, 0, 0, 0
-            for pop_id in range(len(ld[1][timestamp_num])):
-                A_hap += ld[1][timestamp_num][pop_id][0]
-                C_hap += ld[1][timestamp_num][pop_id][1]
-                T_hap += ld[1][timestamp_num][pop_id][2]
-                G_hap += ld[1][timestamp_num][pop_id][3]
-
-            A_hap -= 1
-            # TODO - for some reason here ld is different from the ld in the outer file
-            hd[timestamp_num] = [A_hap, C_hap, T_hap, G_hap]
-
-        return hd
-
 
     def GetNodesByEventIteration(self, iteration):
        events = self.events

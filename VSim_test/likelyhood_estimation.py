@@ -18,10 +18,9 @@ import logging # a workaround to kill warnings
 logging.captureWarnings(True)
 
 class LikelyhoodEstimationDismembered:
-    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None, hap_dynamics=None): # here we have not tree, but tables
+    def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None): # here we have not tree, but tables
 
         self.simulation = simulation
-        self.hap_dynamics = hap_dynamics
 
         def TakeEventTime(event):
             return event[0]
@@ -35,13 +34,6 @@ class LikelyhoodEstimationDismembered:
         for event_tree in event_table_funct:
             event_tree.sort(key=TakeEventTime)
             self.roots_funct.append(event_tree[0])
-
-        #if event_table_funct != []:
-        #    for timestamp_num in range(1, len(event_table_funct)):
-        #        event_table_funct[0] = event_table_funct[0] + event_table_funct[timestamp_num]
-        #   event_table_funct = event_table_funct[0]
-        #if event_table_neutral != []
-        #    event_table_neutral = event_table_neutral[0]
 
         max_time = 0
         for neutral_tree in event_table_neutral:
@@ -274,9 +266,22 @@ class LikelyhoodEstimationDismembered:
         self.lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
         self.estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
-        self.true_infected_ratio = self.hap_dynamics
-        self.true_div_est = [0 for _ in range(self.number_of_brackets)]
-        #hd = self.simulation.GetHaplotypeDynamics(2*self.number_of_brackets)[1::2] # we don't take a 0.0 timestamp
+
+
+        hd = self.simulation.log_dynamics(step=self.number_of_brackets, output_file=False)
+
+        S_len = len(hd['P0']['H0'])
+        hd_a = hd['P0']['H0']
+        hd_g = hd['P0']['H3']
+
+        self.true_infected_ratio = [hd_a[i] / hd_g[i] for i in range(self.number_of_brackets)]
+
+        self.estimated_infected_ratio = [0 for i in range(self.number_of_brackets)]
+
+
+        #self.ratio = [self.estimated_infected_ratio[i] / self.true_infected_ratio[i] for i in range(self.number_of_brackets)]
+        #average = sum(self.ratio) / len(self.ratio)
+        #print('Average is', average)
         #ld = self.simulation.LogDynamics(2*self.number_of_brackets)[1::2]
 
         #for bracket_num in range(self.number_of_brackets):
@@ -301,12 +306,6 @@ class LikelyhoodEstimationDismembered:
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
 
                 #self.true_div_est[timestamp_num] = self.true_infected_ratio[timestamp_num] / self.estimated_infected_ratio[timestamp_num]
-        #print("Estimated infected ratio", estimated_infected_ratio)
-        #list(filter(lambda a: a != 0, self.true_div_est))
-        #average = sum(self.true_div_est) / len(self.true_div_est)
-        #print('Average', average)
-        #print("Estimated:", estimated_infected_ratio)
-        #print("True:", true_infected_ratio)
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 

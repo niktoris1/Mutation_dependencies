@@ -38,35 +38,29 @@ def Simulate(iterations, rndseed, frequency):
     simulator.set_mutation_rate(2, 0, rate=0, probabilities=[0, 0, 1])
     simulator.set_mutation_rate(3, 0, rate=1, probabilities=[1, 0, 0])
 
-    simulator.set_infectious_rate(3, 60)
+    simulator.set_infectious_rate(3, 30)
 
     simulator.print_basic_rates()
 
 
     simulator.initialize(_seed=rndseed)
-    simulator.simulate(_sampleSize=sampleSize, _iterations=1000000)
+    simulator.simulate(_sampleSize=sampleSize, _iterations=iterations)
     simulator.epidemiology_timeline()
     tdm = simulator.simulation.gettdm() #get tdm object
     trees_funct, trees_neutral = tdm.Dismember() #перед получением таблиц, нужно разчленить дерево
                 #получение таблиц
     event_table_funct, event_table_neutral = tdm.getEventTable() #[{time: [n_samples, n_coals]}]
 
-    hap_dynamics = simulator.log_dynamics(output_file=False)
-    simulator.log_dynamics(output_file=True)
-    simulator.debug()
+    #log_dynamics = simulator.log_dynamics(step=100, output_file=False)
 
     LED = LikelyhoodEstimationDismembered(event_table_funct=event_table_funct,
                                           event_table_neutral=event_table_neutral,
                                           number_of_brackets=frequency,
-                                          simulation=simulator.simulation,
-                                          hap_dynamics=hap_dynamics)
+                                          simulation=simulator)
     #LED = LikelyhoodEstimationDismembered(et1, et2, 1, None)
     optimum = LED.OptimiseLLH()
     rho = optimum.x
     LLH_observed = optimum.fun
-    #hd = simulation.GetHaplotypeDynamics(number_of_timestamps)
-    #LLH_hypothesis = LED.GetLLHOptimumTotal(1)
-    #LED.ConductLikelyhoodRatioTest(LLH_observed, LLH_hypothesis)
     #LED.PlotLLH()
     print("Rho equals:", rho)
 
@@ -74,7 +68,7 @@ def Simulate(iterations, rndseed, frequency):
 
 #for randomiztion use randrange(sys.maxsize)
 #793948375341945111 and 0.01 -
-rho, LLH_observed = Simulate(10000000, 5956145092605054515, frequency=10)
+rho, LLH_observed = Simulate(1000000, 5956145092605054515, frequency=20)
 
 
 
