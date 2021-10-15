@@ -21,6 +21,8 @@ class LikelyhoodEstimationDismembered:
     def __init__(self, event_table_funct=None, event_table_neutral=None, number_of_brackets=None, simulation=None): # here we have not tree, but tables
 
         self.simulation = simulation
+        self.event_table_funct = event_table_funct
+        self.event_table_neutral = event_table_neutral
 
         def TakeEventTime(event):
             return event[0]
@@ -53,7 +55,6 @@ class LikelyhoodEstimationDismembered:
 
         self.bracket_data_neutral = [[] for _ in range(self.number_of_brackets)]
         self.bracket_data_funct = [[] for _ in range(self.number_of_brackets)]
-
 
         # bracket_data is a list of brackets Each corresponds to a timeframe
         # each bracket is a list of 4 values
@@ -91,6 +92,8 @@ class LikelyhoodEstimationDismembered:
             bracket.sort(key=TakeEventTime)
         for bracket in self.bracket_data_funct:
             bracket.sort(key=TakeEventTime)
+
+
 
         self.distinct_lineages_array_neutral = [[0 for _ in range(len(self.bracket_data_neutral[timestamp_num]))]
                                                 for timestamp_num in range(self.number_of_brackets)]
@@ -266,18 +269,18 @@ class LikelyhoodEstimationDismembered:
         self.lambdas = [0 for _ in range(self.number_of_brackets)]
         LLHOptimumResultsNoConstantTerm = [0 for _ in range(self.number_of_brackets)]
         self.estimated_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        self.true_infected_ratio = [0 for _ in range(self.number_of_brackets)]
+        self.average = [0 for _ in range(self.number_of_brackets)]
 
 
-        hd = self.simulation.log_dynamics(step=self.number_of_brackets, output_file=False)
+        self.hd = self.simulation.log_dynamics(step=self.number_of_brackets, output_file=False)
+        #S_len = len(hd['P0']['H0'])
+        self.hd_a = self.hd['P0']['H0']
+        self.hd_g = self.hd['P0']['H3']
 
-        S_len = len(hd['P0']['H0'])
-        hd_a = hd['P0']['H0']
-        hd_g = hd['P0']['H3']
-
-        self.true_infected_ratio = [hd_a[i] / hd_g[i] for i in range(self.number_of_brackets)]
-
-        self.estimated_infected_ratio = [0 for i in range(self.number_of_brackets)]
-
+        for i in range(len(self.hd_g)):
+            if self.hd_g[i] != 0:
+                self.true_infected_ratio[i] = self.hd_a[i] / self.hd_g[i]
 
         #self.ratio = [self.estimated_infected_ratio[i] / self.true_infected_ratio[i] for i in range(self.number_of_brackets)]
         #average = sum(self.ratio) / len(self.ratio)
@@ -289,12 +292,12 @@ class LikelyhoodEstimationDismembered:
         #        true_infected_ratio[bracket_num] = hd[bracket_num][0]/hd[bracket_num][3]
         # here 0 means that we cannot get any info
 
-
-
         for timestamp_num in range(self.number_of_brackets):
             if (self.number_of_coals_neutral[timestamp_num] == 0) or (self.number_of_coals_funct[timestamp_num] == 0) or \
                 (self.number_of_samples_neutral[timestamp_num] == 0) or (self.number_of_samples_funct[timestamp_num] == 0)\
-                    or (c1s[timestamp_num] + c3s[timestamp_num] == 0):
+                    or (c1s[timestamp_num] + c3s[timestamp_num] == 0) or (self.true_infected_ratio == 0)\
+                    or (self.estimated_infected_ratio == 0):
+                # will have to remove true in the final version
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = 0
                 # since we know nothing, it doesn't influence the LLH
             else:
@@ -305,21 +308,40 @@ class LikelyhoodEstimationDismembered:
                 LLHOptimumResultsNoConstantTerm[timestamp_num] = - (self.number_of_coals_neutral[timestamp_num] + self.number_of_coals_funct[timestamp_num]) * math.log(self.lambdas[timestamp_num]) - \
                     self.number_of_coals_funct[timestamp_num] * math.log(rho)
 
-                #self.true_div_est[timestamp_num] = self.true_infected_ratio[timestamp_num] / self.estimated_infected_ratio[timestamp_num]
         result = sum(LLHOptimumResultsNoConstantTerm)
         # we use an addition, since we work with the logarithms
 
-        #result = LLHOptimumResultsNoConstantTerm[2]
         return result
 
     def OptimiseLLH(self):
         overall_optimizer = lambda rho: self.GetLLHOptimumTotal(rho)
-        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.01, 10), bounds=(0.001, 1000000), method='Bounded')
+        optimum = scipy.optimize.minimize_scalar(fun=overall_optimizer, bracket=(0.01, 10), bounds=(0.001, 1000000), method='Bounded', tol=0.0001)
+
+        #self.lambda_div_si = [0 for _ in range(self.number_of_brackets)]
+        #for timestamp_num in range(len(self.hd['P0']['S0'])):
+        #    if self.hd['P0']['H0'][timestamp_num] > 0:
+        #        self.lambda_div_si[timestamp_num] = self.lambdas[timestamp_num] / (self.hd['P0']['S0'][timestamp_num] / self.hd['P0']['H0'][timestamp_num])
+
+        #plt.plot(self.lambda_div_si)
+
+        plt.plot(self.true_infected_ratio, color='red')
+        #plt.plot(self.estimated_infected_ratio, color='blue')
+
+        #for i in range(self.number_of_brackets):
+        #    if self.estimated_infected_ratio[i] != 0:
+        #        self.average[i] = self.true_infected_ratio[i] / self.estimated_infected_ratio[i]
+
+        #plt.plot(self.average, color='green')
+        #plt.plot(np.ones(len(self.average)), color='black')
+
+        plt.show()
+
+
         return optimum
 
     def PlotLLH(self):
         results = [0 for _ in range(0, 40)]
-        # we need a minimum gere
+        # we need a minimum here
 
         for i in range(len(results)):
             results[i] = - self.GetLLHOptimumTotal(0.01*i+0.9)
