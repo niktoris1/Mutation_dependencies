@@ -2,11 +2,9 @@
 
 import argparse
 import sys
-import time
-from VGsim import BirthDeathModel, PopulationModel, Population, Lockdown
-from VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
+from Simulator.VGsim import BirthDeathModel
+from Simulator.VGsim.IO import ReadRates, ReadPopulations, ReadMigrationRates, ReadSusceptibility, ReadSusceptibilityTransition, writeGenomeNewick, writeMutations
 from random import randrange
-import numpy as np
 
 parser = argparse.ArgumentParser(description='Migration inference from PSMC.')
 

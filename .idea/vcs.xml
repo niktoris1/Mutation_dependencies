@@ -3,5 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Mutation_dependencies" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/VSim_test/VGsim" vcs="Git" />
   </component>
 </project>

@@ -1,0 +1,1 @@
+That is a project for testing the astimated haplotype fiteness on simulator. Now it is deprecated and the developement moved to other repo. So... nothing to do here :)
